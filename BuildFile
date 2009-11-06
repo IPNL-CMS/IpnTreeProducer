@@ -1,0 +1,80 @@
+<use name=FWCore/Framework>
+<use name=FWCore/PluginManager>
+<use name=FWCore/ParameterSet>
+<use name=DataFormats/Common>
+<use name=DataFormats/PatCandidates>
+<use name=DataFormats/TrackReco>
+<use name=DataFormats/JetReco>
+<use name=DataFormats/METReco>
+<use name=DataFormats/EgammaReco>
+<use name=DataFormats/EgammaCandidates>
+<use name=DataFormats/HepMCCandidate>
+<use name=SimGeneral/HepPDTRecord>
+
+<use name=DataFormats/L1GlobalTrigger>
+<use name=DataFormats/L1Trigger>
+<use name=HLTrigger/HLTcore>
+<use name=DataFormats/HLTReco>
+
+<use name=Geometry/TrackerGeometryBuilder>
+<use name=RecoTracker/TkTrackingRegions>
+<use name=TrackingTools/Records>
+<use name=TrackingTools/TransientTrack>
+<use name=TrackingTools/TrajectoryState>
+<use name=TrackingTools/IPTools>
+<use name=RecoVertex/PrimaryVertexProducer>
+
+<use name=RecoEgamma/EgammaTools>
+<use name=RecoEgamma/EgammaMCTools>
+<use name=RecoEcal/EgammaCoreTools>
+<use name=Geometry/CaloGeometry>
+<use name=MagneticField/Engine>
+<use name=MagneticField/Records>
+<use name=DataFormats/DetId>
+<use name=Geometry/CommonDetUnit>
+<use name=Geometry/CaloTopology>
+<use name=RecoCaloTools/MetaCollections>
+<use name=clhep>
+<use name=root>
+<flags LDFLAGS="-lTMVA">
+<flags EDM_PLUGIN=1>
+<export>
+	<lib name=AnalysisTotoAnalyzer>
+	<use name=FWCore/Framework>
+	<use name=FWCore/PluginManager>
+	<use name=FWCore/ParameterSet>
+	<use name=DataFormats/Common>
+	<use name=DataFormats/TrackReco>
+	<use name=DataFormats/JetReco>
+	<use name=DataFormats/METReco>
+	<use name=DataFormats/EgammaReco>
+	<use name=DataFormats/EgammaCandidates>
+	<use name=DataFormats/HepMCCandidate>
+	<use name=SimGeneral/HepPDTRecord>
+	
+	<use name=DataFormats/L1GlobalTrigger>
+	<use name=DataFormats/L1Trigger>
+	<use name=HLTrigger/HLTcore>
+	<use name=DataFormats/HLTReco>
+
+	<use name=Geometry/TrackerGeometryBuilder>
+	<use name=RecoTracker/TkTrackingRegions>
+	<use name=TrackingTools/Records>
+	<use name=TrackingTools/TransientTrack>
+	<use name=TrackingTools/TrajectoryState>
+	<use name=TrackingTools/IPTools>
+	<use name=RecoVertex/PrimaryVertexProducer>
+	
+	<use name=RecoEgamma/EgammaTools>
+	<use name=RecoEgamma/EgammaMCTools>
+	<use name=Geometry/CaloGeometry>
+	<use name=MagneticField/Engine>
+	<use name=MagneticField/Records>
+	<use name=DataFormats/DetId>
+	<use name=Geometry/CommonDetUnit>
+	<use name=Geometry/CaloTopology>
+	<use name=RecoCaloTools/MetaCollections>
+	<use name=clhep>
+	<use name=root>
+   <use name=DataFormats/PatCandidates>
+</export>
