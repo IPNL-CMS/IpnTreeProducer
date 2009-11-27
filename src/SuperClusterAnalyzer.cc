@@ -58,6 +58,8 @@ bool SuperClusterAnalyzer::process(const edm::Event& iEvent, TRootEvent* rootEve
       localClus.setNxtals( (aSuperClus->hitsAndFractions()).size() );
       localClus.setPreshowerEnergy( aSuperClus->preshowerEnergy() );
       localClus.setRawEnergy( aSuperClus->rawEnergy() );
+		localClus.setEtaWidth( aSuperClus->etaWidth() );
+		localClus.setPhiWidth( aSuperClus->phiWidth() );
 		unsigned int seedUID = 0;
       if ( (aSuperClus->hitsAndFractions()).size()>0 ) seedUID = (aSuperClus->hitsAndFractions()).at(0).first();
       

@@ -132,7 +132,9 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
       ,photon->charge()
       );
       
-      
+		// TODO - Nicolas
+		//- HCAL energy autour des traces converties dans un cone de dR<0.1... utile ?
+		
       // Variables from reco::Photon
       localPhoton.setCaloPosition( photon->caloPosition().X(), photon->caloPosition().Y(), photon->caloPosition().Z() );
       localPhoton.setHoE(photon->hadronicOverEm());
@@ -173,11 +175,15 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
          // need reduced Ecal RecHits Collections for EcalClusterLazyTools
          if ( seedCaloCluster.isNonnull() && lazyTools != 0 )
          {
-            localPhoton.setE2x2(lazyTools->e2x2(*seedCaloCluster));
+				localPhoton.setE2x2(lazyTools->e2x2(*seedCaloCluster));
             localPhoton.setE3x3( lazyTools->e3x3(*seedCaloCluster) );
             localPhoton.setE5x5( lazyTools->e5x5(*seedCaloCluster) );
             localPhoton.setEMax( lazyTools->eMax(*seedCaloCluster) );
-         }
+				localPhoton.setE2nd(lazyTools->e2nd(*seedCaloCluster));
+				localPhoton.setCovIetaIeta( (lazyTools->covariances(*seedCaloCluster)).at(0) );
+				localPhoton.setCovIetaIphi( (lazyTools->covariances(*seedCaloCluster)).at(1) );
+				localPhoton.setCovIphiIphi( (lazyTools->covariances(*seedCaloCluster)).at(2) );
+			}
       }
       
       
