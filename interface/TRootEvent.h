@@ -160,7 +160,6 @@ class TRootEvent : public TObject
       void setXParton2(Float_t xParton2) { xParton2_=xParton2; }
       void setFactorizationScale(Float_t factorizationScale) { factorizationScale_=factorizationScale; }
 
-      // FIXME
       friend std::ostream& operator<< (std::ostream& stream, const TRootEvent& event) {
       stream << "Run " << event.runId() <<" Event "<< event.eventId() <<"  Luminosity block "<< event.luminosityBlock()
 		<<"  Sequential Nb "<< event.nb() <<"  bunchCrossing "<< event.bunchCrossing() <<"  orbitNumber "<< event.orbitNumber();
