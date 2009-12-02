@@ -5,6 +5,7 @@
 #include <memory>
 #include <string>
 #include <iostream>
+#include <ctime>
 
 // user include files
 #include "FWCore/Framework/interface/Frameworkfwd.h"
@@ -79,7 +80,8 @@ class TotoAnalyzer : public edm::EDAnalyzer
 		
 		edm::ParameterSet myConfig_;
 		edm::ParameterSet producersNames_;
-		
+
+		time_t startTime_;
 		int verbosity_;
 		bool allowMissingCollection_;
 		std::string rootFileName_ ;
