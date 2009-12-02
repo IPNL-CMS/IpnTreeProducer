@@ -23,9 +23,14 @@ class TRootEvent : public TObject
 
       TRootEvent() :
       nb_(0)
-      ,eventId_(-1)
-      ,runId_(-1)
-      ,passGlobalL1_(false)
+      ,eventId_(0)
+      ,runId_(0)
+		,luminosityBlock_(0)
+		,bunchCrossing_(0)
+		,orbitNumber_(0)
+		,collisionTime_(0)
+		,totoAnaProcessingTime_(0)
+		,passGlobalL1_(false)
       ,passGlobalHLT_(false)
       ,trigHLT_(0)
       ,csa07id_(-1)
@@ -44,11 +49,16 @@ class TRootEvent : public TObject
 
       ~TRootEvent() {;}
 
-      // Event number
-      Int_t nb() const { return nb_; }
-      Int_t eventId() const { return eventId_; }
-      Int_t runId() const { return runId_; }
-
+      // Collision infos
+      UInt_t nb() const { return nb_; }
+      UInt_t eventId() const { return eventId_; }
+      UInt_t runId() const { return runId_; }
+		UInt_t luminosityBlock() const { return luminosityBlock_; }
+		Int_t bunchCrossing() const { return bunchCrossing_; }
+		Int_t orbitNumber() const { return orbitNumber_; }
+		unsigned long long collisionTime() const { return collisionTime_; }
+		UInt_t totoAnaProcessingTime() const { return totoAnaProcessingTime_; }
+		
       // Trigger decision
       Int_t passGlobalL1() const { return passGlobalL1_; }
       Bool_t passGlobalHLT() const { return passGlobalHLT_; }
@@ -117,10 +127,15 @@ class TRootEvent : public TObject
 
 
 
-      void setNb(Int_t nb) { nb_ = nb; }
-      void setEventId(Int_t eventId) { eventId_ = eventId; }
-      void setRunId(Int_t runId) { runId_ = runId; }
-      void setGlobalL1(Int_t passGlobalL1) { passGlobalL1_ = passGlobalL1; }
+      void setNb(UInt_t nb) { nb_ = nb; }
+      void setEventId(UInt_t eventId) { eventId_ = eventId; }
+      void setRunId(UInt_t runId) { runId_ = runId; }
+		void setLuminosityBlock(UInt_t luminosityBlock) { luminosityBlock_ = luminosityBlock; }
+		void setBunchCrossing(Int_t bunchCrossing) { bunchCrossing_ = bunchCrossing; }
+		void setOrbitNumber(Int_t orbitNumber) { orbitNumber_ = orbitNumber; }
+		void setCollisionTime(unsigned long long collisionTime) { collisionTime_ = collisionTime; }
+		void setTotoAnaProcessingTime(UInt_t totoAnaProcessingTime) { totoAnaProcessingTime_ = totoAnaProcessingTime; }
+		void setGlobalL1(Int_t passGlobalL1) { passGlobalL1_ = passGlobalL1; }
       void setGlobalHLT(Bool_t passGlobalHLT) { passGlobalHLT_ = passGlobalHLT; }
       void setTrigHLT(std::vector<Bool_t> trigHLT)
       {
@@ -147,17 +162,23 @@ class TRootEvent : public TObject
 
       // FIXME
       friend std::ostream& operator<< (std::ostream& stream, const TRootEvent& event) {
-      stream << "Event #"<< event.nb() <<"  L1="<< event.passGlobalL1() <<"  HLT="<< event.passGlobalHLT();
+      stream << "Run " << event.runId() <<" Event "<< event.eventId() <<"  Luminosity block "<< event.luminosityBlock()
+		<<"  Sequential Nb "<< event.nb() <<"  bunchCrossing "<< event.bunchCrossing() <<"  orbitNumber "<< event.orbitNumber();
       return stream;
       };
 
-
+		
    private:
 
-      Int_t nb_;
-      Int_t eventId_;
-      Int_t runId_;
-
+      UInt_t nb_;
+      UInt_t eventId_;
+      UInt_t runId_;
+		UInt_t luminosityBlock_;
+		Int_t bunchCrossing_;
+		Int_t orbitNumber_;
+		unsigned long long collisionTime_;
+		UInt_t totoAnaProcessingTime_;
+		
       // Trigger Infos
       Bool_t passGlobalL1_;
       Bool_t passGlobalHLT_;
@@ -182,7 +203,7 @@ class TRootEvent : public TObject
       Float_t xParton2_;
       Float_t factorizationScale_;
 
-      ClassDef (TRootEvent,2);
+      ClassDef (TRootEvent,3);
 
 };
 

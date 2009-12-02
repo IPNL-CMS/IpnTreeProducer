@@ -7,6 +7,12 @@ using namespace edm;
 
 TotoAnalyzer::TotoAnalyzer(const edm::ParameterSet& iConfig)
 {
+	startTime_ = time(0);
+	time_t t = time(0);
+	char ts[] = "dd-Mon-yyyy hh:mm:ss TZN     ";
+	strftime(ts, strlen(ts) + 1, "%d-%b-%Y %H:%M:%S %Z", localtime(&t));
+	cout << endl << "START TOTOANALYZER AT " << ts << endl << endl;
+
 	myConfig_ = iConfig.getParameter<ParameterSet>("myConfig");
 	cout << "myConfig parameters:" << endl << "===================" << endl << endl << myConfig_ << endl;
 	dataType_ = myConfig_.getUntrackedParameter<string>("dataType","unknown");
@@ -42,13 +48,18 @@ TotoAnalyzer::TotoAnalyzer(const edm::ParameterSet& iConfig)
 
 TotoAnalyzer::~TotoAnalyzer()
 {
+	time_t endTime = time(0);
+	char ts[] = "dd-Mon-yyyy hh:mm:ss TZN     ";
+	strftime(ts, strlen(ts) + 1, "%d-%b-%Y %H:%M:%S %Z", localtime(&endTime));
+	cout << endl << endl << "END TOTOANALYZER AT " << ts << endl;
+	if (nTotEvt_>0) cout << "===> " << float(endTime-startTime_)/float(nTotEvt_) << " s/evt" << endl;
 }
 
 
 // ------------ method called once each job just before starting event loop  ------------
 void TotoAnalyzer::beginJob(const edm::EventSetup&)
 {
-	
+		
 	// Load Config parameters
 	verbosity_ = myConfig_.getUntrackedParameter<int>("verbosity", 0);
 	allowMissingCollection_ = producersNames_.getUntrackedParameter<bool>("allowMissingCollection", false);
@@ -250,6 +261,7 @@ void TotoAnalyzer::endJob()
 	std::cout << "Total number of events: " << nTotEvt_ << std::endl;
 	std::cout << "Closing rootfile " << rootFile_->GetName() << std::endl;
 	rootFile_->Write();
+	
 	rootFile_->Close();
 	
 	if(doPhotonConversion_) delete conversionLikelihoodCalculator_;
@@ -261,25 +273,26 @@ void TotoAnalyzer::endJob()
 // ------------ method called to for each event  ------------
 void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
-	
+	time_t startProcessingTime = time(0);
 	rootFile_->cd();
 	nTotEvt_++;
-	if( (verbosity_>1) || (verbosity_>0 && nTotEvt_%10==0 && nTotEvt_<=100)  || (verbosity_>0 && nTotEvt_%100==0 && nTotEvt_>100) )
-		cout << endl << endl
-		<< "####### TotoAnalyzer - Cumulated Events " << nTotEvt_
-		<< " - Run " << iEvent.id().run()
-		<< " - Event " << iEvent.id().event()
-		<< " #######" << endl;
 
 	// Any additionnal variables temporary needed
 	if(doBardak_) rootBardak_ = new TRootBardak();
 	
 	// Global Event Infos
+	if (iEvent.isRealData()) doMC_ = false;
 	rootEvent_ = new TRootEvent();
 	rootEvent_->setNb(nTotEvt_);
 	rootEvent_->setEventId(iEvent.id().event());
 	rootEvent_->setRunId(iEvent.id().run());
-	cout << *rootEvent_ << endl;
+	rootEvent_->setLuminosityBlock(iEvent.luminosityBlock());
+	rootEvent_->setBunchCrossing(iEvent.bunchCrossing());
+	rootEvent_->setOrbitNumber(iEvent.orbitNumber());
+	rootEvent_->setCollisionTime(iEvent.time().value());
+	if( (verbosity_>1) || (verbosity_>0 && nTotEvt_%10==0 && nTotEvt_<=100)  || (verbosity_>0 && nTotEvt_%100==0 && nTotEvt_>100) )
+		cout << endl << endl << "####### TotoAnalyzer - " << *rootEvent_  << " #######" << endl;
+
 	
 	// Trigger
 	rootEvent_->setGlobalHLT(true);
@@ -550,11 +563,13 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
 		}
 	}
 	
-	
+	time_t endProcessingTime = time(0);
+	rootEvent_->setTotoAnaProcessingTime(endProcessingTime-startProcessingTime);
+
 	if(verbosity_>1) cout << endl << "Filling rootuple..." << endl;
 	eventTree_->Fill();
-	if(verbosity_>1) cout << endl << "Start deleting objects..." << endl;
 	delete rootEvent_;
+	if(verbosity_>1) cout << endl << "Start deleting objects..." << endl;
 	if(doMC_) (*rootMCParticles_).Delete();
 	if(doJetMC_) (*rootGenJets_).Delete();
 	if(doMETMC_) (*rootGenMETs_).Delete();
