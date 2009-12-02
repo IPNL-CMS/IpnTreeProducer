@@ -33,9 +33,12 @@ class ClusterAnalyzer
    private:
       int verbosity_;
       int iClus_;
+		bool doRecHits_;
       std::string dataType_ ;
+		edm::InputTag reducedBarrelEcalRecHitCollection_;
+		edm::InputTag reducedEndcapEcalRecHitCollection_;
       bool allowMissingCollection_;
-      
+
 };
 
 #endif
