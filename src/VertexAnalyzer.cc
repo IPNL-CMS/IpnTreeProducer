@@ -98,9 +98,9 @@ bool VertexAnalyzer::getVertices(const edm::Event& iEvent, TClonesArray* rootVer
 	{
 		const reco::Vertex* vertex = & ((*recoVertices)[j]);
 		
-		// Put your vertex selection here....
-		if (! vertex->isValid() ) continue;
-		if ( vertex->isFake() ) continue;
+		// TODO - Put your vertex selection here....
+		//if (! vertex->isValid() ) continue;
+		//if ( vertex->isFake() ) continue;
 		
 		Int_t ntracks = 0;
 		Float_t higherPt = 0.;
@@ -130,6 +130,8 @@ bool VertexAnalyzer::getVertices(const edm::Event& iEvent, TClonesArray* rootVer
 		);
 		
 		localVertex.setAlgoName("RECO");
+		localVertex.setIsValid( vertex->isValid() );
+		localVertex.setIsFake( vertex->isFake() );
 		localVertex.setChi2( vertex->chi2() );
 		localVertex.setNdof( vertex->ndof() );
 		localVertex.setNtracks( ntracks );
