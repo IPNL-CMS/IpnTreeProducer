@@ -19,6 +19,8 @@ class TRootVertex : public TVector3
 		TVector3(-999999.,-999999.,-999999.)
 		,error_(-1.,-1.,-1.)
 		,algo_(-1)
+		,isValid_(false)
+		,isFake_(true)
 		,chi2_(-1.)
 		,ndof_(-1.)
 		,ntracks_(-1)
@@ -32,6 +34,8 @@ class TRootVertex : public TVector3
 		TVector3(vertex)
 		,error_(vertex.error_)
 		,algo_(vertex.algo_)
+		,isValid_(vertex.isValid_)
+		,isFake_(vertex.isFake_)
 		,chi2_(vertex.chi2_)
 		,ndof_(vertex.ndof_)
 		,ntracks_(vertex.ntracks_)
@@ -45,6 +49,8 @@ class TRootVertex : public TVector3
 		TVector3(vx,vy,vz)
 		,error_(-1.,-1.,-1.)
 		,algo_(-1)
+		,isValid_(false)
+		,isFake_(true)
 		,chi2_(-1.)
 		,ndof_(-1.)
 		,ntracks_(-1)
@@ -58,6 +64,8 @@ class TRootVertex : public TVector3
 		TVector3(vx,vy,vz)
 		,error_(evx,evy,evz)
 		,algo_(-1)
+		,isValid_(false)
+		,isFake_(true)
 		,chi2_(-1.)
 		,ndof_(-1.)
 		,ntracks_(-1)
@@ -72,6 +80,8 @@ class TRootVertex : public TVector3
 		TVector3(vertex)
 		,error_(-1.,-1.,-1.)
 		,algo_(-1)
+		,isValid_(false)
+		,isFake_(true)
 		,chi2_(-1.)
 		,ndof_(-1.)
 		,ntracks_(-1)
@@ -85,6 +95,8 @@ class TRootVertex : public TVector3
 		TVector3(vertex)
 		,error_(vertex_error)
 		,algo_(-1)
+		,isValid_(false)
+		,isFake_(true)
 		,chi2_(-1.)
 		,ndof_(-1.)
 		,ntracks_(-1)
@@ -113,6 +125,8 @@ class TRootVertex : public TVector3
 			else if (algo_==6) return "OnlyEEDzMean";
 			else return "Unknown method of vertex reconstruction";
 		}
+		Bool_t isValid() const { return isValid_;}
+		Bool_t isFake() const { return isFake_;}
 		Float_t chi2() const { return chi2_;}
 		Float_t ndof() const { return ndof_;}
 		Float_t ntracks() const { return ntracks_;}
@@ -139,6 +153,8 @@ class TRootVertex : public TVector3
 			else if (algoName=="OnlyEEDzMean") algo_=6;
 			else std::cout <<  "***** TRootVertex::setAlgo(TString) => Unknown method of vertex reconstruction *****" << std::endl;
 		}
+		void setIsValid(Float_t isValid) { isValid_ = isValid; }
+		void setIsFake(Float_t isFake) { isFake_ = isFake; }
 		void setChi2(Float_t chi2) { chi2_ = chi2; }
 		void setNdof(Float_t ndof) { ndof_ = ndof; }
 		void setNtracks(Float_t ntracks) { ntracks_ = ntracks; }
@@ -149,7 +165,7 @@ class TRootVertex : public TVector3
 		
 		
 		friend std::ostream& operator<< (std::ostream& stream, const TRootVertex& vertex) {
-			stream << "TRootVertex - algo=" << setw(10) << vertex.algoName() <<" (x,y,z)=("<< setw(9) << vertex.x() <<","<< setw(9) << vertex.y() <<","<< setw(9) << vertex.z() << ")"
+			stream << "TRootVertex - algo=" << setw(10) << vertex.algoName() << " isValid=" << vertex.isValid() << " isFake="<< vertex.isFake() << " (x,y,z)=(" << setw(9) << vertex.x() <<","<< setw(9) << vertex.y() <<","<< setw(9) << vertex.z() << ")"
 			<< " error(dx,dy,dz)=("<< setw(11) << vertex.xerr() <<","<< setw(11) << vertex.yerr() <<","<< setw(11) << vertex.zerr() << ")"
 			<< "  chi2="<< setw(8) << vertex.chi2() <<"  ndof="<< setw(6) << vertex.ndof() <<"  nTracks="<< setw(4) << vertex.ntracks()
 			<< "  higherTrackPt="<< setw(7) << vertex.higherTrackPt() <<"  scalarSumPt="<< setw(7) << vertex.scalarSumPt() <<"  vectorSumPt="<< setw(7) << vertex.vectorSumPt();
@@ -160,6 +176,8 @@ class TRootVertex : public TVector3
 		
 		TVector3 error_;
 		Int_t algo_;
+		Bool_t isValid_;
+		Bool_t isFake_;
 		Float_t chi2_;
 		Float_t ndof_;
 		Float_t ntracks_;
