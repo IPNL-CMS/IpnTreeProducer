@@ -40,18 +40,18 @@ bool HLTAnalyzer::init(const edm::Event& iEvent, TRootEvent* rootEvent)
    
    hltNames_=triggerNames_.triggerNames();
    const unsigned int n(hltNames_.size());
-   if(verbosity_>4) cout << "   Number of HLT paths = " << n << endl;
-   hltWasRun_.resize(n);
-   hltAccept_.resize(n);
-   hltErrors_.resize(n);
-   for (unsigned int i=0; i!=n; ++i)
-   {
-      if(verbosity_>4) cout << "   Name of HLT path " << i << ": " << hltNames_[i] << endl;
-      hltWasRun_[i]=0;
-      hltAccept_[i]=0;
-      hltErrors_[i]=0;
-   }
-   
+   hltWasRun_.resize(n,0);
+   hltAccept_.resize(n,0);
+   hltErrors_.resize(n,0);
+
+	if(verbosity_>0)
+	{
+		cout << endl << "HLTAnalyzer-Init " << "---------- HLT Menu ------------\n";
+		cout << "HLTAnalyzer-Init " << right << setw(10) << "Bit#" << " " << "Name" << "\n";
+		for (unsigned int i=0; i!=n; ++i) cout << "HLTAnalyzer-init " << right << setw(10) << i << " " << hltNames_[i] << "\n";
+		cout << endl << "HLTAnalyzer-Init        Number of HLT paths: " << n << "\n\n";
+	}
+	
    return true;
 }
 
