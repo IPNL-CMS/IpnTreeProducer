@@ -23,6 +23,7 @@ TotoAnalyzer::TotoAnalyzer(const edm::ParameterSet& iConfig)
 	
 	runInfos_ = 0;
 	rootEvent_ = 0;
+	l1TriggerAnalyzer_ = 0;
 	hltAnalyzer_ = 0;
 	rootMCParticles_ = 0;
 	rootGenJets_ = 0;
@@ -66,6 +67,7 @@ void TotoAnalyzer::beginJob(const edm::EventSetup&)
 	rootFileName_ = myConfig_.getUntrackedParameter<string>("RootFileName","noname.root");
 	datasetXsection_ = myConfig_.getUntrackedParameter<double>("xsection");
 	datasetDesciption_ = myConfig_.getUntrackedParameter<string>("description","Pas de description");
+	doL1_ = myConfig_.getUntrackedParameter<bool>("doL1",false);
 	doHLT_ = myConfig_.getUntrackedParameter<bool>("doHLT",false);
 	doMC_ = myConfig_.getUntrackedParameter<bool>("doMC",false);
 	doJetMC_ = myConfig_.getUntrackedParameter<bool>("doJetMC",false);
@@ -105,6 +107,11 @@ void TotoAnalyzer::beginJob(const edm::EventSetup&)
 	rootEvent_ = 0;
 	eventTree_ = new TTree("eventTree", "Event Infos");
 	eventTree_->Branch ("Event", "TRootEvent", &rootEvent_);
+	
+	if(doL1_)
+	{
+		l1TriggerAnalyzer_ = new L1TriggerAnalyzer(producersNames_, verbosity_);
+	}
 	
 	if(doHLT_)
 	{
@@ -249,9 +256,16 @@ void TotoAnalyzer::beginJob(const edm::EventSetup&)
 void TotoAnalyzer::endJob()
 {
 	// Trigger Summary Tables
+	if(doL1_)
+	{
+		cout << "L1 Trigger Summary Tables" << endl;
+		l1TriggerAnalyzer_ ->copySummary(runInfos_);
+		l1TriggerAnalyzer_->printStats();
+	}
+	
 	if(doHLT_)
 	{
-		cout << "Trigger Summary Tables" << endl;
+		cout << "HLT Summary Tables" << endl;
 		hltAnalyzer_ ->copySummary(runInfos_);
 		hltAnalyzer_->printStats();
 	}
@@ -294,12 +308,22 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
 		cout << endl << endl << "####### TotoAnalyzer - " << *rootEvent_  << " #######" << endl;
 
 	
-	// Trigger
+	// L1 Trigger
+	if(doL1_)
+	{
+		if(nTotEvt_==1 && verbosity_>1) cout << endl << "L1TriggerAnalyzer initialization..." << endl;
+		if (nTotEvt_==1) l1TriggerAnalyzer_->init(iEvent, iSetup, rootEvent_);
+		if(verbosity_>1) cout << endl << "Get L1 Results..." << endl;
+		l1TriggerAnalyzer_->process(iEvent, rootEvent_);
+	}
+	
+	// HLT
 	rootEvent_->setGlobalHLT(true);
 	if(doHLT_)
 	{
-		if(verbosity_>1) cout << endl << "Get TriggerResults..." << endl;
+		if(nTotEvt_==1 && verbosity_>1) cout << endl << "HLTAnalyzer initialization..." << endl;
 		if (nTotEvt_==1) hltAnalyzer_->init(iEvent, rootEvent_);
+		if(verbosity_>1) cout << endl << "Get HLT Results..." << endl;
 		hltAnalyzer_->process(iEvent, rootEvent_);
 	}
 	//if ( ! rootEvent_->passGlobalHLT() ) return;

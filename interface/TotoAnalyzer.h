@@ -25,6 +25,7 @@
 #include "RecoEcal/EgammaCoreTools/interface/EcalClusterLazyTools.h"
 #include "RecoEgamma/EgammaTools/interface/ConversionLikelihoodCalculator.h"
 
+#include "../interface/L1TriggerAnalyzer.h"
 #include "../interface/HLTAnalyzer.h"
 #include "../interface/MCAnalyzer.h"
 #include "../interface/MCAssociator.h"
@@ -91,6 +92,7 @@ class TotoAnalyzer : public edm::EDAnalyzer
 		std::string dataType_ ;
 		double datasetXsection_;
 		std::string datasetDesciption_;
+		bool doL1_;
 		bool doHLT_;
 		bool doMC_;
 		bool doJetMC_;
@@ -119,6 +121,7 @@ class TotoAnalyzer : public edm::EDAnalyzer
 		int nTotEvt_;
 		TRootRun* runInfos_;
 		TRootEvent* rootEvent_;
+		L1TriggerAnalyzer* l1TriggerAnalyzer_;
 		HLTAnalyzer* hltAnalyzer_;
 		TClonesArray* rootMCParticles_;
 		TClonesArray* rootGenJets_;

@@ -11,6 +11,10 @@
 <use name=DataFormats/HepMCCandidate>
 <use name=SimGeneral/HepPDTRecord>
 
+<use name=CondFormats/L1TObjects>
+<use name=CondFormats/DataRecord>
+<use name=CondTools/L1Trigger>
+
 <use name=DataFormats/L1GlobalTrigger>
 <use name=DataFormats/L1Trigger>
 <use name=HLTrigger/HLTcore>
@@ -51,6 +55,10 @@
 	<use name=DataFormats/EgammaCandidates>
 	<use name=DataFormats/HepMCCandidate>
 	<use name=SimGeneral/HepPDTRecord>
+	
+	<use name=CondFormats/L1TObjects>
+	<use name=CondFormats/DataRecord>
+	<use name=CondTools/L1Trigger>
 	
 	<use name=DataFormats/L1GlobalTrigger>
 	<use name=DataFormats/L1Trigger>

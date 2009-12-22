@@ -20,7 +20,7 @@ class TRootEvent : public TObject
 {
 
    public:
-
+		
       TRootEvent() :
       nb_(0)
       ,eventId_(0)
@@ -31,7 +31,9 @@ class TRootEvent : public TObject
 		,collisionTime_(0)
 		,totoAnaProcessingTime_(0)
 		,passGlobalL1_(false)
-      ,passGlobalHLT_(false)
+		,physicsL1Accept_(0)
+		,technicalL1Accept_(0)
+		,passGlobalHLT_(false)
       ,trigHLT_(0)
       ,csa07id_(-1)
       ,csa07weight_(-1.)
@@ -59,14 +61,44 @@ class TRootEvent : public TObject
 		unsigned long long collisionTime() const { return collisionTime_; }
 		UInt_t totoAnaProcessingTime() const { return totoAnaProcessingTime_; }
 		
-      // Trigger decision
-      Int_t passGlobalL1() const { return passGlobalL1_; }
-      Bool_t passGlobalHLT() const { return passGlobalHLT_; }
+      // L1 Trigger decision
+		Bool_t passGlobalL1() const { return passGlobalL1_; }
+		unsigned int nPhysicsL1Paths() const { return physicsL1Accept_.size(); }
+		unsigned int nTechnicalL1Paths() const { return technicalL1Accept_.size(); }
+		std::vector<Bool_t> physicsL1Accept() const { return physicsL1Accept_; }
+		std::vector<Bool_t> technicalL1Accept() const { return technicalL1Accept_; }
+		Bool_t physicsL1Accept(unsigned int i) const
+		{
+			if (0<i && i<physicsL1Accept_.size())
+			{
+				return physicsL1Accept_.at(i);
+			}
+			else
+			{
+				cout << "Physics L1 path " << i << " not found" << endl;
+				return false;
+			}
+		}
+		Bool_t technicalL1Accept(unsigned int i) const
+		{
+			if (0<i && i<technicalL1Accept_.size())
+			{
+				return technicalL1Accept_.at(i);
+			}
+			else
+			{
+				cout << "Technical L1 path " << i << " not found" << endl;
+				return false;
+			}
+		}
+		
+		// HLT decision
+		Bool_t passGlobalHLT() const { return passGlobalHLT_; }
       unsigned int nHLTPaths() const { return trigHLT_.size(); }
       std::vector<Bool_t> trigHLT() const { return trigHLT_; }
       Bool_t trigHLT(unsigned int i) const
       {
-         if (trigHLT_.size()>i)
+			if (0<i && i<trigHLT_.size())
          {
             return trigHLT_.at(i);
          }
@@ -135,8 +167,19 @@ class TRootEvent : public TObject
 		void setOrbitNumber(Int_t orbitNumber) { orbitNumber_ = orbitNumber; }
 		void setCollisionTime(unsigned long long collisionTime) { collisionTime_ = collisionTime; }
 		void setTotoAnaProcessingTime(UInt_t totoAnaProcessingTime) { totoAnaProcessingTime_ = totoAnaProcessingTime; }
-		void setGlobalL1(Int_t passGlobalL1) { passGlobalL1_ = passGlobalL1; }
-      void setGlobalHLT(Bool_t passGlobalHLT) { passGlobalHLT_ = passGlobalHLT; }
+		void setGlobalL1(Bool_t passGlobalL1) { passGlobalL1_ = passGlobalL1; }
+		void setPhysicsL1Accept(std::vector<Bool_t> physicsL1Accept)
+		{
+			physicsL1Accept_.resize(physicsL1Accept.size());
+			for (unsigned int i=0; i!=physicsL1Accept.size(); ++i) physicsL1Accept_[i]=physicsL1Accept[i];
+		}
+		void setTechnicalL1Accept(std::vector<Bool_t> technicalL1Accept)
+		{
+			technicalL1Accept_.resize(technicalL1Accept.size());
+			for (unsigned int i=0; i!=technicalL1Accept.size(); ++i) technicalL1Accept_[i]=technicalL1Accept[i];
+		}
+		
+		void setGlobalHLT(Bool_t passGlobalHLT) { passGlobalHLT_ = passGlobalHLT; }
       void setTrigHLT(std::vector<Bool_t> trigHLT)
       {
          trigHLT_.resize(trigHLT.size());
@@ -166,6 +209,12 @@ class TRootEvent : public TObject
       return stream;
       };
 
+		void Print()
+		{
+			std::cout << "Run " << this->runId() <<" Event "<< this->eventId() <<"  Luminosity block "<< this->luminosityBlock()
+			<<"  Sequential Nb "<< this->nb() <<"  bunchCrossing "<< this->bunchCrossing() <<"  orbitNumber "<< this->orbitNumber();
+		};
+
 		
    private:
 
@@ -180,7 +229,9 @@ class TRootEvent : public TObject
 		
       // Trigger Infos
       Bool_t passGlobalL1_;
-      Bool_t passGlobalHLT_;
+		std::vector<Bool_t> physicsL1Accept_;
+		std::vector<Bool_t> technicalL1Accept_;
+		Bool_t passGlobalHLT_;
       std::vector<Bool_t> trigHLT_;
 
       // CSA07 Process ID and Weight
@@ -202,7 +253,7 @@ class TRootEvent : public TObject
       Float_t xParton2_;
       Float_t factorizationScale_;
 
-      ClassDef (TRootEvent,3);
+      ClassDef (TRootEvent,4);
 
 };
 

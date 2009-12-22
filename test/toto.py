@@ -18,11 +18,13 @@ process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 
 # Needed for GlobalPositionRcd
 process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_cff')
-process.GlobalTag.globaltag = 'MC_31X_V1::All'
+process.GlobalTag.globaltag = 'GR09_P_V8::All'
 
 # Global geometry
-process.load("Configuration.StandardSequences.Geometry_cff")
-process.load('Configuration/StandardSequences/MagneticField_38T_cff')
+#process.load("Configuration.StandardSequences.Geometry_cff")
+#process.load('Configuration/StandardSequences/MagneticField_38T_cff')
+process.load('Configuration/StandardSequences/GeometryExtended_cff')
+process.load('Configuration/StandardSequences/MagneticField_AutoFromDBCurrent_cff')
 
 # Transient Track Builder
 process.load("TrackingTools.TransientTrack.TransientTrackBuilder_cfi")
@@ -40,12 +42,14 @@ process.load("TrackingTools.TransientTrack.TransientTrackBuilder_cfi")
 process.load("RecoEgamma.PhotonIdentification.photonId_cff")
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(2)
+    input = cms.untracked.int32(3)
 )
 
 
 process.source = cms.Source("PoolSource",
+
 # RECO
+fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/caf/user/meridian/MinimumBias/BeamCommissioning09_EGMSkim_v4/972c4a0f8dedfb0d9feb42e7e718d588/EGMFirstCollisionSkim_124027_15.root')
 #  fileNames = cms.untracked.vstring('file:/sps/cms/morgan/data/CMSSW_3_2_5__RelValZTT__GEN-SIM-RECO__STARTUP31X_V4-v1__0011__1820860F-828E-DE11-A33B-000423D99CEE.root')
 #	fileNames = cms.untracked.vstring(
 #   'file:/sps/cms/morgan/data/CMSSW_3_1_2__RelValH130GGgluonfusion__GEN-SIM-RECO__STARTUP31X_V2-v1__0007__104E25AC-CC78-DE11-AE55-001D09F2447F.root'
@@ -85,7 +89,7 @@ process.source = cms.Source("PoolSource",
 #	fileNames = cms.untracked.vstring('file:/sps/cms/morgan/data/CMSSW_3_3_1_Salvatore_PATtuple_01.root')
 # Salvatore Input RECO
 # fileNames = cms.untracked.vstring('/store/mc/Summer09/TTbar/GEN-SIM-RECO/MC_31X_V3-v1/0025/48AC6C31-AA88-DE11-B02C-0030487C6F54.root')
- fileNames = cms.untracked.vstring('file:/sps/cms/morgan/data/CMSSW_3_1_2__TTbar__GEN-SIM-RECO__MC_31X_V3-v1__0025__48AC6C31-AA88-DE11-B02C-0030487C6F54.root')
+# fileNames = cms.untracked.vstring('file:/sps/cms/morgan/data/CMSSW_3_1_2__TTbar__GEN-SIM-RECO__MC_31X_V3-v1__0025__48AC6C31-AA88-DE11-B02C-0030487C6F54.root')
 )
 
 process.analysis = cms.EDAnalyzer("TotoAnalyzer",
@@ -98,7 +102,7 @@ process.analysis = cms.EDAnalyzer("TotoAnalyzer",
 		# Verbosite
 		# 		0 = muet
  		# 		1 = No evts tous les 10 ou 100 evts
- 		# 		2 = Indique fonctions executees et nb d'objets reconstruits a chaque evt
+		# 		2 = Indique fonctions executees et nb d'objets reconstruprocess.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
  		# 		3 = Liste objets de haut niveau (electrons, muons, photons...)
  		# 		4 = Liste tous les objets (haut niveau, clusters....)
 		# 		5 = Debug
@@ -112,6 +116,7 @@ process.analysis = cms.EDAnalyzer("TotoAnalyzer",
 		description = cms.untracked.string('Le dataset pourri a Roberto'),
 
 		# What is written to rootuple		    
+		doL1 = cms.untracked.bool(True),
 		doHLT = cms.untracked.bool(True),
 		doMC = cms.untracked.bool(True),
 		doPDFInfo = cms.untracked.bool(True),
@@ -217,6 +222,7 @@ process.analysis = cms.EDAnalyzer("TotoAnalyzer",
 	producersNamesRECO = cms.PSet(
 		dataType = cms.untracked.string("RECO"),
 		allowMissingCollection = cms.untracked.bool(True),
+		l1Producer = cms.InputTag("gtDigis"),
 		hltProducer = cms.InputTag("TriggerResults","","HLT"),
 		genParticlesProducer = cms.InputTag("genParticles"),
 		genJetsProducer = cms.InputTag("iterativeCone5GenJets"),
@@ -245,6 +251,7 @@ process.analysis = cms.EDAnalyzer("TotoAnalyzer",
 		dataType = cms.untracked.string("PAT"),
 		allowMissingCollection = cms.untracked.bool(True),
 		patEncapsulation = cms.untracked.bool(False),
+		l1Producer = cms.InputTag("gtDigis"),
 		hltProducer = cms.InputTag("TriggerResults","","HLT"),
 		genParticlesProducer = cms.InputTag("genParticles"),
 		genJetsProducer = cms.InputTag("iterativeCone5GenJets"),
