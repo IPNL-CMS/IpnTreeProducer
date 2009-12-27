@@ -6,6 +6,7 @@
 #include <vector>
 #include <map>
 #include <cmath>
+#include <time.h>
 
 #include "Rtypes.h"
 #include "TObject.h"
@@ -59,6 +60,7 @@ class TRootEvent : public TObject
 		Int_t bunchCrossing() const { return bunchCrossing_; }
 		Int_t orbitNumber() const { return orbitNumber_; }
 		unsigned long long collisionTime() const { return collisionTime_; }
+		char *asciiCollisionTime() const;
 		UInt_t totoAnaProcessingTime() const { return totoAnaProcessingTime_; }
 		
       // L1 Trigger decision
@@ -205,14 +207,16 @@ class TRootEvent : public TObject
 
       friend std::ostream& operator<< (std::ostream& stream, const TRootEvent& event) {
       stream << "Run " << event.runId() <<" Event "<< event.eventId() <<"  Luminosity block "<< event.luminosityBlock()
-		<<"  Sequential Nb "<< event.nb() <<"  bunchCrossing "<< event.bunchCrossing() <<"  orbitNumber "<< event.orbitNumber();
+		<<"  Sequential Nb "<< event.nb() <<"  orbitNumber "<< event.orbitNumber() <<"  bunchCrossing "<< event.bunchCrossing()
+		<<"  recorded on "<< event.asciiCollisionTime();
       return stream;
       };
 
 		void Print()
 		{
 			std::cout << "Run " << this->runId() <<" Event "<< this->eventId() <<"  Luminosity block "<< this->luminosityBlock()
-			<<"  Sequential Nb "<< this->nb() <<"  bunchCrossing "<< this->bunchCrossing() <<"  orbitNumber "<< this->orbitNumber();
+			<<"  Sequential Nb "<< this->nb() <<"  orbitNumber "<< this->orbitNumber() <<"  bunchCrossing "<< this->bunchCrossing()
+			<<"  recorded on "<< this->asciiCollisionTime();
 		};
 
 		
