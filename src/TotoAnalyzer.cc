@@ -453,7 +453,7 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
 	if(doCluster_)
 	{
 		if(verbosity_>1) cout << endl << "Analysing BasicClusters collection..." << endl;
-		ClusterAnalyzer* myClusterAnalyzer = new ClusterAnalyzer(producersNames_, verbosity_);
+		ClusterAnalyzer* myClusterAnalyzer = new ClusterAnalyzer(myConfig_, producersNames_, verbosity_);
 		myClusterAnalyzer->process(iEvent, rootEvent_, lazyTools, rootBasicClusters_, "hybridSuperClusters","hybridBarrelBasicClusters", 210);
 		myClusterAnalyzer->process(iEvent, rootEvent_, lazyTools, rootBasicClusters_, "multi5x5BasicClusters", "multi5x5EndcapBasicClusters", 320);
 		myClusterAnalyzer->process(iEvent, rootEvent_, lazyTools, rootBasicClusters_, "multi5x5BasicClusters", "multi5x5BarrelBasicClusters", 310);

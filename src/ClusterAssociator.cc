@@ -47,7 +47,13 @@ void ClusterAssociator::process(TClonesArray* superClusters, TClonesArray* basic
          aSC->setEmax( aBC->eMax() );
          aSC->setE2nd( aBC->e2nd() );
          aSC->setSeedBasicCluster( aBC );
-         // TODO - Add ref to SC in seedBC
+			aSC->setHitsDetector( aBC->hitsDetector() );
+			aSC->setHitsFlag( aBC->hitsFlag() );
+			aSC->setHitsEnergy( aBC->hitsEnergy() );
+			aSC->setHitsTime( aBC->hitsTime() );
+			aSC->setHitsPosition1( aBC->hitsPosition1() );
+			aSC->setHitsPosition2( aBC->hitsPosition2() );
+			// TODO - Add ref to SC in seedBC
       }
       else
       {
