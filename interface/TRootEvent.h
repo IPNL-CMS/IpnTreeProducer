@@ -59,7 +59,13 @@ class TRootEvent : public TObject
 		UInt_t luminosityBlock() const { return luminosityBlock_; }
 		Int_t bunchCrossing() const { return bunchCrossing_; }
 		Int_t orbitNumber() const { return orbitNumber_; }
-		unsigned long long collisionTime() const { return collisionTime_; }
+		unsigned long long collisionTimeStamp() const { return collisionTime_; }
+		Double_t collisionTime() const
+		{
+			Double_t mytime = Double_t(collisionTime_>>32) + Double_t(collisionTime_&0xffffffff)*1.e-6;
+			return mytime;
+		}
+		unsigned long  microsecondCollisionTime() const { return (collisionTime_&0xffffffff); }
 		char *asciiCollisionTime() const;
 		UInt_t totoAnaProcessingTime() const { return totoAnaProcessingTime_; }
 		
