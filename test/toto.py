@@ -50,7 +50,7 @@ process.source = cms.Source("PoolSource",
 
 # RECO
 fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/caf/user/meridian/MinimumBias/BeamCommissioning09_EGMSkim_v4/972c4a0f8dedfb0d9feb42e7e718d588/EGMFirstCollisionSkim_124027_15.root')
-#  fileNames = cms.untracked.vstring('file:/sps/cms/morgan/data/CMSSW_3_2_5__RelValZTT__GEN-SIM-RECO__STARTUP31X_V4-v1__0011__1820860F-828E-DE11-A33B-000423D99CEE.root')
+# fileNames = cms.untracked.vstring('file:/sps/cms/morgan/data/CMSSW_3_2_5__RelValZTT__GEN-SIM-RECO__STARTUP31X_V4-v1__0011__1820860F-828E-DE11-A33B-000423D99CEE.root')
 #	fileNames = cms.untracked.vstring(
 #   'file:/sps/cms/morgan/data/CMSSW_3_1_2__RelValH130GGgluonfusion__GEN-SIM-RECO__STARTUP31X_V2-v1__0007__104E25AC-CC78-DE11-AE55-001D09F2447F.root'
 #   ,'file:/sps/cms/morgan/data/CMSSW_3_1_2__RelValH130GGgluonfusion__GEN-SIM-RECO__STARTUP31X_V2-v1__0007__748489A8-CC78-DE11-991C-000423D99896.root'
@@ -144,6 +144,7 @@ process.analysis = cms.EDAnalyzer("TotoAnalyzer",
 		doElectron = cms.untracked.bool(True),
 		doPhoton = cms.untracked.bool(True),
 		doCluster = cms.untracked.bool(True),
+		keepClusterizedEcalRecHits = cms.untracked.bool(True),
 		doMET = cms.untracked.bool(True),
 		doBardak = cms.untracked.bool(True),
 		
