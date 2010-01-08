@@ -256,14 +256,14 @@ void TotoAnalyzer::beginJob(const edm::EventSetup&)
 void TotoAnalyzer::endJob()
 {
 	// Trigger Summary Tables
-	if(doL1_)
+	if(doL1_ && verbosity_>0)
 	{
 		cout << "L1 Trigger Summary Tables" << endl;
 		l1TriggerAnalyzer_ ->copySummary(runInfos_);
 		l1TriggerAnalyzer_->printStats();
 	}
 	
-	if(doHLT_)
+	if(doHLT_ && verbosity_>0)
 	{
 		cout << "HLT Summary Tables" << endl;
 		hltAnalyzer_ ->copySummary(runInfos_);

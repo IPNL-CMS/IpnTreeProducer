@@ -159,8 +159,8 @@ bool ClusterAnalyzer::process(const edm::Event& iEvent, TRootEvent* rootEvent, E
 				if (! keepClusterizedEcalRecHits_ ) break;
 			}
 			
-			for_each(hitsEnergy.begin(), hitsEnergy.end(), std::cout << "Before sort, hitsEnergy=(" << _1 << ","); cout << ")" << endl;
-			for_each(sortedHitsEnergy.begin(), sortedHitsEnergy.end(), std::cout << "After sort, sortedHitsEnergy=(" << _1 << ","); cout << ")" << endl;
+			//for_each(hitsEnergy.begin(), hitsEnergy.end(), std::cout << "Before sort, hitsEnergy=(" << _1 << ","); cout << ")" << endl;
+			//for_each(sortedHitsEnergy.begin(), sortedHitsEnergy.end(), std::cout << "After sort, sortedHitsEnergy=(" << _1 << ","); cout << ")" << endl;
 			localClus.setHitsDetector(sortedHitsDetector);
 			localClus.setHitsFlag(sortedHitsFlag);
 			localClus.setHitsEnergy(sortedHitsEnergy);

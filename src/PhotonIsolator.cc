@@ -135,7 +135,11 @@ Double_t PhotonIsolator::basicClustersIsolation(TRootPhoton* photon, TClonesArra
    Int_t isc_endcap = photon->scIndexOfType(basicClustersIsolation_EndcapBC_type_);
    Int_t isc = max(isc_barrel,isc_endcap);
    
-   if(isc==-1) { cout << "  ##### ERROR IN  PhotonIsolator::BasicClustersIsolation => no supercluster associated to the photon #####" << endl; return -1.;}
+	if(isc==-1)
+	{
+		if(verbosity_>1) cout << "  ##### ERROR IN  PhotonIsolator::BasicClustersIsolation => no supercluster associated to the photon #####" << endl;
+		return -1.;
+	}
    
    TRootSuperCluster* photonSC =  (TRootSuperCluster*) superClusters->At(isc);
    //cout << "Associated SC[" << isc << "]" << endl;;
