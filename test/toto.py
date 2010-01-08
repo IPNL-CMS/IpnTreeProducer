@@ -106,7 +106,7 @@ process.analysis = cms.EDAnalyzer("TotoAnalyzer",
  		# 		3 = Liste objets de haut niveau (electrons, muons, photons...)
  		# 		4 = Liste tous les objets (haut niveau, clusters....)
 		# 		5 = Debug
- 		verbosity = cms.untracked.int32(5),
+ 		verbosity = cms.untracked.int32(4),
 
 		# name of output root file
 		RootFileName = cms.untracked.string('Test.root'),
@@ -232,9 +232,7 @@ process.analysis = cms.EDAnalyzer("TotoAnalyzer",
 		beamSpotProducer = cms.InputTag("offlineBeamSpot"),
 		primaryVertexProducer = cms.InputTag("offlinePrimaryVerticesWithBS"),
 		trackProducer = cms.InputTag("generalTracks"),
-		#jetProducer = cms.InputTag("iterativeCone5CaloJets"),
-		#jetProducer = cms.InputTag("iterativeConaloJets"
-		jetProducer = cms.InputTag("antikt5CaloJets"),
+		jetProducer = cms.InputTag("ak5CaloJets"),
 		muonProducer = cms.InputTag("muons"),
 		electronProducer = cms.InputTag("gsfElectrons"),
 		photonProducer = cms.InputTag("photons"),
