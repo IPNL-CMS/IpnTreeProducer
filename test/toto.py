@@ -42,7 +42,7 @@ process.load("TrackingTools.TransientTrack.TransientTrackBuilder_cfi")
 process.load("RecoEgamma.PhotonIdentification.photonId_cff")
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(3)
+    input = cms.untracked.int32(5)
 )
 
 
@@ -102,7 +102,7 @@ process.analysis = cms.EDAnalyzer("TotoAnalyzer",
 		# Verbosite
 		# 		0 = muet
  		# 		1 = No evts tous les 10 ou 100 evts
-		# 		2 = Indique fonctions executees et nb d'objets reconstruprocess.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
+		# 		2 = Indique fonctions executees et nb d'objets reconstruits
  		# 		3 = Liste objets de haut niveau (electrons, muons, photons...)
  		# 		4 = Liste tous les objets (haut niveau, clusters....)
 		# 		5 = Debug
@@ -121,13 +121,13 @@ process.analysis = cms.EDAnalyzer("TotoAnalyzer",
 		doMC = cms.untracked.bool(True),
 		doPDFInfo = cms.untracked.bool(True),
 		doSignalMuMuGamma = cms.untracked.bool(False),  # not tested in 2.X.X or 3.X.X
-		doSignalTopTop = cms.untracked.bool(True),
+		doSignalTopTop = cms.untracked.bool(False),
 #		signalGenerator = cms.untracked.string('PYTHIA'),
 #		signalGenerator = cms.untracked.string('COMPHEP'),
 #		signalGenerator = cms.untracked.string('ALPGEN'),
 		signalGenerator = cms.untracked.string('MADGRAPH'),
 		doPhotonConversionMC = cms.untracked.bool(True),
-
+		
 		doPhotonMC = cms.untracked.bool(True),
 		doElectronMC = cms.untracked.bool(True),
 		doMuonMC = cms.untracked.bool(True),
@@ -145,6 +145,7 @@ process.analysis = cms.EDAnalyzer("TotoAnalyzer",
 		doPhoton = cms.untracked.bool(True),
 		doCluster = cms.untracked.bool(True),
 		keepClusterizedEcalRecHits = cms.untracked.bool(True),
+		keepAllEcalRecHits = cms.untracked.bool(False),
 		doMET = cms.untracked.bool(True),
 		doBardak = cms.untracked.bool(True),
 		
