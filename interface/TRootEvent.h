@@ -77,7 +77,7 @@ class TRootEvent : public TObject
 		std::vector<Bool_t> technicalL1Accept() const { return technicalL1Accept_; }
 		Bool_t physicsL1Accept(unsigned int i) const
 		{
-			if (0<i && i<physicsL1Accept_.size())
+			if (0<=i && i<physicsL1Accept_.size())
 			{
 				return physicsL1Accept_.at(i);
 			}
@@ -89,7 +89,7 @@ class TRootEvent : public TObject
 		}
 		Bool_t technicalL1Accept(unsigned int i) const
 		{
-			if (0<i && i<technicalL1Accept_.size())
+			if (0<=i && i<technicalL1Accept_.size())
 			{
 				return technicalL1Accept_.at(i);
 			}
@@ -106,7 +106,7 @@ class TRootEvent : public TObject
       std::vector<Bool_t> trigHLT() const { return trigHLT_; }
       Bool_t trigHLT(unsigned int i) const
       {
-			if (0<i && i<trigHLT_.size())
+			if (0<=i && i<trigHLT_.size())
          {
             return trigHLT_.at(i);
          }
