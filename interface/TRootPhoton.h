@@ -416,10 +416,10 @@ class TRootPhoton : public TRootParticle
 		// RecoEgamma/EgammaPhotonProducers/python/photons_cfi.py
 		Int_t scIndex()
 		{
-			// 0=island or multi5x5, 1=hybrid
-			//if ( clusterAlgo_== 0 ) return scIndexOfType(122);
-			if ( clusterAlgo_== 0 ) return scIndexOfType(322);
+			// 0=island, 1=hybrid, 4=multi5x5
+			if ( clusterAlgo_== 0 ) return scIndexOfType(122);
 			else if ( clusterAlgo_== 1 ) return scIndexOfType(211);
+			else if ( clusterAlgo_== 4 ) return scIndexOfType(322);
 			else return -1;
 		}
 		
@@ -450,10 +450,10 @@ class TRootPhoton : public TRootParticle
 		// RecoEgamma/EgammaPhotonProducers/python/photons_cfi.py
 		TRootSuperCluster* superCluster()
 		{
-			// 0=island or multi5x5, 1=hybrid
-			//if ( clusterAlgo_== 0 ) return superClusterOfType(122);
-			if ( clusterAlgo_== 0 ) return superClusterOfType(322);
+			// 0=island, 1=hybrid, 4=multi5x5
+			if ( clusterAlgo_== 0 ) return superClusterOfType(122);
 			else if ( clusterAlgo_== 1 ) return superClusterOfType(211);
+			else if ( clusterAlgo_== 4 ) return superClusterOfType(323);
 			else return 0;
 		}
 		
