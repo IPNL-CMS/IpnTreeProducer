@@ -6,6 +6,8 @@
 #include <iostream>
 #include <map>
 
+#include "FWCore/MessageLogger/interface/MessageLogger.h"
+
 #include "../interface/TRootCluster.h"
 #include "../interface/TRootSuperCluster.h"
 
