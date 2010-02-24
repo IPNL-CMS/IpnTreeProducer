@@ -745,9 +745,20 @@ bool MCAnalyzer::processTopTopEvent(const edm::Event& iEvent, TClonesArray* root
 				if (abs(daug0->pdgId()) == 11 || abs(daug1->pdgId()) == 11 || abs(daug2->pdgId()) == 11) nE = 1;
 				if (abs(daug0->pdgId()) == 13 || abs(daug1->pdgId()) == 13 || abs(daug2->pdgId()) == 13) nMu = 1;
 				if (abs(daug0->pdgId()) == 15 || abs(daug1->pdgId()) == 15 || abs(daug2->pdgId()) == 15) nTau = 1;
-				if (abs(daug0->pdgId()) == 5 && id*(daug0->pdgId()) > 0 || abs(daug1->pdgId()) == 5 && id*(daug1->pdgId()) > 0 || abs(daug2->pdgId()) == 5 && id*(daug2->pdgId()) > 0) nb = 1;
-				if (abs(daug0->pdgId()) < 4 && abs(daug1->pdgId()) < 4 || abs(daug2->pdgId()) < 4 && abs(daug1->pdgId()) < 4) nQQ = 1;
-				if (abs(daug0->pdgId()) == 5 && id*(daug0->pdgId()) < 0 && abs(daug1->pdgId()) < 4 || abs(daug1->pdgId()) == 5 && id*(daug1->pdgId()) < 0 && (abs(daug0->pdgId()) < 4 || abs(daug2->pdgId()) < 4) || abs(daug2->pdgId()) == 5 && id*(daug2->pdgId()) < 0 && abs(daug1->pdgId()) < 4 ) nQQ = 1;
+				if (
+					(abs(daug0->pdgId()) == 5 && id*(daug0->pdgId()) > 0)
+					|| (abs(daug1->pdgId()) == 5 && id*(daug1->pdgId()) > 0)
+					|| (abs(daug2->pdgId()) == 5 && id*(daug2->pdgId()) > 0)
+				) nb = 1;
+				if (
+					(abs(daug0->pdgId()) < 4 && abs(daug1->pdgId()) < 4)
+					|| (abs(daug2->pdgId()) < 4 && abs(daug1->pdgId()) < 4)
+				) nQQ = 1;
+				if (
+					( abs(daug0->pdgId()) == 5 && id*(daug0->pdgId()) < 0 && abs(daug1->pdgId()) < 4 )
+					|| ( abs(daug1->pdgId()) == 5 && id*(daug1->pdgId()) < 0 && (abs(daug0->pdgId()) < 4 || abs(daug2->pdgId()) < 4) )
+					|| ( abs(daug2->pdgId()) == 5 && id*(daug2->pdgId()) < 0 && abs(daug1->pdgId()) < 4 )
+				) nQQ = 1;
 
 				if (nE == 1 || nMu == 1 || nTau == 1 || nQQ == 1)
 				{
@@ -815,30 +826,30 @@ bool MCAnalyzer::processTopTopEvent(const edm::Event& iEvent, TClonesArray* root
 				decayType = 22;// top1 -> W (-> tau nu) b, top2 -> W (-> tau nu) b
 			} else if (topnQQ[top1] == 1 && topnQQ[top2] == 1) {
 				decayType = 23;// top1 -> W (-> qq) b, top2 -> W (-> q'q') b
-			} else if (topnE[top1] == 1 && topnMu[top2] == 1 || topnE[top2] == 1 && topnMu[top1] == 1) {
+			} else if ( (topnE[top1] == 1 && topnMu[top2] == 1) || (topnE[top2] == 1 && topnMu[top1] == 1) ) {
 				decayType = 24;// top1 -> W (-> e nu) b, top2 -> W (-> mu nu) b or viceversa
-			} else if (topnE[top1] == 1 && topnTau[top2] == 1 || topnE[top2] == 1 && topnTau[top1] == 1) {
+			} else if ( (topnE[top1] == 1 && topnTau[top2] == 1) || (topnE[top2] == 1 && topnTau[top1] == 1) ) {
 				decayType = 25;// top1 -> W (-> e nu) b, top2 -> W (-> tau nu) b or viceversa
-			} else if (topnE[top1] == 1 && topnQQ[top2] == 1 || topnE[top2] == 1 && topnQQ[top1] == 1) {
+			} else if ( (topnE[top1] == 1 && topnQQ[top2] == 1) || (topnE[top2] == 1 && topnQQ[top1] == 1) ) {
 				decayType = 26;// top1 -> W (-> e nu) b, top2 -> W (-> qq) b or viceversa
-			} else if (topnTau[top1] == 1 && topnMu[top2] == 1 || topnTau[top2] == 1 && topnMu[top1] == 1) {
+			} else if ( (topnTau[top1] == 1 && topnMu[top2] == 1) || (topnTau[top2] == 1 && topnMu[top1] == 1) ) {
 				decayType = 27;// top1 -> W (-> tau nu) b, top2 -> W (-> mu nu) b or viceversa
-			} else if (topnQQ[top1] == 1 && topnMu[top2] == 1 || topnQQ[top2] == 1 && topnMu[top1] == 1) {
+			} else if ( (topnQQ[top1] == 1 && topnMu[top2] == 1) || (topnQQ[top2] == 1 && topnMu[top1] == 1) ) {
 				decayType = 28;// top1 -> W (-> qq) b, top2 -> W (-> mu nu) b or viceversa
-			} else if (topnTau[top1] == 1 && topnQQ[top2] == 1 || topnTau[top2] == 1 && topnQQ[top1] == 1) {
+			} else if ( (topnTau[top1] == 1 && topnQQ[top2] == 1) || (topnTau[top2] == 1 && topnQQ[top1] == 1) ) {
 				decayType = 29;// top1 -> W (-> tau nu) b, top2 -> W (-> qq) b or viceversa
-			} else if (topnE[top1] == 1 && topnE[top2] == 0 && topnMu[top2] == 0 && topnTau[top2] == 0 && topnQQ[top2] == 0 || topnE[top2] == 1 && topnE[top1] == 0 && topnMu[top1] == 0 && topnTau[top1] == 0 && topnQQ[top1] == 0) {
+			} else if ( (topnE[top1] == 1 && topnE[top2] == 0 && topnMu[top2] == 0 && topnTau[top2] == 0 && topnQQ[top2] == 0) || (topnE[top2] == 1 && topnE[top1] == 0 && topnMu[top1] == 0 && topnTau[top1] == 0 && topnQQ[top1] == 0) ) {
 				decayType = 30;// top1 -> W (-> e nu) b, top2 -> W (-> not leptonic and not qq) b or viceversa
-			} else if (topnMu[top1] == 1 && topnE[top2] == 0 && topnMu[top2] == 0 && topnTau[top2] == 0  && topnQQ[top2] == 0 || topnMu[top2] == 1 && topnE[top1] == 0 && topnMu[top1] == 0 && topnTau[top1] == 0 && topnQQ[top1] == 0) {
+			} else if ( (topnMu[top1] == 1 && topnE[top2] == 0 && topnMu[top2] == 0 && topnTau[top2] == 0  && topnQQ[top2] == 0) || (topnMu[top2] == 1 && topnE[top1] == 0 && topnMu[top1] == 0 && topnTau[top1] == 0 && topnQQ[top1] == 0) ) {
 				decayType = 31;// top1 -> W (-> mu nu) b, top2 -> W (-> not leptonic and not qq) b or viceversa
-			} else if (topnTau[top1] == 1 && topnE[top2] == 0 && topnMu[top2] == 0 && topnTau[top2] == 0  && topnQQ[top2] == 0 || topnTau[top2] == 1 && topnE[top1] == 0 && topnMu[top1] == 0 && topnTau[top1] == 0 && topnQQ[top1] == 0) {
+			} else if ( (topnTau[top1] == 1 && topnE[top2] == 0 && topnMu[top2] == 0 && topnTau[top2] == 0  && topnQQ[top2] == 0) || (topnTau[top2] == 1 && topnE[top1] == 0 && topnMu[top1] == 0 && topnTau[top1] == 0 && topnQQ[top1] == 0) ) {
 				decayType = 32;// top1 -> W (-> tau nu) b, top2 -> W (-> not leptonic and not qq) b or viceversa
-			} else if (topnQQ[top1] == 1 && topnE[top2] == 0 && topnMu[top2] == 0 && topnTau[top2] == 0  && topnQQ[top2] == 0 || topnQQ[top2] == 1 && topnE[top1] == 0 && topnMu[top1] == 0 && topnTau[top1] == 0 && topnQQ[top1] == 0) {
+			} else if ( (topnQQ[top1] == 1 && topnE[top2] == 0 && topnMu[top2] == 0 && topnTau[top2] == 0  && topnQQ[top2] == 0) || (topnQQ[top2] == 1 && topnE[top1] == 0 && topnMu[top1] == 0 && topnTau[top1] == 0 && topnQQ[top1] == 0) ) {
 				decayType = 33;// top1 -> W (-> qq) b, top2 -> W (-> not leptonic and not qq) b or viceversa
 			} else {
 				decayType = 34;// top1 -> W (-> not leptonic and not qq) b, top2 -> W (-> not leptonic and not qq) b
 			}
-			if (topnb[top1] == 1 && topnb[top2] == 0 || topnb[top1] == 0 && topnb[top2] == 1) {
+			if ( (topnb[top1] == 1 && topnb[top2] == 0) || (topnb[top1] == 0 && topnb[top2] == 1)) {
 				decayType = decayType + 20;//top1 -> W + b, top2 -> W + q (q not b) or viceversa
 			} else if (topnb[top1] == 0 && topnb[top2] == 0) {
 				decayType = decayType + 40; //top1 -> W + q, top2 -> W + q' (q and q' not b)
