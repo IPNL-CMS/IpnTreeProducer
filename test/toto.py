@@ -41,8 +41,6 @@ process.load("TrackingTools.TransientTrack.TransientTrackBuilder_cfi")
 # pi0 discrimination variables
 #process.load("RecoEcal.EgammaClusterProducers.piZeroDiscriminators_cfi")
 
-# Needed to re-run Photon Id
-process.load("RecoEgamma.PhotonIdentification.photonId_cff")
 
 process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(5)
@@ -52,50 +50,14 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source("PoolSource",
 
 # RECO
-fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/caf/user/meridian/MinimumBias/BeamCommissioning09_EGMSkim_v4/972c4a0f8dedfb0d9feb42e7e718d588/EGMFirstCollisionSkim_124027_15.root')
-# fileNames = cms.untracked.vstring('file:/sps/cms/morgan/data/CMSSW_3_2_5__RelValZTT__GEN-SIM-RECO__STARTUP31X_V4-v1__0011__1820860F-828E-DE11-A33B-000423D99CEE.root')
+fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/user/h/hbrun/BSCSkim_MinBiasFilter/data/BSCFilter_Jan29_v8_MinBiasFilter_Run123596_88.root')
 #	fileNames = cms.untracked.vstring(
 #   'file:/sps/cms/morgan/data/CMSSW_3_1_2__RelValH130GGgluonfusion__GEN-SIM-RECO__STARTUP31X_V2-v1__0007__104E25AC-CC78-DE11-AE55-001D09F2447F.root'
 #   ,'file:/sps/cms/morgan/data/CMSSW_3_1_2__RelValH130GGgluonfusion__GEN-SIM-RECO__STARTUP31X_V2-v1__0007__748489A8-CC78-DE11-991C-000423D99896.root'
-#   ,'file:/sps/cms/morgan/data/CMSSW_3_1_2__RelValH130GGgluonfusion__GEN-SIM-RECO__STARTUP31X_V2-v1__0007__BA7034AD-CC78-DE11-96E0-001D09F251E0.root'
-#   ,'file:/sps/cms/morgan/data/CMSSW_3_1_2__RelValH130GGgluonfusion__GEN-SIM-RECO__STARTUP31X_V2-v1__0007__CEA857A2-CC78-DE11-8073-000423D98EA8.root'
-#   ,'file:/sps/cms/morgan/data/CMSSW_3_1_2__RelValH130GGgluonfusion__GEN-SIM-RECO__STARTUP31X_V2-v1__0007__FC6C2AF4-E278-DE11-B2D1-001D09F23A07.root'
 #   )
-#   fileNames = cms.untracked.vstring(
-#   'file:/sps/cms/morgan/data/CMSSW_3_1_2__RelValZEE__GEN-SIM-RECO__STARTUP31X_V2-v1__0007__30A1F4B9-DB78-DE11-8F74-001D09F253C0.root'
-#   ,'file:/sps/cms/morgan/data/CMSSW_3_1_2__RelValZEE__GEN-SIM-RECO__STARTUP31X_V2-v1__0007__56BA18F5-E278-DE11-8038-001D09F26509.root'
-#   ,'file:/sps/cms/morgan/data/CMSSW_3_1_2__RelValZEE__GEN-SIM-RECO__STARTUP31X_V2-v1__0007__A0CE6C32-DA78-DE11-96E3-001D09F2532F.root'
-#   ,'file:/sps/cms/morgan/data/CMSSW_3_1_2__RelValZEE__GEN-SIM-RECO__STARTUP31X_V2-v1__0007__DC0B8126-DB78-DE11-8962-001D09F25109.root'
-#   ,'file:/sps/cms/morgan/data/CMSSW_3_1_2__RelValZMM__GEN-SIM-RECO__STARTUP31X_V2-v1__0007__360B09AE-CC78-DE11-8933-001D09F254CE.root'
-#   )
-#   fileNames = cms.untracked.vstring('file:/sps/cms/morgan/data/CMSSW_3_1_2__RelValTTbar__GEN-SIM-RECO__STARTUP31X_V2-v1__0006__0CC00E3B-5A78-DE11-A2AB-000423D94A04.root')
-#	fileNames = cms.untracked.vstring('file:/sps/cms/morgan/data/CMSSW_3_1_2__RelValZMM__GEN-SIM-RECO__STARTUP31X_V2-v1__0007__360B09AE-CC78-DE11-8933-001D09F254CE.root')
-#  fileNames = cms.untracked.vstring('file:/sps/cms/morgan/data/CMSSW_2_2_1__Summer08__H120_gg__GEN-SIM-RECO__IDEAL_V11_redigi_v2__0009__F8176F88-7124-DE11-BE7A-00151796C0E0.root')
-#	fileNames = cms.untracked.vstring('file:/sps/cms/morgan/data/CMSSW_2_2_1__QCDpt170__Summer08_IDEAL_V11_redigi_v1__GEN-SIM-RECO__0010115D-6FE7-DD11-AFDC-0019B9E7CD05.root')
-#  fileNames = cms.untracked.vstring('file:/sps/cms/morgan/data/CMSSW_2_1_10__RelValH130GGgluonfusion__GEN-SIM-DIGI-RAW-HLTDEBUG-RECO__STARTUP_V7_v1__0001__00616C72-FA9A-DD11-A526-00304867902E.root')
-#	fileNames = cms.untracked.vstring('file:/sps/cms/morgan/data/CMSSW_2_1_8__Summer08__H120_gg__GEN-SIM-RECO__IDEAL_V9_v1__0000__FE60393A-76E6-DD11-BDF1-001D0964474D.root')
-#	fileNames = cms.untracked.vstring('file:/sps/cms/morgan/data/CMSSW_2_1_8__Summer08__H120_gg__GEN-SIM-RECO__IDEAL_V9_v1__0000__FAE31F8E-6CE6-DD11-A953-0015C5EC47A2.root')
-# fileNames = cms.untracked.vstring('file:/sps/cms/morgan/data/CMSSW_2_1_7__RelValTTbar__GEN-SIM-RECO__IDEAL_V9_v2__0002__56B92AB9-8B7E-DD11-A821-000423D6AF24.root')
-# AOD
-#	fileNames = cms.untracked.vstring('file:/sps/cms/morgan/data/CMSSW_2_1_7__Summer08__QCDDiJetPt380to470__AODSIM__IDEAL_V9_AODSIM_v1__0000__F630AA5F-EBA4-DD11-BABD-001D0967D71F.root')
-#	fileNames = cms.untracked.vstring('file:/sps/cms/morgan/data/CMSSW_2_1_7__Summer08__TTJets-madgraph__AODSIM__IDEAL_V9_AODSIM_v1__0004__000BCB88-49AF-DD11-A760-00E081791887.root')
-# PAT + some RECO Collections
-#	fileNames = cms.untracked.vstring('file:/sps/cms/morgan/data/CMSSW_2_1_10__Summer08__TTJets-madgraph__IDEAL_V9__PATLayer1_OutputFromAOD_full_113.root')
-#	fileNames = cms.untracked.vstring('file:/sps/cms/morgan/data/CMSSW_2_2_3__PATLayer1_Output.fromRECOinputCSA08test2_full.root')
-#	fileNames = cms.untracked.vstring('file:/sps/cms/morgan/data/CMSSW_2_2_X__Farida__InclusiveMuPt15_IN2P3__PATL1_InclusiveMuPt15_Sum08_1.root')
-#	fileNames = cms.untracked.vstring('file:/sps/cms/morgan/data/CMSSW_2_2_X__Farida__Hgg__PATL1_test.root')
-# Only PAT Collections
-#	fileNames = cms.untracked.vstring('file:/sps/cms/morgan/data/CMSSW_2_1_10__TQAFLayer1_Output.fromAOD2110_IDEAL_full_0__PATOnly.root')
-# fileNames = cms.untracked.vstring('file:/sps/cms/morgan/data/CMSSW_3_2_2_PATONLY_PatLayer1_RelValTTbar_STARTUP31X_V2_GEN-SIM-RECO.root')
-# fileNames = cms.untracked.vstring('file:/sps/cms/ytschudi/These/CMSSW_3_2_5/src/SUSY/PATTuple/test/PATFiles/PatLayer1_RelValTTbar_STARTUP31X_V2_GEN-SIM-RECO.root')
-# Salvatore PAT tuple
-#	fileNames = cms.untracked.vstring('file:/sps/cms/morgan/data/CMSSW_3_3_1_Salvatore_PATtuple_01.root')
-# Salvatore Input RECO
-# fileNames = cms.untracked.vstring('/store/mc/Summer09/TTbar/GEN-SIM-RECO/MC_31X_V3-v1/0025/48AC6C31-AA88-DE11-B02C-0030487C6F54.root')
-# fileNames = cms.untracked.vstring('file:/sps/cms/morgan/data/CMSSW_3_1_2__TTbar__GEN-SIM-RECO__MC_31X_V3-v1__0025__48AC6C31-AA88-DE11-B02C-0030487C6F54.root')
 )
 
-process.analysis = cms.EDAnalyzer("TotoAnalyzer",
+process.totoana = cms.EDAnalyzer("TotoAnalyzer",
 	myConfig = cms.PSet(
 
 		# Data type of the PoolSource ( RECO / PAT )
@@ -285,7 +247,14 @@ process.analysis = cms.EDAnalyzer("TotoAnalyzer",
 ##    TriggerResultsTag = cms.InputTag("TriggerResults","","HLT")
 ##)
 
-#process.p = cms.Path(process.preshowerClusterShape*process.piZeroDiscriminators*process.analysis)
-#process.p = cms.Path(process.photonIDSequence*process.analysis)
-process.p = cms.Path(process.analysis)
+
+# TotoAna standalone
+process.p = cms.Path(process.totoana)
+
+# Photon reReco + TotoAna
+#process.load("photonReReco")
+#process.p = cms.Path(process.photons*process.photonIDSequence*process.totoana)
+
+# Pi0disc + TotoAna
+#process.p = cms.Path(process.preshowerClusterShape*process.piZeroDiscriminators*process.totoana)
 
