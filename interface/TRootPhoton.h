@@ -453,7 +453,7 @@ class TRootPhoton : public TRootParticle
 			// 0=island, 1=hybrid, 4=multi5x5
 			if ( clusterAlgo_== 0 ) return superClusterOfType(122);
 			else if ( clusterAlgo_== 1 ) return superClusterOfType(211);
-			else if ( clusterAlgo_== 4 ) return superClusterOfType(323);
+			else if ( clusterAlgo_== 4 ) return superClusterOfType(322);
 			else return 0;
 		}
 		
