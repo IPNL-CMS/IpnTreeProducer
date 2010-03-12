@@ -44,7 +44,34 @@ class TRootRun : public TObject
       ,hltErrors_(0)
       ,hltNames_(0)
       {;}
-
+		
+		TRootRun(const TRootRun& run) :
+		xsection_(run.xsection_)
+		,description_(run.description_)
+		,nL1Events_(run.nL1Events_)
+		,nL1Accept_(run.nL1Accept_)
+		,nPhysicsL1Accept_(run.nPhysicsL1Accept_)
+		,nTechnicalL1Accept_(run.nTechnicalL1Accept_)
+		,physicsL1Names_(run.physicsL1Names_)
+		,physicsL1PrescaleFactors_(run.physicsL1PrescaleFactors_)
+		,physicsL1Mask_(run.physicsL1Mask_)
+		,physicsL1MaskVeto_(run.physicsL1MaskVeto_)
+		,physicsL1CumulatedPass_(run.physicsL1CumulatedPass_)
+		,technicalL1Names_(run.technicalL1Names_)
+		,technicalL1PrescaleFactors_(run.technicalL1PrescaleFactors_)
+		,technicalL1Mask_(run.technicalL1Mask_)
+		,technicalL1MaskVeto_(run.technicalL1MaskVeto_)
+		,technicalL1CumulatedPass_(run.technicalL1CumulatedPass_)
+		,nHLTEvents_(run.nHLTEvents_)
+		,nHLTWasRun_(run.nHLTWasRun_)
+		,nHLTAccept_(run.nHLTAccept_)
+		,nHLTErrors_(run.nHLTErrors_)
+		,hltWasRun_(run.hltWasRun_)
+		,hltAccept_(run.hltAccept_)
+		,hltErrors_(run.hltErrors_)
+		,hltNames_(run.hltNames_)
+		{;}
+		
       ~TRootRun() {;}
 
       Double_t xsection() const { return xsection_; }
@@ -192,9 +219,88 @@ class TRootRun : public TObject
          hltNames_.resize(hltNames.size());
          hltNames_=hltNames;
       }
-
-
-   private:
+		
+		TRootRun & operator=(const TRootRun &rhs)
+		{
+			if (this != &rhs)
+			{
+				xsection_ = rhs.xsection_;
+				description_ = rhs.description_;
+				nL1Events_ = rhs.nL1Events_;  
+				nL1Accept_ = rhs.nL1Accept_;
+				nPhysicsL1Accept_ = rhs.nPhysicsL1Accept_;
+				nTechnicalL1Accept_ = rhs.nTechnicalL1Accept_;
+				physicsL1Names_ = rhs.physicsL1Names_;
+				physicsL1PrescaleFactors_ = rhs.physicsL1PrescaleFactors_;
+				physicsL1Mask_ = rhs.physicsL1Mask_;
+				physicsL1MaskVeto_ = rhs.physicsL1MaskVeto_;
+				physicsL1CumulatedPass_ = rhs.physicsL1CumulatedPass_;
+				technicalL1Names_ = rhs.technicalL1Names_;
+				technicalL1PrescaleFactors_ = rhs.technicalL1PrescaleFactors_;
+				technicalL1Mask_ = rhs.technicalL1Mask_;
+				technicalL1MaskVeto_ = rhs.technicalL1MaskVeto_;
+				technicalL1CumulatedPass_ = rhs.technicalL1CumulatedPass_;
+				nHLTEvents_ = rhs.nHLTEvents_;
+				nHLTWasRun_ = rhs.nHLTWasRun_;
+				nHLTAccept_ = rhs.nHLTAccept_;
+				nHLTErrors_ = rhs.nHLTErrors_;
+				hltWasRun_ = rhs.hltWasRun_;
+				hltAccept_ = rhs.hltAccept_;
+				hltErrors_ = rhs.hltErrors_;
+				hltNames_ = rhs.hltNames_;
+			}
+			return *this;
+		}
+		
+		TRootRun & operator+=(const TRootRun &rhs)
+		{
+			if ( physicsL1CumulatedPass_.size()== rhs.physicsL1CumulatedPass_.size()
+				&& technicalL1CumulatedPass_.size()== rhs.technicalL1CumulatedPass_.size()
+				&& hltWasRun_.size()== rhs.hltWasRun_.size()
+				&& hltAccept_.size()== rhs.hltAccept_.size()
+				&& hltErrors_.size()== rhs.hltErrors_.size()
+				)
+			{
+				xsection_ = rhs.xsection_;
+				description_ = rhs.description_;
+				nL1Events_ += rhs.nL1Events_;
+				nL1Accept_ += rhs.nL1Accept_;
+				nPhysicsL1Accept_ += rhs.nPhysicsL1Accept_;
+				nTechnicalL1Accept_ += rhs.nTechnicalL1Accept_;
+				physicsL1Names_ = rhs.physicsL1Names_;
+				physicsL1PrescaleFactors_ = rhs.physicsL1PrescaleFactors_;
+				physicsL1Mask_ = rhs.physicsL1Mask_;
+				physicsL1MaskVeto_ = rhs.physicsL1MaskVeto_;
+				for ( unsigned int i=0; i<physicsL1CumulatedPass_.size(); ++i ) physicsL1CumulatedPass_[i] += rhs.physicsL1CumulatedPass_[i];
+				technicalL1Names_ = rhs.technicalL1Names_;
+				technicalL1PrescaleFactors_ = rhs.technicalL1PrescaleFactors_;
+				technicalL1Mask_ = rhs.technicalL1Mask_;
+				technicalL1MaskVeto_ = rhs.technicalL1MaskVeto_;
+				for ( unsigned int i=0; i<technicalL1CumulatedPass_.size(); ++i ) technicalL1CumulatedPass_[i] += rhs.technicalL1CumulatedPass_[i];
+				nHLTEvents_ += rhs.nHLTEvents_;
+				nHLTWasRun_ += rhs.nHLTWasRun_;
+				nHLTAccept_ += rhs.nHLTAccept_;
+				nHLTErrors_ += rhs.nHLTErrors_;
+				for ( unsigned int i=0; i<hltWasRun_.size(); ++i ) hltWasRun_[i] += rhs.hltWasRun_[i];
+				for ( unsigned int i=0; i<hltAccept_.size(); ++i ) hltAccept_[i] += rhs.hltAccept_[i];
+				for ( unsigned int i=0; i<hltErrors_.size(); ++i ) hltErrors_[i] += rhs.hltErrors_[i];
+				hltNames_ = rhs.hltNames_;
+			}
+			else
+			{
+				cout << "  ##### ERROR IN  TRootRun::operator+=   Not the same vector::size() #####"<<endl;
+			}
+				return *this;
+		}
+		
+		TRootRun operator+(const TRootRun &other) const
+		{
+			TRootRun result = *this;
+			result += other;
+			return result;
+		}
+		
+	private:
 
       Double_t xsection_;        // dataset cross-section
       std::string description_;  // dataset description
