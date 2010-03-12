@@ -36,6 +36,10 @@ bool L1TriggerAnalyzer::init(const edm::Event& iEvent, const edm::EventSetup& iS
 	const L1GtTriggerMenu* menu = l1GtMenu.product();
 	(const_cast<L1GtTriggerMenu*>(l1GtMenu.product()))->buildGtConditionMap();
 
+	//int printVerbosity = 2;
+	//l1GtMenu->print(std::cout, printVerbosity);
+	//std::cout << std::flush << std::endl;
+	
 	if(verbosity_>0)
 	{
 		cout << endl << "L1TriggerAnalyzer-Init ---------------------------- L1 Trigger Menu ----------------------------------\n";
