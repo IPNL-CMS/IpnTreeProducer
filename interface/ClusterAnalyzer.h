@@ -22,6 +22,7 @@
 
 #include "../interface/TRootEvent.h"
 #include "../interface/TRootCluster.h"
+#include "../interface/TRootEcalRecHit.h"
 
 #include "TClonesArray.h"
 

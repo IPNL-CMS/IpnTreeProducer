@@ -53,6 +53,7 @@ void ClusterAssociator::process(TClonesArray* superClusters, TClonesArray* basic
 			aSC->setHitsTime( aBC->hitsTime() );
 			aSC->setHitsPosition1( aBC->hitsPosition1() );
 			aSC->setHitsPosition2( aBC->hitsPosition2() );
+			aSC->setHits( aBC->hits() );
 			// TODO - Add ref to SC in seedBC
       }
       else

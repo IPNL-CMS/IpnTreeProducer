@@ -16,6 +16,7 @@
 #include "../interface/TRootSuperCluster.h"
 #include "../interface/TRootMET.h"
 #include "../interface/TRootTopTop.h"
+#include "../interface/TRootEcalRecHit.h"
 #include "../interface/TRootBardak.h"
 #else
 #include "../interface/TRootRun.h"
@@ -35,6 +36,7 @@
 #include "../interface/TRootSuperCluster.h"
 #include "../interface/TRootMET.h"
 #include "../interface/TRootTopTop.h"
+#include "../interface/TRootEcalRecHit.h"
 #include "../interface/TRootBardak.h"
 #endif
 
@@ -60,6 +62,7 @@
 #pragma link C++ class TRootSuperCluster;
 #pragma link C++ class TRootMET;
 #pragma link C++ class TRootTopTop;
+#pragma link C++ class TRootEcalRecHit;
 #pragma link C++ class TRootBardak;
 
 #endif

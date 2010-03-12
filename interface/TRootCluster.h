@@ -39,6 +39,8 @@ Shapes variables for SuperClusters correspond to shapes variables of the seed Ba
 #include "TMath.h"
 #include "TRef.h"
 
+#include "../interface/TRootEcalRecHit.h"
+
 using namespace std;
 
 class TRootCluster : public TVector3
@@ -78,6 +80,7 @@ class TRootCluster : public TVector3
 		,hitsTime_(0)
 		,hitsPosition1_(0)
 		,hitsPosition2_(0)
+		,hits_()
 		{;}
 		
 		TRootCluster(const TRootCluster& cluster) :
@@ -97,6 +100,7 @@ class TRootCluster : public TVector3
 		,hitsTime_(cluster.hitsTime_)
 		,hitsPosition1_(cluster.hitsPosition1_)
 		,hitsPosition2_(cluster.hitsPosition2_)
+		,hits_(cluster.hits_)
 		{;}
 
 		TRootCluster(Double_t energy, Double_t eta, Double_t phi) :
@@ -115,6 +119,7 @@ class TRootCluster : public TVector3
 		,hitsTime_(0)
 		,hitsPosition1_(0)
 		,hitsPosition2_(0)
+		,hits_()
 		{
 			this->SetPtEtaPhi(energy*TMath::Sin(2.0*TMath::ATan(TMath::Exp(-eta))), eta, phi);
 		}
@@ -135,6 +140,7 @@ class TRootCluster : public TVector3
 		,hitsTime_(0)
 		,hitsPosition1_(0)
 		,hitsPosition2_(0)
+		,hits_()
 		{
 			this->SetPtEtaPhi(energy*TMath::Sin(2.0*TMath::ATan(TMath::Exp(-eta))), eta, phi);
 		}
@@ -155,6 +161,7 @@ class TRootCluster : public TVector3
 		,hitsTime_(0)
 		,hitsPosition1_(0)
 		,hitsPosition2_(0)
+		,hits_()
 		{
 			this->SetPtEtaPhi(energy*TMath::Sin(2.0*TMath::ATan(TMath::Exp(-eta))), eta, phi);
 		}
@@ -176,6 +183,7 @@ class TRootCluster : public TVector3
 		,hitsTime_(0)
 		,hitsPosition1_(0)
 		,hitsPosition2_(0)
+		,hits_()
 		{;}
 		
 		
@@ -196,6 +204,7 @@ class TRootCluster : public TVector3
 		,hitsTime_(0)
 		,hitsPosition1_(0)
 		,hitsPosition2_(0)
+		,hits_()
 		{;}
 		
 		~TRootCluster() {;}
@@ -213,12 +222,15 @@ class TRootCluster : public TVector3
 		Double_t e2nd() const { return e2nd_; }
 		Int_t nXtals() const { return nXtals_; }
 		UInt_t uid() const { return uid_; }
+		UInt_t nRecHits() const { return hits_.size(); }
 		std::vector<int> hitsDetector() const { return hitsDetector_; }
 		std::vector<int> hitsFlag() const { return hitsFlag_; }
 		std::vector<float> hitsEnergy() const { return hitsEnergy_; }
 		std::vector<float> hitsTime() const { return hitsTime_; }
 		std::vector<int> hitsPosition1() const { return hitsPosition1_; }
 		std::vector<int> hitsPosition2() const { return hitsPosition2_; }
+		std::vector<TRootEcalRecHit> hits() const { return hits_; }
+		TRootEcalRecHit* hitAt(unsigned int i) { return ( (i<hits_.size()) ? &(hits_.at(i)) : 0 ); }
 		Int_t seedDetector() const { return ( (hitsDetector_.size()>0) ? hitsDetector_.at(0) : -1 ); }
 		Int_t seedFlag() const { return ( (hitsFlag_.size()>0) ? hitsFlag_.at(0) : -1 ); }
 		Float_t seedTime() const { return ( (hitsTime_.size()>0) ? hitsTime_.at(0) : -999999. ); }
@@ -253,6 +265,7 @@ class TRootCluster : public TVector3
 		void setHitsTime(std::vector<float> hitsTime) { hitsTime_ = hitsTime; }
 		void setHitsPosition1(std::vector<int> hitsPosition1) { hitsPosition1_ = hitsPosition1; }
 		void setHitsPosition2(std::vector<int> hitsPosition2) { hitsPosition2_ = hitsPosition2; }
+		void setHits(std::vector<TRootEcalRecHit> hits) { hits_ = hits; }
 		
 		
 		friend std::ostream& operator<< (std::ostream& stream, const TRootCluster& clus)
@@ -289,8 +302,9 @@ class TRootCluster : public TVector3
 		std::vector<float> hitsTime_;    // rechit time
 		std::vector<int> hitsPosition1_; // ieta or ix of the rechit
 		std::vector<int> hitsPosition2_; // iphi or iy of the rechit
+		std::vector<TRootEcalRecHit> hits_;  // associated Ecal rechits
 		
-		ClassDef (TRootCluster,4);
+		ClassDef (TRootCluster,5);
 		
 };
 

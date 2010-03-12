@@ -92,7 +92,8 @@ bool ClusterAnalyzer::process(const edm::Event& iEvent, TRootEvent* rootEvent, E
 			std::vector<float> hitsTime;
 			std::vector<int> hitsPosition1;
 			std::vector<int> hitsPosition2;
-				
+			std::vector<TRootEcalRecHit> hits;
+			
 			for(std::vector<std::pair<DetId,float> >::const_iterator detIdPair = (aClus->hitsAndFractions()).begin(); detIdPair != (aClus->hitsAndFractions()).end(); ++detIdPair)
 			{
 				DetId detId = detIdPair->first;
@@ -113,6 +114,15 @@ bool ClusterAnalyzer::process(const edm::Event& iEvent, TRootEvent* rootEvent, E
 					hitsTime.push_back((*hit).time());
 					hitsPosition1.push_back(ebDet.ieta());
 					hitsPosition2.push_back(ebDet.iphi());
+					TRootEcalRecHit localHit(
+						detId.subdetId()
+						,(*hit).recoFlag()
+						,(*hit).energy()
+						,(*hit).time()
+						,ebDet.ieta()
+						,ebDet.iphi()
+					);
+					hits.push_back(localHit);					
 				}
 				else if (detId.subdetId() == EcalEndcap)
 				{
@@ -125,6 +135,15 @@ bool ClusterAnalyzer::process(const edm::Event& iEvent, TRootEvent* rootEvent, E
 					hitsTime.push_back((*hit).time());
 					hitsPosition1.push_back(eeDet.ix());
 					hitsPosition2.push_back(eeDet.iy());
+					TRootEcalRecHit localHit(
+					detId.subdetId()
+					,(*hit).recoFlag()
+					,(*hit).energy()
+					,(*hit).time()
+					,eeDet.ix()
+					,eeDet.iy()
+					);
+					hits.push_back(localHit);
 				}
 				else
 				{
@@ -148,6 +167,7 @@ bool ClusterAnalyzer::process(const edm::Event& iEvent, TRootEvent* rootEvent, E
 			std::vector<float> sortedHitsTime;
 			std::vector<int> sortedHitsPosition1;
 			std::vector<int> sortedHitsPosition2;
+			std::vector<TRootEcalRecHit> sortedHits;
 			for(std::vector<int>::const_iterator it = iv.begin(); it != iv.end(); ++it)
 			{
 				sortedHitsDetector.push_back( hitsDetector.at(*it));
@@ -156,6 +176,7 @@ bool ClusterAnalyzer::process(const edm::Event& iEvent, TRootEvent* rootEvent, E
 				sortedHitsTime.push_back( hitsTime.at(*it));
 				sortedHitsPosition1.push_back( hitsPosition1.at(*it));
 				sortedHitsPosition2.push_back( hitsPosition2.at(*it));
+				sortedHits.push_back( hits.at(*it));
 				if (! keepClusterizedEcalRecHits_ ) break;
 			}
 			
@@ -167,6 +188,7 @@ bool ClusterAnalyzer::process(const edm::Event& iEvent, TRootEvent* rootEvent, E
 			localClus.setHitsTime(sortedHitsTime);
 			localClus.setHitsPosition1(sortedHitsPosition1);
 			localClus.setHitsPosition2(sortedHitsPosition2);
+			localClus.setHits(sortedHits);
 			
 		}
 		
