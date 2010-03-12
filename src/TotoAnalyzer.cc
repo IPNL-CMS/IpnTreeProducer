@@ -41,6 +41,7 @@ TotoAnalyzer::TotoAnalyzer(const edm::ParameterSet& iConfig)
 	rootPhotons_ = 0;
 	rootBasicClusters_ = 0;
 	rootSuperClusters_ = 0;
+	rootEcalRecHits_ = 0;
 	rootConversionTracks_ = 0;
 	rootMETs_ = 0;
 	rootBardak_ = 0;
@@ -86,6 +87,8 @@ void TotoAnalyzer::beginJob(const edm::EventSetup&)
 	doElectron_ = myConfig_.getUntrackedParameter<bool>("doElectron",false);
 	doPhoton_ = myConfig_.getUntrackedParameter<bool>("doPhoton",false);
 	doCluster_ = myConfig_.getUntrackedParameter<bool>("doCluster",false);
+	keepAllEcalRecHits_ = myConfig_.getUntrackedParameter<bool>("keepAllEcalRecHits",false);
+	keepClusterizedEcalRecHits_ = myConfig_.getUntrackedParameter<bool>("keepClusterizedEcalRecHits",false);
 	doPhotonConversion_ = myConfig_.getUntrackedParameter<bool>("doPhotonConversion",false);
 	doPhotonIsolation_ = myConfig_.getUntrackedParameter<bool>("doPhotonIsolation",false);
 	doMET_ = myConfig_.getUntrackedParameter<bool>("doMET",false);
@@ -224,6 +227,13 @@ void TotoAnalyzer::beginJob(const edm::EventSetup&)
 		eventTree_->Branch ("SuperClusters", "TClonesArray", &rootSuperClusters_);
 	}
 	
+	if(keepAllEcalRecHits_ || keepClusterizedEcalRecHits_)
+	{
+		if(verbosity_>0) cout << "ECAL RecHits will be added to rootuple" << endl;
+		rootEcalRecHits_ = new TClonesArray("TRootEcalRecHit", 10000);
+		eventTree_->Branch ("EcalRecHits", "TClonesArray", &rootEcalRecHits_);
+	}
+	
 	if(doPhotonConversion_)
 	{
 		if(verbosity_>0) cout << "Conversion Tracks info will be added to rootuple" << endl;
@@ -291,6 +301,11 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
 	rootFile_->cd();
 	nTotEvt_++;
 
+	//edm::Handle< reco::PhotonCollection > recoPhotons;
+	//iEvent.getByLabel("photons", recoPhotons);
+	//if(recoPhotons->size()<1) return;
+
+	
 	// Any additionnal variables temporary needed
 	if(doBardak_) rootBardak_ = new TRootBardak();
 	
@@ -427,6 +442,14 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
 		}
 	}
 	
+	// Ecal recHits
+	if(keepAllEcalRecHits_)
+	{
+		if(verbosity_>1) cout << endl << "Analysing Ecal recHits collection..." << endl;
+		EcalRecHitsAnalyzer* myEcalRecHitsAnalyzer = new EcalRecHitsAnalyzer(producersNames_, verbosity_);
+		myEcalRecHitsAnalyzer->process(iEvent, rootEcalRecHits_);
+		delete myEcalRecHitsAnalyzer;
+	}
 	
 	// Electrons
 	if(doElectron_)
@@ -458,9 +481,9 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
 		myClusterAnalyzer->process(iEvent, rootEvent_, lazyTools, rootBasicClusters_, "multi5x5BasicClusters", "multi5x5EndcapBasicClusters", 320);
 		myClusterAnalyzer->process(iEvent, rootEvent_, lazyTools, rootBasicClusters_, "multi5x5BasicClusters", "multi5x5BarrelBasicClusters", 310);
 		// For Paolo M. skims:
-		myClusterAnalyzer->process(iEvent, rootEvent_, lazyTools, rootBasicClusters_, "islandBasicClusters", "islandBarrelBasicClusters", 110);
-		myClusterAnalyzer->process(iEvent, rootEvent_, lazyTools, rootBasicClusters_, "islandBasicClustersWeight", "islandBarrelBasicClusters", 410);
-		myClusterAnalyzer->process(iEvent, rootEvent_, lazyTools, rootBasicClusters_, "islandBasicClustersWeight", "islandEndcapBasicClusters", 420);
+		//myClusterAnalyzer->process(iEvent, rootEvent_, lazyTools, rootBasicClusters_, "islandBasicClusters", "islandBarrelBasicClusters", 110);
+		//myClusterAnalyzer->process(iEvent, rootEvent_, lazyTools, rootBasicClusters_, "islandBasicClustersWeight", "islandBarrelBasicClusters", 410);
+		//myClusterAnalyzer->process(iEvent, rootEvent_, lazyTools, rootBasicClusters_, "islandBasicClustersWeight", "islandEndcapBasicClusters", 420);
 		
 		delete myClusterAnalyzer;
 		
@@ -615,6 +638,7 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
 	if(doPhoton_) (*rootPhotons_).Delete();
 	if(doCluster_) (*rootBasicClusters_).Delete();
 	if(doCluster_) (*rootSuperClusters_).Delete();
+	if(keepAllEcalRecHits_ || keepClusterizedEcalRecHits_) (*rootEcalRecHits_).Delete();
 	if(doPhotonConversion_) (*rootConversionTracks_).Delete();
 	if(doMET_) (*rootMETs_).Delete();
 	if(doBardak_) delete rootBardak_;

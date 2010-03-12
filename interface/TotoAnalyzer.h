@@ -38,6 +38,7 @@
 #include "../interface/PhotonAnalyzer.h"
 #include "../interface/ClusterAnalyzer.h"
 #include "../interface/SuperClusterAnalyzer.h"
+#include "../interface/EcalRecHitsAnalyzer.h"
 #include "../interface/METAnalyzer.h"
 #include "../interface/ClusterAssociator.h"
 #include "../interface/ElectronAssociator.h"
@@ -59,6 +60,7 @@
 #include "../interface/TRootPhoton.h"
 #include "../interface/TRootCluster.h"
 #include "../interface/TRootSuperCluster.h"
+#include "../interface/TRootEcalRecHit.h"
 #include "../interface/TRootMET.h"
 #include "../interface/TRootBardak.h"
 
@@ -111,6 +113,8 @@ class TotoAnalyzer : public edm::EDAnalyzer
 		bool doElectron_;
 		bool doPhoton_;
 		bool doCluster_;
+		bool keepAllEcalRecHits_;
+		bool keepClusterizedEcalRecHits_;
 		bool doPhotonConversion_;
 		bool doPhotonIsolation_;
 		bool doMET_;
@@ -139,6 +143,7 @@ class TotoAnalyzer : public edm::EDAnalyzer
 		TClonesArray* rootPhotons_;
 		TClonesArray* rootBasicClusters_;
 		TClonesArray* rootSuperClusters_;
+		TClonesArray* rootEcalRecHits_;
 		TClonesArray* rootConversionTracks_;
 		TClonesArray* rootMETs_;
 		TRootBardak* rootBardak_;
