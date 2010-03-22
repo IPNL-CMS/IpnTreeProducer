@@ -22,6 +22,8 @@ process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_cff')
 #process.GlobalTag.globaltag = 'GR09_P_V8::All'
 # For 3_4_2
 process.GlobalTag.globaltag = 'GR10_P_V1::All'
+# For 3_5_4
+#process.GlobalTag.globaltag = 'GR10_P_V2::All'
 
 # Global geometry
 #process.load("Configuration.StandardSequences.Geometry_cff")
@@ -43,14 +45,15 @@ process.load("TrackingTools.TransientTrack.TransientTrackBuilder_cfi")
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(5)
+    input = cms.untracked.int32(50)
 )
 
 
 process.source = cms.Source("PoolSource",
 
 # RECO
-fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/user/h/hbrun/BSCSkim_MinBiasFilter/data/BSCFilter_Jan29_v8_MinBiasFilter_Run123596_88.root')
+#fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/user/c/ccecal/BEAM/Skims/InterestingEvents/bit40or41skim_minBiasRECO_run130910.root')
+ fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/user/h/hbrun/BSCSkim_MinBiasFilter/data/BSCFilter_Jan29_v8_MinBiasFilter_Run123596_88.root')
 #	fileNames = cms.untracked.vstring(
 #   'file:/sps/cms/morgan/data/CMSSW_3_1_2__RelValH130GGgluonfusion__GEN-SIM-RECO__STARTUP31X_V2-v1__0007__104E25AC-CC78-DE11-AE55-001D09F2447F.root'
 #   ,'file:/sps/cms/morgan/data/CMSSW_3_1_2__RelValH130GGgluonfusion__GEN-SIM-RECO__STARTUP31X_V2-v1__0007__748489A8-CC78-DE11-991C-000423D99896.root'

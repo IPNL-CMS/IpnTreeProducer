@@ -241,9 +241,9 @@ void TotoAnalyzer::beginJob(const edm::EventSetup&)
 		eventTree_->Branch ("ConversionTracks", "TClonesArray", &rootConversionTracks_);
 		
 		conversionLikelihoodCalculator_ = new ConversionLikelihoodCalculator();
-		std::string weightsString =  myConfig_.getUntrackedParameter<string>("conversionLikelihoodWeightsFile","RecoEgamma/EgammaTools/data/TMVAnalysis_Likelihood.weights.txt");
-		edm::FileInPath weightsFile(weightsString.c_str() );
-		conversionLikelihoodCalculator_->setWeightsFile(weightsFile.fullPath().c_str());
+		//std::string weightsString =  myConfig_.getUntrackedParameter<string>("conversionLikelihoodWeightsFile","RecoEgamma/EgammaTools/data/TMVAnalysis_Likelihood.weights.txt");
+		//edm::FileInPath weightsFile(weightsString.c_str() );
+		//conversionLikelihoodCalculator_->setWeightsFile(weightsFile.fullPath().c_str());
 	}
 	
 	if(doMET_)
