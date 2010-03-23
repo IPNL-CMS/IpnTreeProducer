@@ -13,7 +13,6 @@
 #include "FWCore/Framework/interface/EDAnalyzer.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "DataFormats/Provenance/interface/EventID.h"
-#include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "FWCore/Utilities/interface/EDMException.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
@@ -77,7 +76,7 @@ class TotoAnalyzer : public edm::EDAnalyzer
 		~TotoAnalyzer();
 		
 	private:
-		virtual void beginJob(const edm::EventSetup&) ;
+		virtual void beginJob() ;
 		virtual void analyze(const edm::Event&, const edm::EventSetup&);
 		virtual void endJob() ;
 		

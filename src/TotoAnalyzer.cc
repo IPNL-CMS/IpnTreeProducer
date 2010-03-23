@@ -59,7 +59,7 @@ TotoAnalyzer::~TotoAnalyzer()
 
 
 // ------------ method called once each job just before starting event loop  ------------
-void TotoAnalyzer::beginJob(const edm::EventSetup&)
+void TotoAnalyzer::beginJob()
 {
 		
 	// Load Config parameters
