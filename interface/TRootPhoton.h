@@ -656,7 +656,7 @@ class TRootPhoton : public TRootParticle
 			<< " vertex=("<< photon.vx() <<","<< photon.vy() <<","<< photon.vz() << ")"
 			<< " caloPosition=(" << photon.caloPosition().X() << "," << photon.caloPosition().Y() << "," << photon.caloPosition().Z() << ")"
 			<< " hasPxlSeed=" << photon. hasPixelSeed() <<"  E5x5=" << photon.e5x5() <<"  R19=" << photon.r19()
-			<<"  R9=" << photon.r9() <<"  hoe=" << photon.hoe()  <<"  Pi0=" << photon.pi0nn();
+			<<"  R9=" << photon.r9() <<"  hoe=" << photon.hoe()  <<"  Pi0=" << photon.pi0nn()  <<"  nTracksConv=" << photon.convNTracks();
 			return stream;
 		};
 		
@@ -676,7 +676,10 @@ class TRootPhoton : public TRootParticle
 			<< " ntracks-hollow=" << this->isolationNTracksHollowCone() << " track-solid=" << this->isolationSolidTrkCone() << " ntracks-solid=" << this->isolationNTracksSolidCone() << endl
 			<<"            isLoosePhoton=" << this->isLoosePhoton()  << " isTightPhoton=" << this->isTightPhoton()
 			<<"  isEBPho=" << this->isEBPho() << " isEEPho=" << this->isEEPho()  << " isEBGap=" << this->isEBGap()
-			<<"  isEEGap=" << this->isEEGap() << " isEBEEGap=" << this->isEBEEGap()  << " isAlsoElectron=" << this->isAlsoElectron();
+			<<"  isEEGap=" << this->isEEGap() << " isEBEEGap=" << this->isEBEEGap()  << " isAlsoElectron=" << this->isAlsoElectron()  <<"  nTracksConv=" << this->convNTracks();
+			if (this->convNTracks()>1)
+				std::cout << endl << "Conversion: E/p=" << this->convEoverP() << " Mass=" << this->convMass() << " cotan(Theta)=" << this->convCotanTheta() << " Likely=" << this->convLikely()
+				<< " (vx,vy,vz)=(" << this->convVertex().X() << ","<< this->convVertex().Y() << ","<< this->convVertex().Z() << ")";
 		};
 		
 		
@@ -759,7 +762,7 @@ class TRootPhoton : public TRootParticle
 				// not working in 2.2.X
 				Float_t pi0nn_;          // neural network output of gamma/pi0 discriminator  (0=pi0-like  1=photon-like)
 				
-				ClassDef (TRootPhoton,6);
+				ClassDef (TRootPhoton,7);
 				
 		};
 		
