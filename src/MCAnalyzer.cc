@@ -713,15 +713,18 @@ bool MCAnalyzer::processTopTopEvent(const edm::Event& iEvent, TClonesArray* root
 			int nW = 0; int nE = 0; int nMu = 0; int nTau = 0; int nb = 0; int nQQ = 0;
 			// distinguish between cases where daughters are 2 or 3 in order to patch a misbehaviour of MadGraph:
 			// sometimes the W does not show up in the daughters list
-			if (p.numberOfDaughters() == 2)
+                        cout << "Top N daughters: " << p.numberOfDaughters() << endl;
+			if (p.numberOfDaughters() >= 2)
 			{
 				const reco::Candidate* daug0 = p.daughter( 0 );
 				const reco::Candidate* daug1 = p.daughter( 1 );
+                                cout << "Top daughters: " << daug0->pdgId() << " " << daug1->pdgId() << endl;
 				if(abs(daug0->pdgId()) == 24)
 				{
 					//explicitely look for top -> W + quark and W to leptons or W to qqbar
 					WNDau.push_back(daug0->numberOfDaughters());
 					nW = 1;
+                                        cout << "W0 daughters: " << (daug0->daughter(0))->pdgId() << " " << (daug0->daughter(1))->pdgId() << endl;
 					if (abs((daug0->daughter(0))->pdgId()) == 11 || abs((daug0->daughter(1))->pdgId()) == 11) nE = 1;
 					if (abs((daug0->daughter(0))->pdgId()) == 13 || abs((daug0->daughter(1))->pdgId()) == 13) nMu = 1;
 					if (abs((daug0->daughter(0))->pdgId()) == 15 || abs((daug0->daughter(1))->pdgId()) == 15) nTau = 1;
@@ -731,40 +734,13 @@ bool MCAnalyzer::processTopTopEvent(const edm::Event& iEvent, TClonesArray* root
 				{
 					WNDau.push_back(daug1->numberOfDaughters());
 					nW = 1;
+                                        cout << "W1 daughters: " << (daug1->daughter(0))->pdgId() << " " << (daug1->daughter(1))->pdgId() << endl;
 					if (abs((daug1->daughter(0))->pdgId()) == 11 || abs((daug1->daughter(1))->pdgId()) == 11) nE = 1;
 					if (abs((daug1->daughter(0))->pdgId()) == 13 || abs((daug1->daughter(1))->pdgId()) == 13) nMu = 1;
 					if (abs((daug1->daughter(0))->pdgId()) == 15 || abs((daug1->daughter(1))->pdgId()) == 15) nTau = 1;
 					if (abs((daug1->daughter(0))->pdgId()) < 6 && abs((daug1->daughter(1))->pdgId()) < 6) nQQ = 1;
 				}
 				if (abs(daug0->pdgId()) == 5 || abs(daug1->pdgId()) == 5) nb = 1;
-			} else if (p.numberOfDaughters() == 3)
-			{
-				const reco::Candidate* daug0 = p.daughter( 0 );
-				const reco::Candidate* daug1 = p.daughter( 1 );
-				const reco::Candidate* daug2 = p.daughter( 2 );
-				if (abs(daug0->pdgId()) == 11 || abs(daug1->pdgId()) == 11 || abs(daug2->pdgId()) == 11) nE = 1;
-				if (abs(daug0->pdgId()) == 13 || abs(daug1->pdgId()) == 13 || abs(daug2->pdgId()) == 13) nMu = 1;
-				if (abs(daug0->pdgId()) == 15 || abs(daug1->pdgId()) == 15 || abs(daug2->pdgId()) == 15) nTau = 1;
-				if (
-					(abs(daug0->pdgId()) == 5 && id*(daug0->pdgId()) > 0)
-					|| (abs(daug1->pdgId()) == 5 && id*(daug1->pdgId()) > 0)
-					|| (abs(daug2->pdgId()) == 5 && id*(daug2->pdgId()) > 0)
-				) nb = 1;
-				if (
-					(abs(daug0->pdgId()) < 4 && abs(daug1->pdgId()) < 4)
-					|| (abs(daug2->pdgId()) < 4 && abs(daug1->pdgId()) < 4)
-				) nQQ = 1;
-				if (
-					( abs(daug0->pdgId()) == 5 && id*(daug0->pdgId()) < 0 && abs(daug1->pdgId()) < 4 )
-					|| ( abs(daug1->pdgId()) == 5 && id*(daug1->pdgId()) < 0 && (abs(daug0->pdgId()) < 4 || abs(daug2->pdgId()) < 4) )
-					|| ( abs(daug2->pdgId()) == 5 && id*(daug2->pdgId()) < 0 && abs(daug1->pdgId()) < 4 )
-				) nQQ = 1;
-
-				if (nE == 1 || nMu == 1 || nTau == 1 || nQQ == 1)
-				{
-					nW = 1;
-					WNDau.push_back(2);
-				}
 			}
 			topnW.push_back(nW);
 			topnE.push_back(nE);
@@ -773,7 +749,7 @@ bool MCAnalyzer::processTopTopEvent(const edm::Event& iEvent, TClonesArray* root
 			topnb.push_back(nb);
 			topnQQ.push_back(nQQ);
 			topIndexInList.push_back(q);
-			
+			cout << "top chain " << nW << " " << nE << " " << nMu << " " << nTau << " " << nb << " " << nQQ << " " << endl;
 		}
 		else
 		{

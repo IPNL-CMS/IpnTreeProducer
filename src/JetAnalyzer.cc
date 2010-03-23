@@ -34,6 +34,7 @@ bool JetAnalyzer::process(const edm::Event& iEvent, TClonesArray* rootJets)
 		|| jetProducer_.label()=="sisCone5CaloJets"
 		|| jetProducer_.label()=="sisCone7CaloJets"
 		|| jetProducer_.label()=="antikt5CaloJets"
+                || jetProducer_.label()=="ak5CaloJets"
 		) jetType="CALO";
 	
 	if( jetProducer_.label()=="kt4PFJets"
