@@ -1,6 +1,6 @@
 ObjSuf        = o
 SrcSuf        = cc
-ExeSuf        = 
+ExeSuf        =
 DllSuf        = so
 OutPutOpt     = -o
 HeadSuf       = h
@@ -17,8 +17,10 @@ LD			= g++
 LDFLAGS		= -g
 SOFLAGS		= -shared
 
+LDDIR = $(shell echo "-L" $$LD_LIBRARY_PATH |sed -e 's/:/ -L/g')
+
 CXXFLAGS	+= $(ROOTCFLAGS)
-LIBS		= $(ROOTLIBS) -lRFIO -lEG
+LIBS		= $(LDDIR) $(ROOTLIBS) -lRFIO -lEG
 GLIBS		= $(ROOTGLIBS)
 #------------------------------------------------------------------------------
 SOURCES		= $(wildcard TRoot*.cc)
