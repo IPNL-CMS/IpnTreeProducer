@@ -183,17 +183,51 @@ bool JetAnalyzer::process(const edm::Event& iEvent, TClonesArray* rootJets)
 		{
 			// Some specific methods to pat::Jet
 			const pat::Jet *patJet = dynamic_cast<const pat::Jet*>(&*jet);
-			
+					
 			// Variables from pat::Jet (Basic)
 			localJet.setBtag_trackCountingHighEff(patJet->bDiscriminator("trackCountingHighEffBJetTags"));
 			localJet.setBtag_trackCountingHighPur(patJet->bDiscriminator("trackCountingHighPurBJetTags"));
 			localJet.setBtag_jetProbability(patJet->bDiscriminator("jetProbabilityBJetTags"));
 			
-			// see DataFormats/PatCandidates/interface/JetCorrFactors.h
-			localJet.setBCorrection(patJet->corrFactor("part","b"));
-			localJet.setCCorrection(patJet->corrFactor("part","c"));
-			localJet.setUDSCorrection(patJet->corrFactor("part","uds"));
-			localJet.setGCorrection(patJet->corrFactor("part","glu"));
+			localJet.setSigmaEta(sqrt(patJet->etaetaMoment()));
+			localJet.setSigmaPhi(sqrt(patJet->phiphiMoment()));
+		
+			localJet.setN90Hits(patJet->jetID().n90Hits);
+			localJet.setRestrictedEMF(patJet->jetID().restrictedEMF);
+			localJet.setFHPD(patJet->jetID().fHPD);
+			localJet.setFRBX(patJet->jetID().fRBX);
+						
+			localJet.setL0Correction(patJet->corrFactor("raw",""));
+			localJet.setL1Correction(patJet->corrFactor("off",""));
+			localJet.setL2Correction(patJet->corrFactor("rel",""));
+			localJet.setL3Correction(patJet->corrFactor("abs",""));
+			localJet.setL4Correction(patJet->corrFactor("emf",""));
+			
+			localJet.setL5gCorrection(patJet->corrFactor("had","glu"));
+			localJet.setL5udsCorrection(patJet->corrFactor("had","uds"));
+			localJet.setL5cCorrection(patJet->corrFactor("had","c"));
+			localJet.setL5bCorrection(patJet->corrFactor("had","b"));
+			
+			localJet.setL6gCorrection(patJet->corrFactor("ue","glu"));
+			localJet.setL6udsCorrection(patJet->corrFactor("ue","uds"));
+			localJet.setL6cCorrection(patJet->corrFactor("ue","c"));
+			localJet.setL6bCorrection(patJet->corrFactor("ue","b"));
+			
+			localJet.setL7gCorrection(patJet->corrFactor("part","glu"));
+			localJet.setL7udsCorrection(patJet->corrFactor("part","uds"));
+			localJet.setL7cCorrection(patJet->corrFactor("part","c"));
+			localJet.setL7bCorrection(patJet->corrFactor("part","b"));
+			
+			/*
+			const std::vector<std::string> mylabels = patJet->corrFactorSetLabels();
+			cout << "size label=" << mylabels.size() << endl;
+			if (mylabels.size()>0) cout << "label(0)=" << mylabels.at(0) << endl;
+			for (std::vector<std::string>::const_iterator it=mylabels.begin();it!=mylabels.end(); ++it)
+			{
+			   cout << "label=" << *it << endl;	
+			}
+			*/
+			
 			
 			// Use  associated tracks to calculate charged broadness of the jet
 			// FIXME - Check generalTracks collection is present
