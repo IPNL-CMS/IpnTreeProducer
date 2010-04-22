@@ -57,18 +57,21 @@ class TRootElectron : public TRootParticle
       ,e3x3_(-9999.)
       ,e5x5_(-9999.)
       ,eMax_(-9999.)
-      ,isoR01_sumPt_(-9999.)
-      ,isoR01_nTracks_(-9999)
-      ,isoR02_sumPt_(-9999.)
-      ,isoR02_nTracks_(-9999)
-      ,isoR03_emEt_(-9999.)
-      ,isoR03_hadEt_(-9999.)
-      ,isoR03_sumPt_(-9999.)
-      ,isoR03_nTracks_(-9999)
-      ,isoR05_emEt_(-9999.)
-      ,isoR05_hadEt_(-9999.)
-      ,isoR05_sumPt_(-9999.)
-      ,isoR05_nTracks_(-9999)
+//      ,isoR01_sumPt_(-9999.)
+//      ,isoR01_nTracks_(-9999)
+//      ,isoR02_sumPt_(-9999.)
+//      ,isoR02_nTracks_(-9999)
+//      ,isoR03_emEt_(-9999.)
+//      ,isoR03_hadEt_(-9999.)
+//      ,isoR03_sumPt_(-9999.)
+//      ,isoR03_nTracks_(-9999)
+//      ,isoR05_emEt_(-9999.)
+//      ,isoR05_hadEt_(-9999.)
+//      ,isoR05_sumPt_(-9999.)
+//      ,isoR05_nTracks_(-9999)
+			,trackIso_(-9999)
+			,ecalIso_(-9999)
+			,hcalIso_(-9999)
       ,idCutBasedFixedThresholdLoose_(-1)
       ,idCutBasedFixedThresholdTight_(-1)
       ,idCutBasedFixedThresholdHighEnergy_(-1)
@@ -122,18 +125,21 @@ class TRootElectron : public TRootParticle
       ,e3x3_(electron.e3x3_)
       ,e5x5_(electron.e5x5_)
       ,eMax_(electron.eMax_)
-      ,isoR01_sumPt_(electron.isoR01_sumPt_)
-      ,isoR01_nTracks_(electron.isoR01_nTracks_)
-      ,isoR02_sumPt_(electron.isoR02_sumPt_)
-      ,isoR02_nTracks_(electron.isoR02_nTracks_)
-      ,isoR03_emEt_(electron.isoR03_emEt_)
-      ,isoR03_hadEt_(electron.isoR03_hadEt_)
-      ,isoR03_sumPt_(electron.isoR03_sumPt_)
-      ,isoR03_nTracks_(electron.isoR03_nTracks_)
-      ,isoR05_emEt_(electron.isoR05_emEt_)
-      ,isoR05_hadEt_(electron.isoR05_hadEt_)
-      ,isoR05_sumPt_(electron.isoR05_sumPt_)
-      ,isoR05_nTracks_(electron.isoR05_nTracks_)
+//      ,isoR01_sumPt_(electron.isoR01_sumPt_)
+//      ,isoR01_nTracks_(electron.isoR01_nTracks_)
+//      ,isoR02_sumPt_(electron.isoR02_sumPt_)
+//      ,isoR02_nTracks_(electron.isoR02_nTracks_)
+//      ,isoR03_emEt_(electron.isoR03_emEt_)
+//      ,isoR03_hadEt_(electron.isoR03_hadEt_)
+//      ,isoR03_sumPt_(electron.isoR03_sumPt_)
+//      ,isoR03_nTracks_(electron.isoR03_nTracks_)
+//      ,isoR05_emEt_(electron.isoR05_emEt_)
+//      ,isoR05_hadEt_(electron.isoR05_hadEt_)
+//      ,isoR05_sumPt_(electron.isoR05_sumPt_)
+//      ,isoR05_nTracks_(electron.isoR05_nTracks_)
+			,trackIso_(electron.trackIso_)
+			,ecalIso_(electron.ecalIso_)
+			,hcalIso_(electron.hcalIso_)
       ,idCutBasedFixedThresholdLoose_(electron.idCutBasedFixedThresholdLoose_)
       ,idCutBasedFixedThresholdTight_(electron.idCutBasedFixedThresholdTight_)
       ,idCutBasedFixedThresholdHighEnergy_(electron.idCutBasedFixedThresholdHighEnergy_)
@@ -187,18 +193,21 @@ class TRootElectron : public TRootParticle
       ,e3x3_(-9999.)
       ,e5x5_(-9999.)
       ,eMax_(-9999.)
-      ,isoR01_sumPt_(-9999.)
-      ,isoR01_nTracks_(-9999)
-      ,isoR02_sumPt_(-9999.)
-      ,isoR02_nTracks_(-9999)
-      ,isoR03_emEt_(-9999.)
-      ,isoR03_hadEt_(-9999.)
-      ,isoR03_sumPt_(-9999.)
-      ,isoR03_nTracks_(-9999)
-      ,isoR05_emEt_(-9999.)
-      ,isoR05_hadEt_(-9999.)
-      ,isoR05_sumPt_(-9999.)
-      ,isoR05_nTracks_(-9999)
+//      ,isoR01_sumPt_(-9999.)
+//      ,isoR01_nTracks_(-9999)
+//      ,isoR02_sumPt_(-9999.)
+//      ,isoR02_nTracks_(-9999)
+//      ,isoR03_emEt_(-9999.)
+//      ,isoR03_hadEt_(-9999.)
+//      ,isoR03_sumPt_(-9999.)
+//      ,isoR03_nTracks_(-9999)
+//      ,isoR05_emEt_(-9999.)
+//      ,isoR05_hadEt_(-9999.)
+//      ,isoR05_sumPt_(-9999.)
+//      ,isoR05_nTracks_(-9999)
+			,trackIso_(-9999)
+			,ecalIso_(-9999)
+			,hcalIso_(-9999)
       ,idCutBasedFixedThresholdLoose_(-1)
       ,idCutBasedFixedThresholdTight_(-1)
       ,idCutBasedFixedThresholdHighEnergy_(-1)
@@ -252,18 +261,21 @@ class TRootElectron : public TRootParticle
       ,e3x3_(-9999.)
       ,e5x5_(-9999.)
       ,eMax_(-9999.)
-      ,isoR01_sumPt_(-9999.)
-      ,isoR01_nTracks_(-9999)
-      ,isoR02_sumPt_(-9999.)
-      ,isoR02_nTracks_(-9999)
-      ,isoR03_emEt_(-9999.)
-      ,isoR03_hadEt_(-9999.)
-      ,isoR03_sumPt_(-9999.)
-      ,isoR03_nTracks_(-9999)
-      ,isoR05_emEt_(-9999.)
-      ,isoR05_hadEt_(-9999.)
-      ,isoR05_sumPt_(-9999.)
-      ,isoR05_nTracks_(-9999)
+//      ,isoR01_sumPt_(-9999.)
+//      ,isoR01_nTracks_(-9999)
+//      ,isoR02_sumPt_(-9999.)
+//      ,isoR02_nTracks_(-9999)
+//      ,isoR03_emEt_(-9999.)
+//      ,isoR03_hadEt_(-9999.)
+//      ,isoR03_sumPt_(-9999.)
+//      ,isoR03_nTracks_(-9999)
+//      ,isoR05_emEt_(-9999.)
+//      ,isoR05_hadEt_(-9999.)
+//      ,isoR05_sumPt_(-9999.)
+//      ,isoR05_nTracks_(-9999)
+			,trackIso_(-9999)
+			,ecalIso_(-9999)
+			,hcalIso_(-9999)
       ,idCutBasedFixedThresholdLoose_(-1)
       ,idCutBasedFixedThresholdTight_(-1)
       ,idCutBasedFixedThresholdHighEnergy_(-1)
@@ -317,18 +329,21 @@ class TRootElectron : public TRootParticle
       ,e3x3_(-9999.)
       ,e5x5_(-9999.)
       ,eMax_(-9999.)
-      ,isoR01_sumPt_(-9999.)
-      ,isoR01_nTracks_(-9999)
-      ,isoR02_sumPt_(-9999.)
-      ,isoR02_nTracks_(-9999)
-      ,isoR03_emEt_(-9999.)
-      ,isoR03_hadEt_(-9999.)
-      ,isoR03_sumPt_(-9999.)
-      ,isoR03_nTracks_(-9999)
-      ,isoR05_emEt_(-9999.)
-      ,isoR05_hadEt_(-9999.)
-      ,isoR05_sumPt_(-9999.)
-      ,isoR05_nTracks_(-9999)
+//      ,isoR01_sumPt_(-9999.)
+//      ,isoR01_nTracks_(-9999)
+//      ,isoR02_sumPt_(-9999.)
+//      ,isoR02_nTracks_(-9999)
+//      ,isoR03_emEt_(-9999.)
+//      ,isoR03_hadEt_(-9999.)
+//      ,isoR03_sumPt_(-9999.)
+//      ,isoR03_nTracks_(-9999)
+//      ,isoR05_emEt_(-9999.)
+//      ,isoR05_hadEt_(-9999.)
+//      ,isoR05_sumPt_(-9999.)
+//      ,isoR05_nTracks_(-9999)
+			,trackIso_(-9999)
+			,ecalIso_(-9999)
+			,hcalIso_(-9999)
       ,idCutBasedFixedThresholdLoose_(-1)
       ,idCutBasedFixedThresholdTight_(-1)
       ,idCutBasedFixedThresholdHighEnergy_(-1)
@@ -382,18 +397,21 @@ class TRootElectron : public TRootParticle
       ,e3x3_(-9999.)
       ,e5x5_(-9999.)
       ,eMax_(-9999.)
-      ,isoR01_sumPt_(-9999.)
-      ,isoR01_nTracks_(-9999)
-      ,isoR02_sumPt_(-9999.)
-      ,isoR02_nTracks_(-9999)
-      ,isoR03_emEt_(-9999.)
-      ,isoR03_hadEt_(-9999.)
-      ,isoR03_sumPt_(-9999.)
-      ,isoR03_nTracks_(-9999)
-      ,isoR05_emEt_(-9999.)
-      ,isoR05_hadEt_(-9999.)
-      ,isoR05_sumPt_(-9999.)
-      ,isoR05_nTracks_(-9999)
+//      ,isoR01_sumPt_(-9999.)
+//      ,isoR01_nTracks_(-9999)
+//      ,isoR02_sumPt_(-9999.)
+//      ,isoR02_nTracks_(-9999)
+//      ,isoR03_emEt_(-9999.)
+//      ,isoR03_hadEt_(-9999.)
+//      ,isoR03_sumPt_(-9999.)
+//      ,isoR03_nTracks_(-9999)
+//      ,isoR05_emEt_(-9999.)
+//      ,isoR05_hadEt_(-9999.)
+//      ,isoR05_sumPt_(-9999.)
+//      ,isoR05_nTracks_(-9999)
+			,trackIso_(-9999)
+			,ecalIso_(-9999)
+			,hcalIso_(-9999)
       ,idCutBasedFixedThresholdLoose_(-1)
       ,idCutBasedFixedThresholdTight_(-1)
       ,idCutBasedFixedThresholdHighEnergy_(-1)
@@ -447,18 +465,21 @@ class TRootElectron : public TRootParticle
       ,e3x3_(-9999.)
       ,e5x5_(-9999.)
       ,eMax_(-9999.)
-      ,isoR01_sumPt_(-9999.)
-      ,isoR01_nTracks_(-9999)
-      ,isoR02_sumPt_(-9999.)
-      ,isoR02_nTracks_(-9999)
-      ,isoR03_emEt_(-9999.)
-      ,isoR03_hadEt_(-9999.)
-      ,isoR03_sumPt_(-9999.)
-      ,isoR03_nTracks_(-9999)
-      ,isoR05_emEt_(-9999.)
-      ,isoR05_hadEt_(-9999.)
-      ,isoR05_sumPt_(-9999.)
-      ,isoR05_nTracks_(-9999)
+//      ,isoR01_sumPt_(-9999.)
+//      ,isoR01_nTracks_(-9999)
+//      ,isoR02_sumPt_(-9999.)
+//      ,isoR02_nTracks_(-9999)
+//      ,isoR03_emEt_(-9999.)
+//      ,isoR03_hadEt_(-9999.)
+//      ,isoR03_sumPt_(-9999.)
+//      ,isoR03_nTracks_(-9999)
+//      ,isoR05_emEt_(-9999.)
+//      ,isoR05_hadEt_(-9999.)
+//      ,isoR05_sumPt_(-9999.)
+//      ,isoR05_nTracks_(-9999)
+			,trackIso_(-9999)
+			,ecalIso_(-9999)
+			,hcalIso_(-9999)
       ,idCutBasedFixedThresholdLoose_(-1)
       ,idCutBasedFixedThresholdTight_(-1)
       ,idCutBasedFixedThresholdHighEnergy_(-1)
@@ -590,18 +611,21 @@ class TRootElectron : public TRootParticle
       Float_t r19() const { return ( e3x3_ == 0. ? -1. : eMax_/e3x3_ ); }  // ratio of Emax/E(3x3)
       // FIXME - Check definition of r9... include preshowerEnergy as in SimplePhotonAnalyzer.cc ?
       Float_t r9() const { return ( superClusterRawEnergy_ == 0. ? -1. : e3x3_/superClusterRawEnergy_ ); } // ratio of E(3x3)/ESC
-      Float_t isoR01_sumPt() const { return isoR01_sumPt_ ;}
-      Int_t isoR01_nTracks() const { return isoR01_nTracks_ ;}
-      Float_t isoR02_sumPt() const { return isoR02_sumPt_ ;}
-      Int_t isoR02_nTracks() const { return isoR02_nTracks_ ;}
-      Float_t isoR03_emEt() const { return isoR03_emEt_ ;}
-      Float_t isoR03_hadEt() const { return isoR03_hadEt_ ;}
-      Float_t isoR03_sumPt() const { return isoR03_sumPt_ ;}
-      Int_t isoR03_nTracks() const { return isoR03_nTracks_ ;}
-      Float_t isoR05_emEt() const { return isoR05_emEt_ ;}
-      Float_t isoR05_hadEt() const { return isoR05_hadEt_ ;}
-      Float_t isoR05_sumPt() const { return isoR05_sumPt_ ;}
-      Int_t isoR05_nTracks() const { return isoR05_nTracks_ ;}
+//      Float_t isoR01_sumPt() const { return isoR01_sumPt_ ;}
+//      Int_t isoR01_nTracks() const { return isoR01_nTracks_ ;}
+//      Float_t isoR02_sumPt() const { return isoR02_sumPt_ ;}
+//      Int_t isoR02_nTracks() const { return isoR02_nTracks_ ;}
+//      Float_t isoR03_emEt() const { return isoR03_emEt_ ;}
+//      Float_t isoR03_hadEt() const { return isoR03_hadEt_ ;}
+//      Float_t isoR03_sumPt() const { return isoR03_sumPt_ ;}
+//      Int_t isoR03_nTracks() const { return isoR03_nTracks_ ;}
+//      Float_t isoR05_emEt() const { return isoR05_emEt_ ;}
+//      Float_t isoR05_hadEt() const { return isoR05_hadEt_ ;}
+//      Float_t isoR05_sumPt() const { return isoR05_sumPt_ ;}
+//      Int_t isoR05_nTracks() const { return isoR05_nTracks_ ;}
+			Float_t trackIso() const {return trackIso_;}
+			Float_t ecalIso() const {return ecalIso_;}
+			Float_t hcalIso() const {return hcalIso_;}
       Int_t idCutBasedFixedThresholdLoose() const { return idCutBasedFixedThresholdLoose_ ;}
       Int_t idCutBasedFixedThresholdTight() const { return idCutBasedFixedThresholdTight_ ;}
       Int_t idCutBasedFixedThresholdHighEnergy() const { return idCutBasedFixedThresholdHighEnergy_ ;}
@@ -670,18 +694,21 @@ class TRootElectron : public TRootParticle
       void setE3x3(Float_t e3x3) { e3x3_ = e3x3; }
       void setE5x5(Float_t e5x5) { e5x5_ = e5x5; }
       void setEMax(Float_t eMax) { eMax_ = eMax; }
-      void setIsoR01_sumPt(Float_t isoR01_sumPt) { isoR01_sumPt_ = isoR01_sumPt; }
-      void setIsoR01_nTracks(Int_t isoR01_nTracks) { isoR01_nTracks_ = isoR01_nTracks; }
-      void setIsoR02_sumPt(Float_t isoR02_sumPt) { isoR02_sumPt_ = isoR02_sumPt; }
-      void setIsoR02_nTracks(Int_t isoR02_nTracks) { isoR02_nTracks_ = isoR02_nTracks; }
-      void setIsoR03_emEt(Float_t isoR03_emEt) { isoR03_emEt_ = isoR03_emEt; }
-      void setIsoR03_hadEt(Float_t isoR03_hadEt) { isoR03_hadEt_ = isoR03_hadEt; }
-      void setIsoR03_sumPt(Float_t isoR03_sumPt) { isoR03_sumPt_ = isoR03_sumPt; }
-      void setIsoR03_nTracks(Int_t isoR03_nTracks) { isoR03_nTracks_ = isoR03_nTracks; }
-      void setIsoR05_emEt(Float_t isoR05_emEt) { isoR05_emEt_ = isoR05_emEt; }
-      void setIsoR05_hadEt(Float_t isoR05_hadEt) { isoR05_hadEt_ = isoR05_hadEt; }
-      void setIsoR05_sumPt(Float_t isoR05_sumPt) { isoR05_sumPt_ = isoR05_sumPt; }
-      void setIsoR05_nTracks(Int_t isoR05_nTracks) { isoR05_nTracks_ = isoR05_nTracks; }
+//      void setIsoR01_sumPt(Float_t isoR01_sumPt) { isoR01_sumPt_ = isoR01_sumPt; }
+//      void setIsoR01_nTracks(Int_t isoR01_nTracks) { isoR01_nTracks_ = isoR01_nTracks; }
+//      void setIsoR02_sumPt(Float_t isoR02_sumPt) { isoR02_sumPt_ = isoR02_sumPt; }
+//      void setIsoR02_nTracks(Int_t isoR02_nTracks) { isoR02_nTracks_ = isoR02_nTracks; }
+//      void setIsoR03_emEt(Float_t isoR03_emEt) { isoR03_emEt_ = isoR03_emEt; }
+//      void setIsoR03_hadEt(Float_t isoR03_hadEt) { isoR03_hadEt_ = isoR03_hadEt; }
+//      void setIsoR03_sumPt(Float_t isoR03_sumPt) { isoR03_sumPt_ = isoR03_sumPt; }
+//      void setIsoR03_nTracks(Int_t isoR03_nTracks) { isoR03_nTracks_ = isoR03_nTracks; }
+//      void setIsoR05_emEt(Float_t isoR05_emEt) { isoR05_emEt_ = isoR05_emEt; }
+//      void setIsoR05_hadEt(Float_t isoR05_hadEt) { isoR05_hadEt_ = isoR05_hadEt; }
+//      void setIsoR05_sumPt(Float_t isoR05_sumPt) { isoR05_sumPt_ = isoR05_sumPt; }
+//      void setIsoR05_nTracks(Int_t isoR05_nTracks) { isoR05_nTracks_ = isoR05_nTracks; }
+      void setTrackIso(Float_t trackIso) { trackIso_ = trackIso; }
+      void setEcalIso(Float_t ecalIso) { ecalIso_ = ecalIso; }
+      void setHcalIso(Float_t hcalIso) { hcalIso_ = hcalIso; }
       void setIDCutBasedFixedThresholdLoose(Int_t idCutBasedFixedThresholdLoose) { idCutBasedFixedThresholdLoose_ = idCutBasedFixedThresholdLoose; }
       void setIDCutBasedFixedThresholdTight(Int_t idCutBasedFixedThresholdTight) { idCutBasedFixedThresholdTight_ = idCutBasedFixedThresholdTight; }
       void setIDCutBasedFixedThresholdHighEnergy(Int_t idCutBasedFixedThresholdHighEnergy) { idCutBasedFixedThresholdHighEnergy_ = idCutBasedFixedThresholdHighEnergy; }
@@ -711,8 +738,9 @@ class TRootElectron : public TRootParticle
          << " R19=" << this->r19() <<" R9=" << this->r9() << endl
          <<"            H/E=" << this->hadOverEm() <<"  deltaEtaIn=" << this->deltaEtaIn() <<"  deltaPhiIn=" << this->deltaPhiIn() <<"  deltaEtaOut=" << this->deltaEtaOut() <<"  deltaPhiOut=" << this->deltaPhiOut() <<"  E/p in=" << this->energySuperClusterOverPin() <<"  E/p out=" << this->energySeedClusterOverPout() << endl
          << "            reco iso03  ecal="<< this->dr03EcalRecHitSumEt() << " hcal1=" << this->dr03HcalDepth1TowerSumEt() << " hcal2=" << this->dr03HcalDepth2TowerSumEt() << " tracker=" << this->dr03TkSumPt() << endl 
-         << "            pat iso03  ecal="<< this->isoR03_emEt() << " hcal=" << this->isoR03_hadEt() << " tracker=" << this->isoR03_sumPt() << " ntracks=" << this->isoR03_nTracks() << endl
-         << "            pat iso05  ecal="<< this->isoR05_emEt() << " hcal=" << this->isoR05_hadEt() << " tracker=" << this->isoR05_sumPt() << " ntracks=" << this->isoR05_nTracks() << endl
+         //<< "            pat iso03  ecal="<< this->isoR03_emEt() << " hcal=" << this->isoR03_hadEt() << " tracker=" << this->isoR03_sumPt() << " ntracks=" << this->isoR03_nTracks() << endl
+         //<< "            pat iso05  ecal="<< this->isoR05_emEt() << " hcal=" << this->isoR05_hadEt() << " tracker=" << this->isoR05_sumPt() << " ntracks=" << this->isoR05_nTracks() << endl
+				 << "            pat iso (no isodeposit) ecal="<< this->trackIso()<<" hcal="<<this->hcalIso()<<" tracker="<<this->trackIso()<<endl
          <<"            ID:  Fixed-Threshold(Loose,Tight,HighEnergy)=(" << this->idCutBasedFixedThresholdLoose() << "," << this->idCutBasedFixedThresholdTight()  << "," << this->idCutBasedFixedThresholdHighEnergy() << ")"
          <<"  Categorized(Loose,Tight)=(" << this->idCutBasedCategorizedLoose() << "," << this->idCutBasedCategorizedTight()  << ")"
          <<"  LH=" << this->idLikelihood() << "  NN=" << this->idNeuralNet() << "  isAlsoPhoton=" << this->isAlsoPhoton();
@@ -815,21 +843,30 @@ class TRootElectron : public TRootParticle
 
 
       // pat::Electron Isolation
-      Float_t isoR01_sumPt_;
-      Int_t isoR01_nTracks_;
+			// stephane 7/04/2010 
+			// We have to check this part
+			// the results are not what we expect
+//      Float_t isoR01_sumPt_;
+//      Int_t isoR01_nTracks_;
+//
+//      Float_t isoR02_sumPt_;
+//      Int_t isoR02_nTracks_;
+//
+//      Float_t isoR03_emEt_;
+//      Float_t isoR03_hadEt_;
+//      Float_t isoR03_sumPt_;
+//      Int_t isoR03_nTracks_;
+//
+//      Float_t isoR05_emEt_;
+//      Float_t isoR05_hadEt_;
+//      Float_t isoR05_sumPt_; // Pt sum of tracks in a DR=0.5 cone around the electron
+//      Int_t isoR05_nTracks_; // Tracks multiplicity in a DR=0.5 cone around the electron
+			
+			// correct pat isolation (april 2010) -- electron footprint removed
+			Float_t trackIso_; // returns the value of the summed track pt in a cone of deltaR<0.4
+			Float_t ecalIso_; // returns the value of the summed Et of all recHits in the ecal in a cone of deltaR<0.4
+			Float_t hcalIso_; // returns the value of the summed Et of all recHits in the hcal in a cone of deltaR<0.4
 
-      Float_t isoR02_sumPt_;
-      Int_t isoR02_nTracks_;
-
-      Float_t isoR03_emEt_;
-      Float_t isoR03_hadEt_;
-      Float_t isoR03_sumPt_;
-      Int_t isoR03_nTracks_;
-
-      Float_t isoR05_emEt_;
-      Float_t isoR05_hadEt_;
-      Float_t isoR05_sumPt_; // Pt sum of tracks in a DR=0.5 cone around the electron
-      Int_t isoR05_nTracks_; // Tracks multiplicity in a DR=0.5 cone around the electron
 
 
       // Electron ID (cf https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideElectronID)
@@ -849,7 +886,7 @@ class TRootElectron : public TRootParticle
       //Float_t sigmaPhiPhi_;
 
 
-      ClassDef (TRootElectron,6);
+      ClassDef (TRootElectron,7);
 
 };
 
