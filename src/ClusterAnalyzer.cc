@@ -136,14 +136,11 @@ bool ClusterAnalyzer::process(const edm::Event& iEvent, TRootEvent* rootEvent, E
 					continue;
 				}
 			}
-			
-			//Sort rechits by energy using Lambda (BOOST Library)
-			//std::sort(iv.begin(), iv.end(), var(hitsEnergy)[_1]>var(hitsEnergy)[_2] );
-			//std::vector<TRootEcalRecHit> sortedHits;
-			//if (! keepClusterizedEcalRecHits_ ) break;
-			//sortedHits.push_back( hits.at(*it));
-			//localClus.setHits(sortedHits);
+
+			// FIXME - Implement ordering method in TRootEcalRecHit.h
 			std::sort(hits.begin(), hits.end());
+			// if keepClusterizedEcalRecHits_=false, then keep only rechit associated to seed crystal
+			if (! keepClusterizedEcalRecHits_ ) hits.resize(1);
 			localClus.setHits(hits);
 		}
 		
