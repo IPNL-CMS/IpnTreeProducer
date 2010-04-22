@@ -13,16 +13,21 @@ class TRootEcalRecHit : public TObject
 		
 		enum Flags
 		{
-			kGood                  // channel ok, the energy and time measurement are reliable
-			,kPoorReco             // the energy is available from the UncalibRecHit, but approximate (bad shape, large chi2)
-			,kOutOfTime            // the energy is available from the UncalibRecHit (sync reco), but the event is out of time
-			,kFaultyHardware       // The energy is available from the UncalibRecHit, channel is faulty at some hardware level (e.g. noisy)
-			,kPoorCalib            // the energy is available from the UncalibRecHit, but the calibration of the channel is poor
-			,kSaturated            // saturated channel (recovery not tried)
-			,kLeadingEdgeRecovered // saturated channel: energy estimated from the leading edge before saturation
-			,kNeighboursRecovered  // saturated/isolated dead: energy estimated from neighbours
-			,kTowerRecovered       // channel in TT with no data link, info retrieved from Trigger Primitive
-			,kDead                 // channel is dead and any recovery fails
+			kGood=0,               // channel ok, the energy and time measurement are reliable
+			kPoorReco,             // the energy is available from the UncalibRecHit, but approximate (bad shape, large chi2)
+			kOutOfTime,            // the energy is available from the UncalibRecHit (sync reco), but the event is out of time
+			kFaultyHardware,       // The energy is available from the UncalibRecHit, channel is faulty at some hardware level (e.g. noisy)
+			kNoisy,                // the channel is very noisy
+			kPoorCalib,            // the energy is available from the UncalibRecHit, but the calibration of the channel is poor
+			kSaturated,            // saturated channel (recovery not tried)
+			kLeadingEdgeRecovered, // saturated channel: energy estimated from the leading edge before saturation
+			kNeighboursRecovered,  // saturated/isolated dead: energy estimated from neighbours
+			kTowerRecovered,       // channel in TT with no data link, info retrieved from Trigger Primitive
+			kFake,                 // the signal in the channel is a fake (e.g. a so-called spike)
+			kFakeNeighbours,       // the signal in the channel is a fake and it is detected by looking at the neighbours
+			kDead,                 // channel is dead and any recovery fails
+			kKilled,               // MC only flag: the channel is killed in the real detector
+			kUnknown               // to easy the interface with functions returning flags
 		};
 		
 		TRootEcalRecHit() :
@@ -71,19 +76,33 @@ class TRootEcalRecHit : public TObject
 		void setPosition1(Int_t position1) { position1_ = position1; }
 		void setPosition2(Int_t position2) { position2_ = position2; }
 		
-		bool operator< (const TRootEcalRecHit & rhs) { return energy_<rhs.energy_; }
+		//bool operator< (const TRootEcalRecHit & rhs) { return energy_<rhs.energy_; }
 		
 		friend std::ostream& operator<< (std::ostream& stream, const TRootEcalRecHit& hit)
 		{
-			stream << "TRootEcalRecHit - Det=" << hit.detector() << " Flag=" << hit.recoFlag() << " energy=" << hit.energy()
-			<< " time=" << hit.time() << " position1=" << hit.position1()<< " position2=" << hit.position2();
+			if (hit.detector()==1)
+				stream << "TRootEcalRecHit - Det=" << hit.detector() << " Flag=" << hit.recoFlag() << " energy=" << hit.energy()
+				<< " time=" << hit.time() << " ieta=" << hit.position1()<< " iphi=" << hit.position2();
+			else if (hit.detector()==2)
+				stream << "TRootEcalRecHit - Det=" << hit.detector() << " Flag=" << hit.recoFlag() << " energy=" << hit.energy()
+				<< " time=" << hit.time() << " ix=" << hit.position1()<< " iy=" << hit.position2();
+			else
+				stream << "TRootEcalRecHit - Det=" << hit.detector() << " Flag=" << hit.recoFlag() << " energy=" << hit.energy()
+				<< " time=" << hit.time() << " position1=" << hit.position1()<< " position2=" << hit.position2();
 			return stream;
 		};
 		
 		void Print()
 		{
-			std::cout << "TRootEcalRecHit - Det=" << this->detector() << " Flag=" << this->recoFlag() << " energy=" << this->energy()
-			<< " time=" << this->time() << " position1=" << this->position1()<< " position2=" << this->position2();
+			if (detector_==1)
+				std::cout << "TRootEcalRecHit - Det=" << this->detector() << " Flag=" << this->recoFlag() << " energy=" << this->energy()
+				<< " time=" << this->time() << " ieta=" << this->position1()<< " iphi=" << this->position2();
+			else if (detector_==2)
+				std::cout << "TRootEcalRecHit - Det=" << this->detector() << " Flag=" << this->recoFlag() << " energy=" << this->energy()
+				<< " time=" << this->time() << " ix=" << this->position1()<< " iy=" << this->position2();
+			else
+				std::cout << "TRootEcalRecHit - Det=" << this->detector() << " Flag=" << this->recoFlag() << " energy=" << this->energy()
+				<< " time=" << this->time() << " position1=" << this->position1()<< " position2=" << this->position2();			
 		};
 		
 		
@@ -96,8 +115,9 @@ class TRootEcalRecHit : public TObject
 		Int_t position1_; // ieta or ix of the rechit
 		Int_t position2_; // iphi or iy of the rechit
 		
-		ClassDef (TRootEcalRecHit,1);
+		ClassDef (TRootEcalRecHit,2);
 		
 };
+
 
 #endif
