@@ -10,6 +10,8 @@ JetAnalyzer::JetAnalyzer(const edm::ParameterSet& producersNames, const edm::Par
 	jetProducer_ = producersNames.getParameter<edm::InputTag>("jetProducer");
 	useMC_ = myConfig.getUntrackedParameter<bool>("doJetMC");
 	allowMissingCollection_ = producersNames.getUntrackedParameter<bool>("allowMissingCollection", false);
+	//	jetID_ = producersNames.getParameter<edm::ParameterSet>("jetID");
+	//	jetIDHelper = reco::helper::JetIDHelper(myConfig.getParameter<edm::ParameterSet>("jetID")  );
 }
 
 JetAnalyzer::~JetAnalyzer()
@@ -25,7 +27,9 @@ bool JetAnalyzer::process(const edm::Event& iEvent, TClonesArray* rootJets)
 {
 	
 	unsigned int nJets=0;
-	
+
+	//        jetIDHelper = reco::helper::JetIDHelper(jetID_);
+
 	// reco::CaloJet or reco::PFJet ?
 	std::string jetType = "BASIC";
 	if( jetProducer_.label()=="kt4CaloJets"
@@ -48,6 +52,7 @@ bool JetAnalyzer::process(const edm::Event& iEvent, TClonesArray* rootJets)
 	edm::Handle < std::vector <reco::CaloJet> > recoCaloJets;
 	if( dataType_=="RECO" && jetType=="CALO" )
 	{
+
 		try
 		{
 			iEvent.getByLabel(jetProducer_, recoCaloJets);
@@ -156,6 +161,18 @@ bool JetAnalyzer::process(const edm::Event& iEvent, TClonesArray* rootJets)
 			
 			if( jetType=="CALO" )
 			{
+
+			  /*			        //JetID for calojets
+			        jetIDHelper.calculate(iEvent, (*recoCaloJets)[j]);
+			        //JetID vars
+			        localJet.setN90Hits(jetIDHelper.n90Hits());
+			        localJet.setRestrictedEMF(jetIDHelper.restrictedEMF());
+			        localJet.setFHPD(jetIDHelper.fHPD());
+			        localJet.setFRBX(jetIDHelper.fRBX());
+			  */
+          			localJet.setSigmaEta(sqrt(jet->etaetaMoment()));
+		        	localJet.setSigmaPhi(sqrt(jet->phiphiMoment()));
+
 				// Variables from reco::CaloJet
 				const reco::CaloJet *caloJet = dynamic_cast<const reco::CaloJet*>(&*jet);
 				localJet.setJetType(1);
@@ -188,6 +205,40 @@ bool JetAnalyzer::process(const edm::Event& iEvent, TClonesArray* rootJets)
 			localJet.setBtag_trackCountingHighEff(patJet->bDiscriminator("trackCountingHighEffBJetTags"));
 			localJet.setBtag_trackCountingHighPur(patJet->bDiscriminator("trackCountingHighPurBJetTags"));
 			localJet.setBtag_jetProbability(patJet->bDiscriminator("jetProbabilityBJetTags"));
+
+			//cout << "softElectronBJetTags " << patJet->bDiscriminator("softBBJetTags") << endl;
+			//cout << "softMuonBJetTags " << patJet->bDiscriminator("softMuonBJetTags") << endl;
+
+			if (patJet->bDiscriminator("softElectronBJetTags") > -1000.) {
+			  localJet.setBtag_soft_e(patJet->bDiscriminator("softElectronBJetTags"));
+			} else {
+			  localJet.setBtag_soft_e(-1000.);
+			}
+			if (patJet->bDiscriminator("softElectronByPtBJetTags") > -1000.) {
+			  localJet.setBtag_soft_e(patJet->bDiscriminator("softElectronByPtBJetTags"));
+			} else {
+			  localJet.setBtag_soft_e_pt(-1000.);
+			}
+			if (patJet->bDiscriminator("softElectronByIP3dBJetTags") > -1000.) {
+			  localJet.setBtag_soft_e(patJet->bDiscriminator("softElectronByIP3dBJetTags"));
+			} else {
+			  localJet.setBtag_soft_e_ip(-1000.);
+			}
+			if (patJet->bDiscriminator("softMuonBJetTags") > -1000.) {
+			  localJet.setBtag_soft_mu(patJet->bDiscriminator("softMuonBJetTags"));
+			} else {
+			  localJet.setBtag_soft_mu(-1000.);
+			}
+			if (patJet->bDiscriminator("softMuonByPtBJetTags") > -1000.) {
+			  localJet.setBtag_soft_mu(patJet->bDiscriminator("softMuonByPtBJetTags"));
+			} else {
+			  localJet.setBtag_soft_mu_pt(-1000.);
+			}
+			if (patJet->bDiscriminator("softMuonByIP3dBJetTags") > -1000.) {
+			  localJet.setBtag_soft_mu(patJet->bDiscriminator("softMuonByIP3dBJetTags"));
+			} else {
+			  localJet.setBtag_soft_mu_ip(-1000.);
+			}
 			
 			localJet.setSigmaEta(sqrt(patJet->etaetaMoment()));
 			localJet.setSigmaPhi(sqrt(patJet->phiphiMoment()));

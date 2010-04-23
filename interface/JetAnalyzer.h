@@ -17,6 +17,8 @@
 
 #include "../interface/TRootJet.h"
 
+#include "RecoJets/JetAlgorithms/interface/JetIDHelper.h"
+
 #include "TClonesArray.h"
 
 
@@ -28,12 +30,14 @@ class JetAnalyzer
       ~JetAnalyzer();
       void setVerbosity(int verbosity) {verbosity_ = verbosity; };
       bool process(const edm::Event& iEvent, TClonesArray* rootJets);
+      //      reco::helper::JetIDHelper jetIDHelper;
 
    private:
       int verbosity_;
       std::string dataType_ ;
       edm::InputTag jetProducer_;
       edm::InputTag mcProducer_;
+      //      edm::ParameterSet jetID_;
       bool useMC_;
       bool allowMissingCollection_;
 

@@ -35,7 +35,13 @@ class TRootJet : public TRootParticle
       ,chargedBroadnessDR05_(-9999.)
       ,btag_trackCountingHighEff_(-9999.)
       ,btag_trackCountingHighPur_(-9999.)
-      ,btag_jetProbability_(-9999.)      
+      ,btag_jetProbability_(-9999.)  
+      ,btag_soft_e_(-9999.)
+      ,btag_soft_e_pt_(-9999.)
+      ,btag_soft_e_ip_(-9999.)
+      ,btag_soft_mu_(-9999.)
+      ,btag_soft_mu_pt_(-9999.)
+      ,btag_soft_mu_ip_(-9999.)    
       ,L0Correction_(-9999.)
       ,L1Correction_(-9999.)
       ,L2Correction_(-9999.)
@@ -92,6 +98,12 @@ class TRootJet : public TRootParticle
       ,btag_trackCountingHighEff_(jet.btag_trackCountingHighEff_)
       ,btag_trackCountingHighPur_(jet.btag_trackCountingHighPur_)
       ,btag_jetProbability_(jet.btag_jetProbability_)
+      ,btag_soft_e_(jet.btag_soft_e_)
+      ,btag_soft_e_pt_(jet.btag_soft_e_pt_)
+      ,btag_soft_e_ip_(jet.btag_soft_e_ip_)
+      ,btag_soft_mu_(jet.btag_soft_mu_)
+      ,btag_soft_mu_pt_(jet.btag_soft_mu_pt_)
+      ,btag_soft_mu_ip_(jet.btag_soft_mu_ip_)
       ,L0Correction_(jet.L0Correction_)
       ,L1Correction_(jet.L1Correction_)
       ,L2Correction_(jet.L2Correction_)
@@ -148,6 +160,12 @@ class TRootJet : public TRootParticle
       ,btag_trackCountingHighEff_(-9999.)
       ,btag_trackCountingHighPur_(-9999.)
       ,btag_jetProbability_(-9999.)
+      ,btag_soft_e_(-9999.)
+      ,btag_soft_e_pt_(-9999.)
+      ,btag_soft_e_ip_(-9999.)
+      ,btag_soft_mu_(-9999.)
+      ,btag_soft_mu_pt_(-9999.)
+      ,btag_soft_mu_ip_(-9999.)
       ,L0Correction_(-9999.)
       ,L1Correction_(-9999.)
       ,L2Correction_(-9999.)
@@ -204,6 +222,12 @@ class TRootJet : public TRootParticle
       ,btag_trackCountingHighEff_(-9999.)
       ,btag_trackCountingHighPur_(-9999.)
       ,btag_jetProbability_(-9999.)
+      ,btag_soft_e_(-9999.)
+      ,btag_soft_e_pt_(-9999.)
+      ,btag_soft_e_ip_(-9999.)
+      ,btag_soft_mu_(-9999.)
+      ,btag_soft_mu_pt_(-9999.)
+      ,btag_soft_mu_ip_(-9999.)
       ,L0Correction_(-9999.)
       ,L1Correction_(-9999.)
       ,L2Correction_(-9999.)
@@ -260,6 +284,12 @@ class TRootJet : public TRootParticle
       ,btag_trackCountingHighEff_(-9999.)
       ,btag_trackCountingHighPur_(-9999.)
       ,btag_jetProbability_(-9999.)
+      ,btag_soft_e_(-9999.)
+      ,btag_soft_e_pt_(-9999.)
+      ,btag_soft_e_ip_(-9999.)
+      ,btag_soft_mu_(-9999.)
+      ,btag_soft_mu_pt_(-9999.)
+      ,btag_soft_mu_ip_(-9999.)
       ,L0Correction_(-9999.)
       ,L1Correction_(-9999.)
       ,L2Correction_(-9999.)
@@ -316,6 +346,12 @@ class TRootJet : public TRootParticle
       ,btag_trackCountingHighEff_(-9999.)
       ,btag_trackCountingHighPur_(-9999.)
       ,btag_jetProbability_(-9999.)
+      ,btag_soft_e_(-9999.)
+      ,btag_soft_e_pt_(-9999.)
+      ,btag_soft_e_ip_(-9999.)
+      ,btag_soft_mu_(-9999.)
+      ,btag_soft_mu_pt_(-9999.)
+      ,btag_soft_mu_ip_(-9999.)
       ,L0Correction_(-9999.)
       ,L1Correction_(-9999.)
       ,L2Correction_(-9999.)
@@ -372,6 +408,12 @@ class TRootJet : public TRootParticle
       ,btag_trackCountingHighEff_(-9999.)
       ,btag_trackCountingHighPur_(-9999.)
       ,btag_jetProbability_(-9999.)
+      ,btag_soft_e_(-9999.)
+      ,btag_soft_e_pt_(-9999.)
+      ,btag_soft_e_ip_(-9999.)
+      ,btag_soft_mu_(-9999.)
+      ,btag_soft_mu_pt_(-9999.)
+      ,btag_soft_mu_ip_(-9999.)
       ,L0Correction_(-9999.)
       ,L1Correction_(-9999.)
       ,L2Correction_(-9999.)
@@ -429,6 +471,12 @@ class TRootJet : public TRootParticle
       Float_t btag_trackCountingHighEff() const { return btag_trackCountingHighEff_; }
       Float_t btag_trackCountingHighPur() const { return btag_trackCountingHighPur_; }
       Float_t btag_jetProbability() const { return btag_jetProbability_; }
+      Float_t btag_soft_e() const { return btag_soft_e_; }
+      Float_t btag_soft_e_pt() const { return btag_soft_e_pt_; }
+      Float_t btag_soft_e_ip() const { return btag_soft_e_ip_; }
+      Float_t btag_soft_mu() const { return btag_soft_mu_; }
+      Float_t btag_soft_mu_pt() const { return btag_soft_mu_pt_; }
+      Float_t btag_soft_mu_ip() const { return btag_soft_mu_ip_; }
 		
       Float_t L0Correction() const { return L0Correction_; }
       Float_t L1Correction() const { return L1Correction_; }
@@ -492,6 +540,12 @@ class TRootJet : public TRootParticle
       void setBtag_trackCountingHighEff(Float_t btag_trackCountingHighEff) { btag_trackCountingHighEff_ = btag_trackCountingHighEff; }
       void setBtag_trackCountingHighPur(Float_t btag_trackCountingHighPur) { btag_trackCountingHighPur_ = btag_trackCountingHighPur; }
       void setBtag_jetProbability(Float_t btag_jetProbability) { btag_jetProbability_ = btag_jetProbability; }
+      void setBtag_soft_e(Float_t btag_soft_e) { btag_soft_e_ = btag_soft_e; }
+      void setBtag_soft_e_pt(Float_t btag_soft_e_pt) { btag_soft_e_pt_ = btag_soft_e_pt; }
+      void setBtag_soft_e_ip(Float_t btag_soft_e_ip) { btag_soft_e_ip_ = btag_soft_e_ip; }
+      void setBtag_soft_mu(Float_t btag_soft_mu) { btag_soft_mu_ = btag_soft_mu; }
+      void setBtag_soft_mu_pt(Float_t btag_soft_mu_pt) { btag_soft_mu_pt_ = btag_soft_mu_pt; }
+      void setBtag_soft_mu_ip(Float_t btag_soft_mu_ip) { btag_soft_mu_ip_ = btag_soft_mu_ip; }
 		
       void setL0Correction(Float_t L0Correction) { L0Correction_ = L0Correction; }
       void setL1Correction(Float_t L1Correction) { L1Correction_ = L1Correction; }
@@ -565,6 +619,12 @@ class TRootJet : public TRootParticle
      Float_t btag_trackCountingHighEff_; // b-tagging ; Track counting High Efficiency
      Float_t btag_trackCountingHighPur_; // b-tagging ; Track counting High Purity
      Float_t btag_jetProbability_;       // b-tagging ; Jet probability
+     Float_t btag_soft_e_;
+     Float_t btag_soft_e_pt_;
+     Float_t btag_soft_e_ip_;
+     Float_t btag_soft_mu_;
+     Float_t btag_soft_mu_pt_;
+     Float_t btag_soft_mu_ip_;
 	  
      Float_t L0Correction_;               // correction factor for L0 level
      Float_t L1Correction_;		  // correction factor for L1 level
@@ -600,7 +660,7 @@ class TRootJet : public TRootParticle
 
      Bool_t isTopJet_;                   // Is parton matched to the jet a decay product of the top quark ?
 
-     ClassDef (TRootJet,3);
+     ClassDef (TRootJet,4);
      };
 
      #endif
