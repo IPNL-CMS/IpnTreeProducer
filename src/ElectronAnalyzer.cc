@@ -252,32 +252,32 @@ bool ElectronAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeam
 		{
 			// Some specific methods to pat::Electron
 			const pat::Electron *patElectron = dynamic_cast<const pat::Electron*>(&*electron);
-  		std::string electronType="RecoElectron";
+			std::string electronType="RecoElectron";
 			if ((patElectron->pfCandidateRef()).isNonnull()) electronType="PFElectron";
 
 			// Isolation
-/*			pair < Float_t, Int_t > trackerIso;
+			/*			pair < Float_t, Int_t > trackerIso;
 
-			trackerIso = patElectron->trackIsoDeposit()->depositAndCountWithin(0.1);
-			localElectron.setIsoR01_sumPt(trackerIso.first);
-			localElectron.setIsoR01_nTracks(trackerIso.second);
+						trackerIso = patElectron->trackIsoDeposit()->depositAndCountWithin(0.1);
+						localElectron.setIsoR01_sumPt(trackerIso.first);
+						localElectron.setIsoR01_nTracks(trackerIso.second);
 
-			trackerIso = patElectron->trackIsoDeposit()->depositAndCountWithin(0.2);
-			localElectron.setIsoR02_sumPt(trackerIso.first);
-			localElectron.setIsoR02_nTracks(trackerIso.second);
+						trackerIso = patElectron->trackIsoDeposit()->depositAndCountWithin(0.2);
+						localElectron.setIsoR02_sumPt(trackerIso.first);
+						localElectron.setIsoR02_nTracks(trackerIso.second);
 
-			trackerIso = patElectron->trackIsoDeposit()->depositAndCountWithin(0.3);
-			localElectron.setIsoR03_sumPt(trackerIso.first);
-			localElectron.setIsoR03_nTracks(trackerIso.second);
-			localElectron.setIsoR03_emEt( patElectron->ecalIsoDeposit()->depositAndCountWithin(0.3).first );
-			localElectron.setIsoR03_hadEt( patElectron->hcalIsoDeposit()->depositAndCountWithin(0.3).first );
+						trackerIso = patElectron->trackIsoDeposit()->depositAndCountWithin(0.3);
+						localElectron.setIsoR03_sumPt(trackerIso.first);
+						localElectron.setIsoR03_nTracks(trackerIso.second);
+						localElectron.setIsoR03_emEt( patElectron->ecalIsoDeposit()->depositAndCountWithin(0.3).first );
+						localElectron.setIsoR03_hadEt( patElectron->hcalIsoDeposit()->depositAndCountWithin(0.3).first );
 
-			trackerIso = patElectron->trackIsoDeposit()->depositAndCountWithin(0.5);
-			localElectron.setIsoR05_sumPt(trackerIso.first );
-			localElectron.setIsoR05_nTracks(trackerIso.second);
-			localElectron.setIsoR05_emEt( patElectron->ecalIsoDeposit()->depositAndCountWithin(0.5).first );
-			localElectron.setIsoR05_hadEt( patElectron->hcalIsoDeposit()->depositAndCountWithin(0.5).first );
-*/
+						trackerIso = patElectron->trackIsoDeposit()->depositAndCountWithin(0.5);
+						localElectron.setIsoR05_sumPt(trackerIso.first );
+						localElectron.setIsoR05_nTracks(trackerIso.second);
+						localElectron.setIsoR05_emEt( patElectron->ecalIsoDeposit()->depositAndCountWithin(0.5).first );
+						localElectron.setIsoR05_hadEt( patElectron->hcalIsoDeposit()->depositAndCountWithin(0.5).first );
+			 */
 			localElectron.setTrackIso( patElectron->trackIso() );
 			localElectron.setEcalIso( patElectron->ecalIso() );
 			localElectron.setHcalIso( patElectron->hcalIso() );
@@ -286,14 +286,14 @@ bool ElectronAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeam
 
 			// Old 2.1.X electron ID
 			/*
-				 localElectron.setIDPTDRLoose(patElectron->leptonID("ptdrLoose"));
-				 localElectron.setIDPTDRMedium(patElectron->leptonID("ptdrMedium"));
-				 localElectron.setIDPTDRTight(patElectron->leptonID("ptdrTight"));
-				 localElectron.setIDCutBasedLoose(patElectron->leptonID("loose"));
-				 localElectron.setIDCutBasedRobust(patElectron->leptonID("robust"));
-				 localElectron.setIDCutBasedTight(patElectron->leptonID("tight"));
-				 localElectron.setIDLikelihood(patElectron->leptonID("likelihood"));
-				 localElectron.setIDNeuralNet(patElectron->leptonID("neuralnet"));
+				localElectron.setIDPTDRLoose(patElectron->leptonID("ptdrLoose"));
+				localElectron.setIDPTDRMedium(patElectron->leptonID("ptdrMedium"));
+				localElectron.setIDPTDRTight(patElectron->leptonID("ptdrTight"));
+				localElectron.setIDCutBasedLoose(patElectron->leptonID("loose"));
+				localElectron.setIDCutBasedRobust(patElectron->leptonID("robust"));
+				localElectron.setIDCutBasedTight(patElectron->leptonID("tight"));
+				localElectron.setIDLikelihood(patElectron->leptonID("likelihood"));
+				localElectron.setIDNeuralNet(patElectron->leptonID("neuralnet"));
 			 */
 
 			// New 2.2.X electron ID

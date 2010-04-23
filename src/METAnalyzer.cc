@@ -122,8 +122,8 @@ bool METAnalyzer::process(const edm::Event& iEvent, TClonesArray* rootMET)
 		if( dataType_=="PAT" ) 
 		{
 			met = (const reco::Candidate*) ( & ((*patMETs)[j]) );
-         if( (*patMETs)[j].isCaloMET() ) metType="CALO";
-         if( (*patMETs)[j].isRecoMET() ) metType="PF"; // not sure - isRecoMET means pat::MET was NOT made from a reco::CaloMET
+			if( (*patMETs)[j].isCaloMET() ) metType="CALO";
+			if( (*patMETs)[j].isRecoMET() ) metType="PF"; // not sure - isRecoMET means pat::MET was NOT made from a reco::CaloMET
 		}
 
 		TRootMET localMET(
@@ -172,26 +172,26 @@ bool METAnalyzer::process(const edm::Event& iEvent, TClonesArray* rootMET)
 			if (metType=="CALO")
 			{
 
-			localMET.setCaloMETFraction(
-					patMET->maxEtInEmTowers()
-					,patMET->maxEtInHadTowers()
-					,patMET->hadEtInHO()
-					,patMET->hadEtInHB()
-					,patMET->hadEtInHF()
-					,patMET->hadEtInHE()
-					,patMET->emEtInEB()
-					,patMET->emEtInEE()
-					,patMET->emEtInHF()
-					,patMET->etFractionHadronic()
-					,patMET->emEtFraction()
-					,patMET->metSignificance()
-					,patMET->CaloMETInpHF()
-					,patMET->CaloMETInmHF()
-					,patMET->CaloSETInpHF()
-					,patMET->CaloSETInmHF()
-					,patMET->CaloMETPhiInpHF()
-					,patMET->CaloMETPhiInmHF()
-					);
+				localMET.setCaloMETFraction(
+						patMET->maxEtInEmTowers()
+						,patMET->maxEtInHadTowers()
+						,patMET->hadEtInHO()
+						,patMET->hadEtInHB()
+						,patMET->hadEtInHF()
+						,patMET->hadEtInHE()
+						,patMET->emEtInEB()
+						,patMET->emEtInEE()
+						,patMET->emEtInHF()
+						,patMET->etFractionHadronic()
+						,patMET->emEtFraction()
+						,patMET->metSignificance()
+						,patMET->CaloMETInpHF()
+						,patMET->CaloMETInmHF()
+						,patMET->CaloSETInpHF()
+						,patMET->CaloSETInmHF()
+						,patMET->CaloMETPhiInpHF()
+						,patMET->CaloMETPhiInmHF()
+						);
 			}
 			//pat::MET::UncorectionType ix;
 			//ix = pat::MET::uncorrALL;

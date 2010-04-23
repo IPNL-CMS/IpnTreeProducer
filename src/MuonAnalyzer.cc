@@ -22,41 +22,41 @@ bool MuonAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeamSpot
 	edm::Handle < std::vector <reco::Muon> > recoMuons;
 	if( dataType_=="RECO" )
 	{
-      try
-      {
-         iEvent.getByLabel(muonProducer_, recoMuons);
-         nMuons = recoMuons->size();
-      }
-      catch (cms::Exception& exception)
-      {
-         if ( !allowMissingCollection_ )
-         {
-            cout << "  ##### ERROR IN  MuonAnalyzer::process => reco::Muon collection is missing #####"<<endl;
-            throw exception;
-         }
-         if(verbosity_>1) cout <<  "   ===> No reco::Muon collection, skip muon info" << endl;
-         return false;
-      }
+		try
+		{
+			iEvent.getByLabel(muonProducer_, recoMuons);
+			nMuons = recoMuons->size();
+		}
+		catch (cms::Exception& exception)
+		{
+			if ( !allowMissingCollection_ )
+			{
+				cout << "  ##### ERROR IN  MuonAnalyzer::process => reco::Muon collection is missing #####"<<endl;
+				throw exception;
+			}
+			if(verbosity_>1) cout <<  "   ===> No reco::Muon collection, skip muon info" << endl;
+			return false;
+		}
 	}
 
 	edm::Handle < std::vector <pat::Muon> > patMuons;
 	if( dataType_=="PAT" )
 	{
-      try
-      {
-         iEvent.getByLabel(muonProducer_, patMuons);
-         nMuons = patMuons->size();
-      }
-      catch (cms::Exception& exception)
-      {
-         if ( !allowMissingCollection_ )
-         {
-            cout << "  ##### ERROR IN  MuonAnalyzer::process => pat::Muon collection is missing #####"<<endl;
-            throw exception;
-         }
-         if(verbosity_>1) cout <<  "   ===> No pat::Muon collection, skip muon info" << endl;
-         return false;
-      }
+		try
+		{
+			iEvent.getByLabel(muonProducer_, patMuons);
+			nMuons = patMuons->size();
+		}
+		catch (cms::Exception& exception)
+		{
+			if ( !allowMissingCollection_ )
+			{
+				cout << "  ##### ERROR IN  MuonAnalyzer::process => pat::Muon collection is missing #####"<<endl;
+				throw exception;
+			}
+			if(verbosity_>1) cout <<  "   ===> No pat::Muon collection, skip muon info" << endl;
+			return false;
+		}
 	}
 
 	if(verbosity_>1) std::cout << "   Number of muons = " << nMuons << "   Label: " << muonProducer_.label() << "   Instance: " << muonProducer_.instance() << std::endl;
@@ -68,75 +68,75 @@ bool MuonAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeamSpot
 		if( dataType_=="PAT" ) muon = (const reco::Muon*) ( & ((*patMuons)[j]) );
 
 		TRootMuon localMuon(
-			muon->px()
-			,muon->py()
-			,muon->pz()
-			,muon->energy()
-			,muon->vx()
-			,muon->vy()
-			,muon->vz()
-			,muon->pdgId()
-			,muon->charge()
-		); 
+				muon->px()
+				,muon->py()
+				,muon->pz()
+				,muon->energy()
+				,muon->vx()
+				,muon->vy()
+				,muon->vz()
+				,muon->pdgId()
+				,muon->charge()
+				); 
 
 		// Variables from reco::Muon
 		sintheta = sin( localMuon.Theta() );
 
 		localMuon.setCaloEnergy(
-			muon->calEnergy().em * sintheta
-			,muon->calEnergy().emS9 * sintheta
-			,muon->calEnergy().had * sintheta
-			,muon->calEnergy().hadS9 * sintheta
-			,muon->calEnergy().ho * sintheta
-			,muon->calEnergy().hoS9 * sintheta
-			,muon->caloCompatibility()
-		);
+				muon->calEnergy().em * sintheta
+				,muon->calEnergy().emS9 * sintheta
+				,muon->calEnergy().had * sintheta
+				,muon->calEnergy().hadS9 * sintheta
+				,muon->calEnergy().ho * sintheta
+				,muon->calEnergy().hoS9 * sintheta
+				,muon->caloCompatibility()
+				);
 
 		localMuon.setIsoR03(
-			muon->isolationR03().emEt
-			,muon->isolationR03().hadEt
-			,muon->isolationR03().hoEt
-			,muon->isolationR03().sumPt
-			,muon->isolationR03().nTracks
-			,muon->isolationR03().nJets
-		);
+				muon->isolationR03().emEt
+				,muon->isolationR03().hadEt
+				,muon->isolationR03().hoEt
+				,muon->isolationR03().sumPt
+				,muon->isolationR03().nTracks
+				,muon->isolationR03().nJets
+				);
 
 		localMuon.setIsoR05(
-			muon->isolationR05().emEt
-			,muon->isolationR05().hadEt
-			,muon->isolationR05().hoEt
-			,muon->isolationR05().sumPt
-			,muon->isolationR05().nTracks
-			,muon->isolationR05().nJets
-		);
+				muon->isolationR05().emEt
+				,muon->isolationR05().hadEt
+				,muon->isolationR05().hoEt
+				,muon->isolationR05().sumPt
+				,muon->isolationR05().nTracks
+				,muon->isolationR05().nJets
+				);
 
 		localMuon.setValidity(
-			muon->isEnergyValid()
-			,muon->isMatchesValid()
-			,muon->isIsolationValid()
-		);
+				muon->isEnergyValid()
+				,muon->isMatchesValid()
+				,muon->isIsolationValid()
+				);
 
 		localMuon.setDirection( muon->time().direction() );
 		localMuon.setAlgo( muon->type() );
-      localMuon.setID(
-      //         int( muon::isGoodMuon( &muon, muon::AllGlobalMuons ) )
-      //         ,int( muon::isGoodMuon( &muon, muon::AllStandAloneMuons ) )
-      //         ,int( muon::isGoodMuon( &muon, muon::AllTrackerMuons ) )
-      int( muon::isGoodMuon( *muon, muon::TrackerMuonArbitrated ) )
-      ,int( muon::isGoodMuon( *muon, muon::AllArbitrated ) )
-      ,int( muon::isGoodMuon( *muon, muon::GlobalMuonPromptTight ) )
-      ,int( muon::isGoodMuon( *muon, muon::TMLastStationLoose ) )
-      ,int( muon::isGoodMuon( *muon, muon::TMLastStationTight ) )
-      ,int( muon::isGoodMuon( *muon, muon::TM2DCompatibilityLoose ) )
-      ,int( muon::isGoodMuon( *muon, muon::TM2DCompatibilityTight ) )
-      //         ,int( muon::isGoodMuon( &muon, muon::TMOneStationLoose ) )
-      //         ,int( muon::isGoodMuon( &muon, muon::TMOneStationTight ) )
-      //         ,int( muon::isGoodMuon( &muon, muon::TMLastStationOptimizedLowPtLoose ) )
-      //         ,int( muon::isGoodMuon( &muon, muon::TMLastStationOptimizedLowPtTight ) )
-      );
-      
+		localMuon.setID(
+				//         int( muon::isGoodMuon( &muon, muon::AllGlobalMuons ) )
+				//         ,int( muon::isGoodMuon( &muon, muon::AllStandAloneMuons ) )
+				//         ,int( muon::isGoodMuon( &muon, muon::AllTrackerMuons ) )
+				int( muon::isGoodMuon( *muon, muon::TrackerMuonArbitrated ) )
+				,int( muon::isGoodMuon( *muon, muon::AllArbitrated ) )
+				,int( muon::isGoodMuon( *muon, muon::GlobalMuonPromptTight ) )
+				,int( muon::isGoodMuon( *muon, muon::TMLastStationLoose ) )
+				,int( muon::isGoodMuon( *muon, muon::TMLastStationTight ) )
+				,int( muon::isGoodMuon( *muon, muon::TM2DCompatibilityLoose ) )
+				,int( muon::isGoodMuon( *muon, muon::TM2DCompatibilityTight ) )
+				//         ,int( muon::isGoodMuon( &muon, muon::TMOneStationLoose ) )
+				//         ,int( muon::isGoodMuon( &muon, muon::TMOneStationTight ) )
+				//         ,int( muon::isGoodMuon( &muon, muon::TMLastStationOptimizedLowPtLoose ) )
+				//         ,int( muon::isGoodMuon( &muon, muon::TMLastStationOptimizedLowPtTight ) )
+				);
+
 		// Variables from reco::Track
-		
+
 		// Track in muon detector only
 		reco::TrackRef outerTK = muon->outerTrack();
 		if ( outerTK.isNonnull() )
@@ -180,12 +180,12 @@ bool MuonAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeamSpot
 			// FIXME - Add Vertex error quadratically
 			localMuon.setD0Error(track->d0Error());
 			localMuon.setDszError(track->dszError());
-	
+
 			localMuon.setNormalizedChi2(track->normalizedChi2());
 			localMuon.setPtError(track->ptError());
 			localMuon.setEtaError(track->etaError());
 			localMuon.setPhiError(track->phiError());
-			
+
 			if(doPrimaryVertex_)
 			{
 				// FIXME - Should be Tracker track... what if STA muon ?
@@ -207,7 +207,7 @@ bool MuonAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeamSpot
 		{
 			// Some specific methods to pat::Muon
 			const pat::Muon *patMuon = dynamic_cast<const pat::Muon*>(&*muon);
-  		std::string muonType="RecoMuon";
+			std::string muonType="RecoMuon";
 			if ((patMuon->pfCandidateRef()).isNonnull()) muonType="PFMuon";
 
 			localMuon.setTrackIso(patMuon->trackIso());
@@ -216,10 +216,10 @@ bool MuonAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeamSpot
 
 			if (muonType=="RecoMuon")
 			{
-         localMuon.setEcalCandEnergy(patMuon->ecalIsoDeposit()->candEnergy() );
-         localMuon.setHcalCandEnergy(patMuon->hcalIsoDeposit()->candEnergy() );
+				localMuon.setEcalCandEnergy(patMuon->ecalIsoDeposit()->candEnergy() );
+				localMuon.setHcalCandEnergy(patMuon->hcalIsoDeposit()->candEnergy() );
 			}
-			
+
 			if (muonType=="PFMuon")
 			{
 				localMuon.setPFParticleIso(patMuon->particleIso());
@@ -228,7 +228,7 @@ bool MuonAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeamSpot
 				localMuon.setPFPhotonIso(patMuon->photonIso());
 			}
 
-      // Use existing reference to genParticle [ pat::PATObject::genParticleRef() ] ?
+			// Use existing reference to genParticle [ pat::PATObject::genParticleRef() ] ?
 			// Alternative methode for isolation (isoDeposit) ?
 			//
 			// leptonID apparently not initialised in PAT...
@@ -248,6 +248,6 @@ bool MuonAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeamSpot
 		new( (*rootMuons)[j] ) TRootMuon(localMuon);
 		if(verbosity_>2) cout << "   ["<< setw(3) << j << "] " << localMuon << endl;
 	}
-   
-   return true;
+
+	return true;
 }

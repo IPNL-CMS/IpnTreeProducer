@@ -25,18 +25,18 @@
 class METAnalyzer
 {
 
-   public:
-      METAnalyzer(const edm::ParameterSet& producersNames, const edm::ParameterSet& myConfig, int verbosity);
-      ~METAnalyzer();
-      void setVerbosity(int verbosity) {verbosity_ = verbosity; };
-      bool process(const edm::Event& iEvent, TClonesArray* rootMET);
+	public:
+		METAnalyzer(const edm::ParameterSet& producersNames, const edm::ParameterSet& myConfig, int verbosity);
+		~METAnalyzer();
+		void setVerbosity(int verbosity) {verbosity_ = verbosity; };
+		bool process(const edm::Event& iEvent, TClonesArray* rootMET);
 
-   private:
-      int verbosity_;
-      std::string dataType_ ;
-      edm::InputTag metProducer_;
-      bool useMC_;
-      bool allowMissingCollection_;
+	private:
+		int verbosity_;
+		std::string dataType_ ;
+		edm::InputTag metProducer_;
+		bool useMC_;
+		bool allowMissingCollection_;
 
 };
 
