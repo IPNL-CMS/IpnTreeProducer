@@ -31,6 +31,13 @@ class TRootMuon : public TRootParticle
       ,isoR05_sumPt_(-9999.)
       ,isoR05_nTracks_(-9999)
       ,isoR05_nJets_(-9999)
+			,trackIso_(-9999)
+			,ecalIso_(-9999)
+			,hcalIso_(-9999)
+      ,pfParticleIso_(-9999)
+      ,pfChargedHadronIso_(-9999)
+      ,pfNeutralHadronIso_(-9999)
+      ,pfPhotonIso_(-9999)
       ,energyValid_(false)
       ,matchesValid_(false)
       ,isolationValid_(false)
@@ -78,6 +85,13 @@ class TRootMuon : public TRootParticle
       ,isoR05_sumPt_(muon.isoR05_sumPt_)
       ,isoR05_nTracks_(muon.isoR05_nTracks_)
       ,isoR05_nJets_(muon.isoR05_nJets_)
+			,trackIso_(muon.trackIso_)
+			,ecalIso_(muon.ecalIso_)
+			,hcalIso_(muon.hcalIso_)
+      ,pfParticleIso_(muon.pfParticleIso_)
+      ,pfChargedHadronIso_(muon.pfChargedHadronIso_)
+      ,pfNeutralHadronIso_(muon.pfNeutralHadronIso_)
+      ,pfPhotonIso_(muon.pfPhotonIso_)
       ,energyValid_(muon.energyValid_)
       ,matchesValid_(muon.matchesValid_)
       ,isolationValid_(muon.isolationValid_)
@@ -125,6 +139,13 @@ class TRootMuon : public TRootParticle
       ,isoR05_sumPt_(-9999.)
       ,isoR05_nTracks_(-9999)
       ,isoR05_nJets_(-9999)
+			,trackIso_(-9999)
+			,ecalIso_(-9999)
+			,hcalIso_(-9999)
+      ,pfParticleIso_(-9999)
+      ,pfChargedHadronIso_(-9999)
+      ,pfNeutralHadronIso_(-9999)
+      ,pfPhotonIso_(-9999)
       ,energyValid_(false)
       ,matchesValid_(false)
       ,isolationValid_(false)
@@ -172,6 +193,13 @@ class TRootMuon : public TRootParticle
       ,isoR05_sumPt_(-9999.)
       ,isoR05_nTracks_(-9999)
       ,isoR05_nJets_(-9999)
+			,trackIso_(-9999)
+			,ecalIso_(-9999)
+			,hcalIso_(-9999)
+      ,pfParticleIso_(-9999)
+      ,pfChargedHadronIso_(-9999)
+      ,pfNeutralHadronIso_(-9999)
+      ,pfPhotonIso_(-9999)
       ,energyValid_(false)
       ,matchesValid_(false)
       ,isolationValid_(false)
@@ -219,6 +247,13 @@ class TRootMuon : public TRootParticle
       ,isoR05_sumPt_(-9999.)
       ,isoR05_nTracks_(-9999)
       ,isoR05_nJets_(-9999)
+			,trackIso_(-9999)
+			,ecalIso_(-9999)
+			,hcalIso_(-9999)
+      ,pfParticleIso_(-9999)
+      ,pfChargedHadronIso_(-9999)
+      ,pfNeutralHadronIso_(-9999)
+      ,pfPhotonIso_(-9999)
       ,energyValid_(false)
       ,matchesValid_(false)
       ,isolationValid_(false)
@@ -266,6 +301,13 @@ class TRootMuon : public TRootParticle
       ,isoR05_sumPt_(-9999.)
       ,isoR05_nTracks_(-9999)
       ,isoR05_nJets_(-9999)
+			,trackIso_(-9999)
+			,ecalIso_(-9999)
+			,hcalIso_(-9999)
+      ,pfParticleIso_(-9999)
+      ,pfChargedHadronIso_(-9999)
+      ,pfNeutralHadronIso_(-9999)
+      ,pfPhotonIso_(-9999)
       ,energyValid_(false)
       ,matchesValid_(false)
       ,isolationValid_(false)
@@ -313,6 +355,13 @@ class TRootMuon : public TRootParticle
       ,isoR05_sumPt_(-9999.)
       ,isoR05_nTracks_(-9999)
       ,isoR05_nJets_(-9999)
+			,trackIso_(-9999)
+			,ecalIso_(-9999)
+			,hcalIso_(-9999)
+      ,pfParticleIso_(-9999)
+      ,pfChargedHadronIso_(-9999)
+      ,pfNeutralHadronIso_(-9999)
+      ,pfPhotonIso_(-9999)
       ,energyValid_(false)
       ,matchesValid_(false)
       ,isolationValid_(false)
@@ -363,7 +412,16 @@ class TRootMuon : public TRootParticle
       Float_t isoR05_sumPt() const { return isoR05_sumPt_;}
       Int_t isoR05_nTracks() const { return isoR05_nTracks_;}
       Int_t isoR05_nJets() const { return isoR05_nJets_;}
-      
+     
+			Float_t trackIso() const {return trackIso_;}
+			Float_t ecalIso() const {return ecalIso_;}
+			Float_t hcalIso() const {return hcalIso_;}
+
+			Float_t pfParticleIso() const {return pfParticleIso_;}
+			Float_t pfChargedHadronIso() const {return pfChargedHadronIso_;}
+			Float_t pfNeutralHadronIso() const {return pfNeutralHadronIso_;}
+			Float_t pfPhotonIso() const {return pfPhotonIso_;}
+
       Bool_t energyValid() const { return energyValid_;}
       Bool_t matchesValid() const { return matchesValid_;}
       Bool_t isolationValid() const { return isolationValid_;}
@@ -440,7 +498,16 @@ class TRootMuon : public TRootParticle
          isoR05_nTracks_ = isoR05_nTracks;
          isoR05_nJets_ = isoR05_nJets;
       }
-      
+     
+      void setTrackIso(Float_t trackIso) { trackIso_ = trackIso; }
+      void setEcalIso(Float_t ecalIso) { ecalIso_ = ecalIso; }
+      void setHcalIso(Float_t hcalIso) { hcalIso_ = hcalIso; }
+
+      void setPFParticleIso(Float_t iso) { pfParticleIso_=iso; }
+      void setPFChargedHadronIso(Float_t iso) { pfChargedHadronIso_=iso; }
+      void setPFNeutralHadronIso(Float_t iso) { pfNeutralHadronIso_=iso; }
+      void setPFPhotonIso(Float_t iso) { pfPhotonIso_=iso; }
+
       void setValidity(Bool_t energyValid, Bool_t matchesValid, Bool_t isolationValid)
       {
          energyValid_ = energyValid;
@@ -492,6 +559,8 @@ class TRootMuon : public TRootParticle
          << "            Et_em=" << muon.et_em_ << " Et_emS9=" << muon.et_emS9_ << "  Et_had=" << muon.et_had_ << " Et_hadS9=" << muon.et_hadS9_ << "  Et_ho=" << muon.et_ho_ << "  Et_hoS9=" << muon.et_hoS9_ << endl
          << "            isolation cone 0.3: Et_em=" << muon.isoR03_emEt_ << "  Et_had=" << muon.isoR03_hadEt_ <<"  Et_ho=" << muon.isoR03_hoEt_  << "  nTracks=" << muon.isoR03_nTracks_ <<"  nJets=" << muon.isoR03_nJets_ << endl
          << "            isolation cone 0.5: Et_em=" << muon.isoR05_emEt_ << "  Et_had=" << muon.isoR05_hadEt_ <<"  Et_ho=" << muon.isoR05_hoEt_  << "  nTracks=" << muon.isoR05_nTracks_ <<"  nJets=" << muon.isoR05_nJets_ << endl
+         << "            pat default isolation: Et_em=" << muon.ecalIso_ << "  Et_had=" << muon.hcalIso_ << "  Pt_trk=" << muon.trackIso_ << endl
+         << "            PF Isolation : particleIso=" << muon.pfParticleIso_ << "  chargedHadronIso=" << muon.pfChargedHadronIso_ << "  NeutralHadronIso=" << muon.pfNeutralHadronIso_ << endl
          << "            d0=" << muon.d0_ << " +- " << muon.d0Error_ << "  dsz=" << muon.dsz_ << " +- " << muon.dszError_ << "   IP 3D Significance=" << muon.ip3DSignificance_;
          return stream;
       };
@@ -525,7 +594,18 @@ class TRootMuon : public TRootParticle
       Float_t isoR05_sumPt_;
       Int_t isoR05_nTracks_;
       Int_t isoR05_nJets_;
-      
+     
+			// Added by Stephane 23/04/2010 -- correct pat Isolation
+			Float_t trackIso_; // returns the value of the summed track pt in a cone of deltaR<0.3
+			Float_t ecalIso_; // returns the value of the summed Et of all recHits in the ecal in a cone of deltaR<0.3
+			Float_t hcalIso_; // returns the value of the summed Et of all recHits in the hcal in a cone of deltaR<0.4
+			
+			// Added by Stephane 23/04/2010 -- pat Isolation for PFlow muons
+      Float_t pfParticleIso_; // isolation calculated with all the PFCandidates
+      Float_t pfChargedHadronIso_; // isolation calculated with only the charged hadron PFCandidates
+      Float_t pfNeutralHadronIso_; // isolation calculated with only the neutral hadron PFCandidates
+      Float_t pfPhotonIso_; // Returns the isolation calculated with only the gamma PFCandidates  
+
       Bool_t energyValid_;
       Bool_t matchesValid_;
       Bool_t isolationValid_;
@@ -586,7 +666,7 @@ class TRootMuon : public TRootParticle
       Float_t hcalCandEnergy_;     // energy within the cone of DR=1.0 in the HCAL (CandEnergy of the hcalIsoDeposit)
       
       
-      ClassDef (TRootMuon,6);
+      ClassDef (TRootMuon,7);
       
 };
 

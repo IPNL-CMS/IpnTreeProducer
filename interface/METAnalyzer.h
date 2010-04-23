@@ -12,6 +12,7 @@
 //#include "DataFormats/METReco/interface/MET.h"
 //#include "DataFormats/METReco/interface/METFwd.h"
 #include "DataFormats/METReco/interface/CaloMET.h"
+#include "DataFormats/METReco/interface/PFMET.h"
 #include "DataFormats/METReco/interface/CaloMETCollection.h"
 #include "DataFormats/PatCandidates/interface/MET.h"
 

@@ -252,6 +252,8 @@ bool ElectronAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeam
 		{
 			// Some specific methods to pat::Electron
 			const pat::Electron *patElectron = dynamic_cast<const pat::Electron*>(&*electron);
+  		std::string electronType="RecoElectron";
+			if ((patElectron->pfCandidateRef()).isNonnull()) electronType="PFElectron";
 
 			// Isolation
 /*			pair < Float_t, Int_t > trackerIso;
@@ -306,6 +308,13 @@ bool ElectronAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeam
 			if ( patElectron->isElectronIDAvailable("likelihood") ) localElectron.setIDLikelihood(patElectron->electronID("likelihood"));
 			if ( patElectron->isElectronIDAvailable("neuralnet") ) localElectron.setIDNeuralNet(patElectron->electronID("neuralnet"));
 
+			if (electronType=="PFElectron")
+			{
+				localElectron.setPFParticleIso(patElectron->particleIso());
+				localElectron.setPFChargedHadronIso(patElectron->chargedHadronIso());
+				localElectron.setPFNeutralHadronIso(patElectron->neutralHadronIso());
+				localElectron.setPFPhotonIso(patElectron->photonIso());
+			}
 
 			// Matched genParticle
 			if(useMC_)

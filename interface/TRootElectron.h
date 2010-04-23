@@ -72,6 +72,10 @@ class TRootElectron : public TRootParticle
 			,trackIso_(-9999)
 			,ecalIso_(-9999)
 			,hcalIso_(-9999)
+      ,pfParticleIso_(-9999)
+      ,pfChargedHadronIso_(-9999)
+      ,pfNeutralHadronIso_(-9999)
+      ,pfPhotonIso_(-9999)
       ,idCutBasedFixedThresholdLoose_(-1)
       ,idCutBasedFixedThresholdTight_(-1)
       ,idCutBasedFixedThresholdHighEnergy_(-1)
@@ -140,6 +144,10 @@ class TRootElectron : public TRootParticle
 			,trackIso_(electron.trackIso_)
 			,ecalIso_(electron.ecalIso_)
 			,hcalIso_(electron.hcalIso_)
+      ,pfParticleIso_(electron.pfParticleIso_)
+      ,pfChargedHadronIso_(electron.pfChargedHadronIso_)
+      ,pfNeutralHadronIso_(electron.pfNeutralHadronIso_)
+      ,pfPhotonIso_(electron.pfPhotonIso_)
       ,idCutBasedFixedThresholdLoose_(electron.idCutBasedFixedThresholdLoose_)
       ,idCutBasedFixedThresholdTight_(electron.idCutBasedFixedThresholdTight_)
       ,idCutBasedFixedThresholdHighEnergy_(electron.idCutBasedFixedThresholdHighEnergy_)
@@ -208,6 +216,10 @@ class TRootElectron : public TRootParticle
 			,trackIso_(-9999)
 			,ecalIso_(-9999)
 			,hcalIso_(-9999)
+      ,pfParticleIso_(-9999)
+      ,pfChargedHadronIso_(-9999)
+      ,pfNeutralHadronIso_(-9999)
+      ,pfPhotonIso_(-9999)
       ,idCutBasedFixedThresholdLoose_(-1)
       ,idCutBasedFixedThresholdTight_(-1)
       ,idCutBasedFixedThresholdHighEnergy_(-1)
@@ -276,6 +288,10 @@ class TRootElectron : public TRootParticle
 			,trackIso_(-9999)
 			,ecalIso_(-9999)
 			,hcalIso_(-9999)
+      ,pfParticleIso_(-9999)
+      ,pfChargedHadronIso_(-9999)
+      ,pfNeutralHadronIso_(-9999)
+      ,pfPhotonIso_(-9999)
       ,idCutBasedFixedThresholdLoose_(-1)
       ,idCutBasedFixedThresholdTight_(-1)
       ,idCutBasedFixedThresholdHighEnergy_(-1)
@@ -344,6 +360,10 @@ class TRootElectron : public TRootParticle
 			,trackIso_(-9999)
 			,ecalIso_(-9999)
 			,hcalIso_(-9999)
+      ,pfParticleIso_(-9999)
+      ,pfChargedHadronIso_(-9999)
+      ,pfNeutralHadronIso_(-9999)
+      ,pfPhotonIso_(-9999)
       ,idCutBasedFixedThresholdLoose_(-1)
       ,idCutBasedFixedThresholdTight_(-1)
       ,idCutBasedFixedThresholdHighEnergy_(-1)
@@ -412,6 +432,10 @@ class TRootElectron : public TRootParticle
 			,trackIso_(-9999)
 			,ecalIso_(-9999)
 			,hcalIso_(-9999)
+      ,pfParticleIso_(-9999)
+      ,pfChargedHadronIso_(-9999)
+      ,pfNeutralHadronIso_(-9999)
+      ,pfPhotonIso_(-9999)
       ,idCutBasedFixedThresholdLoose_(-1)
       ,idCutBasedFixedThresholdTight_(-1)
       ,idCutBasedFixedThresholdHighEnergy_(-1)
@@ -480,6 +504,10 @@ class TRootElectron : public TRootParticle
 			,trackIso_(-9999)
 			,ecalIso_(-9999)
 			,hcalIso_(-9999)
+      ,pfParticleIso_(-9999)
+      ,pfChargedHadronIso_(-9999)
+      ,pfNeutralHadronIso_(-9999)
+      ,pfPhotonIso_(-9999)
       ,idCutBasedFixedThresholdLoose_(-1)
       ,idCutBasedFixedThresholdTight_(-1)
       ,idCutBasedFixedThresholdHighEnergy_(-1)
@@ -626,6 +654,12 @@ class TRootElectron : public TRootParticle
 			Float_t trackIso() const {return trackIso_;}
 			Float_t ecalIso() const {return ecalIso_;}
 			Float_t hcalIso() const {return hcalIso_;}
+
+			Float_t pfParticleIso() const {return pfParticleIso_;}
+			Float_t pfChargedHadronIso() const {return pfChargedHadronIso_;}
+			Float_t pfNeutralHadronIso() const {return pfNeutralHadronIso_;}
+			Float_t pfPhotonIso() const {return pfPhotonIso_;}
+
       Int_t idCutBasedFixedThresholdLoose() const { return idCutBasedFixedThresholdLoose_ ;}
       Int_t idCutBasedFixedThresholdTight() const { return idCutBasedFixedThresholdTight_ ;}
       Int_t idCutBasedFixedThresholdHighEnergy() const { return idCutBasedFixedThresholdHighEnergy_ ;}
@@ -709,7 +743,13 @@ class TRootElectron : public TRootParticle
       void setTrackIso(Float_t trackIso) { trackIso_ = trackIso; }
       void setEcalIso(Float_t ecalIso) { ecalIso_ = ecalIso; }
       void setHcalIso(Float_t hcalIso) { hcalIso_ = hcalIso; }
-      void setIDCutBasedFixedThresholdLoose(Int_t idCutBasedFixedThresholdLoose) { idCutBasedFixedThresholdLoose_ = idCutBasedFixedThresholdLoose; }
+			
+      void setPFParticleIso(Float_t iso) { pfParticleIso_=iso; }
+      void setPFChargedHadronIso(Float_t iso) { pfChargedHadronIso_=iso; }
+      void setPFNeutralHadronIso(Float_t iso) { pfNeutralHadronIso_=iso; }
+      void setPFPhotonIso(Float_t iso) { pfPhotonIso_=iso; }
+ 
+ 			void setIDCutBasedFixedThresholdLoose(Int_t idCutBasedFixedThresholdLoose) { idCutBasedFixedThresholdLoose_ = idCutBasedFixedThresholdLoose; }
       void setIDCutBasedFixedThresholdTight(Int_t idCutBasedFixedThresholdTight) { idCutBasedFixedThresholdTight_ = idCutBasedFixedThresholdTight; }
       void setIDCutBasedFixedThresholdHighEnergy(Int_t idCutBasedFixedThresholdHighEnergy) { idCutBasedFixedThresholdHighEnergy_ = idCutBasedFixedThresholdHighEnergy; }
       void setIDCutBasedCategorizedLoose(Int_t idCutBasedCategorizedLoose) { idCutBasedCategorizedLoose_ = idCutBasedCategorizedLoose; }
@@ -741,6 +781,7 @@ class TRootElectron : public TRootParticle
          //<< "            pat iso03  ecal="<< this->isoR03_emEt() << " hcal=" << this->isoR03_hadEt() << " tracker=" << this->isoR03_sumPt() << " ntracks=" << this->isoR03_nTracks() << endl
          //<< "            pat iso05  ecal="<< this->isoR05_emEt() << " hcal=" << this->isoR05_hadEt() << " tracker=" << this->isoR05_sumPt() << " ntracks=" << this->isoR05_nTracks() << endl
 				 << "            pat iso (no isodeposit) ecal="<< this->trackIso()<<" hcal="<<this->hcalIso()<<" tracker="<<this->trackIso()<<endl
+         << "            PF Isolation : particleIso=" << this->pfParticleIso_ << "  chargedHadronIso=" << this->pfChargedHadronIso_ << "  NeutralHadronIso=" << this->pfNeutralHadronIso_ << endl
          <<"            ID:  Fixed-Threshold(Loose,Tight,HighEnergy)=(" << this->idCutBasedFixedThresholdLoose() << "," << this->idCutBasedFixedThresholdTight()  << "," << this->idCutBasedFixedThresholdHighEnergy() << ")"
          <<"  Categorized(Loose,Tight)=(" << this->idCutBasedCategorizedLoose() << "," << this->idCutBasedCategorizedTight()  << ")"
          <<"  LH=" << this->idLikelihood() << "  NN=" << this->idNeuralNet() << "  isAlsoPhoton=" << this->isAlsoPhoton();
@@ -867,6 +908,11 @@ class TRootElectron : public TRootParticle
 			Float_t ecalIso_; // returns the value of the summed Et of all recHits in the ecal in a cone of deltaR<0.4
 			Float_t hcalIso_; // returns the value of the summed Et of all recHits in the hcal in a cone of deltaR<0.4
 
+			// Added by Stephane 23/04/2010 -- pat Isolation for PFlow muons
+      Float_t pfParticleIso_; // isolation calculated with all the PFCandidates
+      Float_t pfChargedHadronIso_; // isolation calculated with only the charged hadron PFCandidates
+      Float_t pfNeutralHadronIso_; // isolation calculated with only the neutral hadron PFCandidates
+      Float_t pfPhotonIso_; // Returns the isolation calculated with only the gamma PFCandidates  
 
 
       // Electron ID (cf https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideElectronID)
@@ -886,7 +932,7 @@ class TRootElectron : public TRootParticle
       //Float_t sigmaPhiPhi_;
 
 
-      ClassDef (TRootElectron,7);
+      ClassDef (TRootElectron,8);
 
 };
 

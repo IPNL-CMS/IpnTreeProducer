@@ -19,7 +19,6 @@ bool MuonAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeamSpot
 
 	Float_t sintheta = 0.;
 	unsigned int nMuons=0;
-
 	edm::Handle < std::vector <reco::Muon> > recoMuons;
 	if( dataType_=="RECO" )
 	{
@@ -208,9 +207,28 @@ bool MuonAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeamSpot
 		{
 			// Some specific methods to pat::Muon
 			const pat::Muon *patMuon = dynamic_cast<const pat::Muon*>(&*muon);
+  		std::string muonType="RecoMuon";
+			if ((patMuon->pfCandidateRef()).isNonnull()) muonType="PFMuon";
+
+			localMuon.setTrackIso(patMuon->trackIso());
+			localMuon.setEcalIso(patMuon->ecalIso());
+			localMuon.setHcalIso(patMuon->hcalIso());
+
+			if (muonType=="RecoMuon")
+			{
          localMuon.setEcalCandEnergy(patMuon->ecalIsoDeposit()->candEnergy() );
          localMuon.setHcalCandEnergy(patMuon->hcalIsoDeposit()->candEnergy() );
-         // Use existing reference to genParticle [ pat::PATObject::genParticleRef() ] ?
+			}
+			
+			if (muonType=="PFMuon")
+			{
+				localMuon.setPFParticleIso(patMuon->particleIso());
+				localMuon.setPFChargedHadronIso(patMuon->chargedHadronIso());
+				localMuon.setPFNeutralHadronIso(patMuon->neutralHadronIso());
+				localMuon.setPFPhotonIso(patMuon->photonIso());
+			}
+
+      // Use existing reference to genParticle [ pat::PATObject::genParticleRef() ] ?
 			// Alternative methode for isolation (isoDeposit) ?
 			//
 			// leptonID apparently not initialised in PAT...
