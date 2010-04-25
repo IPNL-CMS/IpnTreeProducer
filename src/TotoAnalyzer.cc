@@ -266,18 +266,24 @@ void TotoAnalyzer::beginJob()
 void TotoAnalyzer::endJob()
 {
 	// Trigger Summary Tables
-	if(doL1_ && verbosity_>0)
+	if(doL1_)
 	{
-		cout << "L1 Trigger Summary Tables" << endl;
 		l1TriggerAnalyzer_ ->copySummary(runInfos_);
-		l1TriggerAnalyzer_->printStats();
+	  if(verbosity_>0)
+	    {
+	      cout << "L1 Trigger Summary Tables" << endl;
+	      l1TriggerAnalyzer_->printStats();
+	    }
 	}
 	
-	if(doHLT_ && verbosity_>0)
+	if(doHLT_)
 	{
-		cout << "HLT Summary Tables" << endl;
 		hltAnalyzer_ ->copySummary(runInfos_);
-		hltAnalyzer_->printStats();
+	  if(verbosity_>0)
+	    {
+	      cout << "HLT Summary Tables" << endl;
+	      hltAnalyzer_->printStats();
+	    }
 	}
 	
 	runTree_->Fill();
