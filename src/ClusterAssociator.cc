@@ -45,8 +45,9 @@ void ClusterAssociator::process(TClonesArray* superClusters, TClonesArray* basic
          aSC->setE3x3( aBC->e3x3() );
          aSC->setE5x5( aBC->e5x5() );
          aSC->setEmax( aBC->eMax() );
-         aSC->setE2nd( aBC->e2nd() );
-         aSC->setSeedBasicCluster( aBC );
+			aSC->setE2nd( aBC->e2nd() );
+			aSC->setS4( aBC->s4() );
+			aSC->setSeedBasicCluster( aBC );
 			aSC->setHits( aBC->hits() );
 			// TODO - Add ref to SC in seedBC
       }
