@@ -26,7 +26,7 @@ class JetAnalyzer
 {
 
    public:
-      JetAnalyzer(const edm::ParameterSet& producersNames, const edm::ParameterSet& myConfig, int verbosity);
+		JetAnalyzer(const edm::InputTag& jetProducer, const edm::ParameterSet& producersNames, const edm::ParameterSet& myConfig, int verbosity);
       ~JetAnalyzer();
       void setVerbosity(int verbosity) {verbosity_ = verbosity; };
       bool process(const edm::Event& iEvent, TClonesArray* rootJets);

@@ -136,7 +136,8 @@ class TotoAnalyzer : public edm::EDAnalyzer
 		TClonesArray* rootVertices_;
 		TClonesArray* rootZeeVertices_;
 		TClonesArray* rootTracks_;
-		TClonesArray* rootJets_;
+		unsigned int nJetsArrays_;
+		TClonesArray** rootJetsArrays_;
 		TClonesArray* rootMuons_;
 		TClonesArray* rootElectrons_;
 		TClonesArray* rootPhotons_;

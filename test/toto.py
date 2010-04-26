@@ -45,7 +45,7 @@ process.load("TrackingTools.TransientTrack.TransientTrackBuilder_cfi")
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1)
+    input = cms.untracked.int32(100)
 )
 
 
@@ -74,7 +74,7 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
  		# 		3 = Liste objets de haut niveau (electrons, muons, photons...)
  		# 		4 = Liste tous les objets (haut niveau, clusters....)
 		# 		5 = Debug
- 		verbosity = cms.untracked.int32(1),
+ 		verbosity = cms.untracked.int32(4),
 
 		# name of output root file
 		RootFileName = cms.untracked.string('Test.root'),
@@ -86,7 +86,7 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
 		# What is written to rootuple		    
 		doL1 = cms.untracked.bool(True),
 		doHLT = cms.untracked.bool(True),
-		doMC = cms.untracked.bool(True),
+		doMC = cms.untracked.bool(False),
 		doPDFInfo = cms.untracked.bool(True),
 		doSignalMuMuGamma = cms.untracked.bool(False),  # not tested in 2.X.X or 3.X.X
 		doSignalTopTop = cms.untracked.bool(False),
@@ -201,7 +201,13 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
 		beamSpotProducer = cms.InputTag("offlineBeamSpot"),
 		primaryVertexProducer = cms.InputTag("offlinePrimaryVerticesWithBS"),
 		trackProducer = cms.InputTag("generalTracks"),
-		jetProducer = cms.InputTag("ak5CaloJets"),
+		#jetProducer = cms.InputTag("ak5CaloJets"),
+		jetProducer = cms.VInputTag(
+			cms.InputTag("ak5CaloJets"),
+			cms.InputTag("sisCone5CaloJets"),
+			cms.InputTag("kt4PFJets"),
+			cms.InputTag("antikt5PFJets")
+			),
 		muonProducer = cms.InputTag("muons"),
 		electronProducer = cms.InputTag("gsfElectrons"),
 		photonProducer = cms.InputTag("photons"),

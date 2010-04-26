@@ -4,10 +4,10 @@ using namespace std;
 using namespace reco;
 using namespace edm;
 
-JetAnalyzer::JetAnalyzer(const edm::ParameterSet& producersNames, const edm::ParameterSet& myConfig, int verbosity):verbosity_(verbosity)
+JetAnalyzer::JetAnalyzer(const edm::InputTag& jetProducer, const edm::ParameterSet& producersNames, const edm::ParameterSet& myConfig, int verbosity):verbosity_(verbosity)
 {
 	dataType_ = producersNames.getUntrackedParameter<string>("dataType","unknown");
-	jetProducer_ = producersNames.getParameter<edm::InputTag>("jetProducer");
+	jetProducer_ = jetProducer;
 	useMC_ = myConfig.getUntrackedParameter<bool>("doJetMC");
 	allowMissingCollection_ = producersNames.getUntrackedParameter<bool>("allowMissingCollection", false);
 	//	jetID_ = producersNames.getParameter<edm::ParameterSet>("jetID");
@@ -38,7 +38,7 @@ bool JetAnalyzer::process(const edm::Event& iEvent, TClonesArray* rootJets)
 		|| jetProducer_.label()=="sisCone5CaloJets"
 		|| jetProducer_.label()=="sisCone7CaloJets"
 		|| jetProducer_.label()=="antikt5CaloJets"
-                || jetProducer_.label()=="ak5CaloJets"
+      || jetProducer_.label()=="ak5CaloJets"
 		) jetType="CALO";
 	
 	if( jetProducer_.label()=="kt4PFJets"

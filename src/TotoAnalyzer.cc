@@ -4,6 +4,7 @@ using namespace std;
 using namespace reco;
 using namespace edm;
 
+typedef std::vector<edm::InputTag> vtag;
 
 TotoAnalyzer::TotoAnalyzer(const edm::ParameterSet& iConfig)
 {
@@ -35,7 +36,7 @@ TotoAnalyzer::TotoAnalyzer(const edm::ParameterSet& iConfig)
 	rootVertices_ = 0;
 	rootZeeVertices_ = 0;
 	rootTracks_ = 0;
-	rootJets_ = 0;
+	nJetsArrays_ = 0;
 	rootMuons_ = 0;
 	rootElectrons_ = 0;
 	rootPhotons_ = 0;
@@ -193,8 +194,15 @@ void TotoAnalyzer::beginJob()
 	if(doJet_)
 	{
 		if(verbosity_>0) cout << "Jets info will be added to rootuple" << endl;
-		rootJets_ = new TClonesArray("TRootJet", 1000);
-		eventTree_->Branch ("Jets", "TClonesArray", &rootJets_);
+		vtag jetProducers = producersNames_.getParameter<vtag>("jetProducer");
+		nJetsArrays_ = jetProducers.size();
+		rootJetsArrays_ = new TClonesArray*[nJetsArrays_];
+		for(unsigned int i=0; i<nJetsArrays_; ++i)
+		{
+			edm::InputTag jetProducer = jetProducers.at(i);
+			rootJetsArrays_[i] = new TClonesArray("TRootJet", 1000);
+			eventTree_->Branch (jetProducer.label().data(), "TClonesArray", &(rootJetsArrays_[i]));
+		}
 	}
 	
 	if(doMuon_)
@@ -408,9 +416,14 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
 	if(doJet_)
 	{
 		if(verbosity_>1) cout << endl << "Analysing jets collection..." << endl;
-		JetAnalyzer* myJetAnalyzer = new JetAnalyzer(producersNames_, myConfig_, verbosity_);
-		myJetAnalyzer->process(iEvent, rootJets_);
-		delete myJetAnalyzer;
+		vtag jetProducers = producersNames_.getParameter<vtag>("jetProducer");
+		for(unsigned int i=0; i<jetProducers.size(); ++i)
+		{
+			const edm::InputTag jetProducer = jetProducers.at(i);
+			JetAnalyzer* myJetAnalyzer = new JetAnalyzer(jetProducer, producersNames_, myConfig_, verbosity_);
+			myJetAnalyzer->process(iEvent, rootJetsArrays_[i]);
+			delete myJetAnalyzer;
+		}
 	}
 	
 	
@@ -609,14 +622,20 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
 			if(doElectron_) myMCAssociator->matchGenParticlesTo(rootElectrons_);
 			if(doMuon_) myMCAssociator->matchGenParticlesTo(rootMuons_);
 			if(doMET_) myMCAssociator->matchGenParticlesTo(rootMETs_);
-			if(doJet_) myMCAssociator->matchGenParticlesTo(rootJets_);
-			if(doJet_ && doJetMC_) myMCAssociator->processGenJets(rootGenJets_, rootJets_);
+			for(unsigned int i=0; i<nJetsArrays_; ++i)
+			{
+				if(doJet_) myMCAssociator->matchGenParticlesTo(rootJetsArrays_[i]);
+				if(doJet_ && doJetMC_) myMCAssociator->processGenJets(rootGenJets_, rootJetsArrays_[i]);
+			}
 			if(verbosity_>4) cout << endl << "Printing recoParticles / mcParticles associations... " << endl;
 			if(verbosity_>4 && doPhoton_) myMCAssociator->printParticleAssociation(rootPhotons_);
 			if(verbosity_>4 && doElectron_) myMCAssociator->printParticleAssociation(rootElectrons_);
 			if(verbosity_>4 && doMuon_) myMCAssociator->printParticleAssociation(rootMuons_);
 			if(verbosity_>4 && doMET_) myMCAssociator->printParticleAssociation(rootMETs_);
-			if(verbosity_>4 && doJet_) myMCAssociator->printJetAssociation(rootJets_);
+			for(unsigned int i=0; i<nJetsArrays_; ++i)
+			{
+				if(verbosity_>4 && doJet_) myMCAssociator->printJetAssociation(rootJetsArrays_[i]);
+			}
 			delete myMCAssociator;
 		}
 	}
@@ -638,7 +657,7 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
 	if(doPrimaryVertex_) (*rootVertices_).Delete();
 	if(doZeePrimaryVertex_) (*rootZeeVertices_).Delete();
 	if(doTrack_) (*rootTracks_).Delete();
-	if(doJet_) (*rootJets_).Delete();
+	for(unsigned int i=0; i<nJetsArrays_; ++i) (*(rootJetsArrays_[i])).Delete();
 	if(doMuon_) (*rootMuons_).Delete();
 	if(doElectron_) (*rootElectrons_).Delete();
 	if(doPhoton_) (*rootPhotons_).Delete();
