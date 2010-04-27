@@ -61,8 +61,10 @@ bool SuperClusterAnalyzer::process(const edm::Event& iEvent, TRootEvent* rootEve
 		localClus.setEtaWidth( aSuperClus->etaWidth() );
 		localClus.setPhiWidth( aSuperClus->phiWidth() );
 		unsigned int seedUID = 0;
-      if ( (aSuperClus->hitsAndFractions()).size()>0 ) seedUID = (aSuperClus->hitsAndFractions()).at(0).first();
-      
+		// The CaloCluster inherited by SuperCluster is not always the seed CaloCluster of the SuperCluster !!!!!
+		//if ( (aSuperClus->hitsAndFractions()).size()>0 ) seedUID = (aSuperClus->hitsAndFractions()).at(0).first();
+		if ( (aSuperClus->seed()->hitsAndFractions()).size()>0 ) seedUID = (aSuperClus->seed()->hitsAndFractions()).at(0).first();
+		
       int iSubCluster=0;
       for( reco::CaloCluster_iterator  aBasicClus = aSuperClus->clustersBegin(); aBasicClus != aSuperClus->clustersEnd(); aBasicClus++)
       {
