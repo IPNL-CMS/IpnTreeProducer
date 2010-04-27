@@ -522,7 +522,7 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
 		ClusterAssociator* myClusterAssociator = new ClusterAssociator();
 		myClusterAssociator->setVerbosity(verbosity_);
 		myClusterAssociator->process(rootSuperClusters_, rootBasicClusters_);
-		//myClusterAssociator->printSuperClusters(rootSuperClusters_, rootBasicClusters_,0);  // 0 to print all types SC
+		if(verbosity_>4) myClusterAssociator->printSuperClusters(rootSuperClusters_, rootBasicClusters_,0);  // 0 to print all types SC
 		delete myClusterAssociator;
 	}
 	
