@@ -31,7 +31,8 @@ void PhotonAssociator::associateSuperCluster(TClonesArray* photons, TClonesArray
       localPhoton = (TRootPhoton*)photons->At(iphot);
       energy5x5= localPhoton->e5x5();
       rangeIt=scMap.equal_range(energy5x5);
-      for (it=rangeIt.first; it!=rangeIt.second; ++it)
+		if (rangeIt.first == rangeIt.second) cout << "  ##### ERROR IN  PhotonAssociator::associateSuperCluster => No associated SC found #####"<<endl;
+		for (it=rangeIt.first; it!=rangeIt.second; ++it)
       {
          localSuperCluster = (TRootSuperCluster*) superClusters->At((*it).second);
          localPhoton->setSCIndex( localSuperCluster->type(), (*it).second );
