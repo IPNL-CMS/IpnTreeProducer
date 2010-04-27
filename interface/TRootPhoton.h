@@ -678,7 +678,7 @@ class TRootPhoton : public TRootParticle
 			<<"  isEBPho=" << this->isEBPho() << " isEEPho=" << this->isEEPho()  << " isEBGap=" << this->isEBGap()
 			<<"  isEEGap=" << this->isEEGap() << " isEBEEGap=" << this->isEBEEGap()  << " isAlsoElectron=" << this->isAlsoElectron()  <<"  nTracksConv=" << this->convNTracks();
 			if (this->convNTracks()>1)
-				std::cout << endl << "Conversion: E/p=" << this->convEoverP() << " Mass=" << this->convMass() << " cotan(Theta)=" << this->convCotanTheta() << " Likely=" << this->convLikely()
+				std::cout << endl << "            Conversion: E/p=" << this->convEoverP() << " Mass=" << this->convMass() << " cotan(Theta)=" << this->convCotanTheta() << " Likely=" << this->convLikely()
 				<< " (vx,vy,vz)=(" << this->convVertex().X() << ","<< this->convVertex().Y() << ","<< this->convVertex().Z() << ")";
 		};
 		
