@@ -58,6 +58,7 @@ class TRootCluster : public TVector3
 		,eMax_(-1.)
 		,e2nd_(-1.)
 		,s4_(-1.)
+		,esRatio_(-1.)
 		,nXtals_(-1)
 		,uid_(0)
 		,hits_()
@@ -73,6 +74,7 @@ class TRootCluster : public TVector3
 		,eMax_(cluster.eMax_)
 		,e2nd_(cluster.e2nd_)
 		,s4_(cluster.s4_)
+		,esRatio_(cluster.esRatio_)
 		,nXtals_(cluster.nXtals_)
 		,uid_(cluster.uid_)
 		,hits_(cluster.hits_)
@@ -87,6 +89,7 @@ class TRootCluster : public TVector3
 		,eMax_(-1.)
 		,e2nd_(-1.)
 		,s4_(-1.)
+		,esRatio_(-1.)
 		,nXtals_(-1)
 		,uid_(0)
 		,hits_()
@@ -103,6 +106,7 @@ class TRootCluster : public TVector3
 		,eMax_(-1.)
 		,e2nd_(-1.)
 		,s4_(-1.)
+		,esRatio_(-1.)
 		,nXtals_(-1)
 		,uid_(0)
 		,hits_()
@@ -119,6 +123,7 @@ class TRootCluster : public TVector3
 		,eMax_(-1.)
 		,e2nd_(-1.)
 		,s4_(-1.)
+		,esRatio_(-1.)
 		,nXtals_(-1)
 		,uid_(0)
 		,hits_()
@@ -136,6 +141,7 @@ class TRootCluster : public TVector3
 		,eMax_(-1.)
 		,e2nd_(-1.)
 		,s4_(-1.)
+		,esRatio_(-1.)
 		,nXtals_(-1)
 		,uid_(0)
 		,hits_()
@@ -152,6 +158,7 @@ class TRootCluster : public TVector3
 		,eMax_(-1.)
 		,e2nd_(-1.)
 		,s4_(-1.)
+		,esRatio_(-1.)
 		,nXtals_(-1)
 		,uid_(0)
 		,hits_()
@@ -171,6 +178,7 @@ class TRootCluster : public TVector3
 		Double_t eMax() const { return eMax_; }
 		Double_t e2nd() const { return e2nd_; }
 		Double_t s4() const { return s4_; }
+		Float_t esRatio() const { return esRatio_; }
 		Int_t nXtals() const { return nXtals_; }
 		UInt_t uid() const { return uid_; }
 		UInt_t nRecHits() const { return hits_.size(); }
@@ -198,6 +206,7 @@ class TRootCluster : public TVector3
 		void setEmax(Double_t eMax) { eMax_ = eMax; }
 		void setE2nd(Double_t e2nd) { e2nd_ = e2nd; }
 		void setS4(Double_t s4) { s4_ = s4; }
+		void setESratio(Float_t esRatio) { esRatio_ = esRatio; }
 		void setNxtals(Int_t nXtals) { nXtals_ = nXtals; }
 		void setUid(UInt_t uid) { uid_ = uid; }
 		void setHits(std::vector<TRootEcalRecHit> hits) { hits_ = hits; }
@@ -229,12 +238,13 @@ class TRootCluster : public TVector3
 		Double_t eMax_;     // Max xtal energy
 		Double_t e2nd_;     // Energy of the 2nd highest energy xtal
 		Double_t s4_;       // Energy in swiss cross
+		Float_t esRatio_;   // Ratio E3/E21 of energy in ES planes
 		Int_t nXtals_;      // Number of xtals in the Basic Cluster
 		UInt_t uid_;        // Unique Identifier
 		
 		std::vector<TRootEcalRecHit> hits_;  // associated Ecal rechits
 		
-		ClassDef (TRootCluster,6);
+		ClassDef (TRootCluster,7);
 		
 };
 

@@ -508,11 +508,11 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
 		
 		if(verbosity_>1) cout << endl << "Analysing SuperClusters collection..." << endl;
 		SuperClusterAnalyzer* mySClusterAnalyzer = new SuperClusterAnalyzer(producersNames_, verbosity_);
-		mySClusterAnalyzer->process(iEvent, rootEvent_, rootSuperClusters_, "hybridSuperClusters","",210);
-		mySClusterAnalyzer->process(iEvent, rootEvent_, rootSuperClusters_, "correctedHybridSuperClusters","",211);
-		mySClusterAnalyzer->process(iEvent, rootEvent_, rootSuperClusters_, "multi5x5SuperClusters","multi5x5EndcapSuperClusters",320);
-		mySClusterAnalyzer->process(iEvent, rootEvent_, rootSuperClusters_, "multi5x5SuperClustersWithPreshower","",323);
-		mySClusterAnalyzer->process(iEvent, rootEvent_, rootSuperClusters_, "correctedMulti5x5SuperClustersWithPreshower","",322);
+		mySClusterAnalyzer->process(iEvent, iSetup, rootEvent_, rootSuperClusters_, "hybridSuperClusters","",210);
+		mySClusterAnalyzer->process(iEvent, iSetup, rootEvent_, rootSuperClusters_, "correctedHybridSuperClusters","",211);
+		mySClusterAnalyzer->process(iEvent, iSetup, rootEvent_, rootSuperClusters_, "multi5x5SuperClusters","multi5x5EndcapSuperClusters",320);
+		mySClusterAnalyzer->process(iEvent, iSetup, rootEvent_, rootSuperClusters_, "multi5x5SuperClustersWithPreshower","",323);
+		mySClusterAnalyzer->process(iEvent, iSetup, rootEvent_, rootSuperClusters_, "correctedMulti5x5SuperClustersWithPreshower","",322);
 		delete mySClusterAnalyzer;
 	}
 	

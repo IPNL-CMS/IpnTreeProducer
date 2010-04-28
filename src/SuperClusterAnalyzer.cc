@@ -22,7 +22,7 @@ SuperClusterAnalyzer::~SuperClusterAnalyzer()
 }
 
 
-bool SuperClusterAnalyzer::process(const edm::Event& iEvent, TRootEvent* rootEvent, TClonesArray* rootSuperClusters, const string moduleLabel, const string instanceName, const int clusterType)
+bool SuperClusterAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iSetup, TRootEvent* rootEvent, TClonesArray* rootSuperClusters, const string moduleLabel, const string instanceName, const int clusterType)
 {
 
    // TODO - Use supercluster encapsulated in pat::Photon if patEncapsulation_ = true
@@ -60,6 +60,15 @@ bool SuperClusterAnalyzer::process(const edm::Event& iEvent, TRootEvent* rootEve
       localClus.setRawEnergy( aSuperClus->rawEnergy() );
 		localClus.setEtaWidth( aSuperClus->etaWidth() );
 		localClus.setPhiWidth( aSuperClus->phiWidth() );
+
+		// Get ES Plane ratio E3/E21
+		reco::CaloClusterPtr seedCaloCluster = aSuperClus->seed();
+		if (fabs(aSuperClus->eta())>1.62 && seedCaloCluster.isNonnull() )
+		{
+			float esratio = getESRatio(seedCaloCluster, iEvent, iSetup);
+			localClus.setESratio( esratio );
+		}
+		
 		unsigned int seedUID = 0;
 		// The CaloCluster inherited by SuperCluster is not always the seed CaloCluster of the SuperCluster !!!!!
 		//if ( (aSuperClus->hitsAndFractions()).size()>0 ) seedUID = (aSuperClus->hitsAndFractions()).at(0).first();
@@ -84,4 +93,88 @@ bool SuperClusterAnalyzer::process(const edm::Event& iEvent, TRootEvent* rootEve
    }
    rootEvent->setNSuperClusters(clusterType,iClusType);
    return true;
+
+		
+}
+
+
+float SuperClusterAnalyzer::getESRatio(reco::CaloClusterPtr& seed, const edm::Event& iEvent, const edm::EventSetup& iSetup)
+{
+	
+	//get Geometry
+	ESHandle<CaloGeometry> caloGeometry;
+	iSetup.get<CaloGeometryRecord>().get(caloGeometry);
+	const CaloSubdetectorGeometry *geometry = caloGeometry->getSubdetectorGeometry(DetId::Ecal, EcalPreshower);
+	const CaloSubdetectorGeometry *& geometry_p = geometry;
+	
+	// Get ES rechits
+	edm::Handle<EcalRecHitCollection> PreshowerRecHits;
+	iEvent.getByLabel(InputTag("ecalPreshowerRecHit","EcalRecHitsES"), PreshowerRecHits);
+	if( PreshowerRecHits.isValid() ) EcalRecHitCollection preshowerHits(*PreshowerRecHits);
+	
+	Float_t esratio=-1.;
+	
+	//reco::CaloCluster cluster = (*seed);
+	const GlobalPoint phopoint(seed->x(), seed->y(), seed->z());
+	
+	DetId photmp1 = (dynamic_cast<const EcalPreshowerGeometry*>(geometry_p))->getClosestCellInPlane(phopoint, 1);
+	DetId photmp2 = (dynamic_cast<const EcalPreshowerGeometry*>(geometry_p))->getClosestCellInPlane(phopoint, 2);
+	ESDetId esfid = (photmp1 == DetId(0)) ? ESDetId(0) : ESDetId(photmp1);
+	ESDetId esrid = (photmp2 == DetId(0)) ? ESDetId(0) : ESDetId(photmp2);
+	
+	int gs_esfid = -99;
+	int gs_esrid = -99;
+	gs_esfid = esfid.six()*32+esfid.strip();
+	gs_esrid = esrid.siy()*32+esrid.strip();
+	
+	float esfe3 = 0.;
+	float esfe21 = 0.;
+	float esre3 = 0.;
+	float esre21 = 0.;
+	
+	const ESRecHitCollection *ESRH = PreshowerRecHits.product();
+	EcalRecHitCollection::const_iterator esrh_it;
+	for ( esrh_it = ESRH->begin(); esrh_it != ESRH->end(); esrh_it++) {
+		ESDetId esdetid = ESDetId(esrh_it->id());
+		if ( esdetid.plane()==1 ) {
+			if ( esdetid.zside() == esfid.zside() &&
+				esdetid.siy() == esfid.siy() ) {
+				int gs_esid = esdetid.six()*32+esdetid.strip();
+			int ss = gs_esid-gs_esfid;
+			if ( TMath::Abs(ss)<=10) {
+				esfe21 += esrh_it->energy();
+			}
+			if ( TMath::Abs(ss)<=1) {
+				esfe3 += esrh_it->energy();
+			}
+			}
+		}
+		if (esdetid.plane()==2 ){
+			if ( esdetid.zside() == esrid.zside() &&
+				esdetid.six() == esrid.six() ) {
+				int gs_esid = esdetid.siy()*32+esdetid.strip();
+			int ss = gs_esid-gs_esrid;
+			if ( TMath::Abs(ss)<=10) {
+				esre21 += esrh_it->energy();
+			}
+			if ( TMath::Abs(ss)<=1) {
+				esre3 += esrh_it->energy();
+			}
+			}
+		}
+	}
+	
+	if( (esfe21+esre21) == 0.) {
+		esratio = 1.;
+	}else{
+		esratio = (esfe3+esre3) / (esfe21+esre21);
+	}
+	
+	
+	if ( esratio>1.) {
+		cout << "es numbers " << esfe3 << " " << esfe21 << " " << esre3 << " " << esre21 << endl;
+	}
+	
+	return esratio;
+	
 }
