@@ -11,6 +11,7 @@ class TRootEcalRecHit : public TObject
 	
 	public:
 		
+		// FIXME - Flags should be synchronized with /DataFormats/EcalRecHit/interface/EcalRecHit.h
 		enum Flags
 		{
 			kGood=0,               // channel ok, the energy and time measurement are reliable
