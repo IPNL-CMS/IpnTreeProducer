@@ -5,6 +5,7 @@ using namespace reco;
 using namespace edm;
 
 bool operator< (const TRootEcalRecHit & left, const TRootEcalRecHit & right) { return left.energy()<right.energy(); }
+bool decrease(const TRootEcalRecHit & left, const TRootEcalRecHit & right) { return left.energy()>right.energy(); }
 
 ClusterAnalyzer::ClusterAnalyzer(const edm::ParameterSet& config, const edm::ParameterSet& producersNames, int verbosity):verbosity_(verbosity), iClus_(0), doRecHits_(true)
 {
@@ -138,7 +139,8 @@ bool ClusterAnalyzer::process(const edm::Event& iEvent, TRootEvent* rootEvent, E
 			}
 
 			// FIXME - Implement ordering method in TRootEcalRecHit.h
-			std::sort(hits.begin(), hits.end());
+			//std::sort(hits.begin(), hits.end());
+			std::sort(hits.begin(), hits.end(), decrease);
 			// if keepClusterizedEcalRecHits_=false, then keep only rechit associated to seed crystal
 			if (! keepClusterizedEcalRecHits_ ) hits.resize(1);
 			localClus.setHits(hits);
