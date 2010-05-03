@@ -184,7 +184,13 @@ class TRootCluster : public TVector3
 		UInt_t nRecHits() const { return hits_.size(); }
 		std::vector<TRootEcalRecHit> hits() const { return hits_; }
 		TRootEcalRecHit* hitAt(unsigned int i) { return ( (i<hits_.size()) ? &(hits_.at(i)) : 0 ); }
-		TRootEcalRecHit* seedHit(unsigned int i) { return ( (0<hits_.size()) ? &(hits_.at(0)) : 0 ); }
+		TRootEcalRecHit* seedHit() { return ( (0<hits_.size()) ? &(hits_.at(0)) : 0 ); }
+		Int_t seedDetector() const { return ( (0<hits_.size()) ? hits_.at(0).detector() : -1. ); }
+		Int_t seedRecoFlag() const { return ( (0<hits_.size()) ? hits_.at(0).recoFlag() : -1. ); }
+		Float_t seedEnergy() const { return ( (0<hits_.size()) ? hits_.at(0).energy() : -1. ); }
+		Float_t seedTime() const { return ( (0<hits_.size()) ? hits_.at(0).time() : -1. ); }
+		Int_t seedPosition1() const { return ( (0<hits_.size()) ? hits_.at(0).position1() : -1. ); }
+		Int_t seedPosition2() const { return ( (0<hits_.size()) ? hits_.at(0).position2() : -1. ); }
 		TString typeName() const {
 			if ( det_==110 ) return "Island Barrel BC";
 			else if ( det_==120 ) return "Island Endcap BC";
@@ -244,7 +250,7 @@ class TRootCluster : public TVector3
 		
 		std::vector<TRootEcalRecHit> hits_;  // associated Ecal rechits
 		
-		ClassDef (TRootCluster,7);
+		ClassDef (TRootCluster,8);
 		
 };
 
