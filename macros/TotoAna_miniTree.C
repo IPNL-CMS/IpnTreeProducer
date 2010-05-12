@@ -467,7 +467,10 @@ cout << endl;
 					Photon_isoNTracksHollowCone = myphoton->isolationNTracksHollowCone();
 					Photon_isoPersoSolidTrkCone = myphoton->isolationPersoTracksSolidCone();
 					Photon_convNTracks = myphoton->convNTracks();
-								if ( myphoton->superCluster() != 0 )
+					Photon_hasPixelSeed = myphoton->hasPixelSeed();
+					Photon_isAlsoElectron = myphoton->isAlsoElectron();
+				
+			if ( myphoton->superCluster() != 0 )
 				{
 						Photon_SCEta = myphoton->superCluster()->Eta();
 						Photon_SCPhi = myphoton->superCluster()->Phi();
@@ -503,34 +506,31 @@ cout << endl;
             Photon_isolationPersoNTracksSolidCone = -999;
             Photon_SCRawEnergy = -999;
 				} // end of loop over photons having a supercluster
+
+
 					if (myphoton->superCluster() == 0 ) {miniTree->Fill(); continue;}
-
 				Float_t scRawEt = myphoton->superCluster()->rawEnergy() * sin(myphoton->superCluster()->Theta());
-
 				nCut1++;
 					Photon_isAfterCut1 = 1;
 
-				if ( myphoton->isEBPho() &&(1 - ((myphoton->superCluster()->s4())/(myphoton->superCluster()->eMax())))>0.95 ) {miniTree->Fill(); continue;}
-				//if ( myphoton->superCluster()->hitsDetector().size()<3 && fabs(myphoton->r19()-1)<0.05 ) continue;
-				nCut2++;
+					nCut2++;
 					Photon_isAfterCut2 = 1;
 				
-					Photon_hasPixelSeed = myphoton->hasPixelSeed();
-					Photon_isAlsoElectron = myphoton->isAlsoElectron();
-				
-				//if (myphoton->hasPixelSeed()) continue;
 				nCut3++;
 					Photon_isAfterCut3 = 1;
-				//if (myphoton->isAlsoElectron()) continue;
+
+				if ( scRawEt<2.0 ) {miniTree->Fill(); continue;}
 				nCut4++;
 					Photon_isAfterCut4 = 1;
-				if ( scRawEt<2.0 ) {miniTree->Fill(); continue;}
+
+				if ( (abs_eta>2.5) || ( abs_eta>1.4442 && abs_eta<1.566 ) ) {miniTree->Fill();  continue;}
 				nCut5++;
 					Photon_isAfterCut5 = 1;
-				//if ( fabs(myphoton->Eta())>2.5 ) continue;
-				Float_t abs_eta = fabs(myphoton->superCluster()->Eta());
-				if ( (abs_eta>2.5) || ( abs_eta>1.4442 && abs_eta<1.566 ) ) {miniTree->Fill();  continue;}
-				nCut6++;
+					Float_t abs_eta = fabs(myphoton->superCluster()->Eta());
+
+				if ( myphoton->isEBPho() &&(1 - ((myphoton->superCluster()->s4())/(myphoton->superCluster()->eMax())))>0.90 ) {miniTree->Fill(); continue;}
+				//if ( myphoton->superCluster()->hitsDetector().size()<3 && fabs(myphoton->r19()-1)<0.05 ) continue; // old spike removal
+					nCut6++;
 					Photon_isAfterCut6 = 1;
 				
 				nPhotons++;
