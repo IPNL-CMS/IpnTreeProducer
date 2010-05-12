@@ -7,9 +7,9 @@ using namespace std;
 
 class TRootMET : public TRootParticle
 {
-
+   
    public:
-
+      
       TRootMET() :
       TRootParticle()
       ,maxEtInEmTowers_(0.)
@@ -45,8 +45,22 @@ class TRootMET : public TRootParticle
       ,corExMUON_(-9999.)
       ,corEyMUON_(-9999.)
       ,corSumEtMUON_(-9999.)
+      ,neutralHadEtFraction_(0.)
+      ,neutralHadEt_ (0.)
+      ,chargedHadEtFraction_(0.)
+      ,chargedHadEt_(0.)
+      ,neutralEMEtFraction_(0.)
+      ,neutralEMEt_ (0.)
+      ,chargedEMEtFraction_(0.)
+      ,chargedEMEt_(0.)
+      ,muonEtFraction_(0.)
+      ,muonEt_(0.)
+      ,type6EtFraction_(0.)
+      ,type6Et_(0.)
+      ,type7EtFraction_(0.)
+      ,type7Et_(0.)
       {;}
-
+      
       TRootMET(const TRootMET& met) :
       TRootParticle(met)
       ,maxEtInEmTowers_(met.maxEtInEmTowers_)
@@ -82,8 +96,22 @@ class TRootMET : public TRootParticle
       ,corExMUON_(met.corExMUON_)
       ,corEyMUON_(met.corEyMUON_)
       ,corSumEtMUON_(met.corSumEtMUON_)
+      ,neutralHadEtFraction_(met.neutralHadEtFraction_)
+      ,neutralHadEt_ (met.neutralHadEt_)
+      ,chargedHadEtFraction_(met.chargedHadEtFraction_)
+      ,chargedHadEt_(met.chargedHadEt_)
+      ,neutralEMEtFraction_(met.neutralEMEtFraction_)
+      ,neutralEMEt_(met.neutralEMEt_)
+      ,chargedEMEtFraction_(met.chargedEMEtFraction_)
+      ,chargedEMEt_(met.chargedEMEt_)
+      ,muonEtFraction_(met.muonEtFraction_)
+      ,muonEt_(met.muonEt_)
+      ,type6EtFraction_(met.type6EtFraction_)
+      ,type6Et_(met.type6Et_)
+      ,type7EtFraction_(met.type7EtFraction_)
+      ,type7Et_(met.type7Et_)
       {;}
-
+      
       TRootMET(Double_t px, Double_t py, Double_t pz, Double_t e) :
       TRootParticle(px,py,pz,e)
       ,maxEtInEmTowers_(0.)
@@ -119,8 +147,22 @@ class TRootMET : public TRootParticle
       ,corExMUON_(-9999.)
       ,corEyMUON_(-9999.)
       ,corSumEtMUON_(-9999.)
+      ,neutralHadEtFraction_(0.)
+      ,neutralHadEt_ (0.)
+      ,chargedHadEtFraction_(0.)
+      ,chargedHadEt_(0.)
+      ,neutralEMEtFraction_(0.)
+      ,neutralEMEt_ (0.)
+      ,chargedEMEtFraction_(0.)
+      ,chargedEMEt_(0.)
+      ,muonEtFraction_(0.)
+      ,muonEt_(0.)
+      ,type6EtFraction_(0.)
+      ,type6Et_(0.)
+      ,type7EtFraction_(0.)
+      ,type7Et_(0.)
       {;}
-
+      
       TRootMET(Double_t px, Double_t py, Double_t pz, Double_t e, Double_t vtx_x, Double_t vtx_y, Double_t vtx_z) :
       TRootParticle(px,py,pz,e,vtx_x,vtx_y,vtx_z)
       ,maxEtInEmTowers_(0.)
@@ -156,8 +198,22 @@ class TRootMET : public TRootParticle
       ,corExMUON_(-9999.)
       ,corEyMUON_(-9999.)
       ,corSumEtMUON_(-9999.)
+      ,neutralHadEtFraction_(0.)
+      ,neutralHadEt_ (0.)
+      ,chargedHadEtFraction_(0.)
+      ,chargedHadEt_(0.)
+      ,neutralEMEtFraction_(0.)
+      ,neutralEMEt_ (0.)
+      ,chargedEMEtFraction_(0.)
+      ,chargedEMEt_(0.)
+      ,muonEtFraction_(0.)
+      ,muonEt_(0.)
+      ,type6EtFraction_(0.)
+      ,type6Et_(0.)
+      ,type7EtFraction_(0.)
+      ,type7Et_(0.)
       {;}
-
+      
       TRootMET(Double_t px, Double_t py, Double_t pz, Double_t e, Double_t vtx_x, Double_t vtx_y, Double_t vtx_z, Int_t type, Float_t charge) :
       TRootParticle(px,py,pz,e,vtx_x,vtx_y,vtx_z,type,charge)
       ,maxEtInEmTowers_(0.)
@@ -193,8 +249,22 @@ class TRootMET : public TRootParticle
       ,corExMUON_(-9999.)
       ,corEyMUON_(-9999.)
       ,corSumEtMUON_(-9999.)
+      ,neutralHadEtFraction_(0.)
+      ,neutralHadEt_ (0.)
+      ,chargedHadEtFraction_(0.)
+      ,chargedHadEt_(0.)
+      ,neutralEMEtFraction_(0.)
+      ,neutralEMEt_ (0.)
+      ,chargedEMEtFraction_(0.)
+      ,chargedEMEt_(0.)
+      ,muonEtFraction_(0.)
+      ,muonEt_(0.)
+      ,type6EtFraction_(0.)
+      ,type6Et_(0.)
+      ,type7EtFraction_(0.)
+      ,type7Et_(0.)
       {;}
-
+      
       TRootMET(const TLorentzVector &momentum) :
       TRootParticle(momentum)
       ,maxEtInEmTowers_(0.)
@@ -230,8 +300,22 @@ class TRootMET : public TRootParticle
       ,corExMUON_(-9999.)
       ,corEyMUON_(-9999.)
       ,corSumEtMUON_(-9999.)
+      ,neutralHadEtFraction_(0.)
+      ,neutralHadEt_ (0.)
+      ,chargedHadEtFraction_(0.)
+      ,chargedHadEt_(0.)
+      ,neutralEMEtFraction_(0.)
+      ,neutralEMEt_ (0.)
+      ,chargedEMEtFraction_(0.)
+      ,chargedEMEt_(0.)
+      ,muonEtFraction_(0.)
+      ,muonEt_(0.)
+      ,type6EtFraction_(0.)
+      ,type6Et_(0.)
+      ,type7EtFraction_(0.)
+      ,type7Et_(0.)
       {;}
-
+      
       TRootMET(const TLorentzVector &momentum, const TVector3 &vertex, Int_t type, Float_t charge) :
       TRootParticle(momentum, vertex, type, charge)
       ,maxEtInEmTowers_(0.)
@@ -267,10 +351,24 @@ class TRootMET : public TRootParticle
       ,corExMUON_(-9999.)
       ,corEyMUON_(-9999.)
       ,corSumEtMUON_(-9999.)
+      ,neutralHadEtFraction_(0.)
+      ,neutralHadEt_ (0.)
+      ,chargedHadEtFraction_(0.)
+      ,chargedHadEt_(0.)
+      ,neutralEMEtFraction_(0.)
+      ,neutralEMEt_ (0.)
+      ,chargedEMEtFraction_(0.)
+      ,chargedEMEt_(0.)
+      ,muonEtFraction_(0.)
+      ,muonEt_(0.)
+      ,type6EtFraction_(0.)
+      ,type6Et_(0.)
+      ,type7EtFraction_(0.)
+      ,type7Et_(0.)
       {;}
-
+      
       ~TRootMET() {;}
-
+      
       Float_t maxEtInEmTowers() const { return maxEtInEmTowers_; }
       Float_t maxEtInHadTowers() const { return maxEtInHadTowers_; }
       Float_t hadEtInHO() const { return hadEtInHO_; }
@@ -304,10 +402,24 @@ class TRootMET : public TRootParticle
       Float_t corExMUON()const {return corExMUON_; }
       Float_t corEyMUON()const {return corEyMUON_; }
       Float_t corSumEtMUON()const {return corSumEtMUON_; }
+      Float_t neutralHadEtFraction() const {return neutralHadEtFraction_; }
+      Float_t neutralHadEt() const {return neutralHadEt_; }
+      Float_t chargedHadEtFraction() const {return chargedHadEtFraction_; }
+      Float_t chargedHadEt() const {return chargedHadEt_; }
+      Float_t neutralEMEtFraction() const {return neutralEMEtFraction_; }
+      Float_t neutralEMEt() const {return neutralEMEt_; }
+      Float_t chargedEMEtFraction() const {return chargedEMEtFraction_; }
+      Float_t chargedEMEt() const {return chargedEMEt_; }
+      Float_t muonEtFraction() const {return muonEtFraction_; }
+      Float_t muonEt() const {return muonEt_; }
+      Float_t type6EtFraction() {return type6EtFraction_; }
+      Float_t type6Et() {return type6Et_; }
+      Float_t type7EtFraction() {return type6EtFraction_; }
+      Float_t type7Et() {return type6Et_; }
       //TObject* genMET() const { return genMET_.GetObject(); }
       virtual TString typeName() const { return "TRootMET"; }
-
-
+      
+      
       void setMaxEtInEmTowers(Float_t maxEtInEmTowers) { maxEtInEmTowers_ = maxEtInEmTowers; }
       void setMaxEtInHadTowers(Float_t maxEtInHadTowers) { maxEtInHadTowers_ = maxEtInHadTowers; }
       void setHadEtInHO(Float_t hadEtInHO) { hadEtInHO_ = hadEtInHO; }
@@ -326,7 +438,7 @@ class TRootMET : public TRootParticle
       void setCaloSETInmHF(Float_t caloSETInmHF) { caloSETInmHF_ = caloSETInmHF; }
       void setCaloMETPhiInpHF(Float_t caloMETPhiInpHF) { caloMETPhiInpHF_ = caloMETPhiInpHF; }
       void setCaloMETPhiInmHF(Float_t caloMETPhiInmHF) { caloMETPhiInmHF_ = caloMETPhiInmHF; }
-
+      
       void setCaloMETFraction(
       Float_t maxEtInEmTowers
       ,Float_t maxEtInHadTowers
@@ -368,7 +480,7 @@ class TRootMET : public TRootParticle
          caloMETPhiInpHF_ = caloMETPhiInpHF;
          caloMETPhiInmHF_ = caloMETPhiInmHF;
       }
-
+      
       void setUncorrectedPhiALL(Float_t uncorrectedPhiALL) { uncorrectedPhiALL_ = uncorrectedPhiALL;}
       void setUncorrectedPtALL(Float_t uncorrectedPtALL) { uncorrectedPtALL_ = uncorrectedPtALL;}
       void setCorExALL(Float_t corExALL) { corExALL_ = corExALL;}
@@ -385,18 +497,66 @@ class TRootMET : public TRootParticle
       void setCorEyMUON(Float_t corEyMUON) { corEyMUON_ = corEyMUON;}
       void setCorSumEtMUON(Float_t corSumEtMUON) { corSumEtMUON_ = corSumEtMUON;}
       //void setGenMET(TObject* genMET) { genMET_ = genMET; }
+      
+      void setHadronicEtFraction(
+         Float_t neutralHadEtFraction
+         ,Float_t neutralHadEt
+         ,Float_t chargedHadEtFraction
+         ,Float_t chargedHadEt
+      )
+      {
+         neutralHadEtFraction_ = neutralHadEtFraction;
+         neutralHadEt_         = neutralHadEt;
+         chargedHadEtFraction_ = chargedHadEtFraction;
+         chargedHadEt_         = chargedHadEt;
+      }
+      
+      void setEMEtFraction(
+         Float_t neutralEMEtFraction
+         ,Float_t neutralEMEt
+         ,Float_t chargedEMEtFraction
+         ,Float_t chargedEMEt
+      )
+      {
+         neutralEMEtFraction_ = neutralEMEtFraction;
+         neutralEMEt_         = neutralEMEt;
+         chargedEMEtFraction_ = chargedEMEtFraction;
+         chargedEMEt_         = chargedEMEt;
+      }
+      
+      void setMuonstFraction(
+         Float_t muonEtFraction
+         ,Float_t muonEt
+      )
+      {
+         muonEtFraction_ = muonEtFraction;
+         muonEt_         = muonEt;
+      }
+      
+      void setTypesFraction(
+         Float_t type6EtFraction,
+         Float_t type6Et,
+         Float_t type7EtFraction,
+         Float_t type7Et
+         )
+      {
+         type6EtFraction_ = type6EtFraction;
+         type6Et_         = type6Et;
+         type7EtFraction_ = type7EtFraction;
+         type7Et_         = type7Et;
+      }
 
+      
+       friend std::ostream& operator<< (std::ostream& stream, const TRootMET& met) {
+          stream << "TRootMET  (Pt,Px,Py, Phi)=("<< met.Pt() <<","<< met.Px() <<","<< met.Py()  <<","<< met.Phi() << ")"
+          << "  hadEt in (HO,HB,HF,HE)=("<< met.hadEtInHO() <<","<< met.hadEtInHB() <<","<< met.hadEtInHF() <<","<< met.hadEtInHE() << ")"
+          << "  emEt in (EB,EF,HF)=("<< met.emEtInEB() <<","<< met.emEtInEE() <<","<< met.emEtInHF() << ")";
+          return stream;
+       };
 
-      friend std::ostream& operator<< (std::ostream& stream, const TRootMET& met) {
-         stream << "TRootMET  (Pt,Px,Py, Phi)=("<< met.Pt() <<","<< met.Px() <<","<< met.Py()  <<","<< met.Phi() << ")"
-         << "  hadEt in (HO,HB,HF,HE)=("<< met.hadEtInHO() <<","<< met.hadEtInHB() <<","<< met.hadEtInHF() <<","<< met.hadEtInHE() << ")"
-         << "  emEt in (EB,EF,HF)=("<< met.emEtInEB() <<","<< met.emEtInEE() <<","<< met.emEtInHF() << ")";
-         return stream;
-      };
-
-
+       
    private:
-
+      
       Float_t maxEtInEmTowers_;    // Maximum ET in EM towers
       Float_t maxEtInHadTowers_;   // Maximum ET in HCAL towers
       Float_t hadEtInHO_;          // Hadronic ET fraction in HO
@@ -430,9 +590,24 @@ class TRootMET : public TRootParticle
       Float_t corExMUON_;
       Float_t corEyMUON_;
       Float_t corSumEtMUON_;
-
+      
+      Float_t neutralHadEtFraction_;
+      Float_t neutralHadEt_;
+      Float_t chargedHadEtFraction_;
+      Float_t chargedHadEt_;
+      Float_t neutralEMEtFraction_;
+      Float_t neutralEMEt_;
+      Float_t chargedEMEtFraction_;
+      Float_t chargedEMEt_;
+      Float_t muonEtFraction_;
+      Float_t muonEt_;
+      Float_t type6EtFraction_;
+      Float_t type6Et_;
+      Float_t type7EtFraction_;
+      Float_t type7Et_;
+      
       ClassDef (TRootMET,2);
-
+      
 };
 
 #endif
