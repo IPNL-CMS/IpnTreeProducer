@@ -485,6 +485,23 @@ cout << endl;
 						Photon_isolationPersoTracksSolidCone = myphoton->isolationPersoTracksSolidCone();
 						Photon_isolationPersoNTracksSolidCone = myphoton->isolationPersoNTracksSolidCone();
 						Photon_SCRawEnergy = myphoton->superCluster()->rawEnergy();
+				} else {
+						Photon_SCEta = -999;
+            Photon_SCPhi = -999;
+            Photon_SCEnergy = -999;
+            Photon_SCEt = -999;
+            Photon_SCRawEt = -999;
+            Photon_etaWidth = -999;
+            Photon_phiWidth = -999;
+            Photon_nBasicClusters = -999;
+            Photon_seedTime = -999;
+            Photon_seedFlag = -999;
+            Photon_cross = -999;
+            Photon_isTightPhoton = -999;
+            Photon_isLoosePhoton = -999;
+            Photon_isolationPersoTracksSolidCone = -999;
+            Photon_isolationPersoNTracksSolidCone = -999;
+            Photon_SCRawEnergy = -999;
 				} // end of loop over photons having a supercluster
 					if (myphoton->superCluster() == 0 ) {miniTree->Fill(); continue;}
 
