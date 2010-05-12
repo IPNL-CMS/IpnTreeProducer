@@ -22,7 +22,7 @@
 #include <TBits.h>
 #include <TMath.h>
 #include "TROOT.h"
-// essai
+
 #pragma optimize 0
 
 using namespace std;
