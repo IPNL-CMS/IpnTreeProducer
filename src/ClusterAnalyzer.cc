@@ -13,7 +13,7 @@ ClusterAnalyzer::ClusterAnalyzer(const edm::ParameterSet& config, const edm::Par
 	reducedBarrelEcalRecHitCollection_ = producersNames.getParameter<edm::InputTag>("reducedBarrelEcalRecHitCollection");
 	reducedEndcapEcalRecHitCollection_ = producersNames.getParameter<edm::InputTag>("reducedEndcapEcalRecHitCollection");
 	keepClusterizedEcalRecHits_ = config.getUntrackedParameter<bool>("keepClusterizedEcalRecHits", false);
-	allowMissingCollection_ = producersNames.getUntrackedParameter<bool>("allowMissingCollection", false);
+	allowMissingCollection_ = producersNames.getUntrackedParameter<bool>("allowMissingCollection", false);   
 }
 
 
@@ -22,7 +22,7 @@ ClusterAnalyzer::~ClusterAnalyzer()
 }
 
 
-bool ClusterAnalyzer::process(const edm::Event& iEvent, TRootEvent* rootEvent, EcalClusterLazyTools* lazyTools, TClonesArray* rootClusters, const string moduleLabel, const string instanceName, const int clusterType)
+bool ClusterAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iSetup, TRootEvent* rootEvent, EcalClusterLazyTools* lazyTools, TClonesArray* rootClusters, const string moduleLabel, const string instanceName, const int clusterType)
 {
 
 	if(verbosity_>1) cout << endl << "Loading egamma LazyTools..." << endl;
@@ -89,7 +89,12 @@ bool ClusterAnalyzer::process(const edm::Event& iEvent, TRootEvent* rootEvent, E
 
 		if (doRecHits_)
 		{
-			
+         // get the channel status from the DB
+         edm::ESHandle<EcalChannelStatus> chStatus;
+         iSetup.get<EcalChannelStatusRcd>().get(chStatus);
+         const EcalChannelStatus* channelStatus = 0;
+         if( chStatus.isValid() ) channelStatus = chStatus.product();
+         
 			std::vector<TRootEcalRecHit> hits;
 			
 			for(std::vector<std::pair<DetId,float> >::const_iterator detIdPair = (aClus->hitsAndFractions()).begin(); detIdPair != (aClus->hitsAndFractions()).end(); ++detIdPair)
@@ -113,7 +118,11 @@ bool ClusterAnalyzer::process(const edm::Event& iEvent, TRootEvent* rootEvent, E
 						,(*hit).time()
 						,ebDet.ieta()
 						,ebDet.iphi()
-					);
+                  ,(*hit).chi2()
+                  ,(*hit).outOfTimeEnergy()
+                  ,(*hit).outOfTimeChi2()
+                  ,EcalSeverityLevelAlgo::severityLevel(detId, *reducedEBRecHits, *channelStatus, float(5.), EcalSeverityLevelAlgo::kSwissCross, float(0.95))
+                  );
 					hits.push_back(localHit);					
 				}
 				else if (detId.subdetId() == EcalEndcap)
@@ -128,7 +137,11 @@ bool ClusterAnalyzer::process(const edm::Event& iEvent, TRootEvent* rootEvent, E
 					,(*hit).time()
 					,eeDet.ix()
 					,eeDet.iy()
-					);
+               ,(*hit).chi2()
+               ,(*hit).outOfTimeEnergy()
+               ,(*hit).outOfTimeChi2()
+               ,EcalSeverityLevelAlgo::severityLevel(detId, *reducedEERecHits, *channelStatus, float(5.), EcalSeverityLevelAlgo::kSwissCross, float(0.95))
+               );
 					hits.push_back(localHit);
 				}
 				else

@@ -17,7 +17,7 @@ EcalRecHitsAnalyzer::~EcalRecHitsAnalyzer()
 }
 
 
-bool EcalRecHitsAnalyzer::process(const edm::Event& iEvent, TClonesArray* rootEcalRecHits)
+bool EcalRecHitsAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iSetup, TClonesArray* rootEcalRecHits)
 {
 
 	if(verbosity_>1) cout << endl << "Loading egamma LazyTools..." << endl;
@@ -42,7 +42,13 @@ bool EcalRecHitsAnalyzer::process(const edm::Event& iEvent, TClonesArray* rootEc
 		if(verbosity_>1) cout << endl << "   ===> No EcalRecHitCollections, skip rechits infos" << endl;
 		return false;
 	}
-	
+   
+   // get the channel status from the DB
+   edm::ESHandle<EcalChannelStatus> chStatus;
+   iSetup.get<EcalChannelStatusRcd>().get(chStatus);
+   const EcalChannelStatus* channelStatus = 0;
+   if( chStatus.isValid() ) channelStatus = chStatus.product();
+   
 	if(verbosity_>1) std::cout << "   Number of EB recHits = " << ebRecHits->size() << "   Label: " << barrelEcalRecHitCollection_.label() << "   Instance: " << barrelEcalRecHitCollection_.instance() << std::endl;
 	for( EcalRecHitCollection::const_iterator  hit = ebRecHits->begin(); hit != ebRecHits->end(); hit++)
 	{
@@ -54,7 +60,11 @@ bool EcalRecHitsAnalyzer::process(const edm::Event& iEvent, TClonesArray* rootEc
 		,hit->time()
 		,detId.ieta()
 		,detId.iphi()
-		);
+      ,hit->chi2()
+      ,hit->outOfTimeEnergy()
+      ,hit->outOfTimeChi2()
+      ,EcalSeverityLevelAlgo::severityLevel(detId, *ebRecHits, *channelStatus, float(5.), EcalSeverityLevelAlgo::kSwissCross, float(0.95))
+      );
 		new( (*rootEcalRecHits)[iRecHit_] ) TRootEcalRecHit(localRecHit);
 		//if(verbosity_>3) cout << "   ["<< setw(3) << iRecHit_ << "] " << localRecHit << endl;
 		if(verbosity_>3) cout << "   ["<< iRecHit_ << "] " << localRecHit << endl;
@@ -72,7 +82,11 @@ bool EcalRecHitsAnalyzer::process(const edm::Event& iEvent, TClonesArray* rootEc
 		,hit->time()
 		,detId.ix()
 		,detId.iy()
-		);
+      ,hit->chi2()
+      ,hit->outOfTimeEnergy()
+      ,hit->outOfTimeChi2()
+      ,EcalSeverityLevelAlgo::severityLevel(detId, *eeRecHits, *channelStatus, float(5.), EcalSeverityLevelAlgo::kSwissCross, float(0.95))
+      );
 		new( (*rootEcalRecHits)[iRecHit_] ) TRootEcalRecHit(localRecHit);
 		//if(verbosity_>3) cout << "   ["<< setw(3) << iRecHit_ << "] " << localRecHit << endl;
 		if(verbosity_>3) cout << "   ["<< iRecHit_ << "] " << localRecHit << endl;

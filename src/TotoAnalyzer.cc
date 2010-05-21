@@ -466,7 +466,7 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
 	{
 		if(verbosity_>1) cout << endl << "Analysing Ecal recHits collection..." << endl;
 		EcalRecHitsAnalyzer* myEcalRecHitsAnalyzer = new EcalRecHitsAnalyzer(producersNames_, verbosity_);
-		myEcalRecHitsAnalyzer->process(iEvent, rootEcalRecHits_);
+      myEcalRecHitsAnalyzer->process(iEvent, iSetup, rootEcalRecHits_);
 		delete myEcalRecHitsAnalyzer;
 	}
 	
@@ -496,13 +496,13 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
 	{
 		if(verbosity_>1) cout << endl << "Analysing BasicClusters collection..." << endl;
 		ClusterAnalyzer* myClusterAnalyzer = new ClusterAnalyzer(myConfig_, producersNames_, verbosity_);
-		myClusterAnalyzer->process(iEvent, rootEvent_, lazyTools, rootBasicClusters_, "hybridSuperClusters","hybridBarrelBasicClusters", 210);
-		myClusterAnalyzer->process(iEvent, rootEvent_, lazyTools, rootBasicClusters_, "multi5x5BasicClusters", "multi5x5EndcapBasicClusters", 320);
-		myClusterAnalyzer->process(iEvent, rootEvent_, lazyTools, rootBasicClusters_, "multi5x5BasicClusters", "multi5x5BarrelBasicClusters", 310);
+      myClusterAnalyzer->process(iEvent, iSetup, rootEvent_, lazyTools, rootBasicClusters_, "hybridSuperClusters","hybridBarrelBasicClusters", 210);
+      myClusterAnalyzer->process(iEvent, iSetup, rootEvent_, lazyTools, rootBasicClusters_, "multi5x5BasicClusters", "multi5x5EndcapBasicClusters", 320);
+      myClusterAnalyzer->process(iEvent, iSetup, rootEvent_, lazyTools, rootBasicClusters_, "multi5x5BasicClusters", "multi5x5BarrelBasicClusters", 310);
 		// For Paolo M. skims:
-		//myClusterAnalyzer->process(iEvent, rootEvent_, lazyTools, rootBasicClusters_, "islandBasicClusters", "islandBarrelBasicClusters", 110);
-		//myClusterAnalyzer->process(iEvent, rootEvent_, lazyTools, rootBasicClusters_, "islandBasicClustersWeight", "islandBarrelBasicClusters", 410);
-		//myClusterAnalyzer->process(iEvent, rootEvent_, lazyTools, rootBasicClusters_, "islandBasicClustersWeight", "islandEndcapBasicClusters", 420);
+      //myClusterAnalyzer->process(iEvent, iSetup, rootEvent_, lazyTools, rootBasicClusters_, "islandBasicClusters", "islandBarrelBasicClusters", 110);
+      //myClusterAnalyzer->process(iEvent, iSetup, rootEvent_, lazyTools, rootBasicClusters_, "islandBasicClustersWeight", "islandBarrelBasicClusters", 410);
+      //myClusterAnalyzer->process(iEvent, iSetup, rootEvent_, lazyTools, rootBasicClusters_, "islandBasicClustersWeight", "islandEndcapBasicClusters", 420);
 		
 		delete myClusterAnalyzer;
 		

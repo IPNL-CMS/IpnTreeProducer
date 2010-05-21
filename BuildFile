@@ -14,6 +14,7 @@
 <use name=CondFormats/L1TObjects>
 <use name=CondFormats/DataRecord>
 <use name=CondTools/L1Trigger>
+<use name=CondFormats/EcalObjects>
 
 <use name=DataFormats/L1GlobalTrigger>
 <use name=DataFormats/L1Trigger>

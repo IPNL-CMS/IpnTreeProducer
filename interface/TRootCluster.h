@@ -191,7 +191,11 @@ class TRootCluster : public TVector3
 		Float_t seedTime() const { return ( (0<hits_.size()) ? hits_.at(0).time() : -1. ); }
 		Int_t seedPosition1() const { return ( (0<hits_.size()) ? hits_.at(0).position1() : -1. ); }
 		Int_t seedPosition2() const { return ( (0<hits_.size()) ? hits_.at(0).position2() : -1. ); }
-		TString typeName() const {
+      Float_t seedChi2() const { return ( (0<hits_.size()) ? hits_.at(0).chi2() : -1. ); }
+      Float_t seedOutOfTimeEnergy() const { return ( (0<hits_.size()) ? hits_.at(0).outOfTimeEnergy() : -1. ); }
+      Float_t seedOutOfTimeChi2() const { return ( (0<hits_.size()) ? hits_.at(0).outOfTimeChi2() : -1. ); }
+      Int_t seedSeverity() const { return ( (0<hits_.size()) ? hits_.at(0).severity() : -1. ); }
+      TString typeName() const {
 			if ( det_==110 ) return "Island Barrel BC";
 			else if ( det_==120 ) return "Island Endcap BC";
 			else if ( det_==210 ) return "Hybrid Barrel BC";
