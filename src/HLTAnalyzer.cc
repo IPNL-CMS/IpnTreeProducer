@@ -21,12 +21,13 @@ verbosity_(verbosity)
 
 bool HLTAnalyzer::init(const edm::Event& iEvent, TRootEvent* rootEvent)
 {
-   
+   // FIXME - Check at each evt with ParameterSetID that TriggerNames do not change
    try
    {
       edm::Handle<edm::TriggerResults> trigResults;
       iEvent.getByLabel(triggerResultsTag_,trigResults);
-      triggerNames_.init(*trigResults);
+      //triggerNames_.init(*trigResults);
+      triggerNames_ = iEvent.triggerNames(*trigResults);
    }
    catch (cms::Exception& exception)
    {
@@ -43,15 +44,15 @@ bool HLTAnalyzer::init(const edm::Event& iEvent, TRootEvent* rootEvent)
    hltWasRun_.resize(n,0);
    hltAccept_.resize(n,0);
    hltErrors_.resize(n,0);
-
-	if(verbosity_>0)
-	{
-		cout << endl << "HLTAnalyzer-Init " << "---------- HLT Menu ------------\n";
-		cout << "HLTAnalyzer-Init " << right << setw(10) << "Bit#" << " " << "Name" << "\n";
-		for (unsigned int i=0; i!=n; ++i) cout << "HLTAnalyzer-init " << right << setw(10) << i << " " << hltNames_[i] << "\n";
-		cout << endl << "HLTAnalyzer-Init        Number of HLT paths: " << n << "\n\n";
-	}
-	
+   
+   if(verbosity_>0)
+   {
+      cout << endl << "HLTAnalyzer-Init " << "---------- HLT Menu ------------\n";
+      cout << "HLTAnalyzer-Init " << right << setw(10) << "Bit#" << " " << "Name" << "\n";
+      for (unsigned int i=0; i!=n; ++i) cout << "HLTAnalyzer-init " << right << setw(10) << i << " " << hltNames_[i] << "\n";
+      cout << endl << "HLTAnalyzer-Init        Number of HLT paths: " << n << "\n\n";
+   }
+   
    return true;
 }
 

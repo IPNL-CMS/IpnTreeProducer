@@ -14,7 +14,7 @@
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "FWCore/Framework/interface/ESHandle.h"
 
-#include "FWCore/Framework/interface/TriggerNames.h"
+#include "FWCore/Common/interface/TriggerNames.h"
 #include "DataFormats/Common/interface/TriggerResults.h"
 
 #include "../interface/TRootRun.h"
@@ -59,8 +59,9 @@ class HLTAnalyzer
       int verbosity_;
 
       edm::InputTag triggerResultsTag_;      // Input tag for TriggerResults
-      edm::TriggerNames triggerNames_;       // TriggerNames class
-
+      //edm::TriggerNames triggerNames_;       // TriggerNames class
+      const edm::TriggerNames triggerNames_;       // TriggerNames class
+      
       unsigned int  nEvents_;                // number of events processed
       unsigned int  nWasRun_;                // # where at least one HLT was run
       unsigned int  nAccept_;                // # of accepted events
