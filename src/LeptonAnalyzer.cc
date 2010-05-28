@@ -106,7 +106,7 @@ float LeptonAnalyzer::ip3DSignificance(const reco::TransientTrack& track)
       else
       {
          std::pair<bool,Measurement1D> muIPpair;
-         muIPpair = IPTools::signedImpactParameter3D(tsos, tsos.globalDirection(), *primaryVertex_);
+         muIPpair = IPTools::signedImpactParameter3D(track, tsos.globalDirection(), *primaryVertex_);
          
          if (muIPpair.first)
          {
