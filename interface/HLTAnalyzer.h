@@ -59,8 +59,7 @@ class HLTAnalyzer
       int verbosity_;
 
       edm::InputTag triggerResultsTag_;      // Input tag for TriggerResults
-      //edm::TriggerNames triggerNames_;       // TriggerNames class
-      const edm::TriggerNames triggerNames_;       // TriggerNames class
+      edm::TriggerNames triggerNames_;       // TriggerNames class
       
       unsigned int  nEvents_;                // number of events processed
       unsigned int  nWasRun_;                // # where at least one HLT was run
