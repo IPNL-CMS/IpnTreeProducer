@@ -14,60 +14,62 @@
 #include "TSystem.h"
 
 
-#include "/sps/cms/morgan/common/CMSSW_3_5_6/src/UserCode/357_01-IpnTreeProducer/interface/TRootBardak.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_6/src/UserCode/357_01-IpnTreeProducer/interface/TRootBeamSpot.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_6/src/UserCode/357_01-IpnTreeProducer/interface/TRootCluster.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_6/src/UserCode/357_01-IpnTreeProducer/interface/TRootDummyEvent.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_6/src/UserCode/357_01-IpnTreeProducer/interface/TRootEcalRecHit.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_6/src/UserCode/357_01-IpnTreeProducer/interface/TRootElectron.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_6/src/UserCode/357_01-IpnTreeProducer/interface/TRootEvent.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_6/src/UserCode/357_01-IpnTreeProducer/interface/TRootJet.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_6/src/UserCode/357_01-IpnTreeProducer/interface/TRootMCParticle.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_6/src/UserCode/357_01-IpnTreeProducer/interface/TRootMCPhoton.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_6/src/UserCode/357_01-IpnTreeProducer/interface/TRootMET.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_6/src/UserCode/357_01-IpnTreeProducer/interface/TRootMuon.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_6/src/UserCode/357_01-IpnTreeProducer/interface/TRootParticle.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_6/src/UserCode/357_01-IpnTreeProducer/interface/TRootPhoton.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_6/src/UserCode/357_01-IpnTreeProducer/interface/TRootRun.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_6/src/UserCode/357_01-IpnTreeProducer/interface/TRootSignalEvent.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_6/src/UserCode/357_01-IpnTreeProducer/interface/TRootSuperCluster.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_6/src/UserCode/357_01-IpnTreeProducer/interface/TRootTopTop.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_6/src/UserCode/357_01-IpnTreeProducer/interface/TRootTrack.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_6/src/UserCode/357_01-IpnTreeProducer/interface/TRootVertex.h"
+#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootBardak.h"
+#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootBeamSpot.h"
+#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootCluster.h"
+#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootDummyEvent.h"
+#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootEcalRecHit.h"
+#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootElectron.h"
+#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootEvent.h"
+#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootJet.h"
+#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootMCParticle.h"
+#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootMCPhoton.h"
+#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootMET.h"
+#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootMuon.h"
+#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootParticle.h"
+#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootPhoton.h"
+#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootRun.h"
+#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootSignalEvent.h"
+#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootSuperCluster.h"
+#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootTopTop.h"
+#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootTrack.h"
+#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootVertex.h"
 
 
 //int TotoAna_miniTree(){
 int main(){
-	gSystem->Load("/sps/cms/morgan/common/CMSSW_3_5_6/src/UserCode/357_01-IpnTreeProducer/src/libToto.so");
+	gSystem->Load("/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/src/libToto.so");
 	
-	bool doHLT										= true;
-	bool doMC											= false;
-	bool doJetMC									= false;
-	bool doMETMC									= false;
-	bool doPDFInfo								= true;
-	bool doSignalMuMuGamma				= false;
-	bool doSignalTopTop						= false;
-	bool doPhotonConversionMC			= false;
-	bool doBeamSpot								= true;
-	bool doPrimaryVertex					= true;
-	bool doZeePrimaryVertex				= false;
-	bool doTrack									= true;
-	bool doJet										= false;
-	bool doMuon										= false;
-	bool doElectron								= true;
-	bool doPhoton									= true;
-	bool doCluster								= true;
-	bool doPhotonConversion				= true;
-	bool doMET										= false;
-	bool doBardak									= false;
+	bool doHLT                    = true;
+	bool doMC                     = false;
+	bool doJetMC                  = false;
+	bool doMETMC                  = false;
+	bool doPDFInfo                = true;
+	bool doSignalMuMuGamma        = false;
+	bool doSignalTopTop           = false;
+	bool doPhotonConversionC      = false;
+	bool doBeamSpot               = true;
+	bool doPrimaryVertex          = true;
+	bool doZeePrimaryVertex       = false;
+	bool doTrack                  = true;
+	bool doJet                    = false;
+	bool doMuon                   = false;
+	bool doElectron               = true;
+	bool doPhoton                 = true;
+	bool doCluster                = true;
+	bool doPhotonConversion       = true;
+	bool doMET                    = false;
+	bool doBardak                 = false;
 	bool doPhotonVertexCorrection = false;
-	bool doPhotonIsolation				= true;
-	
+	bool doPhotonIsolation        = true;
+	bool doPhotonConversionMC     = false;
+
 	TString dataset = "DATA";
 	TChain *inputEventTree = new TChain("eventTree");
-	inputEventTree->Add("/sps/cms/chanon/Samples/DATA_MC_IpnTreeProducer35701_CMSSW356_EGskim/DATA_MinimumBias__Commissioning10-Apr15Skim_356_PreProduction_SD_EG-v2__RECO_TOTOANA_1_1.root");
-	//inputEventTree->Add("/sps/cms/chanon/Samples/DATA_MC_IpnTreeProducer35701_CMSSW356_EGskim/MC_MinBias_V26A_356ReReco-v1_EGskim/MC__MinBias__Spring10-START3X_V26A_356ReReco-v1__GEN-SIM-RECO__FILTER__TOTOANA_*root");
-	
+//	inputEventTree->Add("/sps/cms/falkiewi/Data_MC_EG_filter_CMSSW_3_5_8_patch3/MinimumBias_Commissioning10-May6thPDSkim2_SD_EG-v1_RECO/MinimumBias_Commissioning10-May6thPDSkim2_SD_EG-v1_RECO*root");
+//	inputEventTree->Add("/sps/cms/falkiewi/Data_MC_EG_filter_CMSSW_3_5_8_patch3/MinimumBias_Commissioning10-SD_EG-v9_RECOToto/MinimumBias_Commissioning10-SD_EG-v9_RECO*root");
+	inputEventTree->Add("/sps/cms/falkiewi/Data_MC_EG_filter_CMSSW_3_5_8_patch3/MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1/MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1*root");
+
 	TFile* OutputRootFile = new TFile("miniTree_TEST_MC.root", "RECREATE");
 	
 	TBranch* event_br = 0;
@@ -367,12 +369,12 @@ cout << endl;
 
 	for(unsigned int ievt=0; ievt<nTotEvents; ievt++)
 	{
+		int nprint = (int)((double)nTotEvents/(double)100.0);
+		if( (ievt % nprint)==0 ){ cout<< ievt <<" events done over "<<nTotEvents<<" ( "<<ceil((double)ievt/(double)nTotEvents*100)<<" \% )"<<endl; }
+
 		Photon_iEvent = ievt;
 		inputEventTree->GetEvent(ievt);
-		if( (ievt%10==0 && ievt<=100)	|| (ievt%100==0 && ievt<=1000)	 || (ievt%1000==0 && ievt>1000)	)
-		{
-			cout <<"Analyzing "<< ievt << "th event: " << endl;
-		}
+
 		//_________________________________________
 		//__________ TO BE CHECKED
 		nTotEventsSelectedRuns++;
@@ -532,7 +534,7 @@ cout << endl;
 				Photon_isAfterCut5 = 1;
 
 				// CUT 6: spike removal
-				if ( myphoton->isEBPho() &&(1 - ((myphoton->superCluster()->s4())/(myphoton->superCluster()->eMax())))>0.90 ) {miniTree->Fill(); continue;}
+				if ( myphoton->isEBPho() &&(1 - ((myphoton->superCluster()->s4())/(myphoton->superCluster()->eMax())))>0.95 ) {miniTree->Fill(); continue;}
 				nCut6++;
 				Photon_isAfterCut6 = 1;
 				
