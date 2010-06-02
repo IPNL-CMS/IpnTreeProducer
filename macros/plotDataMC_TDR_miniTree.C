@@ -58,12 +58,27 @@ void DrawDataMCplot_NormEntries_Fast(TTree *Data_eventTree, TTree *MC_eventTree,
 	Histo_MC->Scale((double)((double)a/(double)b));
 
 	// Get the maxs and the mins to further correct the Y-axis
-	double dataMax = Histo_Data->GetMaximumStored();
-  double dataMin = Histo_Data->GetMinimumStored();
-  double mcMax = Histo_MC->GetMaximumStored();
-  double mcMin = Histo_MC->GetMinimumStored();
+  double dataMax = Histo_Data->GetMaximum();
+  double mcMax = Histo_MC->GetMaximum();
   double YMax = max(dataMax, mcMax);
-  double YMin = max(dataMin, mcMin);	
+  double dataMin = YMax;
+  double mcMin = YMax;
+  // Gets the actual minimum for each histogram, and not the unfilled bin if any
+  for( int ibin=1 ; ibin<Histo_Data->GetNbinsX() ; ibin++ ){
+    if( ((Histo_Data->GetBinContent(ibin))!=0) && ((Histo_Data->GetBinContent(ibin))<dataMin) ){
+      dataMin = Histo_Data->GetBinContent(ibin);
+    }
+  }
+  for( int ibin=1 ; ibin<Histo_MC->GetNbinsX() ; ibin++ ){
+    if( ((Histo_MC->GetBinContent(ibin))!=0) && ((Histo_MC->GetBinContent(ibin))<mcMin) ){
+      mcMin = Histo_MC->GetBinContent(ibin);
+    }
+  }
+  double YMin = min(dataMin, mcMin);
+  double YMax_lin = YMax + (YMax)*.2;
+  double YMin_lin = YMin - (YMin)*.2;
+  double YMax_log = YMax * 1.5;
+  double YMin_log = (double) YMin / (double) 1.5;
 
 	// Setup the histo and canvas names and title
 	string data_name = "Data_" + var + "_" + name;
@@ -81,13 +96,15 @@ void DrawDataMCplot_NormEntries_Fast(TTree *Data_eventTree, TTree *MC_eventTree,
   Histo_Data->SetMarkerColor(kBlack);
   Histo_Data->SetMarkerSize(0.7);
   Histo_Data->SetMarkerStyle(20);
-  Histo_Data->SetMaximum(YMax);
-  Histo_Data->SetMinimum(YMin);
+  Histo_Data->SetMaximum(YMax_lin);
+  Histo_Data->SetMinimum(YMin_lin);
   Histo_Data->Draw("E1");
 
   // // Second: draw MC on the same canvas
 	Histo_MC->SetLineColor(kBlack);
   Histo_MC->SetFillColor(kYellow);
+  Histo_MC->SetMaximum(YMax_lin);
+  Histo_MC->SetMinimum(YMin_lin);
   Histo_MC->Draw("same");
 
 	// // Third: re-draw Data so that data appears in front of MC
@@ -116,6 +133,8 @@ void DrawDataMCplot_NormEntries_Fast(TTree *Data_eventTree, TTree *MC_eventTree,
     string PicName_log="PlotDataMC7TeV_TEST/DataMC_" + var + "_" + name + "_log.gif";
     c1->cd(1);
     c1->SetLogy(1);
+    Histo_Data->SetMaximum(YMax_log);
+    Histo_Data->SetMinimum(YMin_log);
     c1->Update();
     c1->Draw();
     c1->Print(PicName_log.c_str());
@@ -139,7 +158,7 @@ int main()
 //	cout<<"\tDEBUG:\tEntering main()"<<endl;
 	//gStyle->SetOptStat(0);
   gROOT->ProcessLine(".x setTDRStyle.C");
-	string Data = "miniTree_TEST.root"; 
+	string Data = "miniTree_TEST_MC.root"; 
   string MC = "miniTree_TEST_MC.root"; 
 	
   TFile *Data_File = new TFile(Data.c_str());
