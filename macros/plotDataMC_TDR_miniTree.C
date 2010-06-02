@@ -48,6 +48,10 @@ void DrawDataMCplot_NormEntries_Fast(TTree *Data_eventTree, TTree *MC_eventTree,
 	// Get the number of entries for further normalization
 	double a = Histo_Data->GetEntries();
 	double b = Histo_MC->GetEntries();
+	if( (a==0.0) || (b==0.0) ){
+    cout << "no entries in MC or DATA sample, skipping plot" <<endl;
+    return;
+  }
 
 	// Normalize
   Histo_Data->Sumw2(); // In order to have the correct error bars on data after renormalization
