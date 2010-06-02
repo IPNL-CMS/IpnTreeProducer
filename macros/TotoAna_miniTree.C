@@ -375,8 +375,6 @@ cout << endl;
 		Photon_iEvent = ievt;
 		inputEventTree->GetEvent(ievt);
 
-		//_________________________________________
-		//__________ TO BE CHECKED
 		nTotEventsSelectedRuns++;
 		nTotEventsSelectedL1++;
 		nTotEventsSelectedVertex++;
@@ -393,18 +391,17 @@ cout << endl;
 		}
 		if (atLeastOneSChigherThan2GeV) nEventsWithScHigherThan2GeV++;
 
-		//___ TO BE CHECKED
-		// ________________________________________
 		if(doPhoton)
 		{
 			TRootPhoton* myphoton;
-			int nPhotons = 0; Photon_Multiplicity = 0;
+			int nPhotons = 0; 
 			int nPhotons_EB = 0; Photon_isEB = 0;
 			int nPhotons_EE = 0; Photon_isEE = 0;
 			int nPhotons_EEM = 0; Photon_isEEM = 0;
 			int nPhotons_EEP = 0; Photon_isEEP = 0;
-			
-			for (int iphoton=0; iphoton< photons->GetEntriesFast(); iphoton++)
+			Photon_Multiplicity = photons->GetEntriesFast();
+			if ( Photon_Multiplicity == 0 ) {miniTree->Fill(); continue;}
+			for (int iphoton=0; iphoton<Photon_Multiplicity; iphoton++)
 			{
 				Photon_isAfterCut1 = 0;
 				Photon_isAfterCut2 = 0;
@@ -421,10 +418,38 @@ cout << endl;
 				Photon_isAfterCut0 = 1;
 				myphoton = (TRootPhoton*) photons->At(iphoton);
 
-				if (myphoton->isEBPho()){ Photon_isEB = 1; Photon_isEE = 0; }
-				if (myphoton->isEEPho()){ Photon_isEE = 1; Photon_isEB = 0; }
-				if (myphoton->isEEPho() && myphoton->Eta()<0){ Photon_isEEM = 1; }
-				if (myphoton->isEEPho() && myphoton->Eta()>0){ Photon_isEEP = 1; }
+
+				Photon_E = -99;
+				Photon_Et = -99;
+				Photon_Eta = -99;
+				Photon_Phi = -99;
+				Photon_E2x2 = -99;
+				Photon_E3x3 = -99;
+				Photon_E5x5 = -99;
+				Photon_Emax = -99;
+				Photon_E2nd = -99;
+				Photon_r19 = -99;
+				Photon_r9 = -99;
+				Photon_caloConeSize = -99;
+				Photon_PreshEnergy = -99;
+				Photon_HoE = -99;
+				Photon_Nclusters = -99;
+				Photon_covIetaIeta = -99;
+				Photon_covIphiIphi = -99;
+				Photon_isoEcalRecHit = -99;
+				Photon_isoHcalRecHit = -99;
+				Photon_isoSolidTrkCone = -99;
+				Photon_isoHollowTrkCone = -99;
+				Photon_isoNTracksSolidCone = -99;
+				Photon_isoNTracksHollowCone = -99;
+				Photon_isoPersoSolidTrkCone = -99;
+				Photon_convNTracks = -99;
+				Photon_hasPixelSeed = -99;
+				Photon_isAlsoElectron = -99;
+				Photon_isEE = -99;
+				Photon_isEB = -99;
+				Photon_isEEM = -99;
+				Photon_isEEP = -99;
 
 				/*
 				cout << "myphoton->clusterAlgo=" << myphoton->clusterAlgo() << " myphoton->isEBPho=" << myphoton->isEBPho() << " myphoton->isEEPho=" << myphoton->isEEPho() << endl;
@@ -437,7 +462,6 @@ cout << endl;
 				*/
 				//if (myphoton->superClusterOfType(211) == 0 && myphoton->superClusterOfType(323) == 0 ) continue;
 
-				Photon_Multiplicity = photons->GetEntriesFast();
 				Photon_E = myphoton->Energy();
 				Photon_Et = myphoton->Et();
 				Photon_Eta = myphoton->Eta();
@@ -465,7 +489,11 @@ cout << endl;
 				Photon_convNTracks = myphoton->convNTracks();
 				Photon_hasPixelSeed = myphoton->hasPixelSeed();
 				Photon_isAlsoElectron = myphoton->isAlsoElectron();
-				
+				if (myphoton->isEBPho()){ Photon_isEB = 1; Photon_isEE = 0; }
+				if (myphoton->isEEPho()){ Photon_isEE = 1; Photon_isEB = 0; }
+				if (myphoton->isEEPho() && myphoton->Eta()<0){ Photon_isEEM = 1; }
+				if (myphoton->isEEPho() && myphoton->Eta()>0){ Photon_isEEP = 1; }
+	
 				if ( myphoton->superCluster() != 0 )
 				{
 					Photon_SCEta = myphoton->superCluster()->Eta();
