@@ -230,7 +230,7 @@ int main()
 	  DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "Photon_nBasicClusters", "(20, 0, 20)", set_of_cuts[i], name[i], "Photon nBasicClusters", true, false, c1);
 	  DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "Photon_nXtals", "(100, 0, 100)", set_of_cuts[i], name[i], "Photon nXtals", true, false, c1);
 	//    DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "Photon_nRecHits", "(100, 0, 100)", set_of_cuts[i], name[i], "Photon nRecHits", true, false, c1);
-	  DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "Photon_seedTime", "(10,-10,10)", set_of_cuts[i], name[i], "Photon seed Time", true, false, c1);
+	  DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "Photon_seedTime", "(300,-150,150)", set_of_cuts[i], name[i], "Photon seed Time", true, false, c1);
 	  DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "Photon_seedFlag", "(50,0,50)", set_of_cuts[i], name[i], "Photon seed Flag", true, false, c1);
 	  DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "Photon_isTightPhoton", "(3, 0, 3)", set_of_cuts[i], name[i], "Photon isTightPhoton", true, false, c1);
 	  DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "Photon_isLoosePhoton", "(3, 0, 3)", set_of_cuts[i], name[i], "Photon isLoosePhoton", true, false, c1);
