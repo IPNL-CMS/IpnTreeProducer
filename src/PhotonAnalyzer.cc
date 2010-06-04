@@ -25,13 +25,14 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
 {
    
    unsigned int nPhotons=0;
-
+   
    bool doPhotonID = true;
    edm::Handle< reco::PhotonCollection > recoPhotons;
-	const edm::ValueMap<Bool_t> *loosePhotonIdMap = 0;
-	const edm::ValueMap<Bool_t> *tightPhotonIdMap = 0;
-
-	if( dataType_=="RECO" )
+   const edm::ValueMap<Bool_t> *looseEMPhotonIdMap = 0;
+   const edm::ValueMap<Bool_t> *loosePhotonIdMap = 0;
+   const edm::ValueMap<Bool_t> *tightPhotonIdMap = 0;
+   
+   if( dataType_=="RECO" )
    {
       try
       {
@@ -48,12 +49,29 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
          if(verbosity_>1) cout <<  "   ===> No reco::Photon collection, skip photons info" << endl;
          return false;
       }
-
+      
       try
       {
-			edm::Handle< edm::ValueMap<Bool_t> > loosePhotonId;
-			iEvent.getByLabel("PhotonIDProd", "PhotonCutBasedIDLoose", loosePhotonId);
-			loosePhotonIdMap = loosePhotonId.product();
+         edm::Handle< edm::ValueMap<Bool_t> > looseEMPhotonId;
+         iEvent.getByLabel("PhotonIDProd", "PhotonCutBasedIDLooseEM", looseEMPhotonId);
+         looseEMPhotonIdMap = looseEMPhotonId.product();
+      }
+      catch (cms::Exception& exception)
+      {
+         if ( !allowMissingCollection_ )
+         {
+            cout << "  ##### ERROR IN  PhotonAnalyzer::process => PhotonCutBasedIDLooseEM is missing #####"<<endl;
+            throw exception;
+         }
+         if(verbosity_>1) cout <<  "   ===> No PhotonCutBasedIDLooseEM collection, skip photonID info" << endl;
+         doPhotonID = false;
+      }
+      
+      try
+      {
+         edm::Handle< edm::ValueMap<Bool_t> > loosePhotonId;
+         iEvent.getByLabel("PhotonIDProd", "PhotonCutBasedIDLoose", loosePhotonId);
+         loosePhotonIdMap = loosePhotonId.product();
       }
       catch (cms::Exception& exception)
       {
@@ -63,14 +81,14 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
             throw exception;
          }
          if(verbosity_>1) cout <<  "   ===> No PhotonCutBasedIDLoose collection, skip photonID info" << endl;
-			doPhotonID = false;
+         doPhotonID = false;
       }
       
-		try
+      try
       {
-			edm::Handle< edm::ValueMap<Bool_t> > tightPhotonId;
-			iEvent.getByLabel("PhotonIDProd", "PhotonCutBasedIDTight", tightPhotonId);
-			tightPhotonIdMap = tightPhotonId.product();
+         edm::Handle< edm::ValueMap<Bool_t> > tightPhotonId;
+         iEvent.getByLabel("PhotonIDProd", "PhotonCutBasedIDTight", tightPhotonId);
+         tightPhotonIdMap = tightPhotonId.product();
       }
       catch (cms::Exception& exception)
       {
@@ -80,9 +98,9 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
             throw exception;
          }
          if(verbosity_>1) cout <<  "   ===> No PhotonCutBasedIDTight collection, skip photonID info" << endl;
-			doPhotonID = false;
-		}
-	}
+         doPhotonID = false;
+      }
+   }
    
    edm::Handle < std::vector <pat::Photon> > patPhotons;
    if( dataType_=="PAT" )
@@ -132,9 +150,9 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
       ,photon->charge()
       );
       
-		// TODO - Nicolas
-		//- HCAL energy autour des traces converties dans un cone de dR<0.1... utile ?
-		
+      // TODO - Nicolas
+      //- HCAL energy autour des traces converties dans un cone de dR<0.1... utile ?
+      
       // Variables from reco::Photon
       localPhoton.setCaloPosition( photon->caloPosition().X(), photon->caloPosition().Y(), photon->caloPosition().Z() );
       localPhoton.setHoE(photon->hadronicOverEm());
@@ -175,15 +193,15 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
          // need reduced Ecal RecHits Collections for EcalClusterLazyTools
          if ( seedCaloCluster.isNonnull() && lazyTools != 0 )
          {
-				localPhoton.setE2x2(lazyTools->e2x2(*seedCaloCluster));
+            localPhoton.setE2x2(lazyTools->e2x2(*seedCaloCluster));
             localPhoton.setE3x3( lazyTools->e3x3(*seedCaloCluster) );
             localPhoton.setE5x5( lazyTools->e5x5(*seedCaloCluster) );
             localPhoton.setEMax( lazyTools->eMax(*seedCaloCluster) );
-				localPhoton.setE2nd(lazyTools->e2nd(*seedCaloCluster));
-				localPhoton.setCovIetaIeta( (lazyTools->covariances(*seedCaloCluster)).at(0) );
-				localPhoton.setCovIetaIphi( (lazyTools->covariances(*seedCaloCluster)).at(1) );
-				localPhoton.setCovIphiIphi( (lazyTools->covariances(*seedCaloCluster)).at(2) );
-			}
+            localPhoton.setE2nd(lazyTools->e2nd(*seedCaloCluster));
+            localPhoton.setCovIetaIeta( (lazyTools->covariances(*seedCaloCluster)).at(0) );
+            localPhoton.setCovIetaIphi( (lazyTools->covariances(*seedCaloCluster)).at(1) );
+            localPhoton.setCovIphiIphi( (lazyTools->covariances(*seedCaloCluster)).at(2) );
+         }
       }
       
       
@@ -215,10 +233,10 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
                << "  inv_mass=" << conversions[iconv]->pairInvariantMass()
                << "  E/p=" << conversions[iconv]->EoverP()
                << "  cotanTheta=" << conversions[iconv]->pairCotThetaSeparation()
-					<< "  likely=" << convLikelihoodCalculator->calculateLikelihood(conversions[iconv], iSetup)
+               << "  likely=" << convLikelihoodCalculator->calculateLikelihood(conversions[iconv], iSetup)
                << endl;
                
-					likely = convLikelihoodCalculator->calculateLikelihood(conversions[iconv], iSetup);
+               likely = convLikelihoodCalculator->calculateLikelihood(conversions[iconv], iSetup);
                if ( likely>best_likely )
                {
                   best_iconv_likely = iconv;
@@ -241,14 +259,14 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
             if(verbosity_>4) cout
                << "   ===> TRootPhoton[" << j << "] associated to Conversion[" << best_iconv
                << "] with E/p="  << conversions[best_iconv]->EoverP()
-					<< "  likely=" << convLikelihoodCalculator->calculateLikelihood(conversions[best_iconv], iSetup)
+               << "  likely=" << convLikelihoodCalculator->calculateLikelihood(conversions[best_iconv], iSetup)
                << endl;
             
             localPhoton.setConvNTracks( conversions[best_iconv]->nTracks() );
             localPhoton.setConvEoverP( conversions[best_iconv]->EoverP() );
             localPhoton.setConvMass( conversions[best_iconv]->pairInvariantMass() );
             localPhoton.setConvCotanTheta( conversions[best_iconv]->pairCotThetaSeparation() );
-				localPhoton.setConvLikely( convLikelihoodCalculator->calculateLikelihood(conversions[best_iconv], iSetup) );
+            localPhoton.setConvLikely( convLikelihoodCalculator->calculateLikelihood(conversions[best_iconv], iSetup) );
             localPhoton.setConvVertex( conversions[best_iconv]->conversionVertex().x(), conversions[best_iconv]->conversionVertex().y(), conversions[best_iconv]->conversionVertex().z() );
             std::vector<math::XYZPoint>  impactVector = conversions[best_iconv]->ecalImpactPosition();
             if ( impactVector.size()>0 ) localPhoton.setConvEcalImpactPosition1( impactVector.at(0).x(), impactVector.at(0).y(), impactVector.at(0).z() );
@@ -280,19 +298,33 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
                }
             }
          }
+         else
+         {
+            localPhoton.setConvNTracks(0);
+         }
+         
       }
-
-		
-		// Photon isolation calculated by PhotonID
+      
+      
+      // Photon isolation calculated by PhotonID
       // now embeded in reco::Photon
-      localPhoton.setIsolation(
-      	photon->ecalRecHitSumEtConeDR03()
-         ,photon->hcalTowerSumEtConeDR03()
-         ,photon->trkSumPtSolidConeDR03()
-         ,photon->trkSumPtHollowConeDR03()
-         ,photon->nTrkSolidConeDR03()
-         ,photon->nTrkHollowConeDR03()
-		);
+      TRootPhoton::Isolation dR03Isolation;
+      dR03Isolation.ecalRecHit = photon->ecalRecHitSumEtConeDR03();
+      dR03Isolation.hcalRecHit = photon->hcalTowerSumEtConeDR03();
+      dR03Isolation.solidTrkCone = photon->trkSumPtSolidConeDR03();
+      dR03Isolation.hollowTrkCone = photon->trkSumPtHollowConeDR03();
+      dR03Isolation.nTracksSolidCone = photon->nTrkSolidConeDR03();
+      dR03Isolation.nTracksHollowCone = photon->nTrkHollowConeDR03();
+      localPhoton.setDR03Isolation( dR03Isolation );
+      
+      TRootPhoton::Isolation dR04Isolation;
+      dR04Isolation.ecalRecHit = photon->ecalRecHitSumEtConeDR04();
+      dR04Isolation.hcalRecHit = photon->hcalTowerSumEtConeDR04();
+      dR04Isolation.solidTrkCone = photon->trkSumPtSolidConeDR04();
+      dR04Isolation.hollowTrkCone = photon->trkSumPtHollowConeDR04();
+      dR04Isolation.nTracksSolidCone = photon->nTrkSolidConeDR04();
+      dR04Isolation.nTracksHollowCone = photon->nTrkHollowConeDR04();
+      localPhoton.setDR04Isolation( dR04Isolation );
       
       
       if( dataType_=="RECO" )
@@ -305,11 +337,13 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
             // Photon ID
             // need corresponding PhotonID ValueMap
             edm::Ref<reco::PhotonCollection> photonRef(recoPhotons,j);
-				Bool_t looseID = (*loosePhotonIdMap)[photonRef];
-				Bool_t tightID = (*tightPhotonIdMap)[photonRef];
-				localPhoton.setBitsID(
-            looseID 
-            ,tightID 
+            Bool_t looseEMID = (*looseEMPhotonIdMap)[photonRef];
+            Bool_t looseID = (*loosePhotonIdMap)[photonRef];
+            Bool_t tightID = (*tightPhotonIdMap)[photonRef];
+            localPhoton.setBitsID(
+            looseEMID
+            ,looseID
+            ,tightID
             ,photon->isEB()
             ,photon->isEE()
             ,photon->isEBGap()
@@ -338,13 +372,16 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
          
          // Photon ID
          // Use the PhotonID pairs embeded in pat::Photon
-			Bool_t looseID = false;
-			Bool_t tightID = false;
+         Bool_t looseEMID = false;
+         Bool_t looseID = false;
+         Bool_t tightID = false;
+         if (patPhoton->isPhotonIDAvailable("PhotonCutBasedIDLooseEM")) looseEMID = patPhoton->photonID("PhotonCutBasedIDLooseEM");
          if (patPhoton->isPhotonIDAvailable("PhotonCutBasedIDLoose")) looseID = patPhoton->photonID("PhotonCutBasedIDLoose");
          if (patPhoton->isPhotonIDAvailable("PhotonCutBasedIDTight")) tightID = patPhoton->photonID("PhotonCutBasedIDTight");
-			localPhoton.setBitsID(
-			looseID
-			,tightID
+         localPhoton.setBitsID(
+         looseEMID
+         ,looseID
+         ,tightID
          ,patPhoton->isEB()
          ,patPhoton->isEE()
          ,patPhoton->isEBGap()
