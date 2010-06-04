@@ -26,7 +26,6 @@ bool HLTAnalyzer::init(const edm::Event& iEvent, TRootEvent* rootEvent)
    {
       edm::Handle<edm::TriggerResults> trigResults;
       iEvent.getByLabel(triggerResultsTag_,trigResults);
-      //triggerNames_.init(*trigResults);
       triggerNames_ = iEvent.triggerNames(*trigResults);
    }
    catch (cms::Exception& exception)
