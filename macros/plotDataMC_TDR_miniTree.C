@@ -22,6 +22,7 @@
 #include <TBits.h>
 #include <TMath.h>
 #include "TROOT.h"
+#include <TLatex.h>
 
 #pragma optimize 0
 
@@ -79,9 +80,9 @@ void DrawDataMCplot_NormEntries_Fast(TTree *Data_PhotonTree, TTree *MC_PhotonTre
 		}
 	}
 	double YMin = min(dataMin, mcMin);
-	double YMax_lin = YMax + (YMax)*.2;
+	double YMax_lin = YMax + (YMax)*.3;
 	double YMin_lin = YMin - (YMin)*.2;
-	double YMax_log = YMax * 1.5;
+	double YMax_log = YMax * 3;
 	double YMin_log = (double) YMin / (double) 1.5;
 
 	// Setup the histo and canvas names and title
@@ -118,13 +119,18 @@ void DrawDataMCplot_NormEntries_Fast(TTree *Data_PhotonTree, TTree *MC_PhotonTre
 	gPad->RedrawAxis();
 
 	// // Fifth: draw legend
-	TLegend *legend = new TLegend(0.7, 0.83, 0.99, 0.994, "");
+	TLegend *legend = new TLegend(0.8, 0.83, 0.99, 0.994, "");
 	legend->SetFillColor(kWhite);
 	legend->SetLineColor(kWhite);
 	legend->SetShadowColor(kWhite);
 	legend->AddEntry(Histo_Data->GetName(), "Data", "lp");
 	legend->AddEntry(Histo_MC->GetName(), "MC", "f");
 	legend->Draw();
+	TLatex latexLabel;
+	latexLabel.SetTextSize(0.04);
+	latexLabel.SetNDC();
+	latexLabel.DrawLatex(0.18, 0.87, "CMS Preliminary 2010");
+	latexLabel.DrawLatex(0.18, 0.82, "#sqrt{s} = 7 TeV");
 
 	// // Sixth: update canvas
 	c1->Update();
@@ -195,7 +201,7 @@ int main()
 	for(int i=0; i<set_of_cuts.size() ; i++){ // loop over different set of cuts
 //		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Multiplicity", "(15,0,15)", set_of_cuts[i], name[i], "Photon Multiplicity", true, false, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_hasPixelSeed", "(3, 0, 3)", set_of_cuts[i], name[i], "Photon hasPixelSeed", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isAlsoElectron", "(3, 0, 3)", set_of_cuts[i], name[i], "Photon isAlsoElectron", true, false, c1);
+/*		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isAlsoElectron", "(3, 0, 3)", set_of_cuts[i], name[i], "Photon isAlsoElectron", true, false, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E", "(100, 0, 800)", set_of_cuts[i], name[i], "Photon Energy", true, false, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Et", "(100, 0, 800)", set_of_cuts[i], name[i], "Photon Et", true, false, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Eta", "(60, -3.0, 3.0)", set_of_cuts[i], name[i], "Photon Eta", true, false, c1);
@@ -241,7 +247,7 @@ int main()
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isLoosePhoton", "(3, 0, 3)", set_of_cuts[i], name[i], "Photon isLoosePhoton", true, false, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isolationPersoTracksSolidCone", "(30, 0, 100)", set_of_cuts[i], name[i], "Photon isolationPersoTracksSolidCone", true, false, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isolationPersoNTracksSolidCone", "(30, 0, 100)", set_of_cuts[i], name[i], "Photon isolationPersoNTracksSolidCone", true, false, c1);
-
+*/
 	
 	} // end of loop over set of cuts
 
@@ -258,7 +264,7 @@ int main()
 	name_superclu.push_back("SuperClu_isEEP");
 	set_of_cuts_superclu.push_back("SuperClu_isEEM==1 && NoCuts==1");
 	name_superclu.push_back("SuperClu_isEEM");
-
+/*
 	for (int i=0;i<name_superclu.size();i++){
 		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_E", "(100, 0, 800)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster Energy", true, false, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_Et", "(100, 0, 800)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster Et", true, false, c1);
@@ -271,7 +277,7 @@ int main()
 		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_seedFlag", "(15, 0, 15)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster seed flag", true, false, c1);
 
 	}
-
+*/
 	vector<string> set_of_cuts_events;
 	vector<string> name_events;
 	set_of_cuts_events.push_back("NoCuts");
@@ -284,7 +290,7 @@ int main()
 		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "nPhotonEE_perEvent", "(15, 0, 15)", set_of_cuts_events[i], name_events[i],"nPhotonEE_perEvent", true, false, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "nPhotonEEP_perEvent", "(15, 0, 15)", set_of_cuts_events[i], name_events[i],"nPhotonEEP_perEvent", true, false, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "nPhotonEEM_perEvent", "(15, 0, 15)", set_of_cuts_events[i], name_events[i], "nPhotonEEM_perEvent", true, false, c1);
-
+/*
 		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "HLT_Photon10_L1R", "(3, 0, 3)", set_of_cuts_events[i], name_events[i], "HLT_Photon10_L1R triggered", true, false, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "HLT_Photon15_L1R", "(3, 0, 3)", set_of_cuts_events[i], name_events[i], "HLT_Photon15_L1R", true, false, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "HLT_Photon15_LooseEcalIso_L1R", "(3, 0, 3)", set_of_cuts_events[i], name_events[i], "HLT_Photon15_LooseEcalIso_L1R triggered", true, false, c1);
@@ -310,6 +316,7 @@ int main()
 		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "HLT_Ele10_LW_L1R", "(3, 0, 3)", set_of_cuts_events[i], name_events[i], "HLT_Ele10_LW_L1R triggered", true, false, c1);
 	
 //		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "HLT_Photon15_TrackIso_L1R", "(3, 0, 3)", set_of_cuts_events[i], name_events[i], "HLT_Photon15_TrackIso_L1R triggered", true, false, c1);
+	*/
 	}
 
 	return 0;	
