@@ -44,7 +44,46 @@ void DrawDataMCplot_NormEntries_Fast(TTree *Data_PhotonTree, TTree *MC_PhotonTre
 	TH1F *Histo_MC = (TH1F*)gDirectory->Get("Histo_MC_temp");
 	c1->Clear();
 
-	// TODO: implement drawUnderOverFlow
+	// TODO: implement underflow
+	if( drawUnderOverFlow ){
+    // overflow bin for data
+		string name_Data  = "temp Data";
+		char* title_Data = (char*)Histo_Data->GetTitle();
+		Int_t nx_Data = Histo_Data->GetNbinsX()+1;
+		Double_t bw_Data = Histo_Data->GetBinWidth(nx_Data);
+		Double_t x1_Data = Histo_Data->GetBinLowEdge(1);
+		Double_t x2_Data = Histo_Data->GetBinLowEdge(nx_Data)+bw_Data;
+		TH1F *htmp_Data = new TH1F(name_Data.c_str(), title_Data, nx_Data, x1_Data, x2_Data); // Book a temporary histogram having an extra bin for overflows
+    for (Int_t i=1; i<=nx_Data; i++) {// Fill the new hitogram including the extra bin for overflows
+       htmp_Data->Fill(htmp_Data->GetBinCenter(i), Histo_Data->GetBinContent(i));
+    }
+		htmp_Data->Fill(x1_Data-1, Histo_Data->GetBinContent(0));    // Restore the number of entries
+		htmp_Data->SetEntries(Histo_Data->GetEntries());    // Draw the temporary histogram
+		Histo_Data->Clear();
+		Histo_Data = new TH1F(*htmp_Data);
+		Histo_Data->SetName("Histo Data");
+
+    // overflow bin for mc
+		string name_MC  = "temp MC";
+		char* title_MC = (char*)Histo_MC->GetTitle();
+		Int_t nx_MC = Histo_MC->GetNbinsX()+1;
+		Double_t bw_MC = Histo_MC->GetBinWidth(nx_MC);
+		Double_t x1_MC = Histo_MC->GetBinLowEdge(1);
+		Double_t x2_MC = Histo_MC->GetBinLowEdge(nx_MC)+bw_MC;
+		TH1F *htmp_MC = new TH1F(name_MC.c_str(), title_MC, nx_MC, x1_MC, x2_MC); // Book a temporary histogram having an extra bin for overflows
+    for (Int_t i=1; i<=nx_MC; i++) {// Fill the new hitogram including the extra bin for overflows
+       htmp_MC->Fill(htmp_MC->GetBinCenter(i), Histo_MC->GetBinContent(i));
+    }
+		htmp_MC->Fill(x1_MC-1, Histo_MC->GetBinContent(0));    // Restore the number of entries
+		htmp_MC->SetEntries(Histo_MC->GetEntries());    // Draw the temporary histogram
+		Histo_MC->Clear();
+		Histo_MC = new TH1F(*htmp_MC);
+		Histo_MC->SetName("Histo MC");
+
+		htmp_Data->Clear();
+		htmp_MC->Clear();
+
+	}
 
 	// Get the number of entries for further normalization
 	double a = Histo_Data->GetEntries();
@@ -155,10 +194,10 @@ void DrawDataMCplot_NormEntries_Fast(TTree *Data_PhotonTree, TTree *MC_PhotonTre
 	// Clean the memory
 	c1->Clear();
 	legend->Clear();
-	Histo_Data_temp->Delete();
-	Histo_MC_temp->Delete();
-	Histo_Data->Delete();
-	Histo_MC->Delete();
+	Histo_Data_temp->Clear();
+	Histo_MC_temp->Clear();
+	Histo_Data->Clear();
+	Histo_MC->Clear();
 
 }
 	
@@ -199,55 +238,52 @@ int main()
 	name.push_back("Photon_isAfterCut7_AND_Photon_isEEM_AND_Photon_SCRawEnergyGT4");
 
 	for(int i=0; i<set_of_cuts.size() ; i++){ // loop over different set of cuts
-//		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Multiplicity", "(15,0,15)", set_of_cuts[i], name[i], "Photon Multiplicity", true, false, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_hasPixelSeed", "(3, 0, 3)", set_of_cuts[i], name[i], "Photon hasPixelSeed", true, false, c1);
-/*		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isAlsoElectron", "(3, 0, 3)", set_of_cuts[i], name[i], "Photon isAlsoElectron", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E", "(100, 0, 800)", set_of_cuts[i], name[i], "Photon Energy", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Et", "(100, 0, 800)", set_of_cuts[i], name[i], "Photon Et", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Eta", "(60, -3.0, 3.0)", set_of_cuts[i], name[i], "Photon Eta", true, false, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isAlsoElectron", "(3, 0, 3)", set_of_cuts[i], name[i], "Photon isAlsoElectron", true, false, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E", "(100, 0, 800)", set_of_cuts[i], name[i], "Photon Energy", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Et", "(100, 0, 800)", set_of_cuts[i], name[i], "Photon Et", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Eta", "(60, -3.0, 3.0)", set_of_cuts[i], name[i], "Photon Eta", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Phi", "(30, -3.15, 3.15)", set_of_cuts[i], name[i], "Photon Phi", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCEta", "(60, -3.0, 3.0)", set_of_cuts[i], name[i], "Photon SC	Eta", true, false, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCEta", "(60, -3.0, 3.0)", set_of_cuts[i], name[i], "Photon SC	Eta", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCPhi", "(30, -3.15, 3.15)", set_of_cuts[i], name[i], "Photon SC Phi", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E2x2", "(50, 0, 800)", set_of_cuts[i], name[i], "Photon E2x2", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E3x3", "(50, 0, 800)", set_of_cuts[i], name[i], "Photon E3x3", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E5x5", "(50, 0, 800)", set_of_cuts[i], name[i], "Photon E5x5", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Emax", "(100, 0, 100)", set_of_cuts[i], name[i], "Photon Emax", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E2nd", "(100, 0, 100)", set_of_cuts[i], name[i], "Photon E2nd", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_r19", "(100, 0, 2)", set_of_cuts[i], name[i], "Photon r19", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_r9", "(100, 0, 2)", set_of_cuts[i], name[i], "r9", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_cross", "(50, -4, 2)", set_of_cuts[i], name[i], "Photon 1-(E4/E1)", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_caloConeSize", "(30, 0, 0.5)", set_of_cuts[i], name[i], "Photon caloConeSize", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCEnergy", "(100, 0, 100)", set_of_cuts[i], name[i], "Photon SC Energy", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCEt", "(100, 0, 100)", set_of_cuts[i], name[i], "Photon SC Et", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCRawEnergy", "(100, 0, 100)", set_of_cuts[i], name[i], "Photon SC Raw Energy", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCRawEt", "(100, 0, 1000)", set_of_cuts[i], name[i], "Photon SC Raw Et", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_PreshEnergy", "(40, 0, 10)", set_of_cuts[i], name[i], "Photon Preshower Energy", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_HoE", "(30, 0, 0.55)", set_of_cuts[i], name[i], "Photon HoE", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Nclusters", "(20, 0, 20)", set_of_cuts[i], name[i], "Photon Nclusters", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_covIetaIeta", "(30, 0, 0.02)", set_of_cuts[i], name[i], "Photon covIetaIeta", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_covIphiIphi", "(30, 0, 0.025)", set_of_cuts[i], name[i], "Photon covIphiIphi", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isoEcalRecHit", "(70, -2, 20)", set_of_cuts[i], name[i], "Photon isoEcalRecHit", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isoHcalRecHit", "(100, -1, 10)", set_of_cuts[i], name[i], "Photon isoHcalRecHit", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isoSolidTrkCone", "(100, -1, 20)", set_of_cuts[i], name[i], "Photon isoSolidTrkCone", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isoHollowTrkCone", "(100, -1, 20)", set_of_cuts[i], name[i], "Photon isoHollowTrkCone", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isoNTracksSolidCone", "(20, 0, 20)", set_of_cuts[i], name[i], "Photon isoNTracksSolidCone", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isoNTracksHollowCone", "(20, 0, 20)", set_of_cuts[i], name[i], "Photon isoNTracksHollowCone", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isoPersoSolidTrkCone", "(100, 0, 30)", set_of_cuts[i], name[i], "Photon isoPersoSolidTrkCone", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_convNTracks", "(5, -1, 4)", set_of_cuts[i], name[i], "Photon convNTracks", true, false, c1);
-	//	TH2F* h_Photon_EtaPhi_Occupancy", "(60, -3, 3, 60, -3.15, 3.15)", set_of_cuts[i], name[i], "Photon Multiplicity", true, false, c1);
-	//	TH2F* h_Photon_Energy_vs_Phi", "(60, 0, 60, 60, -3.15, 3.15)", set_of_cuts[i], name[i], "Photon Multiplicity", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_etaWidth", "(20, 0, 0.2)", set_of_cuts[i], name[i], "Photon Eta Width", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_phiWidth", "(20, 0, 0.2)", set_of_cuts[i], name[i], "Photon Phi Width", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_nBasicClusters", "(20, 0, 20)", set_of_cuts[i], name[i], "Photon nBasicClusters", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_nXtals", "(100, 0, 100)", set_of_cuts[i], name[i], "Photon nXtals", true, false, c1);
-	//		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_nRecHits", "(100, 0, 100)", set_of_cuts[i], name[i], "Photon nRecHits", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_seedTime", "(300,-150,150)", set_of_cuts[i], name[i], "Photon seed Time", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_seedFlag", "(50,0,50)", set_of_cuts[i], name[i], "Photon seed Flag", true, false, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E2x2", "(50, 0, 800)", set_of_cuts[i], name[i], "Photon E2x2", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E3x3", "(50, 0, 800)", set_of_cuts[i], name[i], "Photon E3x3", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E5x5", "(50, 0, 800)", set_of_cuts[i], name[i], "Photon E5x5", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Emax", "(100, 0, 100)", set_of_cuts[i], name[i], "Photon Emax", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E2nd", "(100, 0, 100)", set_of_cuts[i], name[i], "Photon E2nd", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_r19", "(100, 0, 2)", set_of_cuts[i], name[i], "Photon r19", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_r9", "(100, 0, 2)", set_of_cuts[i], name[i], "r9", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_cross", "(50, -4, 2)", set_of_cuts[i], name[i], "Photon 1-(E4/E1)", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_caloConeSize", "(30, 0, 0.5)", set_of_cuts[i], name[i], "Photon caloConeSize", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCEnergy", "(100, 0, 100)", set_of_cuts[i], name[i], "Photon SC Energy", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCEt", "(100, 0, 100)", set_of_cuts[i], name[i], "Photon SC Et", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCRawEnergy", "(100, 0, 100)", set_of_cuts[i], name[i], "Photon SC Raw Energy", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCRawEt", "(100, 0, 1000)", set_of_cuts[i], name[i], "Photon SC Raw Et", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_PreshEnergy", "(40, 0, 10)", set_of_cuts[i], name[i], "Photon Preshower Energy", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_HoE", "(30, 0, 0.55)", set_of_cuts[i], name[i], "Photon HoE", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Nclusters", "(20, 0, 20)", set_of_cuts[i], name[i], "Photon Nclusters", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_covIetaIeta", "(30, 0, 0.02)", set_of_cuts[i], name[i], "Photon covIetaIeta", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_covIphiIphi", "(30, 0, 0.025)", set_of_cuts[i], name[i], "Photon covIphiIphi", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isoEcalRecHit", "(70, -2, 20)", set_of_cuts[i], name[i], "Photon isoEcalRecHit", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isoHcalRecHit", "(100, -1, 10)", set_of_cuts[i], name[i], "Photon isoHcalRecHit", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isoSolidTrkCone", "(100, -1, 20)", set_of_cuts[i], name[i], "Photon isoSolidTrkCone", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isoHollowTrkCone", "(100, -1, 20)", set_of_cuts[i], name[i], "Photon isoHollowTrkCone", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isoNTracksSolidCone", "(20, 0, 20)", set_of_cuts[i], name[i], "Photon isoNTracksSolidCone", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isoNTracksHollowCone", "(20, 0, 20)", set_of_cuts[i], name[i], "Photon isoNTracksHollowCone", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isoPersoSolidTrkCone", "(100, 0, 30)", set_of_cuts[i], name[i], "Photon isoPersoSolidTrkCone", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_convNTracks", "(5, -1, 4)", set_of_cuts[i], name[i], "Photon convNTracks", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_etaWidth", "(20, 0, 0.2)", set_of_cuts[i], name[i], "Photon Eta Width", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_phiWidth", "(20, 0, 0.2)", set_of_cuts[i], name[i], "Photon Phi Width", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_nBasicClusters", "(20, 0, 20)", set_of_cuts[i], name[i], "Photon nBasicClusters", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_nXtals", "(100, 0, 100)", set_of_cuts[i], name[i], "Photon nXtals", true, true, c1);
+	//		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_nRecHits", "(100, 0, 100)", set_of_cuts[i], name[i], "Photon nRecHits", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_seedTime", "(300,-150,150)", set_of_cuts[i], name[i], "Photon seed Time", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_seedFlag", "(50,0,50)", set_of_cuts[i], name[i], "Photon seed Flag", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isTightPhoton", "(3, 0, 3)", set_of_cuts[i], name[i], "Photon isTightPhoton", true, false, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isLoosePhoton", "(3, 0, 3)", set_of_cuts[i], name[i], "Photon isLoosePhoton", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isolationPersoTracksSolidCone", "(30, 0, 100)", set_of_cuts[i], name[i], "Photon isolationPersoTracksSolidCone", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isolationPersoNTracksSolidCone", "(30, 0, 100)", set_of_cuts[i], name[i], "Photon isolationPersoNTracksSolidCone", true, false, c1);
-*/
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isolationPersoTracksSolidCone", "(30, 0, 100)", set_of_cuts[i], name[i], "Photon isolationPersoTracksSolidCone", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isolationPersoNTracksSolidCone", "(30, 0, 100)", set_of_cuts[i], name[i], "Photon isolationPersoNTracksSolidCone", true, true, c1);
+
 	
 	} // end of loop over set of cuts
 
@@ -264,33 +300,33 @@ int main()
 	name_superclu.push_back("SuperClu_isEEP");
 	set_of_cuts_superclu.push_back("SuperClu_isEEM==1 && NoCuts==1");
 	name_superclu.push_back("SuperClu_isEEM");
-/*
+
 	for (int i=0;i<name_superclu.size();i++){
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_E", "(100, 0, 800)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster Energy", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_Et", "(100, 0, 800)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster Et", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_RawE", "(100, 0, 800)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster Raw Energy", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_RawEt", "(100, 0, 800)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster Raw Et", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_Eta", "(60, -3.0, 3.0)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster Eta", true, false, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_E", "(100, 0, 800)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster Energy", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_Et", "(100, 0, 800)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster Et", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_RawE", "(100, 0, 800)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster Raw Energy", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_RawEt", "(100, 0, 800)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster Raw Et", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_Eta", "(60, -3.0, 3.0)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster Eta", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_Phi", "(30, -3.15, 3.15)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster Phi", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_nXtals", "(100, 0, 100)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster number of crystals", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_seedTime", "(300, -40, 40)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster seed time", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_seedFlag", "(15, 0, 15)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster seed flag", true, false, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_nXtals", "(100, 0, 100)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster number of crystals", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_seedTime", "(300, -40, 40)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster seed time", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_seedFlag", "(15, 0, 15)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster seed flag", true, true, c1);
 
 	}
-*/
+
 	vector<string> set_of_cuts_events;
 	vector<string> name_events;
 	set_of_cuts_events.push_back("NoCuts");
 	name_events.push_back("NoCuts");
 	for(int i=0;i<name_events.size();i++){
-		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "Photon_Multiplicity", "(15, 0, 15)", set_of_cuts_events[i], name_events[i], "Photon multiplicity", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "SuperClu_Multiplicity", "(30, 0, 30)", set_of_cuts_events[i], name_events[i], "Super cluster multiplicity", true, false, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "Photon_Multiplicity", "(15, 0, 15)", set_of_cuts_events[i], name_events[i], "Photon multiplicity", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "SuperClu_Multiplicity", "(30, 0, 30)", set_of_cuts_events[i], name_events[i], "Super cluster multiplicity", true, true, c1);
 
-		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "nPhotonEB_perEvent", "(15, 0, 15)", set_of_cuts_events[i], name_events[i],"nPhotonEB_perEvent", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "nPhotonEE_perEvent", "(15, 0, 15)", set_of_cuts_events[i], name_events[i],"nPhotonEE_perEvent", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "nPhotonEEP_perEvent", "(15, 0, 15)", set_of_cuts_events[i], name_events[i],"nPhotonEEP_perEvent", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "nPhotonEEM_perEvent", "(15, 0, 15)", set_of_cuts_events[i], name_events[i], "nPhotonEEM_perEvent", true, false, c1);
-/*
+		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "nPhotonEB_perEvent", "(15, 0, 15)", set_of_cuts_events[i], name_events[i],"nPhotonEB_perEvent", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "nPhotonEE_perEvent", "(15, 0, 15)", set_of_cuts_events[i], name_events[i],"nPhotonEE_perEvent", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "nPhotonEEP_perEvent", "(15, 0, 15)", set_of_cuts_events[i], name_events[i],"nPhotonEEP_perEvent", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "nPhotonEEM_perEvent", "(15, 0, 15)", set_of_cuts_events[i], name_events[i], "nPhotonEEM_perEvent", true, true, c1);
+
 		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "HLT_Photon10_L1R", "(3, 0, 3)", set_of_cuts_events[i], name_events[i], "HLT_Photon10_L1R triggered", true, false, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "HLT_Photon15_L1R", "(3, 0, 3)", set_of_cuts_events[i], name_events[i], "HLT_Photon15_L1R", true, false, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "HLT_Photon15_LooseEcalIso_L1R", "(3, 0, 3)", set_of_cuts_events[i], name_events[i], "HLT_Photon15_LooseEcalIso_L1R triggered", true, false, c1);
@@ -316,7 +352,7 @@ int main()
 		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "HLT_Ele10_LW_L1R", "(3, 0, 3)", set_of_cuts_events[i], name_events[i], "HLT_Ele10_LW_L1R triggered", true, false, c1);
 	
 //		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "HLT_Photon15_TrackIso_L1R", "(3, 0, 3)", set_of_cuts_events[i], name_events[i], "HLT_Photon15_TrackIso_L1R triggered", true, false, c1);
-	*/
+	
 	}
 
 	return 0;	
