@@ -277,12 +277,12 @@ cout << endl;
 	Float_t Photon_caloConeSize, Photon_PreshEnergy, Photon_HoE, Photon_covIetaIeta, Photon_covIphiIphi, Photon_etaWidth, Photon_phiWidth;
 	Float_t Photon_isoEcalRecHit, Photon_isoHcalRecHit, Photon_isoSolidTrkCone, Photon_isoHollowTrkCone, Photon_isoPersoSolidTrkCone, Photon_isolationPersoTracksSolidCone;
 	Float_t Photon_seedTime;
-	Int_t Photon_seedFlag;
+	Int_t Photon_seedFlag, Photon_seedSeverity;
  
 //Déclaration des variables pour les SuperClusters
 	Float_t SuperClu_E, SuperClu_Et, SuperClu_Eta, SuperClu_Phi, SuperClu_RawE, SuperClu_RawEt;
 	Float_t SuperClu_seedTime;
-	Int_t SuperClu_seedFlag;
+	Int_t SuperClu_seedFlag, SuperClu_seedSeverity;
 	Int_t SuperClu_nXtals;
 	Int_t SuperClu_isEE, SuperClu_isEB, SuperClu_isEEM, SuperClu_isEEP;
 
@@ -370,6 +370,7 @@ cout << endl;
 
 	miniTree->Branch("Photon_seedTime", &Photon_seedTime, "Photon_seedTime/F");
 	miniTree->Branch("Photon_seedFlag", &Photon_seedFlag, "Photon_seedFlag/I");
+	miniTree->Branch("Photon_seedSeverity", &Photon_seedSeverity, "Photon_seedSeverity/I");
 
 // Création de toutes les branches nécessaires aux variables pour les super clusters(cf ci dessous)
 //	miniSuperClu->Branch("SuperClu_", &SuperClu_, "SuperClu_/F");
@@ -377,6 +378,7 @@ cout << endl;
 
 	miniSuperClu->Branch("SuperClu_seedTime", &SuperClu_seedTime, "SuperClu_seedTime/F");
 	miniSuperClu->Branch("SuperClu_seedFlag", &SuperClu_seedFlag, "SuperClu_seedFlag/I");
+	miniSuperClu->Branch("SuperClu_seedSeverity", &SuperClu_seedSeverity, "SuperClu_seedSeverity/I");
 
 	miniSuperClu->Branch("SuperClu_E", &SuperClu_E, "SuperClu_E/F");
 	miniSuperClu->Branch("SuperClu_Et", &SuperClu_Et, "SuperClu_Et/F");
@@ -478,6 +480,7 @@ cout << endl;
 
 		SuperClu_nXtals = -99;
 		SuperClu_seedFlag = -99;
+		SuperClu_seedSeverity = -99;
 		SuperClu_seedTime = -99;
 
 		// Tri sur le runId
@@ -514,6 +517,7 @@ cout << endl;
 			SuperClu_isEE = ( SuperClu_isEEP || SuperClu_isEEM );
 
 			SuperClu_nXtals = mysc->nXtals();
+			SuperClu_seedSeverity = mysc->seedSeverity();
 			SuperClu_seedFlag = mysc->seedRecoFlag();
 			SuperClu_seedTime = mysc->seedTime();
 
@@ -642,6 +646,7 @@ cout << endl;
 					Photon_nXtals = myphoton->superCluster()->nXtals();
 					Photon_seedTime = myphoton->superCluster()->seedTime();
 					Photon_seedFlag = myphoton->superCluster()->seedRecoFlag();
+					Photon_seedSeverity = myphoton->superCluster()->seedSeverity();
 					Photon_cross = 1-((myphoton->superCluster()->s4())/(myphoton->superCluster()->eMax()));
 					Photon_isTightPhoton = myphoton->isTightPhoton();
 					Photon_isLoosePhoton = myphoton->isLoosePhoton();
@@ -660,6 +665,7 @@ cout << endl;
 					Photon_nXtals = -99;
 					Photon_seedTime = -99;
 					Photon_seedFlag = -99;
+					Photon_seedSeverity = -99;
 					Photon_cross = -99;
 					Photon_isTightPhoton = -99;
 					Photon_isLoosePhoton = -99;
