@@ -40,29 +40,29 @@
 int main(){
 	gSystem->Load("/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/src/libToto.so");
 	
-	bool doHLT                    = true;
-	bool doMC                     = false;
-	bool doJetMC                  = false;
-	bool doMETMC                  = false;
-	bool doPDFInfo                = true;
-	bool doSignalMuMuGamma        = false;
-	bool doSignalTopTop           = false;
-	bool doPhotonConversionC      = false;
-	bool doBeamSpot               = true;
-	bool doPrimaryVertex          = true;
-	bool doZeePrimaryVertex       = false;
-	bool doTrack                  = true;
-	bool doJet                    = false;
-	bool doMuon                   = false;
-	bool doElectron               = true;
-	bool doPhoton                 = true;
-	bool doCluster                = true;
-	bool doPhotonConversion       = true;
-	bool doMET                    = false;
-	bool doBardak                 = false;
+	bool doHLT										= true;
+	bool doMC										 = false;
+	bool doJetMC									= false;
+	bool doMETMC									= false;
+	bool doPDFInfo								= true;
+	bool doSignalMuMuGamma				= false;
+	bool doSignalTopTop					 = false;
+	bool doPhotonConversionC			= false;
+	bool doBeamSpot							 = true;
+	bool doPrimaryVertex					= true;
+	bool doZeePrimaryVertex			 = false;
+	bool doTrack									= true;
+	bool doJet										= false;
+	bool doMuon									 = false;
+	bool doElectron							 = true;
+	bool doPhoton								 = true;
+	bool doCluster								= true;
+	bool doPhotonConversion			 = true;
+	bool doMET										= false;
+	bool doBardak								 = false;
 	bool doPhotonVertexCorrection = false;
-	bool doPhotonIsolation        = true;
-	bool doPhotonConversionMC     = false;
+	bool doPhotonIsolation				= true;
+	bool doPhotonConversionMC		 = false;
 
 	TString dataset = "DATA";
 	TChain *inputEventTree = new TChain("eventTree");
@@ -280,11 +280,11 @@ cout << endl;
 	Int_t Photon_seedFlag;
  
 //Déclaration des variables pour les SuperClusters
-        Float_t SuperClu_E, SuperClu_Et, SuperClu_Eta, SuperClu_Phi, SuperClu_RawE, SuperClu_RawEt;
-        Float_t SuperClu_seedTime;
+	Float_t SuperClu_E, SuperClu_Et, SuperClu_Eta, SuperClu_Phi, SuperClu_RawE, SuperClu_RawEt;
+	Float_t SuperClu_seedTime;
 	Int_t SuperClu_seedFlag;
-        Int_t SuperClu_nXtals;
-        Int_t SuperClu_isEE, SuperClu_isEB, SuperClu_isEEM, SuperClu_isEEP;
+	Int_t SuperClu_nXtals;
+	Int_t SuperClu_isEE, SuperClu_isEB, SuperClu_isEEM, SuperClu_isEEP;
 
 //Déclaration des variables par event
 	Int_t Photon_Multiplicity, SuperClu_Multiplicity;
@@ -295,6 +295,7 @@ cout << endl;
 	Int_t HLT_DoublePhoton5_Upsilon_L1R, HLT_DoublePhoton5_L1R, HLT_DoublePhoton10_L1R, HLT_DoubleEle5_SW_L1R, HLT_Ele20_LW_L1R;
 	Int_t HLT_Ele15_SiStrip_L1R, HLT_Ele15_SC10_LW_L1R, HLT_Ele15_LW_L1R, HLT_Ele10_LW_EleId_L1R, HLT_Ele10_LW_L1R; 
 	Int_t HLT_Photon15_TrackIso_L1R;
+	Int_t NoCuts;
 
 	TTree* miniTree = new TTree("miniTree","Photons info");	
 	TTree* miniSuperClu = new TTree("miniSuperClu", "Super Clusters");
@@ -314,6 +315,7 @@ cout << endl;
 	miniTree->Branch("Photon_isAfterCut4,", &Photon_isAfterCut4, "Photon_isAfterCut4/I");
 	miniTree->Branch("Photon_isAfterCut5,", &Photon_isAfterCut5, "Photon_isAfterCut5/I");
 	miniTree->Branch("Photon_isAfterCut6,", &Photon_isAfterCut6, "Photon_isAfterCut6/I");
+	miniTree->Branch("Photon_isAfterCut7,", &Photon_isAfterCut7, "Photon_isAfterCut7/I");
 
 //	miniTree->Branch("Photon_Multiplicity", &Photon_Multiplicity, "Photon_Multiplicity/I");
 	miniTree->Branch("Photon_hasPixelSeed", &Photon_hasPixelSeed, "Photon_hasPixelSeed/I");
@@ -389,46 +391,49 @@ cout << endl;
 	miniSuperClu->Branch("SuperClu_isEEM", &SuperClu_isEEM, "SuperClu_isEEM/I");
 	miniSuperClu->Branch("SuperClu_isEEP", &SuperClu_isEEP, "SuperClu_isEEP/I");
 
+	miniSuperClu->Branch("NoCuts", &NoCuts, "NoCuts/I");
+
 //Branches du tree par event
+	miniEvent->Branch("NoCuts", &NoCuts, "NoCuts/I");
 
 	miniEvent->Branch("Photon_Multiplicity", &Photon_Multiplicity, "Photon_Multiplicity/I");
 	miniEvent->Branch("SuperClu_Multiplicity", &SuperClu_Multiplicity, "SuperClu_Multiplicity/I");
 
 	miniEvent->Branch("nPhotonEEM_perEvent", &nPhotonEEP_perEvent, "nPhotonEEM_perEvent/I");
-        miniEvent->Branch("nPhotonEEP_perEvent", &nPhotonEEM_perEvent, "nPhotonEEP_perEvent/I");
-        miniEvent->Branch("nPhotonEE_perEvent", &nPhotonEE_perEvent, "nPhotonEE_perEvent/I");
-        miniEvent->Branch("nPhotonEB_perEvent", &nPhotonEB_perEvent, "nPhotonEB_perEvent/I");
+	miniEvent->Branch("nPhotonEEP_perEvent", &nPhotonEEM_perEvent, "nPhotonEEP_perEvent/I");
+	miniEvent->Branch("nPhotonEE_perEvent", &nPhotonEE_perEvent, "nPhotonEE_perEvent/I");
+	miniEvent->Branch("nPhotonEB_perEvent", &nPhotonEB_perEvent, "nPhotonEB_perEvent/I");
 
 
-        miniEvent->Branch("HLT_Photon10_L1R", &HLT_Photon10_L1R,"HLT_Photon10_L1R/I");
-        miniEvent->Branch("HLT_Photon15_L1R", &HLT_Photon15_L1R,"HLT_Photon15_L1R/I");
-        miniEvent->Branch("HLT_Photon15_LooseEcalIso_L1R", &HLT_Photon15_LooseEcalIso_L1R,"HLT_Photon15_LooseEcalIso_L1R/I");
-        miniEvent->Branch("HLT_Photon20_L1R", &HLT_Photon20_L1R,"HLT_Photon20_L1R/I");
-        miniEvent->Branch("HLT_Photon30_L1R_8E29", &HLT_Photon30_L1R_8E29,"HLT_Photon30_L1R_8E29/I");
+	miniEvent->Branch("HLT_Photon10_L1R", &HLT_Photon10_L1R,"HLT_Photon10_L1R/I");
+	miniEvent->Branch("HLT_Photon15_L1R", &HLT_Photon15_L1R,"HLT_Photon15_L1R/I");
+	miniEvent->Branch("HLT_Photon15_LooseEcalIso_L1R", &HLT_Photon15_LooseEcalIso_L1R,"HLT_Photon15_LooseEcalIso_L1R/I");
+	miniEvent->Branch("HLT_Photon20_L1R", &HLT_Photon20_L1R,"HLT_Photon20_L1R/I");
+	miniEvent->Branch("HLT_Photon30_L1R_8E29", &HLT_Photon30_L1R_8E29,"HLT_Photon30_L1R_8E29/I");
 
-        miniEvent->Branch("HLT_DoublePhoton4_Jpsi_L1R", &HLT_DoublePhoton4_Jpsi_L1R,"HLT_DoublePhoton4_Jpsi_L1R/I");
-        miniEvent->Branch("HLT_DoublePhoton4_Upsilon_L1R", &HLT_DoublePhoton4_Upsilon_L1R,"HLT_DoublePhoton4_Upsilon_L1R/I");
-        miniEvent->Branch("HLT_DoublePhoton4_eeRes_L1R", &HLT_DoublePhoton4_eeRes_L1R,"HLT_DoublePhoton4_eeRes_L1R/I");
-        miniEvent->Branch("HLT_DoublePhoton5_eeRes_L1R", &HLT_DoublePhoton5_eeRes_L1R,"HLT_DoublePhoton5_eeRes_L1R/I");
-        miniEvent->Branch("HLT_DoublePhoton5_Jpsi_L1R", &HLT_DoublePhoton5_Jpsi_L1R,"HLT_DoublePhoton5_Jpsi_L1R/I");
+	miniEvent->Branch("HLT_DoublePhoton4_Jpsi_L1R", &HLT_DoublePhoton4_Jpsi_L1R,"HLT_DoublePhoton4_Jpsi_L1R/I");
+	miniEvent->Branch("HLT_DoublePhoton4_Upsilon_L1R", &HLT_DoublePhoton4_Upsilon_L1R,"HLT_DoublePhoton4_Upsilon_L1R/I");
+	miniEvent->Branch("HLT_DoublePhoton4_eeRes_L1R", &HLT_DoublePhoton4_eeRes_L1R,"HLT_DoublePhoton4_eeRes_L1R/I");
+	miniEvent->Branch("HLT_DoublePhoton5_eeRes_L1R", &HLT_DoublePhoton5_eeRes_L1R,"HLT_DoublePhoton5_eeRes_L1R/I");
+	miniEvent->Branch("HLT_DoublePhoton5_Jpsi_L1R", &HLT_DoublePhoton5_Jpsi_L1R,"HLT_DoublePhoton5_Jpsi_L1R/I");
 
-        miniEvent->Branch("HLT_DoublePhoton5_Upsilon_L1R", &HLT_DoublePhoton5_Upsilon_L1R,"HLT_DoublePhoton5_Upsilon_L1R/I");
-        miniEvent->Branch("HLT_DoublePhoton5_L1R", &HLT_DoublePhoton5_L1R,"HLT_DoublePhoton5_L1R/I");
-        miniEvent->Branch("HLT_DoublePhoton10_L1R", &HLT_DoublePhoton10_L1R,"HLT_DoublePhoton10_L1R/I");
-        miniEvent->Branch("HLT_DoubleEle5_SW_L1R", &HLT_DoubleEle5_SW_L1R,"HLT_DoubleEle5_SW_L1R/I");
-        miniEvent->Branch("HLT_Ele20_LW_L1R", &HLT_Ele20_LW_L1R,"HLT_Ele20_LW_L1R/I");
+	miniEvent->Branch("HLT_DoublePhoton5_Upsilon_L1R", &HLT_DoublePhoton5_Upsilon_L1R,"HLT_DoublePhoton5_Upsilon_L1R/I");
+	miniEvent->Branch("HLT_DoublePhoton5_L1R", &HLT_DoublePhoton5_L1R,"HLT_DoublePhoton5_L1R/I");
+	miniEvent->Branch("HLT_DoublePhoton10_L1R", &HLT_DoublePhoton10_L1R,"HLT_DoublePhoton10_L1R/I");
+	miniEvent->Branch("HLT_DoubleEle5_SW_L1R", &HLT_DoubleEle5_SW_L1R,"HLT_DoubleEle5_SW_L1R/I");
+	miniEvent->Branch("HLT_Ele20_LW_L1R", &HLT_Ele20_LW_L1R,"HLT_Ele20_LW_L1R/I");
 
-        miniEvent->Branch("HLT_Ele15_SiStrip_L1R", &HLT_Ele15_SiStrip_L1R,"HLT_Ele15_SiStrip_L1R/I");
-        miniEvent->Branch("HLT_Ele15_SC10_LW_L1R", &HLT_Ele15_SC10_LW_L1R,"HLT_Ele15_SC10_LW_L1R/I");
-        miniEvent->Branch("HLT_Ele15_LW_L1R", &HLT_Ele15_LW_L1R,"HLT_Ele15_LW_L1R/I");
-        miniEvent->Branch("HLT_Ele10_LW_EleId_L1R", &HLT_Ele10_LW_EleId_L1R,"HLT_Ele10_LW_EleId_L1R/I");
-        miniEvent->Branch("HLT_Ele10_LW_L1R", &HLT_Ele10_LW_L1R,"HLT_Ele10_LW_L1R/I");
+	miniEvent->Branch("HLT_Ele15_SiStrip_L1R", &HLT_Ele15_SiStrip_L1R,"HLT_Ele15_SiStrip_L1R/I");
+	miniEvent->Branch("HLT_Ele15_SC10_LW_L1R", &HLT_Ele15_SC10_LW_L1R,"HLT_Ele15_SC10_LW_L1R/I");
+	miniEvent->Branch("HLT_Ele15_LW_L1R", &HLT_Ele15_LW_L1R,"HLT_Ele15_LW_L1R/I");
+	miniEvent->Branch("HLT_Ele10_LW_EleId_L1R", &HLT_Ele10_LW_EleId_L1R,"HLT_Ele10_LW_EleId_L1R/I");
+	miniEvent->Branch("HLT_Ele10_LW_L1R", &HLT_Ele10_LW_L1R,"HLT_Ele10_LW_L1R/I");
 
-        miniEvent->Branch("HLT_Photon15_TrackIso_L1R", &HLT_Photon15_TrackIso_L1R,"HLT_Photon15_TrackIso_L1R/I");
+	miniEvent->Branch("HLT_Photon15_TrackIso_L1R", &HLT_Photon15_TrackIso_L1R,"HLT_Photon15_TrackIso_L1R/I");
 
 
-	unsigned int nTotEvents = (int)inputEventTree->GetEntries();
-	//unsigned int nTotEvents = 1000;
+	//unsigned int nTotEvents = (int)inputEventTree->GetEntries();
+	unsigned int nTotEvents = 1000;
 	unsigned int nTotEventsSelectedRuns = 0;
 	unsigned int nTotEventsSelectedL1 = 0;	
 	unsigned int nTotEventsSelectedVertex = 0;
@@ -449,35 +454,34 @@ cout << endl;
 	{
 		int nprint = (int)((double)nTotEvents/(double)100.0);
 		if( (ievt % nprint)==0 ){ cout<< ievt <<" events done over "<<nTotEvents<<" ( "<<ceil((double)ievt/(double)nTotEvents*100)<<" \% )"<<endl; }
+		NoCuts = 1;		
 
 		Photon_iEvent = ievt;
 		inputEventTree->GetEvent(ievt);
-		
+
 		nPhotonEEP_perEvent = 0 ;
 		nPhotonEEM_perEvent = 0 ;
 		nPhotonEE_perEvent = 0 ;
 		nPhotonEB_perEvent = 0 ;
 
-                        SuperClu_E = -99;
-                        SuperClu_Et = -99;
-                        SuperClu_Eta = -99;
-                        SuperClu_Phi = -99;
-			SuperClu_RawE = -99;
-			SuperClu_RawEt = -99;
+		SuperClu_E = -99;
+		SuperClu_Et = -99;
+		SuperClu_Eta = -99;
+		SuperClu_Phi = -99;
+		SuperClu_RawE = -99;
+		SuperClu_RawEt = -99;
 
-                	SuperClu_isEEP =-99;
-                	SuperClu_isEEM = -99;
-                	SuperClu_isEB = -99;
-                	SuperClu_isEE = -99;
+		SuperClu_isEEP =-99;
+		SuperClu_isEEM = -99;
+		SuperClu_isEB = -99;
+		SuperClu_isEE = -99;
 
-
-                        SuperClu_nXtals = -99;
-                        SuperClu_seedFlag = -99;
-                        SuperClu_seedTime = -99;
-
+		SuperClu_nXtals = -99;
+		SuperClu_seedFlag = -99;
+		SuperClu_seedTime = -99;
 
 		// Tri sur le runId
-                //if (!(event->runId() ==133928)) continue;
+		//if (!(event->runId() ==133928)) continue;
 
 		nTotEventsSelectedRuns++;
 		nTotEventsSelectedL1++;
@@ -497,32 +501,28 @@ cout << endl;
 
 			// Remplir les données sur superclu : E ,Et, Eta, Phi, nXtals, is EE/EB/EEM/EEP, seedTime, seedFlag, ... flagSRP?,
 
-                        SuperClu_E = mysc->Mag();
-                        SuperClu_Et = mysc->Pt();
-                        SuperClu_Eta = mysc->Eta();
-                        SuperClu_Phi = mysc->Phi();
+			SuperClu_E = mysc->Mag();
+			SuperClu_Et = mysc->Pt();
+			SuperClu_Eta = mysc->Eta();
+			SuperClu_Phi = mysc->Phi();
 			SuperClu_RawE = mysc->rawEnergy();
 			SuperClu_RawEt = SuperClu_RawE * sin (mysc->Theta());
 
-                        if (SuperClu_Eta > 1.479 && SuperClu_Eta < 3.0) SuperClu_isEEP =1; else SuperClu_isEEP =0; 
-                        if (SuperClu_Eta < -1.479 && SuperClu_Eta > -3.0) SuperClu_isEEM = 1; else SuperClu_isEEM = 0;
-                        if (SuperClu_Eta > -1.479 && SuperClu_Eta < 1.479) SuperClu_isEB = 1; else SuperClu_isEB = 0;
-                        SuperClu_isEE = ( SuperClu_isEEP || SuperClu_isEEM );
+			if (SuperClu_Eta > 1.479 && SuperClu_Eta < 3.0) SuperClu_isEEP =1; else SuperClu_isEEP =0; 
+			if (SuperClu_Eta < -1.479 && SuperClu_Eta > -3.0) SuperClu_isEEM = 1; else SuperClu_isEEM = 0;
+			if (SuperClu_Eta > -1.479 && SuperClu_Eta < 1.479) SuperClu_isEB = 1; else SuperClu_isEB = 0;
+			SuperClu_isEE = ( SuperClu_isEEP || SuperClu_isEEM );
 
+			SuperClu_nXtals = mysc->nXtals();
+			SuperClu_seedFlag = mysc->seedRecoFlag();
+			SuperClu_seedTime = mysc->seedTime();
 
-                        SuperClu_nXtals = mysc->nXtals();
-                        SuperClu_seedFlag = mysc->seedRecoFlag();
-                        SuperClu_seedTime = mysc->seedTime();
+			// Cuts sur les super clusters.
+			//.... Pas encore
 
-		// Cuts sur les super clusters.
+			miniSuperClu->Fill();
+		}// end of loop over superclusters
 
-		//.... Pas encore
-
-
-		miniSuperClu->Fill();
-
-
-		}
 		if (atLeastOneSChigherThan2GeV) nEventsWithScHigherThan2GeV++;
 		
 		if(doPhoton)
@@ -640,8 +640,8 @@ cout << endl;
 					Photon_phiWidth = myphoton->superCluster()->phiWidth();
 					Photon_nBasicClusters = myphoton->superCluster()->nBasicClusters();
 					Photon_nXtals = myphoton->superCluster()->nXtals();
-					Photon_seedTime = myphoton->superCluster()->hitAt(myphoton->superCluster()->nRecHits()-1)->time();
-					Photon_seedFlag = myphoton->superCluster()->hitAt(myphoton->superCluster()->nRecHits()-1)->recoFlag();
+					Photon_seedTime = myphoton->superCluster()->seedTime();
+					Photon_seedFlag = myphoton->superCluster()->seedRecoFlag();
 					Photon_cross = 1-((myphoton->superCluster()->s4())/(myphoton->superCluster()->eMax()));
 					Photon_isTightPhoton = myphoton->isTightPhoton();
 					Photon_isLoosePhoton = myphoton->isLoosePhoton();
@@ -718,33 +718,31 @@ cout << endl;
 		if (event->trigHLT()[71]==true) HLT_Photon10_L1R = 1; else HLT_Photon10_L1R =0;
 		if (event->trigHLT()[72]==true) HLT_Photon10_L1R = 1; else HLT_Photon10_L1R =0;
 		if (event->trigHLT()[74]==true) HLT_Photon15_LooseEcalIso_L1R = 1; else HLT_Photon15_LooseEcalIso_L1R =0;
-                if (event->trigHLT()[75]==true) HLT_Photon20_L1R = 1; else HLT_Photon20_L1R =0;
-                if (event->trigHLT()[76]==true) HLT_Photon30_L1R_8E29 = 1; else HLT_Photon30_L1R_8E29 =0;
+		if (event->trigHLT()[75]==true) HLT_Photon20_L1R = 1; else HLT_Photon20_L1R =0;
+		if (event->trigHLT()[76]==true) HLT_Photon30_L1R_8E29 = 1; else HLT_Photon30_L1R_8E29 =0;
 
-                if (event->trigHLT()[78]==true) HLT_DoublePhoton4_Jpsi_L1R = 1; else HLT_DoublePhoton4_Jpsi_L1R =0;
-                if (event->trigHLT()[79]==true) HLT_DoublePhoton4_Upsilon_L1R = 1; else HLT_DoublePhoton4_Upsilon_L1R =0;
-                if (event->trigHLT()[77]==true) HLT_DoublePhoton4_eeRes_L1R = 1; else HLT_DoublePhoton4_eeRes_L1R =0;
+		if (event->trigHLT()[78]==true) HLT_DoublePhoton4_Jpsi_L1R = 1; else HLT_DoublePhoton4_Jpsi_L1R =0;
+		if (event->trigHLT()[79]==true) HLT_DoublePhoton4_Upsilon_L1R = 1; else HLT_DoublePhoton4_Upsilon_L1R =0;
+		if (event->trigHLT()[77]==true) HLT_DoublePhoton4_eeRes_L1R = 1; else HLT_DoublePhoton4_eeRes_L1R =0;
 //		if (event->trigHLT()[]==true) HLT_DoublePhoton5_eeRes_L1R = 1; else HLT_DoublePhoton5_eeRes_L1R =0;
-                if (event->trigHLT()[80]==true) HLT_DoublePhoton5_Jpsi_L1R = 1; else HLT_DoublePhoton5_Jpsi_L1R =0;
+		if (event->trigHLT()[80]==true) HLT_DoublePhoton5_Jpsi_L1R = 1; else HLT_DoublePhoton5_Jpsi_L1R =0;
 
-                if (event->trigHLT()[81]==true) HLT_DoublePhoton5_Upsilon_L1R = 1; else HLT_DoublePhoton5_Upsilon_L1R =0;
-                if (event->trigHLT()[82]==true) HLT_DoublePhoton5_L1R = 1; else HLT_DoublePhoton5_L1R =0;
-                if (event->trigHLT()[83]==true) HLT_DoublePhoton10_L1R = 1; else HLT_DoublePhoton10_L1R =0;
-                if (event->trigHLT()[70]==true) HLT_DoubleEle5_SW_L1R = 1; else HLT_DoubleEle5_SW_L1R =0;
-                if (event->trigHLT()[69]==true) HLT_Ele20_LW_L1R = 1; else HLT_Ele20_LW_L1R =0;
+		if (event->trigHLT()[81]==true) HLT_DoublePhoton5_Upsilon_L1R = 1; else HLT_DoublePhoton5_Upsilon_L1R =0;
+		if (event->trigHLT()[82]==true) HLT_DoublePhoton5_L1R = 1; else HLT_DoublePhoton5_L1R =0;
+		if (event->trigHLT()[83]==true) HLT_DoublePhoton10_L1R = 1; else HLT_DoublePhoton10_L1R =0;
+		if (event->trigHLT()[70]==true) HLT_DoubleEle5_SW_L1R = 1; else HLT_DoubleEle5_SW_L1R =0;
+		if (event->trigHLT()[69]==true) HLT_Ele20_LW_L1R = 1; else HLT_Ele20_LW_L1R =0;
 
-                if (event->trigHLT()[68]==true) HLT_Ele15_SiStrip_L1R = 1; else HLT_Ele15_SiStrip_L1R =0;
-                if (event->trigHLT()[67]==true) HLT_Ele15_SC10_LW_L1R = 1; else HLT_Ele15_SC10_LW_L1R =0;
-                if (event->trigHLT()[66]==true) HLT_Ele15_LW_L1R = 1; else HLT_Ele15_LW_L1R =0;
-                if (event->trigHLT()[65]==true) HLT_Ele10_LW_EleId_L1R = 1; else HLT_Ele10_LW_EleId_L1R =0;
-                if (event->trigHLT()[64]==true) HLT_Ele10_LW_L1R = 1; else HLT_Ele10_LW_L1R =0;
+		if (event->trigHLT()[68]==true) HLT_Ele15_SiStrip_L1R = 1; else HLT_Ele15_SiStrip_L1R =0;
+		if (event->trigHLT()[67]==true) HLT_Ele15_SC10_LW_L1R = 1; else HLT_Ele15_SC10_LW_L1R =0;
+		if (event->trigHLT()[66]==true) HLT_Ele15_LW_L1R = 1; else HLT_Ele15_LW_L1R =0;
+		if (event->trigHLT()[65]==true) HLT_Ele10_LW_EleId_L1R = 1; else HLT_Ele10_LW_EleId_L1R =0;
+		if (event->trigHLT()[64]==true) HLT_Ele10_LW_L1R = 1; else HLT_Ele10_LW_L1R =0;
 
-                if (event->trigHLT()[73]==true) HLT_Photon15_TrackIso_L1R = 1; else HLT_Photon15_TrackIso_L1R =0;
-
+		if (event->trigHLT()[73]==true) HLT_Photon15_TrackIso_L1R = 1; else HLT_Photon15_TrackIso_L1R =0;
 
 		miniEvent->Fill();	
-		nSelectedEvents++;
-	
+		nSelectedEvents++;	
 	} // fin boucle sur evts
 
 	
@@ -752,7 +750,7 @@ cout << endl;
 		<< "	nTotEventsSelectedVertex=" << nTotEventsSelectedVertex	<< "	nSelectedEvents=" << nSelectedEvents	 << "	nEventsWithScHigherThan2GeV=" << nEventsWithScHigherThan2GeV
 	<< "	nSelectedEvents/nTotEventsSelectedRuns=" <<100.*nSelectedEvents/nTotEventsSelectedRuns << "%" << "	nSelectedEvents/nTotEvents=" <<100.*nSelectedEvents/nTotEvents << "%" << endl;
 	if(nTotPhotons>0) cout << "nSelectedPhotons=" << nSelectedPhotons << "	nTotPhotons=" << nTotPhotons << "	Eff=" <<100.*nSelectedPhotons/nTotPhotons << "%" << endl;
-	cout << "nCut1=" << nCut1 << "	nCut2=" << nCut2 << "	nCut3=" << nCut3 << "	nCut4=" << nCut4 << "	nCut5=" << nCut5 << "	nCut6=" << nCut6 << "   nCut7=" << nCut7 << endl;
+	cout << "nCut1=" << nCut1 << "	nCut2=" << nCut2 << "	nCut3=" << nCut3 << "	nCut4=" << nCut4 << "	nCut5=" << nCut5 << "	nCut6=" << nCut6 << "	 nCut7=" << nCut7 << endl;
 	
 	OutputRootFile->cd();
 	OutputRootFile->Write();
