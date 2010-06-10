@@ -80,12 +80,12 @@ int main(){
 //	TFile* OutputRootFile = new TFile("miniTree_DATA_MinimumBias_Commissioning10-May6thPDSkim_GOODCOLL-v1_RAW-RECO2.root", "RECREATE");
 //	TFile* OutputRootFile = new TFile("miniTree_DATA_MinimumBias_Commissioning10-GOODCOLL-v9_RAW-RECO.root", "RECREATE");
 //	TFile* OutputRootFile = new TFile("miniTree_DATA_MinimumBias_Commissioning10-GOODCOLL-v9_RAW-RECO2.root", "RECREATE");
-*/
 
+*//*
 // ************* MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO
 	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO/MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO_TOTOANA_*root");
 	TFile* OutputRootFile = new TFile("miniTree_MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
-/*
+*//*
 // ************* MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO
 	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO/MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO_TOTOANA_*root");
 	TFile* OutputRootFile = new TFile("miniTree_MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
@@ -93,11 +93,11 @@ int main(){
 // ************* MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1_GEN-SIM-RECO
 	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1_GEN-SIM-RECO/MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO_TOTOANA_*root");
 	TFile* OutputRootFile = new TFile("miniTree_MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
-*//*
+*/
 // ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO
 	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO/MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO_TOTOANA_*root");
 	TFile* OutputRootFile = new TFile("miniTree_MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
-*/
+
 	
 	TBranch* event_br = 0;
 	TRootEvent* event = 0;
@@ -310,7 +310,7 @@ cout << endl;
 //Déclaration des variables pour les SuperClusters
 	Float_t SuperClu_E, SuperClu_Et, SuperClu_Eta, SuperClu_Phi, SuperClu_RawE, SuperClu_RawEt;
 	Float_t SuperClu_seedTime;
-	Float_t SuperClu_s4;
+	Float_t SuperClu_s4, SuperClu_etaWidth, SuperClu_phiWidth;
 	Int_t SuperClu_seedFlag, SuperClu_seedSeverity;
 	Int_t SuperClu_nXtals, SuperClu_nBasicClusters;
 	Int_t SuperClu_isEE, SuperClu_isEB, SuperClu_isEEM, SuperClu_isEEP;
@@ -411,6 +411,8 @@ cout << endl;
 	miniSuperClu->Branch("SuperClu_seedSeverity", &SuperClu_seedSeverity, "SuperClu_seedSeverity/I");
 
 	miniSuperClu->Branch("SuperClu_s4", &SuperClu_s4, "SuperClu_s4/F");
+	miniSuperClu->Branch("SuperClu_phiWidth", &SuperClu_phiWidth, "SuperClu_phiWidth/F");
+	miniSuperClu->Branch("SuperClu_etaWidth", &SuperClu_etaWidth, "SuperClu_etaWidth/F");
 
 	miniSuperClu->Branch("SuperClu_E", &SuperClu_E, "SuperClu_E/F");
 	miniSuperClu->Branch("SuperClu_Et", &SuperClu_Et, "SuperClu_Et/F");
@@ -530,6 +532,8 @@ cout << endl;
 		SuperClu_seedSeverity = -99;
 		SuperClu_seedTime = -99;
 		SuperClu_s4 = -99;
+		SuperClu_phiWidth = -99;
+		SuperClu_etaWidth = -99;
 
 		// Tri sur le runId
 		//if (!(event->runId() ==133928)) continue;
@@ -571,6 +575,8 @@ cout << endl;
 			SuperClu_seedFlag = mysc->seedRecoFlag();
 			SuperClu_seedTime = mysc->seedTime();
 			SuperClu_s4 = mysc->s4();
+			SuperClu_etaWidth = mysc->etaWidth();
+			SuperClu_phiWidth = mysc->phiWidth();
 
 			// Cuts on superclusters.
 			if( fabs(mysc->Eta())>2.5 ){// Eta acceptance region
