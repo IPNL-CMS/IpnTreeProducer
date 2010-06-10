@@ -305,7 +305,7 @@ cout << endl;
 	Int_t HLT_DoublePhoton5_Upsilon_L1R, HLT_DoublePhoton5_L1R, HLT_DoublePhoton10_L1R, HLT_DoubleEle5_SW_L1R, HLT_Ele20_LW_L1R;
 	Int_t HLT_Ele15_SiStrip_L1R, HLT_Ele15_SC10_LW_L1R, HLT_Ele15_LW_L1R, HLT_Ele10_LW_EleId_L1R, HLT_Ele10_LW_L1R; 
 	Int_t HLT_Photon15_TrackIso_L1R;
-	Int_t NoCuts;
+	Int_t NoCuts, SuperClu_isAfterCut1, SuperClu_isAfterCut2, SuperClu_isAfterCut3;
 
 	TTree* miniTree = new TTree("miniTree","Photons info");	
 	TTree* miniSuperClu = new TTree("miniSuperClu", "Super Clusters");
@@ -407,6 +407,9 @@ cout << endl;
 	miniSuperClu->Branch("SuperClu_isEEP", &SuperClu_isEEP, "SuperClu_isEEP/I");
 
 	miniSuperClu->Branch("NoCuts", &NoCuts, "NoCuts/I");
+	miniSuperClu->Branch("SuperClu_isAfterCut1", &SuperClu_isAfterCut1, "SuperClu_isAfterCut1/I");
+	miniSuperClu->Branch("SuperClu_isAfterCut2", &SuperClu_isAfterCut2, "SuperClu_isAfterCut2/I");
+	miniSuperClu->Branch("SuperClu_isAfterCut3", &SuperClu_isAfterCut3, "SuperClu_isAfterCut3/I");
 
 //Branches du tree par event
 	miniEvent->Branch("NoCuts", &NoCuts, "NoCuts/I");
@@ -447,8 +450,8 @@ cout << endl;
 	miniEvent->Branch("HLT_Photon15_TrackIso_L1R", &HLT_Photon15_TrackIso_L1R,"HLT_Photon15_TrackIso_L1R/I");
 
 
-	//unsigned int nTotEvents = (int)inputEventTree->GetEntries();
-	unsigned int nTotEvents = 1000;
+	unsigned int nTotEvents = (int)inputEventTree->GetEntries();
+	//unsigned int nTotEvents = 1000;
 	unsigned int nTotEventsSelectedRuns = 0;
 	unsigned int nTotEventsSelectedL1 = 0;	
 	unsigned int nTotEventsSelectedVertex = 0;
@@ -463,13 +466,23 @@ cout << endl;
 	unsigned int nCut5 = 0;
 	unsigned int nCut6 = 0;
 	unsigned int nCut7 = 0;
+
+	unsigned int nTotSC = 0;
+	unsigned int nSelectedSC = 0;
+	unsigned int nSCAfterCut1 = 0;
+	unsigned int nSCAfterCut2 = 0;
+	unsigned int nSCAfterCut3 = 0;
+
 	cout<<"Nb of events : "<<nTotEvents<<endl;
 
 	for(unsigned int ievt=0; ievt<nTotEvents; ievt++)
 	{
 		int nprint = (int)((double)nTotEvents/(double)100.0);
 		if( (ievt % nprint)==0 ){ cout<< ievt <<" events done over "<<nTotEvents<<" ( "<<ceil((double)ievt/(double)nTotEvents*100)<<" \% )"<<endl; }
-		NoCuts = 1;		
+		NoCuts = 1;
+		SuperClu_isAfterCut1 = 0;
+		SuperClu_isAfterCut2 = 0;
+		SuperClu_isAfterCut3 = 0;
 
 		Photon_iEvent = ievt;
 		inputEventTree->GetEvent(ievt);
@@ -508,6 +521,7 @@ cout << endl;
 		Bool_t atLeastOneSChigherThan2GeV = false;
 		TRootSuperCluster* mysc;
 		SuperClu_Multiplicity = superClusters->GetEntriesFast();
+		nTotSC += superClusters->GetEntriesFast();
 		if (SuperClu_Multiplicity == 0) {miniSuperClu->Fill(); continue;}
 		for (int isc=0; isc < SuperClu_Multiplicity; isc++)
 		{
@@ -519,16 +533,16 @@ cout << endl;
 			// Remplir les données sur superclu : E ,Et, Eta, Phi, nXtals, is EE/EB/EEM/EEP, seedTime, seedFlag, ... flagSRP?,
 
 			SuperClu_E = mysc->Mag();
-			SuperClu_Et = mysc->Pt();
+			SuperClu_Et = SuperClu_E*sin(mysc->Theta());
 			SuperClu_Eta = mysc->Eta();
 			SuperClu_Phi = mysc->Phi();
 			SuperClu_RawE = mysc->rawEnergy();
 			SuperClu_RawEt = SuperClu_RawE * sin (mysc->Theta());
 
-			if (SuperClu_Eta > 1.479 && SuperClu_Eta < 3.0) SuperClu_isEEP =1; else SuperClu_isEEP =0; 
-			if (SuperClu_Eta < -1.479 && SuperClu_Eta > -3.0) SuperClu_isEEM = 1; else SuperClu_isEEM = 0;
-			if (SuperClu_Eta > -1.479 && SuperClu_Eta < 1.479) SuperClu_isEB = 1; else SuperClu_isEB = 0;
-			SuperClu_isEE = ( SuperClu_isEEP || SuperClu_isEEM );
+			SuperClu_isEB = mysc->isEB();
+			SuperClu_isEE = mysc->isEE();
+			if( (SuperClu_isEE==1) && (SuperClu_Eta>0) ) SuperClu_isEEP =1; else SuperClu_isEEP =0;
+			if( (SuperClu_isEE==1) && (SuperClu_Eta<0) ) SuperClu_isEEM =1; else SuperClu_isEEM =0;
 
 			SuperClu_nXtals = mysc->nXtals();
 			SuperClu_seedSeverity = mysc->seedSeverity();
@@ -536,9 +550,29 @@ cout << endl;
 			SuperClu_seedTime = mysc->seedTime();
 			SuperClu_s4 = mysc->s4();
 
-			// Cuts sur les super clusters.
-			//.... Pas encore
+			// Cuts on superclusters.
+			if( fabs(mysc->Eta())>2.5 ){// Eta acceptance region
+				miniSuperClu->Fill();
+				continue;
+			}
+			SuperClu_isAfterCut1 = 1;
+			nSCAfterCut1++;
 
+			if( (mysc->Eta()>1.4442) && (mysc->Eta()<1.566) ){// Veto on EB/EE gap
+				miniSuperClu->Fill();
+				continue;
+			}
+			SuperClu_isAfterCut2 = 1;
+			nSCAfterCut2++;
+
+			if( ((1-((double)(mysc->s4())/(double)(mysc->eMax())))>0.95 && (mysc->isEB())) || (mysc->seedRecoFlag()==2)){// Post-spike cleaning
+				miniSuperClu->Fill();
+				continue;
+			}
+			SuperClu_isAfterCut3 = 1;
+			nSCAfterCut3++;
+
+			nSelectedSC++;
 			miniSuperClu->Fill();
 		}// end of loop over superclusters
 
@@ -772,8 +806,11 @@ cout << endl;
 	if(nTotEvents>0) cout << "nTotEvents=" << nTotEvents << "	nTotEventsSelectedRuns=" << nTotEventsSelectedRuns << "	nTotEventsSelectedL1=" << nTotEventsSelectedL1
 		<< "	nTotEventsSelectedVertex=" << nTotEventsSelectedVertex	<< "	nSelectedEvents=" << nSelectedEvents	 << "	nEventsWithScHigherThan2GeV=" << nEventsWithScHigherThan2GeV
 	<< "	nSelectedEvents/nTotEventsSelectedRuns=" <<100.*nSelectedEvents/nTotEventsSelectedRuns << "%" << "	nSelectedEvents/nTotEvents=" <<100.*nSelectedEvents/nTotEvents << "%" << endl;
+
 	if(nTotPhotons>0) cout << "nSelectedPhotons=" << nSelectedPhotons << "	nTotPhotons=" << nTotPhotons << "	Eff=" <<100.*nSelectedPhotons/nTotPhotons << "%" << endl;
 	cout << "nCut1=" << nCut1 << "	nCut2=" << nCut2 << "	nCut3=" << nCut3 << "	nCut4=" << nCut4 << "	nCut5=" << nCut5 << "	nCut6=" << nCut6 << "	 nCut7=" << nCut7 << endl;
+
+	if(nTotSC>0) cout << "nTotSC=" << nTotSC << "  nSelectedSC=" << nSelectedSC << "  nSCAfterCut1=" << nSCAfterCut1 << "  nSCAfterCut2=" << nSCAfterCut2 << "  nSCAfterCut3=" << nSCAfterCut3 << endl;
 	
 	OutputRootFile->cd();
 	OutputRootFile->Write();
