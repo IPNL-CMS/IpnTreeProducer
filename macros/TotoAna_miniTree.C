@@ -66,19 +66,38 @@ int main(){
 
 	TString dataset = "DATA";
 	TChain *inputEventTree = new TChain("eventTree");
-//	inputEventTree->Add("/sps/cms/falkiewi/Data_MC_EG_filter_CMSSW_3_5_8_patch3/MinimumBias_Commissioning10-May6thPDSkim2_SD_EG-v1_RECO/MinimumBias_Commissioning10-May6thPDSkim2_SD_EG-v1_RECO*root");
-//	inputEventTree->Add("/sps/cms/falkiewi/Data_MC_EG_filter_CMSSW_3_5_8_patch3/MinimumBias_Commissioning10-SD_EG-v9_RECOToto/MinimumBias_Commissioning10-SD_EG-v9_RECO*root");
-//	inputEventTree->Add("/sps/cms/falkiewi/Data_MC_EG_filter_CMSSW_3_5_8_patch3/MinimumBias_Commissioning10-May6thPDSkim2_SD_EG-v1_RECO/MinimumBias_Commissioning10-May6thPDSkim2_SD_EG-v1_RECO_*.root");
-//	inputEventTree->Add("/sps/cms/falkiewi/Data_MC_EG_GOODCOLL_filter_CMSSW_3_5_8_patch3/MinimumBias_Commissioning10-May6thPDSkim2_SD_EG-v1_RECOGOODCOLL/MinimumBias_Commissioning10-May6thPDSkim2_SD_EG-v1_RECOGOODCOLL*root");
 //	inputEventTree->Add("");
-	inputEventTree->Add("/sps/cms/falkiewi/Data_MC_EG_filter_CMSSW_3_5_8_patch3/QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1/QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1*root");
-//	inputEventTree->Add("/sps/cms/falkiewi/Data_MC_EG_filter_CMSSW_3_5_8_patch3/MinimumBias_Commissioning10-SD_EG-v9_RECOToto/MinimumBias_Commissioning10-SD_EG-v9_RECO_*root");
-//	inputEventTree->Add("/sps/cms/falkiewi/Data_MC_EG_filter_CMSSW_3_5_8_patch3/MinimumBias_Commissioning10-May6thPDSkim2_SD_EG-v1_RECO/MinimumBias_Commissioning10-May6thPDSkim2_SD_EG-v1_RECO_*root");
-
-//	TFile* OutputRootFile = new TFile("miniTree_MinimumBias_Commissioning10-May6thPDSkim2_SD_EG-v1_RECOGOODCOLL.root", "RECREATE");
 //	TFile* OutputRootFile = new TFile("miniTree_.root", "RECREATE");
-	TFile* OutputRootFile = new TFile("miniTree_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1.root", "RECREATE");
-//	TFile* OutputRootFile = new TFile("miniTree_MinimumBias_Commissioning10-SD_EG.root", "RECREATE");
+
+/*
+// ************ DATA
+	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/DATA_MinimumBias_Commissioning10-May6thPDSkim_GOODCOLL-v1_RAW-RECO/DATA_MinimumBias_Commissioning10-May6thPDSkim_GOODCOLL-v1_RAW-RECO_TOTOANA_*root");
+	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/DATA_MinimumBias_Commissioning10-May6thPDSkim_GOODCOLL-v1_RAW-RECO2/DATA_MinimumBias_Commissioning10-May6thPDSkim_GOODCOLL-v1_RAW-RECO_TOTOANA_*root");
+	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/DATA_MinimumBias_Commissioning10-GOODCOLL-v9_RAW-RECO/DATA_MinimumBias_Commissioning10-GOODCOLL-v9_RAW-RECO_TOTOANA_*root");
+	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/DATA_MinimumBias_Commissioning10-GOODCOLL-v9_RAW-RECO2/DATA_MinimumBias_Commissioning10-GOODCOLL-v9_RAW-RECO_TOTOANA_*root");
+	TFile* OutputRootFile = new TFile("miniTree_DATA.root", "RECREATE");
+//	TFile* OutputRootFile = new TFile("miniTree_DATA_MinimumBias_Commissioning10-May6thPDSkim_GOODCOLL-v1_RAW-RECO.root", "RECREATE");
+//	TFile* OutputRootFile = new TFile("miniTree_DATA_MinimumBias_Commissioning10-May6thPDSkim_GOODCOLL-v1_RAW-RECO2.root", "RECREATE");
+//	TFile* OutputRootFile = new TFile("miniTree_DATA_MinimumBias_Commissioning10-GOODCOLL-v9_RAW-RECO.root", "RECREATE");
+//	TFile* OutputRootFile = new TFile("miniTree_DATA_MinimumBias_Commissioning10-GOODCOLL-v9_RAW-RECO2.root", "RECREATE");
+*/
+
+// ************* MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO
+	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO/MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO_TOTOANA_*root");
+	TFile* OutputRootFile = new TFile("miniTree_MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
+/*
+// ************* MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO
+	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO/MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO_TOTOANA_*root");
+	TFile* OutputRootFile = new TFile("miniTree_MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
+*//*
+// ************* MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1_GEN-SIM-RECO
+	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1_GEN-SIM-RECO/MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO_TOTOANA_*root");
+	TFile* OutputRootFile = new TFile("miniTree_MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
+*//*
+// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO
+	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO/MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO_TOTOANA_*root");
+	TFile* OutputRootFile = new TFile("miniTree_MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
+*/
 	
 	TBranch* event_br = 0;
 	TRootEvent* event = 0;
@@ -558,7 +577,7 @@ cout << endl;
 			SuperClu_isAfterCut1 = 1;
 			nSCAfterCut1++;
 
-			if( (mysc->Eta()>1.4442) && (mysc->Eta()<1.566) ){// Veto on EB/EE gap
+			if( (fabs(mysc->Eta())>1.4442) && (fabs(mysc->Eta())<1.566) ){// Veto on EB/EE gap
 				miniSuperClu->Fill();
 				continue;
 			}
