@@ -68,9 +68,17 @@ int main(){
 	TChain *inputEventTree = new TChain("eventTree");
 //	inputEventTree->Add("/sps/cms/falkiewi/Data_MC_EG_filter_CMSSW_3_5_8_patch3/MinimumBias_Commissioning10-May6thPDSkim2_SD_EG-v1_RECO/MinimumBias_Commissioning10-May6thPDSkim2_SD_EG-v1_RECO*root");
 //	inputEventTree->Add("/sps/cms/falkiewi/Data_MC_EG_filter_CMSSW_3_5_8_patch3/MinimumBias_Commissioning10-SD_EG-v9_RECOToto/MinimumBias_Commissioning10-SD_EG-v9_RECO*root");
-	inputEventTree->Add("/sps/cms/falkiewi/Data_MC_EG_filter_CMSSW_3_5_8_patch3/MinimumBias_Commissioning10-May6thPDSkim2_SD_EG-v1_RECO/MinimumBias_Commissioning10-May6thPDSkim2_SD_EG-v1_RECO_*.root");
+//	inputEventTree->Add("/sps/cms/falkiewi/Data_MC_EG_filter_CMSSW_3_5_8_patch3/MinimumBias_Commissioning10-May6thPDSkim2_SD_EG-v1_RECO/MinimumBias_Commissioning10-May6thPDSkim2_SD_EG-v1_RECO_*.root");
+//	inputEventTree->Add("/sps/cms/falkiewi/Data_MC_EG_GOODCOLL_filter_CMSSW_3_5_8_patch3/MinimumBias_Commissioning10-May6thPDSkim2_SD_EG-v1_RECOGOODCOLL/MinimumBias_Commissioning10-May6thPDSkim2_SD_EG-v1_RECOGOODCOLL*root");
+//	inputEventTree->Add("");
+	inputEventTree->Add("/sps/cms/falkiewi/Data_MC_EG_filter_CMSSW_3_5_8_patch3/QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1/QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1*root");
+//	inputEventTree->Add("/sps/cms/falkiewi/Data_MC_EG_filter_CMSSW_3_5_8_patch3/MinimumBias_Commissioning10-SD_EG-v9_RECOToto/MinimumBias_Commissioning10-SD_EG-v9_RECO_*root");
+//	inputEventTree->Add("/sps/cms/falkiewi/Data_MC_EG_filter_CMSSW_3_5_8_patch3/MinimumBias_Commissioning10-May6thPDSkim2_SD_EG-v1_RECO/MinimumBias_Commissioning10-May6thPDSkim2_SD_EG-v1_RECO_*root");
 
-	TFile* OutputRootFile = new TFile("miniTree_TEST.root", "RECREATE");
+//	TFile* OutputRootFile = new TFile("miniTree_MinimumBias_Commissioning10-May6thPDSkim2_SD_EG-v1_RECOGOODCOLL.root", "RECREATE");
+//	TFile* OutputRootFile = new TFile("miniTree_.root", "RECREATE");
+	TFile* OutputRootFile = new TFile("miniTree_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1.root", "RECREATE");
+//	TFile* OutputRootFile = new TFile("miniTree_MinimumBias_Commissioning10-SD_EG.root", "RECREATE");
 	
 	TBranch* event_br = 0;
 	TRootEvent* event = 0;
@@ -276,12 +284,14 @@ cout << endl;
 	Float_t Photon_r19, Photon_r9, Photon_cross;
 	Float_t Photon_caloConeSize, Photon_PreshEnergy, Photon_HoE, Photon_covIetaIeta, Photon_covIphiIphi, Photon_etaWidth, Photon_phiWidth;
 	Float_t Photon_isoEcalRecHit, Photon_isoHcalRecHit, Photon_isoSolidTrkCone, Photon_isoHollowTrkCone, Photon_isoPersoSolidTrkCone, Photon_isolationPersoTracksSolidCone;
+	Float_t Photon_s4;
 	Float_t Photon_seedTime;
 	Int_t Photon_seedFlag, Photon_seedSeverity;
  
 //Déclaration des variables pour les SuperClusters
 	Float_t SuperClu_E, SuperClu_Et, SuperClu_Eta, SuperClu_Phi, SuperClu_RawE, SuperClu_RawEt;
 	Float_t SuperClu_seedTime;
+	Float_t SuperClu_s4;
 	Int_t SuperClu_seedFlag, SuperClu_seedSeverity;
 	Int_t SuperClu_nXtals;
 	Int_t SuperClu_isEE, SuperClu_isEB, SuperClu_isEEM, SuperClu_isEEP;
@@ -368,6 +378,7 @@ cout << endl;
 	miniTree->Branch("Photon_isolationPersoTracksSolidCone", &Photon_isolationPersoTracksSolidCone, "Photon_isolationPersoTracksSolidCone/F");
 	miniTree->Branch("Photon_isolationPersoNTracksSolidCone", &Photon_isolationPersoNTracksSolidCone, "Photon_isolationPersoNTracksSolidCone/I");
 
+	miniTree->Branch("Photon_s4", &Photon_s4, "Photon_s4/F");
 	miniTree->Branch("Photon_seedTime", &Photon_seedTime, "Photon_seedTime/F");
 	miniTree->Branch("Photon_seedFlag", &Photon_seedFlag, "Photon_seedFlag/I");
 	miniTree->Branch("Photon_seedSeverity", &Photon_seedSeverity, "Photon_seedSeverity/I");
@@ -379,6 +390,8 @@ cout << endl;
 	miniSuperClu->Branch("SuperClu_seedTime", &SuperClu_seedTime, "SuperClu_seedTime/F");
 	miniSuperClu->Branch("SuperClu_seedFlag", &SuperClu_seedFlag, "SuperClu_seedFlag/I");
 	miniSuperClu->Branch("SuperClu_seedSeverity", &SuperClu_seedSeverity, "SuperClu_seedSeverity/I");
+
+	miniSuperClu->Branch("SuperClu_s4", &SuperClu_s4, "SuperClu_s4/F");
 
 	miniSuperClu->Branch("SuperClu_E", &SuperClu_E, "SuperClu_E/F");
 	miniSuperClu->Branch("SuperClu_Et", &SuperClu_Et, "SuperClu_Et/F");
@@ -482,6 +495,7 @@ cout << endl;
 		SuperClu_seedFlag = -99;
 		SuperClu_seedSeverity = -99;
 		SuperClu_seedTime = -99;
+		SuperClu_s4 = -99;
 
 		// Tri sur le runId
 		//if (!(event->runId() ==133928)) continue;
@@ -520,6 +534,7 @@ cout << endl;
 			SuperClu_seedSeverity = mysc->seedSeverity();
 			SuperClu_seedFlag = mysc->seedRecoFlag();
 			SuperClu_seedTime = mysc->seedTime();
+			SuperClu_s4 = mysc->s4();
 
 			// Cuts sur les super clusters.
 			//.... Pas encore
@@ -644,6 +659,7 @@ cout << endl;
 					Photon_phiWidth = myphoton->superCluster()->phiWidth();
 					Photon_nBasicClusters = myphoton->superCluster()->nBasicClusters();
 					Photon_nXtals = myphoton->superCluster()->nXtals();
+					Photon_s4 = myphoton->superCluster()->s4();
 					Photon_seedTime = myphoton->superCluster()->seedTime();
 					Photon_seedFlag = myphoton->superCluster()->seedRecoFlag();
 					Photon_seedSeverity = myphoton->superCluster()->seedSeverity();
@@ -663,6 +679,7 @@ cout << endl;
 					Photon_phiWidth = -99;
 					Photon_nBasicClusters = -99;
 					Photon_nXtals = -99;
+					Photon_s4 = -99;
 					Photon_seedTime = -99;
 					Photon_seedFlag = -99;
 					Photon_seedSeverity = -99;
