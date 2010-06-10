@@ -312,7 +312,7 @@ cout << endl;
 	Float_t SuperClu_seedTime;
 	Float_t SuperClu_s4;
 	Int_t SuperClu_seedFlag, SuperClu_seedSeverity;
-	Int_t SuperClu_nXtals;
+	Int_t SuperClu_nXtals, SuperClu_nBasicClusters;
 	Int_t SuperClu_isEE, SuperClu_isEB, SuperClu_isEEM, SuperClu_isEEP;
 
 //Déclaration des variables par event
@@ -417,6 +417,7 @@ cout << endl;
 	miniSuperClu->Branch("SuperClu_Eta", &SuperClu_Eta, "SuperClu_Eta/F");
 	miniSuperClu->Branch("SuperClu_Phi", &SuperClu_Phi, "SuperClu_Phi/F");
 	miniSuperClu->Branch("SuperClu_nXtals", &SuperClu_nXtals, "SuperClu_nXtals/I");
+	miniSuperClu->Branch("SuperClu_nBasicClusters", &SuperClu_nBasicClusters, "SuperClu_nBasicClusters/I");
 	miniSuperClu->Branch("SuperClu_RawE", &SuperClu_RawE, "SuperClu_RawE/F");
 	miniSuperClu->Branch("SuperClu_RawEt", &SuperClu_RawEt, "SuperClu_RawEt/F");
 
@@ -524,6 +525,7 @@ cout << endl;
 		SuperClu_isEE = -99;
 
 		SuperClu_nXtals = -99;
+		SuperClu_nBasicClusters = -99;
 		SuperClu_seedFlag = -99;
 		SuperClu_seedSeverity = -99;
 		SuperClu_seedTime = -99;
@@ -564,6 +566,7 @@ cout << endl;
 			if( (SuperClu_isEE==1) && (SuperClu_Eta<0) ) SuperClu_isEEM =1; else SuperClu_isEEM =0;
 
 			SuperClu_nXtals = mysc->nXtals();
+			SuperClu_nXtals = mysc->nBasicClusters();
 			SuperClu_seedSeverity = mysc->seedSeverity();
 			SuperClu_seedFlag = mysc->seedRecoFlag();
 			SuperClu_seedTime = mysc->seedTime();
