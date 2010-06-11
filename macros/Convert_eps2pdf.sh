@@ -12,10 +12,13 @@ fi
 
 directory=${1}
 
+totalNBofFilesToBeConverted=`'ls' ${directory}/eps | wc -l`
+counter=0
 for epsfiles in `'ls' ${directory}/eps`
 do
+	counter=$[${counter}+1]
 	basename=`echo ${epsfiles} | cut -d . -f -1`
-	echo "Converting ${epsfiles}"
+	echo "(${counter} / ${totalNBofFilesToBeConverted}) Converting ${epsfiles}"
 	convert ${directory}/eps/${epsfiles} ${directory}/pdf/${basename}.pdf
 done
 
