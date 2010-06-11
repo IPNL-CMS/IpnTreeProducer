@@ -125,7 +125,7 @@ bool MCAnalyzer::processMCParticle(const edm::Event& iEvent, TClonesArray* rootM
 	{
 		const reco::GenParticle & p = (*genParticles)[ j ];
 		//find the mother ID
-		Int_t motherID = 0; Int_t grannyID = 0;
+		Int_t motherID = 0; Int_t grannyID = 0; Int_t oldgrannyId = 0;
 		if (p.numberOfMothers() > 0 )
 		{
 			//sanity check
@@ -135,14 +135,7 @@ bool MCAnalyzer::processMCParticle(const edm::Event& iEvent, TClonesArray* rootM
 			{
 				const Candidate * granny = mom->mother();
 				grannyID = granny->pdgId();
-				/*
-				if ( motherID == p.pdgId() )
-				{
-					//check if the particle is "daugther of itself"
-					motherID = granny->pdgId();
-					if (granny->numberOfMothers() > 0) grannyID = (granny->mother())->pdgId();
-				}
-				*/
+				if (granny->numberOfMothers() > 0) oldgrannyId = (granny->mother())->pdgId();
 			}
 		}
 		
@@ -150,7 +143,7 @@ bool MCAnalyzer::processMCParticle(const edm::Event& iEvent, TClonesArray* rootM
 		{
 			iPhoton++;
 			if ( abs(p.eta()>photonMC_etaMax_) || p.pt()<photonMC_ptMin_ ) continue;
-			new( (*rootMCParticles)[iPartSel] ) TRootMCParticle( p.px(), p.py(), p.pz(), p.energy(), p.vx(), p.vy(), p.vz(), p.pdgId(), p.charge(), p.status(), p.numberOfDaughters(), motherID, grannyID, 0, 0, 0, 0, j );
+			new( (*rootMCParticles)[iPartSel] ) TRootMCParticle( p.px(), p.py(), p.pz(), p.energy(), p.vx(), p.vy(), p.vz(), p.pdgId(), p.charge(), p.status(), p.numberOfDaughters(), motherID, grannyID, oldgrannyId, 0, 0, 0, 0, j );
 			if(verbosity_>2) cout << "   ["<< setw(3) << iPartSel << "] MC Photon  " << (const TRootMCParticle&)(*rootMCParticles->At(iPartSel)) << endl;
 			iPartSel++;
 			iPhotonSel++;
@@ -160,7 +153,7 @@ bool MCAnalyzer::processMCParticle(const edm::Event& iEvent, TClonesArray* rootM
 		{
 			iElectron++;
 			if ( abs(p.eta()>electronMC_etaMax_) || p.pt()<electronMC_ptMin_ ) continue;
-			new( (*rootMCParticles)[iPartSel] ) TRootMCParticle( p.px(), p.py(), p.pz(), p.energy(), p.vx(), p.vy(), p.vz(), p.pdgId(), p.charge(), p.status(), p.numberOfDaughters(), motherID, grannyID, 0, 0, 0, 0, j );
+			new( (*rootMCParticles)[iPartSel] ) TRootMCParticle( p.px(), p.py(), p.pz(), p.energy(), p.vx(), p.vy(), p.vz(), p.pdgId(), p.charge(), p.status(), p.numberOfDaughters(), motherID, grannyID, oldgrannyId, 0, 0, 0, 0, j );
 			if(verbosity_>2) cout << "   ["<< setw(3) << iPartSel << "] MC Electron  " << (const TRootMCParticle&)(*rootMCParticles->At(iPartSel)) << endl;
 			iPartSel++;
 			iElectronSel++;
@@ -170,7 +163,7 @@ bool MCAnalyzer::processMCParticle(const edm::Event& iEvent, TClonesArray* rootM
 		{
 			iMuon++;
 			if ( abs(p.eta()>muonMC_etaMax_) || p.pt()<muonMC_ptMin_ ) continue;
-			new( (*rootMCParticles)[iPartSel] ) TRootMCParticle( p.px(), p.py(), p.pz(), p.energy(), p.vx(), p.vy(), p.vz(), p.pdgId(), p.charge(), p.status(), p.numberOfDaughters(), motherID, grannyID, 0, 0, 0, 0, j );
+			new( (*rootMCParticles)[iPartSel] ) TRootMCParticle( p.px(), p.py(), p.pz(), p.energy(), p.vx(), p.vy(), p.vz(), p.pdgId(), p.charge(), p.status(), p.numberOfDaughters(), motherID, grannyID, oldgrannyId, 0, 0, 0, 0, j );
 			if(verbosity_>2) cout << "   ["<< setw(3) << iPartSel << "] MC Muon  " << (const TRootMCParticle&)(*rootMCParticles->At(iPartSel)) << endl;
 			iPartSel++;
 			iMuonSel++;
@@ -192,7 +185,7 @@ bool MCAnalyzer::processMCParticle(const edm::Event& iEvent, TClonesArray* rootM
 			if (p.numberOfDaughters() > 2) daug2Id = p.daughter( 2 )->pdgId();
 			if (p.numberOfDaughters() > 3) daug3Id = p.daughter( 3 )->pdgId();
 
-			new( (*rootMCParticles)[iPartSel] ) TRootMCParticle( p.px(), p.py(), p.pz(), p.energy(), p.vx(), p.vy(),p.vz(), p.pdgId(), p.charge(), p.status(), p.numberOfDaughters(), motherID, grannyID, daug0Id, daug1Id, daug2Id, daug3Id, j );
+			new( (*rootMCParticles)[iPartSel] ) TRootMCParticle( p.px(), p.py(), p.pz(), p.energy(), p.vx(), p.vy(),p.vz(), p.pdgId(), p.charge(), p.status(), p.numberOfDaughters(), motherID, grannyID, oldgrannyId, daug0Id, daug1Id, daug2Id, daug3Id, j );
 			if(verbosity_>2) cout << "   ["<< setw(3) << iPartSel << "] unstable particle  " << (const TRootMCParticle&)(*rootMCParticles->At(iPartSel)) << endl;
 			iPartSel++;		
 

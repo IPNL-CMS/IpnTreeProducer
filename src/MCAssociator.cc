@@ -55,7 +55,7 @@ void MCAssociator::matchGenParticlesTo(TClonesArray* recoParticles)
          // if igen not found in mcParticles[], add genParticle in mcParticles[]
          const reco::GenParticle & p = (*genParticles_)[igen];
          //find the mother ID
-         Int_t motherID = 0; Int_t grannyID = 0;
+         Int_t motherID = 0; Int_t grannyID = 0; Int_t oldgrannyID = 0;
          if (p.numberOfMothers() > 0 )
          {
             //sanity check
@@ -65,6 +65,7 @@ void MCAssociator::matchGenParticlesTo(TClonesArray* recoParticles)
             {
                const reco::Candidate * granny = mom->mother();
                grannyID = granny->pdgId();
+	       if (granny->numberOfMothers() > 0) oldgrannyID = (granny->mother())->pdgId();
                if ( motherID == p.pdgId() )
                {
                   //check if the particle is "daugther of itself"
@@ -74,7 +75,7 @@ void MCAssociator::matchGenParticlesTo(TClonesArray* recoParticles)
             }
          }
          
-         TRootMCParticle localMCParticle( p.px(), p.py(), p.pz(), p.energy(), p.vx(), p.vy(), p.vz(), p.pdgId(), p.charge(), p.status(), p.numberOfDaughters(), motherID, grannyID, 0, 0, 0, 0, igen );
+         TRootMCParticle localMCParticle( p.px(), p.py(), p.pz(), p.energy(), p.vx(), p.vy(), p.vz(), p.pdgId(), p.charge(), p.status(), p.numberOfDaughters(), motherID, grannyID, oldgrannyID, 0, 0, 0, 0, igen );
          new( (*mcParticles_)[nMC_] ) TRootMCParticle(localMCParticle);
          recoParticle->setGenParticle( (TObject*)mcParticles_->At(nMC_) );
          if(verbosity_>2) cout <<"      ===> now matched to mcParticle["<< nMC_<<"] "<< localMCParticle << endl;
