@@ -64,7 +64,6 @@ int main(){
 	bool doPhotonIsolation				= true;
 	bool doPhotonConversionMC		 = false;
 
-	TString dataset = "DATA";
 	TChain *inputEventTree = new TChain("eventTree");
 //	inputEventTree->Add("");
 //	TFile* OutputRootFile = new TFile("miniTree_.root", "RECREATE");
@@ -75,30 +74,35 @@ int main(){
 	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/DATA_MinimumBias_Commissioning10-May6thPDSkim_GOODCOLL-v1_RAW-RECO2/DATA_MinimumBias_Commissioning10-May6thPDSkim_GOODCOLL-v1_RAW-RECO_TOTOANA_*root");
 	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/DATA_MinimumBias_Commissioning10-GOODCOLL-v9_RAW-RECO/DATA_MinimumBias_Commissioning10-GOODCOLL-v9_RAW-RECO_TOTOANA_*root");
 	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/DATA_MinimumBias_Commissioning10-GOODCOLL-v9_RAW-RECO2/DATA_MinimumBias_Commissioning10-GOODCOLL-v9_RAW-RECO_TOTOANA_*root");
-	TFile* OutputRootFile = new TFile("miniTree_DATA.root", "RECREATE");
+	TFile* OutputRootFile = new TFile("NEW_miniTree_DATA.root", "RECREATE");
 //	TFile* OutputRootFile = new TFile("miniTree_DATA_MinimumBias_Commissioning10-May6thPDSkim_GOODCOLL-v1_RAW-RECO.root", "RECREATE");
 //	TFile* OutputRootFile = new TFile("miniTree_DATA_MinimumBias_Commissioning10-May6thPDSkim_GOODCOLL-v1_RAW-RECO2.root", "RECREATE");
 //	TFile* OutputRootFile = new TFile("miniTree_DATA_MinimumBias_Commissioning10-GOODCOLL-v9_RAW-RECO.root", "RECREATE");
 //	TFile* OutputRootFile = new TFile("miniTree_DATA_MinimumBias_Commissioning10-GOODCOLL-v9_RAW-RECO2.root", "RECREATE");
-
-*//*
+*/
+/*
 // ************* MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO
 	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO/MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO_TOTOANA_*root");
-	TFile* OutputRootFile = new TFile("miniTree_MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
+	TFile* OutputRootFile = new TFile("NEW_miniTree_MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
 *//*
 // ************* MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO
 	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO/MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO_TOTOANA_*root");
-	TFile* OutputRootFile = new TFile("miniTree_MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
+	TFile* OutputRootFile = new TFile("NEW_miniTree_MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
 *//*
 // ************* MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1_GEN-SIM-RECO
 	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1_GEN-SIM-RECO/MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO_TOTOANA_*root");
-	TFile* OutputRootFile = new TFile("miniTree_MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
+	TFile* OutputRootFile = new TFile("NEW_miniTree_MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
 */
 // ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO
 	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO/MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO_TOTOANA_*root");
-	TFile* OutputRootFile = new TFile("miniTree_MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
+	TFile* OutputRootFile = new TFile("NEW_miniTree_MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
 
-	
+/*
+// ************* TEST
+	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/DATA_MinimumBias_Commissioning10-May6thPDSkim_GOODCOLL-v1_RAW-RECO/DATA_MinimumBias_Commissioning10-May6thPDSkim_GOODCOLL-v1_RAW-RECO_TOTOANA_77_1.root");
+	TFile* OutputRootFile = new TFile("miniTree_TEST.root", "RECREATE");
+*/
+
 	TBranch* event_br = 0;
 	TRootEvent* event = 0;
 	inputEventTree->SetBranchAddress("Event", &event, &event_br);
@@ -290,11 +294,12 @@ cout << endl;
 }
 */
 
+	// Declaration of all photon variables
 	Int_t Photon_iEvent;
 	Int_t Photon_isEBorEE, Photon_isEB, Photon_isEE, Photon_isEEP, Photon_isEEM;
 	Int_t Photon_isAfterCut0, Photon_isAfterCut1, Photon_isAfterCut2, Photon_isAfterCut3, Photon_isAfterCut4, Photon_isAfterCut5, Photon_isAfterCut6, Photon_isAfterCut7;
 
-	Int_t /*Photon_Multiplicity,*/ Photon_hasPixelSeed, Photon_isAlsoElectron, Photon_Nclusters, Photon_nBasicClusters, Photon_nXtals;
+	Int_t Photon_hasPixelSeed, Photon_isAlsoElectron, Photon_Nclusters, Photon_nBasicClusters, Photon_nXtals;
 	Int_t Photon_isTightPhoton, Photon_isLoosePhoton;
 	Int_t Photon_convNTracks, Photon_isoNTracksSolidCone, Photon_isoNTracksHollowCone, Photon_isolationPersoNTracksSolidCone;
 	Float_t Photon_Eta, Photon_Phi;
@@ -304,19 +309,23 @@ cout << endl;
 	Float_t Photon_caloConeSize, Photon_PreshEnergy, Photon_HoE, Photon_covIetaIeta, Photon_covIphiIphi, Photon_etaWidth, Photon_phiWidth;
 	Float_t Photon_isoEcalRecHit, Photon_isoHcalRecHit, Photon_isoSolidTrkCone, Photon_isoHollowTrkCone, Photon_isoPersoSolidTrkCone, Photon_isolationPersoTracksSolidCone;
 	Float_t Photon_s4;
+	Float_t Photon_brem, Photon_Eseed_o_Esc, Photon_E2x2_o_E5x5, Photon_S2_o_Esc;
 	Float_t Photon_seedTime;
 	Int_t Photon_seedFlag, Photon_seedSeverity;
  
-//Déclaration des variables pour les SuperClusters
+	// Declaration of all SuperCluster variables
+	Int_t SuperClu_isAfterCut1, SuperClu_isAfterCut2, SuperClu_isAfterCut3;
 	Float_t SuperClu_E, SuperClu_Et, SuperClu_Eta, SuperClu_Phi, SuperClu_RawE, SuperClu_RawEt;
 	Float_t SuperClu_seedTime;
 	Float_t SuperClu_s4, SuperClu_etaWidth, SuperClu_phiWidth;
 	Int_t SuperClu_seedFlag, SuperClu_seedSeverity;
 	Int_t SuperClu_nXtals, SuperClu_nBasicClusters;
 	Int_t SuperClu_isEE, SuperClu_isEB, SuperClu_isEEM, SuperClu_isEEP;
+	Float_t SuperClu_brem, SuperClu_Eseed_o_Esc, SuperClu_E2x2_o_E5x5, SuperClu_S2_o_Esc;
 
-//Déclaration des variables par event
+	// Declaration of all event variables
 	Int_t Photon_Multiplicity, SuperClu_Multiplicity;
+	Int_t Photon_Multiplicity_isAfterCut7, SuperClu_Multiplicity_isAfterCut3;
 	Int_t nPhotonEEP_perEvent, nPhotonEEM_perEvent, nPhotonEE_perEvent, nPhotonEB_perEvent;
 
 	Int_t HLT_Photon10_L1R, HLT_Photon15_L1R, HLT_Photon15_LooseEcalIso_L1R, HLT_Photon20_L1R, HLT_Photon30_L1R_8E29;
@@ -324,153 +333,160 @@ cout << endl;
 	Int_t HLT_DoublePhoton5_Upsilon_L1R, HLT_DoublePhoton5_L1R, HLT_DoublePhoton10_L1R, HLT_DoubleEle5_SW_L1R, HLT_Ele20_LW_L1R;
 	Int_t HLT_Ele15_SiStrip_L1R, HLT_Ele15_SC10_LW_L1R, HLT_Ele15_LW_L1R, HLT_Ele10_LW_EleId_L1R, HLT_Ele10_LW_L1R; 
 	Int_t HLT_Photon15_TrackIso_L1R;
-	Int_t NoCuts, SuperClu_isAfterCut1, SuperClu_isAfterCut2, SuperClu_isAfterCut3;
+	Int_t NoCuts;
 
-	TTree* miniTree = new TTree("miniTree","Photons info");	
-	TTree* miniSuperClu = new TTree("miniSuperClu", "Super Clusters");
-	TTree* miniEvent = new TTree("miniEvents", "Events");
+	TTree* photon_miniTree = new TTree("photon_miniTree","Photons variables");	
+	TTree* supercluster_miniTree = new TTree("supercluster_miniTree", "SuperClusters variables");
+	TTree* event_miniTree = new TTree("event_miniTrees", "Events information");
 
-	miniTree->Branch("Photon_iEvent", &Photon_iEvent, "Photon_iEvent/I");
-	miniTree->Branch("Photon_isEBorEE", &Photon_isEBorEE, "Photon_isEBorEE/I");
-	miniTree->Branch("Photon_isEB", &Photon_isEB, "Photon_isEB/I");
-	miniTree->Branch("Photon_isEE", &Photon_isEE, "Photon_isEE/I");
-	miniTree->Branch("Photon_isEEP", &Photon_isEEP, "Photon_isEEP/I");
-	miniTree->Branch("Photon_isEEM", &Photon_isEEM, "Photon_isEEM/I");
+	// Creation of the photon Tree
+	photon_miniTree->Branch("Photon_iEvent", &Photon_iEvent, "Photon_iEvent/I");
+	photon_miniTree->Branch("Photon_isEBorEE", &Photon_isEBorEE, "Photon_isEBorEE/I");
+	photon_miniTree->Branch("Photon_isEB", &Photon_isEB, "Photon_isEB/I");
+	photon_miniTree->Branch("Photon_isEE", &Photon_isEE, "Photon_isEE/I");
+	photon_miniTree->Branch("Photon_isEEP", &Photon_isEEP, "Photon_isEEP/I");
+	photon_miniTree->Branch("Photon_isEEM", &Photon_isEEM, "Photon_isEEM/I");
 
-	miniTree->Branch("Photon_isAfterCut0,", &Photon_isAfterCut0, "Photon_isAfterCut0/I");
-	miniTree->Branch("Photon_isAfterCut1,", &Photon_isAfterCut1, "Photon_isAfterCut1/I");
-	miniTree->Branch("Photon_isAfterCut2,", &Photon_isAfterCut2, "Photon_isAfterCut2/I");
-	miniTree->Branch("Photon_isAfterCut3,", &Photon_isAfterCut3, "Photon_isAfterCut3/I");
-	miniTree->Branch("Photon_isAfterCut4,", &Photon_isAfterCut4, "Photon_isAfterCut4/I");
-	miniTree->Branch("Photon_isAfterCut5,", &Photon_isAfterCut5, "Photon_isAfterCut5/I");
-	miniTree->Branch("Photon_isAfterCut6,", &Photon_isAfterCut6, "Photon_isAfterCut6/I");
-	miniTree->Branch("Photon_isAfterCut7,", &Photon_isAfterCut7, "Photon_isAfterCut7/I");
+	photon_miniTree->Branch("Photon_isAfterCut0,", &Photon_isAfterCut0, "Photon_isAfterCut0/I");
+	photon_miniTree->Branch("Photon_isAfterCut1,", &Photon_isAfterCut1, "Photon_isAfterCut1/I");
+	photon_miniTree->Branch("Photon_isAfterCut2,", &Photon_isAfterCut2, "Photon_isAfterCut2/I");
+	photon_miniTree->Branch("Photon_isAfterCut3,", &Photon_isAfterCut3, "Photon_isAfterCut3/I");
+	photon_miniTree->Branch("Photon_isAfterCut4,", &Photon_isAfterCut4, "Photon_isAfterCut4/I");
+	photon_miniTree->Branch("Photon_isAfterCut5,", &Photon_isAfterCut5, "Photon_isAfterCut5/I");
+	photon_miniTree->Branch("Photon_isAfterCut6,", &Photon_isAfterCut6, "Photon_isAfterCut6/I");
+	photon_miniTree->Branch("Photon_isAfterCut7,", &Photon_isAfterCut7, "Photon_isAfterCut7/I");
 
-//	miniTree->Branch("Photon_Multiplicity", &Photon_Multiplicity, "Photon_Multiplicity/I");
-	miniTree->Branch("Photon_hasPixelSeed", &Photon_hasPixelSeed, "Photon_hasPixelSeed/I");
-	miniTree->Branch("Photon_isAlsoElectron", &Photon_isAlsoElectron, "Photon_isAlsoElectron/I");
-	miniTree->Branch("Photon_Nclusters", &Photon_Nclusters, "Photon_Nclusters/I");
-	miniTree->Branch("Photon_nBasicClusters", &Photon_nBasicClusters, "Photon_nBasicClusters/I");
-	miniTree->Branch("Photon_nXtals", &Photon_nXtals, "Photon_nXtals/I"); // Variable not filled in current version
+	photon_miniTree->Branch("Photon_hasPixelSeed", &Photon_hasPixelSeed, "Photon_hasPixelSeed/I");
+	photon_miniTree->Branch("Photon_isAlsoElectron", &Photon_isAlsoElectron, "Photon_isAlsoElectron/I");
+	photon_miniTree->Branch("Photon_Nclusters", &Photon_Nclusters, "Photon_Nclusters/I");
+	photon_miniTree->Branch("Photon_nBasicClusters", &Photon_nBasicClusters, "Photon_nBasicClusters/I");
+	photon_miniTree->Branch("Photon_nXtals", &Photon_nXtals, "Photon_nXtals/I");
 
-	miniTree->Branch("Photon_isTightPhoton", &Photon_isTightPhoton, "Photon_isTightPhoton/I");
-	miniTree->Branch("Photon_isLoosePhoton", &Photon_isLoosePhoton, "Photon_isLoosePhoton/I");
+	photon_miniTree->Branch("Photon_isTightPhoton", &Photon_isTightPhoton, "Photon_isTightPhoton/I");
+	photon_miniTree->Branch("Photon_isLoosePhoton", &Photon_isLoosePhoton, "Photon_isLoosePhoton/I");
 
-	miniTree->Branch("Photon_Eta", &Photon_Eta, "Photon_Eta/F");
-	miniTree->Branch("Photon_Phi", &Photon_Phi, "Photon_Phi/F");
+	photon_miniTree->Branch("Photon_Eta", &Photon_Eta, "Photon_Eta/F");
+	photon_miniTree->Branch("Photon_Phi", &Photon_Phi, "Photon_Phi/F");
 
-	miniTree->Branch("Photon_SCEta", &Photon_SCEta, "Photon_SCEta/F");
-	miniTree->Branch("Photon_SCPhi", &Photon_SCPhi, "Photon_SCPhi/F");
-	miniTree->Branch("Photon_SCEnergy", &Photon_SCEnergy, "Photon_SCEnergy/F");
-	miniTree->Branch("Photon_SCEt", &Photon_SCEt, "Photon_SCEt/F");
-	miniTree->Branch("Photon_SCRawEnergy", &Photon_SCRawEnergy, "Photon_SCRawEnergy/F");
-	miniTree->Branch("Photon_SCRawEt", &Photon_SCRawEt, "Photon_SCRawEt/F");
+	photon_miniTree->Branch("Photon_SCEta", &Photon_SCEta, "Photon_SCEta/F");
+	photon_miniTree->Branch("Photon_SCPhi", &Photon_SCPhi, "Photon_SCPhi/F");
+	photon_miniTree->Branch("Photon_SCEnergy", &Photon_SCEnergy, "Photon_SCEnergy/F");
+	photon_miniTree->Branch("Photon_SCEt", &Photon_SCEt, "Photon_SCEt/F");
+	photon_miniTree->Branch("Photon_SCRawEnergy", &Photon_SCRawEnergy, "Photon_SCRawEnergy/F");
+	photon_miniTree->Branch("Photon_SCRawEt", &Photon_SCRawEt, "Photon_SCRawEt/F");
 
-	miniTree->Branch("Photon_E", &Photon_E, "Photon_E/F");
-	miniTree->Branch("Photon_Et", &Photon_Et, "Photon_Et/F");
-	miniTree->Branch("Photon_E2x2", &Photon_E2x2, "Photon_E2x2/F");
-	miniTree->Branch("Photon_E3x3", &Photon_E3x3, "Photon_E3x3/F");
-	miniTree->Branch("Photon_E5x5", &Photon_E5x5, "Photon_E5x5/F");
-	miniTree->Branch("Photon_Emax", &Photon_Emax, "Photon_Emax/F");
-	miniTree->Branch("Photon_E2nd", &Photon_E2nd, "Photon_E2nd/F");
+	photon_miniTree->Branch("Photon_E", &Photon_E, "Photon_E/F");
+	photon_miniTree->Branch("Photon_Et", &Photon_Et, "Photon_Et/F");
+	photon_miniTree->Branch("Photon_E2x2", &Photon_E2x2, "Photon_E2x2/F");
+	photon_miniTree->Branch("Photon_E3x3", &Photon_E3x3, "Photon_E3x3/F");
+	photon_miniTree->Branch("Photon_E5x5", &Photon_E5x5, "Photon_E5x5/F");
+	photon_miniTree->Branch("Photon_Emax", &Photon_Emax, "Photon_Emax/F");
+	photon_miniTree->Branch("Photon_E2nd", &Photon_E2nd, "Photon_E2nd/F");
 
-	miniTree->Branch("Photon_r19", &Photon_r19, "Photon_r19/F");
-	miniTree->Branch("Photon_r9", &Photon_r9, "Photon_r9/F");
-	miniTree->Branch("Photon_cross", &Photon_cross, "Photon_cross/F");
+	photon_miniTree->Branch("Photon_r19", &Photon_r19, "Photon_r19/F");
+	photon_miniTree->Branch("Photon_r9", &Photon_r9, "Photon_r9/F");
+	photon_miniTree->Branch("Photon_cross", &Photon_cross, "Photon_cross/F");
 
-	miniTree->Branch("Photon_caloConeSize", &Photon_caloConeSize, "Photon_caloConeSize/F");
-	miniTree->Branch("Photon_PreshEnergy", &Photon_PreshEnergy, "Photon_PreshEnergy/F");
-	miniTree->Branch("Photon_HoE", &Photon_HoE, "Photon_HoE/F");
-	miniTree->Branch("Photon_covIetaIeta", &Photon_covIetaIeta, "Photon_covIetaIeta/F");
-	miniTree->Branch("Photon_covIphiIphi", &Photon_covIphiIphi, "Photon_covIphiIphi/F");
-	miniTree->Branch("Photon_convNTracks", &Photon_convNTracks, "Photon_convNTracks/I");
-	miniTree->Branch("Photon_etaWidth", &Photon_etaWidth, "Photon_etaWidth/F");
-	miniTree->Branch("Photon_phiWidth", &Photon_phiWidth, "Photon_phiWidth/F");
+	photon_miniTree->Branch("Photon_caloConeSize", &Photon_caloConeSize, "Photon_caloConeSize/F");
+	photon_miniTree->Branch("Photon_PreshEnergy", &Photon_PreshEnergy, "Photon_PreshEnergy/F");
+	photon_miniTree->Branch("Photon_HoE", &Photon_HoE, "Photon_HoE/F");
+	photon_miniTree->Branch("Photon_covIetaIeta", &Photon_covIetaIeta, "Photon_covIetaIeta/F");
+	photon_miniTree->Branch("Photon_covIphiIphi", &Photon_covIphiIphi, "Photon_covIphiIphi/F");
+	photon_miniTree->Branch("Photon_convNTracks", &Photon_convNTracks, "Photon_convNTracks/I");
+	photon_miniTree->Branch("Photon_etaWidth", &Photon_etaWidth, "Photon_etaWidth/F");
+	photon_miniTree->Branch("Photon_phiWidth", &Photon_phiWidth, "Photon_phiWidth/F");
 
-	miniTree->Branch("Photon_isoEcalRecHit", &Photon_isoEcalRecHit, "Photon_isoEcalRecHit/F");
-	miniTree->Branch("Photon_isoHcalRecHit", &Photon_isoHcalRecHit, "Photon_isoHcalRecHit/F");
-	miniTree->Branch("Photon_isoSolidTrkCone", &Photon_isoSolidTrkCone, "Photon_isoSolidTrkCone/F");
-	miniTree->Branch("Photon_isoHollowTrkCone", &Photon_isoHollowTrkCone, "Photon_isoHollowTrkCone/F");
-	miniTree->Branch("Photon_isoNTracksSolidCone", &Photon_isoNTracksSolidCone, "Photon_isoNTracksSolidCone/I");
-	miniTree->Branch("Photon_isoNTracksHollowCone", &Photon_isoNTracksHollowCone, "Photon_isoNTracksHollowCone/I");
-	miniTree->Branch("Photon_isoPersoSolidTrkCone", &Photon_isoPersoSolidTrkCone, "Photon_isoPersoSolidTrkCone/F");
-	miniTree->Branch("Photon_isolationPersoTracksSolidCone", &Photon_isolationPersoTracksSolidCone, "Photon_isolationPersoTracksSolidCone/F");
-	miniTree->Branch("Photon_isolationPersoNTracksSolidCone", &Photon_isolationPersoNTracksSolidCone, "Photon_isolationPersoNTracksSolidCone/I");
+	photon_miniTree->Branch("Photon_isoEcalRecHit", &Photon_isoEcalRecHit, "Photon_isoEcalRecHit/F");
+	photon_miniTree->Branch("Photon_isoHcalRecHit", &Photon_isoHcalRecHit, "Photon_isoHcalRecHit/F");
+	photon_miniTree->Branch("Photon_isoSolidTrkCone", &Photon_isoSolidTrkCone, "Photon_isoSolidTrkCone/F");
+	photon_miniTree->Branch("Photon_isoHollowTrkCone", &Photon_isoHollowTrkCone, "Photon_isoHollowTrkCone/F");
+	photon_miniTree->Branch("Photon_isoNTracksSolidCone", &Photon_isoNTracksSolidCone, "Photon_isoNTracksSolidCone/I");
+	photon_miniTree->Branch("Photon_isoNTracksHollowCone", &Photon_isoNTracksHollowCone, "Photon_isoNTracksHollowCone/I");
+	photon_miniTree->Branch("Photon_isoPersoSolidTrkCone", &Photon_isoPersoSolidTrkCone, "Photon_isoPersoSolidTrkCone/F");
+	photon_miniTree->Branch("Photon_isolationPersoTracksSolidCone", &Photon_isolationPersoTracksSolidCone, "Photon_isolationPersoTracksSolidCone/F");
+	photon_miniTree->Branch("Photon_isolationPersoNTracksSolidCone", &Photon_isolationPersoNTracksSolidCone, "Photon_isolationPersoNTracksSolidCone/I");
 
-	miniTree->Branch("Photon_s4", &Photon_s4, "Photon_s4/F");
-	miniTree->Branch("Photon_seedTime", &Photon_seedTime, "Photon_seedTime/F");
-	miniTree->Branch("Photon_seedFlag", &Photon_seedFlag, "Photon_seedFlag/I");
-	miniTree->Branch("Photon_seedSeverity", &Photon_seedSeverity, "Photon_seedSeverity/I");
+	photon_miniTree->Branch("Photon_s4", &Photon_s4, "Photon_s4/F");
+	photon_miniTree->Branch("Photon_Eseed_o_Esc", &Photon_Eseed_o_Esc, "Photon_Eseed_o_Esc/F");
+	photon_miniTree->Branch("Photon_E2x2_o_E5x5", &Photon_E2x2_o_E5x5, "Photon_E2x2_o_E5x5/F");
+	photon_miniTree->Branch("Photon_S2_o_Esc", &Photon_S2_o_Esc, "Photon_S2_o_Esc/F");
+	photon_miniTree->Branch("Photon_brem", &Photon_brem, "Photon_brem/F");
+	photon_miniTree->Branch("Photon_seedTime", &Photon_seedTime, "Photon_seedTime/F");
+	photon_miniTree->Branch("Photon_seedFlag", &Photon_seedFlag, "Photon_seedFlag/I");
+	photon_miniTree->Branch("Photon_seedSeverity", &Photon_seedSeverity, "Photon_seedSeverity/I");
 
-// Création de toutes les branches nécessaires aux variables pour les super clusters(cf ci dessous)
-//	miniSuperClu->Branch("SuperClu_", &SuperClu_, "SuperClu_/F");
+	// Creation of the supercluster Tree
+	supercluster_miniTree->Branch("SuperClu_seedTime", &SuperClu_seedTime, "SuperClu_seedTime/F");
+	supercluster_miniTree->Branch("SuperClu_seedFlag", &SuperClu_seedFlag, "SuperClu_seedFlag/I");
+	supercluster_miniTree->Branch("SuperClu_seedSeverity", &SuperClu_seedSeverity, "SuperClu_seedSeverity/I");
 
+	supercluster_miniTree->Branch("SuperClu_Eseed_o_Esc", &SuperClu_Eseed_o_Esc, "SuperClu_Eseed_o_Esc/F");
+	supercluster_miniTree->Branch("SuperClu_E2x2_o_E5x5", &SuperClu_E2x2_o_E5x5, "SuperClu_E2x2_o_E5x5/F");
+	supercluster_miniTree->Branch("SuperClu_S2_o_Esc", &SuperClu_S2_o_Esc, "SuperClu_S2_o_Esc/F");
+	supercluster_miniTree->Branch("SuperClu_brem", &SuperClu_brem, "SuperClu_brem/F");
+	supercluster_miniTree->Branch("SuperClu_s4", &SuperClu_s4, "SuperClu_s4/F");
+	supercluster_miniTree->Branch("SuperClu_phiWidth", &SuperClu_phiWidth, "SuperClu_phiWidth/F");
+	supercluster_miniTree->Branch("SuperClu_etaWidth", &SuperClu_etaWidth, "SuperClu_etaWidth/F");
 
-	miniSuperClu->Branch("SuperClu_seedTime", &SuperClu_seedTime, "SuperClu_seedTime/F");
-	miniSuperClu->Branch("SuperClu_seedFlag", &SuperClu_seedFlag, "SuperClu_seedFlag/I");
-	miniSuperClu->Branch("SuperClu_seedSeverity", &SuperClu_seedSeverity, "SuperClu_seedSeverity/I");
+	supercluster_miniTree->Branch("SuperClu_E", &SuperClu_E, "SuperClu_E/F");
+	supercluster_miniTree->Branch("SuperClu_Et", &SuperClu_Et, "SuperClu_Et/F");
+	supercluster_miniTree->Branch("SuperClu_Eta", &SuperClu_Eta, "SuperClu_Eta/F");
+	supercluster_miniTree->Branch("SuperClu_Phi", &SuperClu_Phi, "SuperClu_Phi/F");
+	supercluster_miniTree->Branch("SuperClu_nXtals", &SuperClu_nXtals, "SuperClu_nXtals/I");
+	supercluster_miniTree->Branch("SuperClu_nBasicClusters", &SuperClu_nBasicClusters, "SuperClu_nBasicClusters/I");
+	supercluster_miniTree->Branch("SuperClu_RawE", &SuperClu_RawE, "SuperClu_RawE/F");
+	supercluster_miniTree->Branch("SuperClu_RawEt", &SuperClu_RawEt, "SuperClu_RawEt/F");
 
-	miniSuperClu->Branch("SuperClu_s4", &SuperClu_s4, "SuperClu_s4/F");
-	miniSuperClu->Branch("SuperClu_phiWidth", &SuperClu_phiWidth, "SuperClu_phiWidth/F");
-	miniSuperClu->Branch("SuperClu_etaWidth", &SuperClu_etaWidth, "SuperClu_etaWidth/F");
+	supercluster_miniTree->Branch("SuperClu_isEE", &SuperClu_isEE, "SuperClu_isEE/I");
+	supercluster_miniTree->Branch("SuperClu_isEB", &SuperClu_isEB, "SuperClu_isEB/I");
+	supercluster_miniTree->Branch("SuperClu_isEEM", &SuperClu_isEEM, "SuperClu_isEEM/I");
+	supercluster_miniTree->Branch("SuperClu_isEEP", &SuperClu_isEEP, "SuperClu_isEEP/I");
 
-	miniSuperClu->Branch("SuperClu_E", &SuperClu_E, "SuperClu_E/F");
-	miniSuperClu->Branch("SuperClu_Et", &SuperClu_Et, "SuperClu_Et/F");
-	miniSuperClu->Branch("SuperClu_Eta", &SuperClu_Eta, "SuperClu_Eta/F");
-	miniSuperClu->Branch("SuperClu_Phi", &SuperClu_Phi, "SuperClu_Phi/F");
-	miniSuperClu->Branch("SuperClu_nXtals", &SuperClu_nXtals, "SuperClu_nXtals/I");
-	miniSuperClu->Branch("SuperClu_nBasicClusters", &SuperClu_nBasicClusters, "SuperClu_nBasicClusters/I");
-	miniSuperClu->Branch("SuperClu_RawE", &SuperClu_RawE, "SuperClu_RawE/F");
-	miniSuperClu->Branch("SuperClu_RawEt", &SuperClu_RawEt, "SuperClu_RawEt/F");
+	supercluster_miniTree->Branch("NoCuts", &NoCuts, "NoCuts/I");
+	supercluster_miniTree->Branch("SuperClu_isAfterCut1", &SuperClu_isAfterCut1, "SuperClu_isAfterCut1/I");
+	supercluster_miniTree->Branch("SuperClu_isAfterCut2", &SuperClu_isAfterCut2, "SuperClu_isAfterCut2/I");
+	supercluster_miniTree->Branch("SuperClu_isAfterCut3", &SuperClu_isAfterCut3, "SuperClu_isAfterCut3/I");
 
-	miniSuperClu->Branch("SuperClu_isEE", &SuperClu_isEE, "SuperClu_isEE/I");
-	miniSuperClu->Branch("SuperClu_isEB", &SuperClu_isEB, "SuperClu_isEB/I");
-	miniSuperClu->Branch("SuperClu_isEEM", &SuperClu_isEEM, "SuperClu_isEEM/I");
-	miniSuperClu->Branch("SuperClu_isEEP", &SuperClu_isEEP, "SuperClu_isEEP/I");
+	// Creation of the event Tree
+	event_miniTree->Branch("NoCuts", &NoCuts, "NoCuts/I");
 
-	miniSuperClu->Branch("NoCuts", &NoCuts, "NoCuts/I");
-	miniSuperClu->Branch("SuperClu_isAfterCut1", &SuperClu_isAfterCut1, "SuperClu_isAfterCut1/I");
-	miniSuperClu->Branch("SuperClu_isAfterCut2", &SuperClu_isAfterCut2, "SuperClu_isAfterCut2/I");
-	miniSuperClu->Branch("SuperClu_isAfterCut3", &SuperClu_isAfterCut3, "SuperClu_isAfterCut3/I");
+	event_miniTree->Branch("Photon_Multiplicity", &Photon_Multiplicity, "Photon_Multiplicity/I");
+	event_miniTree->Branch("Photon_Multiplicity_isAfterCut7", &Photon_Multiplicity_isAfterCut7, "Photon_Multiplicity_isAfterCut7/I");
+	event_miniTree->Branch("SuperClu_Multiplicity", &SuperClu_Multiplicity, "SuperClu_Multiplicity/I");
+	event_miniTree->Branch("SuperClu_Multiplicity_isAfterCut3", &SuperClu_Multiplicity_isAfterCut3, "SuperClu_Multiplicity_isAfterCut3/I");
 
-//Branches du tree par event
-	miniEvent->Branch("NoCuts", &NoCuts, "NoCuts/I");
+	event_miniTree->Branch("nPhotonEEM_perEvent", &nPhotonEEP_perEvent, "nPhotonEEM_perEvent/I");
+	event_miniTree->Branch("nPhotonEEP_perEvent", &nPhotonEEM_perEvent, "nPhotonEEP_perEvent/I");
+	event_miniTree->Branch("nPhotonEE_perEvent", &nPhotonEE_perEvent, "nPhotonEE_perEvent/I");
+	event_miniTree->Branch("nPhotonEB_perEvent", &nPhotonEB_perEvent, "nPhotonEB_perEvent/I");
 
-	miniEvent->Branch("Photon_Multiplicity", &Photon_Multiplicity, "Photon_Multiplicity/I");
-	miniEvent->Branch("SuperClu_Multiplicity", &SuperClu_Multiplicity, "SuperClu_Multiplicity/I");
+/*
+	event_miniTree->Branch("HLT_Photon10_L1R", &HLT_Photon10_L1R,"HLT_Photon10_L1R/I");
+	event_miniTree->Branch("HLT_Photon15_L1R", &HLT_Photon15_L1R,"HLT_Photon15_L1R/I");
+	event_miniTree->Branch("HLT_Photon15_LooseEcalIso_L1R", &HLT_Photon15_LooseEcalIso_L1R,"HLT_Photon15_LooseEcalIso_L1R/I");
+	event_miniTree->Branch("HLT_Photon20_L1R", &HLT_Photon20_L1R,"HLT_Photon20_L1R/I");
+	event_miniTree->Branch("HLT_Photon30_L1R_8E29", &HLT_Photon30_L1R_8E29,"HLT_Photon30_L1R_8E29/I");
 
-	miniEvent->Branch("nPhotonEEM_perEvent", &nPhotonEEP_perEvent, "nPhotonEEM_perEvent/I");
-	miniEvent->Branch("nPhotonEEP_perEvent", &nPhotonEEM_perEvent, "nPhotonEEP_perEvent/I");
-	miniEvent->Branch("nPhotonEE_perEvent", &nPhotonEE_perEvent, "nPhotonEE_perEvent/I");
-	miniEvent->Branch("nPhotonEB_perEvent", &nPhotonEB_perEvent, "nPhotonEB_perEvent/I");
+	event_miniTree->Branch("HLT_DoublePhoton4_Jpsi_L1R", &HLT_DoublePhoton4_Jpsi_L1R,"HLT_DoublePhoton4_Jpsi_L1R/I");
+	event_miniTree->Branch("HLT_DoublePhoton4_Upsilon_L1R", &HLT_DoublePhoton4_Upsilon_L1R,"HLT_DoublePhoton4_Upsilon_L1R/I");
+	event_miniTree->Branch("HLT_DoublePhoton4_eeRes_L1R", &HLT_DoublePhoton4_eeRes_L1R,"HLT_DoublePhoton4_eeRes_L1R/I");
+	event_miniTree->Branch("HLT_DoublePhoton5_eeRes_L1R", &HLT_DoublePhoton5_eeRes_L1R,"HLT_DoublePhoton5_eeRes_L1R/I");
+	event_miniTree->Branch("HLT_DoublePhoton5_Jpsi_L1R", &HLT_DoublePhoton5_Jpsi_L1R,"HLT_DoublePhoton5_Jpsi_L1R/I");
 
+	event_miniTree->Branch("HLT_DoublePhoton5_Upsilon_L1R", &HLT_DoublePhoton5_Upsilon_L1R,"HLT_DoublePhoton5_Upsilon_L1R/I");
+	event_miniTree->Branch("HLT_DoublePhoton5_L1R", &HLT_DoublePhoton5_L1R,"HLT_DoublePhoton5_L1R/I");
+	event_miniTree->Branch("HLT_DoublePhoton10_L1R", &HLT_DoublePhoton10_L1R,"HLT_DoublePhoton10_L1R/I");
+	event_miniTree->Branch("HLT_DoubleEle5_SW_L1R", &HLT_DoubleEle5_SW_L1R,"HLT_DoubleEle5_SW_L1R/I");
+	event_miniTree->Branch("HLT_Ele20_LW_L1R", &HLT_Ele20_LW_L1R,"HLT_Ele20_LW_L1R/I");
 
-	miniEvent->Branch("HLT_Photon10_L1R", &HLT_Photon10_L1R,"HLT_Photon10_L1R/I");
-	miniEvent->Branch("HLT_Photon15_L1R", &HLT_Photon15_L1R,"HLT_Photon15_L1R/I");
-	miniEvent->Branch("HLT_Photon15_LooseEcalIso_L1R", &HLT_Photon15_LooseEcalIso_L1R,"HLT_Photon15_LooseEcalIso_L1R/I");
-	miniEvent->Branch("HLT_Photon20_L1R", &HLT_Photon20_L1R,"HLT_Photon20_L1R/I");
-	miniEvent->Branch("HLT_Photon30_L1R_8E29", &HLT_Photon30_L1R_8E29,"HLT_Photon30_L1R_8E29/I");
+	event_miniTree->Branch("HLT_Ele15_SiStrip_L1R", &HLT_Ele15_SiStrip_L1R,"HLT_Ele15_SiStrip_L1R/I");
+	event_miniTree->Branch("HLT_Ele15_SC10_LW_L1R", &HLT_Ele15_SC10_LW_L1R,"HLT_Ele15_SC10_LW_L1R/I");
+	event_miniTree->Branch("HLT_Ele15_LW_L1R", &HLT_Ele15_LW_L1R,"HLT_Ele15_LW_L1R/I");
+	event_miniTree->Branch("HLT_Ele10_LW_EleId_L1R", &HLT_Ele10_LW_EleId_L1R,"HLT_Ele10_LW_EleId_L1R/I");
+	event_miniTree->Branch("HLT_Ele10_LW_L1R", &HLT_Ele10_LW_L1R,"HLT_Ele10_LW_L1R/I");
 
-	miniEvent->Branch("HLT_DoublePhoton4_Jpsi_L1R", &HLT_DoublePhoton4_Jpsi_L1R,"HLT_DoublePhoton4_Jpsi_L1R/I");
-	miniEvent->Branch("HLT_DoublePhoton4_Upsilon_L1R", &HLT_DoublePhoton4_Upsilon_L1R,"HLT_DoublePhoton4_Upsilon_L1R/I");
-	miniEvent->Branch("HLT_DoublePhoton4_eeRes_L1R", &HLT_DoublePhoton4_eeRes_L1R,"HLT_DoublePhoton4_eeRes_L1R/I");
-	miniEvent->Branch("HLT_DoublePhoton5_eeRes_L1R", &HLT_DoublePhoton5_eeRes_L1R,"HLT_DoublePhoton5_eeRes_L1R/I");
-	miniEvent->Branch("HLT_DoublePhoton5_Jpsi_L1R", &HLT_DoublePhoton5_Jpsi_L1R,"HLT_DoublePhoton5_Jpsi_L1R/I");
-
-	miniEvent->Branch("HLT_DoublePhoton5_Upsilon_L1R", &HLT_DoublePhoton5_Upsilon_L1R,"HLT_DoublePhoton5_Upsilon_L1R/I");
-	miniEvent->Branch("HLT_DoublePhoton5_L1R", &HLT_DoublePhoton5_L1R,"HLT_DoublePhoton5_L1R/I");
-	miniEvent->Branch("HLT_DoublePhoton10_L1R", &HLT_DoublePhoton10_L1R,"HLT_DoublePhoton10_L1R/I");
-	miniEvent->Branch("HLT_DoubleEle5_SW_L1R", &HLT_DoubleEle5_SW_L1R,"HLT_DoubleEle5_SW_L1R/I");
-	miniEvent->Branch("HLT_Ele20_LW_L1R", &HLT_Ele20_LW_L1R,"HLT_Ele20_LW_L1R/I");
-
-	miniEvent->Branch("HLT_Ele15_SiStrip_L1R", &HLT_Ele15_SiStrip_L1R,"HLT_Ele15_SiStrip_L1R/I");
-	miniEvent->Branch("HLT_Ele15_SC10_LW_L1R", &HLT_Ele15_SC10_LW_L1R,"HLT_Ele15_SC10_LW_L1R/I");
-	miniEvent->Branch("HLT_Ele15_LW_L1R", &HLT_Ele15_LW_L1R,"HLT_Ele15_LW_L1R/I");
-	miniEvent->Branch("HLT_Ele10_LW_EleId_L1R", &HLT_Ele10_LW_EleId_L1R,"HLT_Ele10_LW_EleId_L1R/I");
-	miniEvent->Branch("HLT_Ele10_LW_L1R", &HLT_Ele10_LW_L1R,"HLT_Ele10_LW_L1R/I");
-
-	miniEvent->Branch("HLT_Photon15_TrackIso_L1R", &HLT_Photon15_TrackIso_L1R,"HLT_Photon15_TrackIso_L1R/I");
-
+	event_miniTree->Branch("HLT_Photon15_TrackIso_L1R", &HLT_Photon15_TrackIso_L1R,"HLT_Photon15_TrackIso_L1R/I");
+*/
 
 	unsigned int nTotEvents = (int)inputEventTree->GetEntries();
 	//unsigned int nTotEvents = 1000;
@@ -508,6 +524,10 @@ cout << endl;
 
 		Photon_iEvent = ievt;
 		inputEventTree->GetEvent(ievt);
+		Photon_Multiplicity = photons->GetEntriesFast();
+		Photon_Multiplicity_isAfterCut7 = 0;
+		SuperClu_Multiplicity = superClusters->GetEntriesFast();
+		SuperClu_Multiplicity_isAfterCut3 = 0;
 
 		nPhotonEEP_perEvent = 0 ;
 		nPhotonEEM_perEvent = 0 ;
@@ -531,12 +551,82 @@ cout << endl;
 		SuperClu_seedFlag = -99;
 		SuperClu_seedSeverity = -99;
 		SuperClu_seedTime = -99;
+		SuperClu_brem = -99;
+		SuperClu_Eseed_o_Esc = -99;
+		SuperClu_E2x2_o_E5x5 = -99;
+		SuperClu_S2_o_Esc = -99;
 		SuperClu_s4 = -99;
 		SuperClu_phiWidth = -99;
 		SuperClu_etaWidth = -99;
 
-		// Tri sur le runId
-		//if (!(event->runId() ==133928)) continue;
+		Photon_isAfterCut1 = 0;
+		Photon_isAfterCut2 = 0;
+		Photon_isAfterCut3 = 0;
+		Photon_isAfterCut4 = 0;
+		Photon_isAfterCut5 = 0;
+		Photon_isAfterCut6 = 0;
+		Photon_isAfterCut7 = 0;
+		Photon_isEB = 0;
+		Photon_isEE = 0;
+		Photon_isEEM = 0;
+		Photon_isEEP = 0;
+		Photon_isEBorEE = 1;
+		Photon_isAfterCut0 = 1;
+
+		Photon_E = -99;
+		Photon_Et = -99;
+		Photon_Eta = -99;
+		Photon_Phi = -99;
+		Photon_E2x2 = -99;
+		Photon_E3x3 = -99;
+		Photon_E5x5 = -99;
+		Photon_Emax = -99;
+		Photon_E2nd = -99;
+		Photon_r19 = -99;
+		Photon_r9 = -99;
+		Photon_caloConeSize = -99;
+		Photon_PreshEnergy = -99;
+		Photon_HoE = -99;
+		Photon_Nclusters = -99;
+		Photon_covIetaIeta = -99;
+		Photon_covIphiIphi = -99;
+		Photon_isoEcalRecHit = -99;
+		Photon_isoHcalRecHit = -99;
+		Photon_isoSolidTrkCone = -99;
+		Photon_isoHollowTrkCone = -99;
+		Photon_isoNTracksSolidCone = -99;
+		Photon_isoNTracksHollowCone = -99;
+		Photon_isoPersoSolidTrkCone = -99;
+		Photon_convNTracks = -99;
+		Photon_hasPixelSeed = -99;
+		Photon_isAlsoElectron = -99;
+		Photon_isEE = -99;
+		Photon_isEB = -99;
+		Photon_isEEM = -99;
+		Photon_isEEP = -99;
+		Photon_SCEta = -99;
+		Photon_SCPhi = -99;
+		Photon_SCEnergy = -99;
+		Photon_SCEt = -99;
+		Photon_SCRawEt = -99;
+		Photon_etaWidth = -99;
+		Photon_phiWidth = -99;
+		Photon_nBasicClusters = -99;
+		Photon_nXtals = -99;
+		Photon_Eseed_o_Esc = -99;
+		Photon_E2x2_o_E5x5 = -99;
+		Photon_S2_o_Esc = -99;
+		Photon_brem = -99;
+		Photon_s4 = -99;
+		Photon_seedTime = -99;
+		Photon_seedFlag = -99;
+		Photon_seedSeverity = -99;
+		Photon_cross = -99;
+		Photon_isTightPhoton = -99;
+		Photon_isLoosePhoton = -99;
+		Photon_isolationPersoTracksSolidCone = -99;
+		Photon_isolationPersoNTracksSolidCone = -99;
+		Photon_SCRawEnergy = -99;
 
 		nTotEventsSelectedRuns++;
 		nTotEventsSelectedL1++;
@@ -545,18 +635,19 @@ cout << endl;
 		// Count nb of evts with at least one SC with rawEt>2 GeV (for Eiko)
 		Bool_t atLeastOneSChigherThan2GeV = false;
 		TRootSuperCluster* mysc;
-		SuperClu_Multiplicity = superClusters->GetEntriesFast();
 		nTotSC += superClusters->GetEntriesFast();
-		if (SuperClu_Multiplicity == 0) {miniSuperClu->Fill(); continue;}
+		if (SuperClu_Multiplicity == 0){
+			supercluster_miniTree->Fill();
+			continue;
+		}
 		for (int isc=0; isc < SuperClu_Multiplicity; isc++)
 		{
 			mysc = (TRootSuperCluster*) superClusters->At(isc);
-			if ( ! ( mysc->type()==211 || mysc->type()==322 ) ) continue;
+		//	if ( ! ( mysc->type()==211 || mysc->type()==322 ) ){ cerr << "WARNING" << endl; continue;} // FIXME ?
 			Float_t rawEt = mysc->rawEnergy() * sin(mysc->Theta());
 			if (rawEt>2.0) atLeastOneSChigherThan2GeV = true;
 
-			// Remplir les données sur superclu : E ,Et, Eta, Phi, nXtals, is EE/EB/EEM/EEP, seedTime, seedFlag, ... flagSRP?,
-
+			// Filling information about super clusters: E ,Et, Eta, Phi, nXtals, is EE/EB/EEM/EEP, seedTime, seedFlag, ... flagSRP?,
 			SuperClu_E = mysc->Mag();
 			SuperClu_Et = SuperClu_E*sin(mysc->Theta());
 			SuperClu_Eta = mysc->Eta();
@@ -570,38 +661,43 @@ cout << endl;
 			if( (SuperClu_isEE==1) && (SuperClu_Eta<0) ) SuperClu_isEEM =1; else SuperClu_isEEM =0;
 
 			SuperClu_nXtals = mysc->nXtals();
-			SuperClu_nXtals = mysc->nBasicClusters();
+			SuperClu_nBasicClusters = mysc->nBasicClusters();
 			SuperClu_seedSeverity = mysc->seedSeverity();
 			SuperClu_seedFlag = mysc->seedRecoFlag();
 			SuperClu_seedTime = mysc->seedTime();
 			SuperClu_s4 = mysc->s4();
 			SuperClu_etaWidth = mysc->etaWidth();
 			SuperClu_phiWidth = mysc->phiWidth();
+			SuperClu_brem = (double)(SuperClu_phiWidth)/(double)(SuperClu_etaWidth);
+			SuperClu_Eseed_o_Esc = (double)(mysc->seedEnergy())/(double)(SuperClu_E);
+			SuperClu_E2x2_o_E5x5 = (double)(mysc->e2x2())/(double)(mysc->e5x5());
+			SuperClu_S2_o_Esc = -99;
 
 			// Cuts on superclusters.
 			if( fabs(mysc->Eta())>2.5 ){// Eta acceptance region
-				miniSuperClu->Fill();
+				supercluster_miniTree->Fill();
 				continue;
 			}
 			SuperClu_isAfterCut1 = 1;
 			nSCAfterCut1++;
 
 			if( (fabs(mysc->Eta())>1.4442) && (fabs(mysc->Eta())<1.566) ){// Veto on EB/EE gap
-				miniSuperClu->Fill();
+				supercluster_miniTree->Fill();
 				continue;
 			}
 			SuperClu_isAfterCut2 = 1;
 			nSCAfterCut2++;
 
 			if( ((1-((double)(mysc->s4())/(double)(mysc->eMax())))>0.95 && (mysc->isEB())) || (mysc->seedRecoFlag()==2)){// Post-spike cleaning
-				miniSuperClu->Fill();
+				supercluster_miniTree->Fill();
 				continue;
 			}
 			SuperClu_isAfterCut3 = 1;
 			nSCAfterCut3++;
+			SuperClu_Multiplicity_isAfterCut3 +=1;
 
 			nSelectedSC++;
-			miniSuperClu->Fill();
+			supercluster_miniTree->Fill();
 		}// end of loop over superclusters
 
 		if (atLeastOneSChigherThan2GeV) nEventsWithScHigherThan2GeV++;
@@ -614,8 +710,10 @@ cout << endl;
 			int nPhotons_EE = 0; Photon_isEE = 0;
 			int nPhotons_EEM = 0; Photon_isEEM = 0;
 			int nPhotons_EEP = 0; Photon_isEEP = 0;
-			Photon_Multiplicity = photons->GetEntriesFast();
-			if ( Photon_Multiplicity == 0 ) {miniTree->Fill(); continue;}
+			if ( Photon_Multiplicity == 0 ) {
+				photon_miniTree->Fill();
+				continue;
+			}
 			for (int iphoton=0; iphoton<Photon_Multiplicity; iphoton++)
 			{
 				Photon_isAfterCut1 = 0;
@@ -666,16 +764,39 @@ cout << endl;
 				Photon_isEB = -99;
 				Photon_isEEM = -99;
 				Photon_isEEP = -99;
+				Photon_SCEta = -99;
+				Photon_SCPhi = -99;
+				Photon_SCEnergy = -99;
+				Photon_SCEt = -99;
+				Photon_SCRawEt = -99;
+				Photon_etaWidth = -99;
+				Photon_phiWidth = -99;
+				Photon_nBasicClusters = -99;
+				Photon_nXtals = -99;
+				Photon_Eseed_o_Esc = -99;
+				Photon_E2x2_o_E5x5 = -99;
+				Photon_S2_o_Esc = -99;
+				Photon_brem = -99;
+				Photon_s4 = -99;
+				Photon_seedTime = -99;
+				Photon_seedFlag = -99;
+				Photon_seedSeverity = -99;
+				Photon_cross = -99;
+				Photon_isTightPhoton = -99;
+				Photon_isLoosePhoton = -99;
+				Photon_isolationPersoTracksSolidCone = -99;
+				Photon_isolationPersoNTracksSolidCone = -99;
+				Photon_SCRawEnergy = -99;
 
-				/*
-				cout << "myphoton->clusterAlgo=" << myphoton->clusterAlgo() << " myphoton->isEBPho=" << myphoton->isEBPho() << " myphoton->isEEPho=" << myphoton->isEEPho() << endl;
-				cout << "myphoton->superCluster()=" << myphoton->superCluster() << endl;
-				cout << "myphoton->superClusterOfType(210)=" << myphoton->superClusterOfType(210) << endl;
-				cout << "myphoton->superClusterOfType(211)=" << myphoton->superClusterOfType(211) << endl;
-				cout << "myphoton->superClusterOfType(320)=" << myphoton->superClusterOfType(320) << endl;
-				cout << "myphoton->superClusterOfType(322)=" << myphoton->superClusterOfType(322) << endl;
-				cout << "myphoton->superClusterOfType(323)=" << myphoton->superClusterOfType(323) << endl;
-				*/
+				
+//				cout << "myphoton->clusterAlgo=" << myphoton->clusterAlgo() << " myphoton->isEBPho=" << myphoton->isEBPho() << " myphoton->isEEPho=" << myphoton->isEEPho() << endl;
+//				cout << "myphoton->superCluster()=" << myphoton->superCluster() << endl;
+//				cout << "myphoton->superClusterOfType(210)=" << myphoton->superClusterOfType(210) << endl;
+//				cout << "myphoton->superClusterOfType(211)=" << myphoton->superClusterOfType(211) << endl;
+//				cout << "myphoton->superClusterOfType(320)=" << myphoton->superClusterOfType(320) << endl;
+//				cout << "myphoton->superClusterOfType(322)=" << myphoton->superClusterOfType(322) << endl;
+//				cout << "myphoton->superClusterOfType(323)=" << myphoton->superClusterOfType(323) << endl;
+				
 				//if (myphoton->superClusterOfType(211) == 0 && myphoton->superClusterOfType(323) == 0 ) continue;
 
 				Photon_E = myphoton->Energy();
@@ -721,6 +842,10 @@ cout << endl;
 					Photon_phiWidth = myphoton->superCluster()->phiWidth();
 					Photon_nBasicClusters = myphoton->superCluster()->nBasicClusters();
 					Photon_nXtals = myphoton->superCluster()->nXtals();
+					Photon_Eseed_o_Esc = ((double)(myphoton->superCluster()->seedEnergy()))/((double)(Photon_SCEnergy));
+					Photon_E2x2_o_E5x5 = ((double)(Photon_E2x2))/((double)(Photon_E5x5));
+					Photon_S2_o_Esc = -99;
+					Photon_brem = ((double)(Photon_phiWidth))/((double)(Photon_etaWidth));
 					Photon_s4 = myphoton->superCluster()->s4();
 					Photon_seedTime = myphoton->superCluster()->seedTime();
 					Photon_seedFlag = myphoton->superCluster()->seedRecoFlag();
@@ -741,6 +866,10 @@ cout << endl;
 					Photon_phiWidth = -99;
 					Photon_nBasicClusters = -99;
 					Photon_nXtals = -99;
+					Photon_Eseed_o_Esc = -99;
+					Photon_E2x2_o_E5x5 = -99;
+					Photon_S2_o_Esc = -99;
+					Photon_brem = -99;
 					Photon_s4 = -99;
 					Photon_seedTime = -99;
 					Photon_seedFlag = -99;
@@ -754,7 +883,11 @@ cout << endl;
 				} // end of loop over photons having a supercluster
 
 				// CUT 0: check if the photon have a superCluster
-				if (myphoton->superCluster() == 0 ) {miniTree->Fill(); continue;}
+				if (myphoton->superCluster() == 0 ) {
+					cout << "WOW WOW WOW: a _WEIRD_ thing is happening here" << endl;
+					photon_miniTree->Fill();
+					continue;
+				}
 
 				Float_t scRawEt = myphoton->superCluster()->rawEnergy() * sin(myphoton->superCluster()->Theta());
 				Float_t abs_eta = fabs(myphoton->superCluster()->Eta());
@@ -772,34 +905,48 @@ cout << endl;
 				Photon_isAfterCut3 = 1;
 
 				// CUT 4: minimum supercluster transverse energy
-				if ( scRawEt<2.0 ) {miniTree->Fill(); continue;}
+				if ( scRawEt<2.0 ) {
+					photon_miniTree->Fill();
+					continue;
+				}
 				nCut4++;
 				Photon_isAfterCut4 = 1;
 
 				// CUT 5: |eta| < 2.5 and not close to barrel/endcap gap
-				if ( (abs_eta>2.5) || ( abs_eta>1.4442 && abs_eta<1.566 ) ) {miniTree->Fill();	continue;}
+				if ( (abs_eta>2.5) || ( abs_eta>1.4442 && abs_eta<1.566 ) ) {
+					photon_miniTree->Fill();
+					continue;
+				}
 				nCut5++;
 				Photon_isAfterCut5 = 1;
 
 				// CUT 6: spike removal
-				if ( myphoton->isEBPho() &&(1 - ((myphoton->superCluster()->s4())/(myphoton->superCluster()->eMax())))>0.95 ) {miniTree->Fill(); continue;}
+				if ( ((myphoton->isEBPho()) &&((1 - ((myphoton->superCluster()->s4())/(myphoton->superCluster()->eMax())))>0.95)) || (myphoton->superCluster()->seedRecoFlag()==2) ) {
+					photon_miniTree->Fill();
+					continue;
+				}
 				nCut6++;
 				Photon_isAfterCut6 = 1;
 			
 				// CUT 7: H/E
-				if (Photon_HoE > 0.05){miniTree->Fill(); continue;}
+				if (Photon_HoE > 0.05){
+					photon_miniTree->Fill();
+					continue;
+				}
 				nCut7++;
 				Photon_isAfterCut7 = 1;
+				Photon_Multiplicity_isAfterCut7 += 1;
 	
 				nPhotons++;
 				nSelectedPhotons++;
 		
-				miniTree->Fill();	
+				photon_miniTree->Fill();	
 			} // end of loop over photons
 			
 			
 		} // end of do photons
 
+/*
 		if (event->trigHLT()[71]==true) HLT_Photon10_L1R = 1; else HLT_Photon10_L1R =0;
 		if (event->trigHLT()[72]==true) HLT_Photon10_L1R = 1; else HLT_Photon10_L1R =0;
 		if (event->trigHLT()[74]==true) HLT_Photon15_LooseEcalIso_L1R = 1; else HLT_Photon15_LooseEcalIso_L1R =0;
@@ -825,8 +972,8 @@ cout << endl;
 		if (event->trigHLT()[64]==true) HLT_Ele10_LW_L1R = 1; else HLT_Ele10_LW_L1R =0;
 
 		if (event->trigHLT()[73]==true) HLT_Photon15_TrackIso_L1R = 1; else HLT_Photon15_TrackIso_L1R =0;
-
-		miniEvent->Fill();	
+*/
+		event_miniTree->Fill();	
 		nSelectedEvents++;	
 	} // fin boucle sur evts
 
