@@ -74,34 +74,34 @@ int main(){
 	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/DATA_MinimumBias_Commissioning10-May6thPDSkim_GOODCOLL-v1_RAW-RECO2/DATA_MinimumBias_Commissioning10-May6thPDSkim_GOODCOLL-v1_RAW-RECO_TOTOANA_*root");
 	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/DATA_MinimumBias_Commissioning10-GOODCOLL-v9_RAW-RECO/DATA_MinimumBias_Commissioning10-GOODCOLL-v9_RAW-RECO_TOTOANA_*root");
 	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/DATA_MinimumBias_Commissioning10-GOODCOLL-v9_RAW-RECO2/DATA_MinimumBias_Commissioning10-GOODCOLL-v9_RAW-RECO_TOTOANA_*root");
-	TFile* OutputRootFile = new TFile("NEW_NEW_miniTree_DATA.root", "RECREATE");
+	TFile* OutputRootFile = new TFile("miniTree_DATA.root", "RECREATE");
 //	TFile* OutputRootFile = new TFile("miniTree_DATA_MinimumBias_Commissioning10-May6thPDSkim_GOODCOLL-v1_RAW-RECO.root", "RECREATE");
 //	TFile* OutputRootFile = new TFile("miniTree_DATA_MinimumBias_Commissioning10-May6thPDSkim_GOODCOLL-v1_RAW-RECO2.root", "RECREATE");
 //	TFile* OutputRootFile = new TFile("miniTree_DATA_MinimumBias_Commissioning10-GOODCOLL-v9_RAW-RECO.root", "RECREATE");
 //	TFile* OutputRootFile = new TFile("miniTree_DATA_MinimumBias_Commissioning10-GOODCOLL-v9_RAW-RECO2.root", "RECREATE");
-
-*//*
+*/
+/*
 // ************* MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO
 	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO/MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO_TOTOANA_*root");
-	TFile* OutputRootFile = new TFile("NEW_miniTree_MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
+	TFile* OutputRootFile = new TFile("miniTree_MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
 *//*
 // ************* MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO
 	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO/MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO_TOTOANA_*root");
-	TFile* OutputRootFile = new TFile("NEW_miniTree_MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
+	TFile* OutputRootFile = new TFile("miniTree_MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
 *//*
 // ************* MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1_GEN-SIM-RECO
 	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1_GEN-SIM-RECO/MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO_TOTOANA_*root");
-	TFile* OutputRootFile = new TFile("NEW_miniTree_MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
-*//*
+	TFile* OutputRootFile = new TFile("miniTree_MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
+*/
 // ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO
 	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO/MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO_TOTOANA_*root");
-	TFile* OutputRootFile = new TFile("NEW_miniTree_MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
-*/
+	TFile* OutputRootFile = new TFile("miniTree_MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
 
+/*
 // ************* TEST
 	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/DATA_MinimumBias_Commissioning10-May6thPDSkim_GOODCOLL-v1_RAW-RECO/DATA_MinimumBias_Commissioning10-May6thPDSkim_GOODCOLL-v1_RAW-RECO_TOTOANA_77_1.root");
 	TFile* OutputRootFile = new TFile("miniTree_TEST.root", "RECREATE");
-
+*/
 
 	TBranch* event_br = 0;
 	TRootEvent* event = 0;
@@ -642,6 +642,9 @@ cout << endl;
 		SuperClu_Multiplicity = 0;
 		for (int isc=0; isc < superClusters->GetEntriesFast(); isc++)
 		{
+			SuperClu_isAfterCut1 = 0;
+			SuperClu_isAfterCut2 = 0;
+			SuperClu_isAfterCut3 = 0;
 			mysc = (TRootSuperCluster*) superClusters->At(isc);
 			if ( ! ( mysc->type()==211 || mysc->type()==322 ) ){continue;} // All the SC are kept in the same branch, i.e. SC belonging to the different reco collections [...] So to avoid double counting, you have to use only SC with type 211 or 322
 			SuperClu_Multiplicity +=1;
