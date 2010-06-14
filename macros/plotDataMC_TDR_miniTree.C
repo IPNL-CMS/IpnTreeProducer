@@ -175,10 +175,15 @@ void DrawDataMCplot_NormEntries_Fast(TTree *Data_PhotonTree, TTree *MC_PhotonTre
 	c1->Update();
 	c1->Draw();
 
+//	string dirName="Plots_DATA_MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1";
+//	string dirName="Plots_DATA_MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1";
+//	string dirName="Plots_DATA_MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1";
+//	string dirName="Plots_DATA_MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1";
+
 	// Print the canvas
-	string PicName="Plots_TEST/gif/DataMC_" + var + "_" + name + ".gif";
+	string PicName= dirName + "/gif/DataMC_" + var + "_" + name + ".gif";
 	c1->Print(PicName.c_str());
-	PicName="Plots_TEST/eps/DataMC_" + var + "_" + name + ".eps";
+	PicName= dirName + "/eps/DataMC_" + var + "_" + name + ".eps";
 	c1->Print(PicName.c_str());
 	if (inlog==true) {
 		c1->cd(1);
@@ -187,9 +192,9 @@ void DrawDataMCplot_NormEntries_Fast(TTree *Data_PhotonTree, TTree *MC_PhotonTre
 		Histo_Data->SetMinimum(YMin_log);
 		c1->Update();
 		c1->Draw();
-		string PicName_log="Plots_TEST/gif/DataMC_" + var + "_" + name + "_log.gif";
+		string PicName_log= dirName + "/gif/DataMC_" + var + "_" + name + "_log.gif";
 		c1->Print(PicName_log.c_str());
-		PicName_log="Plots_TEST/eps/DataMC_" + var + "_" + name + "_log.eps";
+		PicName_log= dirName + "/eps/DataMC_" + var + "_" + name + "_log.eps";
 		c1->Print(PicName_log.c_str());
 		c1->SetLogy(0);
 		c1->Update();
@@ -211,40 +216,40 @@ int main()
 //	cout<<"\tDEBUG:\tEntering main()"<<endl;
 	//gStyle->SetOptStat(0);
 	gROOT->ProcessLine(".x setTDRStyle.C");
-	string Data = "miniTree_MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root"; 
-	string MC = "miniTree_MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root"; 
+	string Data = "miniTree_DATA__ALL.root"; 
+//	string MC = "miniTree_MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1___ALL.root"; 
+//	string MC = "miniTree_MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1___ALL.root"; 
+//	string MC = "miniTree_MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1___ALL.root"; 
+//	string MC = "miniTree_MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1___ALL.root"; 
 	
 	TFile *Data_File = new TFile(Data.c_str());
 	TFile *MC_File = new TFile(MC.c_str());
-	TTree* Data_PhotonTree = (TTree*) Data_File->Get("photon_miniTree");
-	TTree* MC_PhotonTree = (TTree*) MC_File->Get("photon_miniTree");
-	TTree* Data_eventTree = (TTree*) Data_File->Get("event_miniTree");
-	TTree* MC_eventTree = (TTree*) MC_File->Get("event_miniTree");
-	TTree* Data_SuperCluTree = (TTree*) Data_File->Get("supercluster_miniTree");
-	TTree* MC_SuperCluTree = (TTree*) MC_File->Get("supercluster_miniTree");
-
 
 	TCanvas *c1 = new TCanvas("Default", "Default");
 
+/*
+	// Plots for the photons
+	TTree* Data_PhotonTree = (TTree*) Data_File->Get("photon_miniTree");
+	TTree* MC_PhotonTree = (TTree*) MC_File->Get("photon_miniTree");
 	vector<string> set_of_cuts;
 	vector<string> name;
-	set_of_cuts.push_back("Photon_isAfterCut7==1");
-	name.push_back("isAfterCut7");
-	set_of_cuts.push_back("Photon_isAfterCut7==1 && Photon_isEB==1");
-	name.push_back("isAfterCut7_EB");
-	set_of_cuts.push_back("Photon_isAfterCut7==1 && Photon_isEE==1");
-	name.push_back("isAfterCut7_EE");
-	set_of_cuts.push_back("Photon_isAfterCut7==1 && Photon_isEEP==1");
-	name.push_back("isAfterCut7_EEP");
-	set_of_cuts.push_back("Photon_isAfterCut7==1 && Photon_isEEM==1");
-	name.push_back("isAfterCut7_EEM");
+//	name.push_back("isAfterCut7");
+//	set_of_cuts.push_back("Photon_isAfterCut7==1");
+//	name.push_back("isAfterCut7_EB");
+//	set_of_cuts.push_back("Photon_isAfterCut7==1 && Photon_isEB==1");
+//	name.push_back("isAfterCut7_EE");
+//	set_of_cuts.push_back("Photon_isAfterCut7==1 && Photon_isEE==1");
+//	name.push_back("isAfterCut7_EEP");
+//	set_of_cuts.push_back("Photon_isAfterCut7==1 && Photon_isEEP==1");
+//	name.push_back("isAfterCut7_EEM");
+//	set_of_cuts.push_back("Photon_isAfterCut7==1 && Photon_isEEM==1");
 
 	for(int i=0; i<set_of_cuts.size() ; i++){ // loop over different set of cuts
 		cout << "\tStarting loop on photons for plots with cuts: " << set_of_cuts[i] << endl;
 //		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_hasPixelSeed", "(3, 0, 3)", set_of_cuts[i], name[i], "Photon hasPixelSeed", true, false, c1);
 //		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isAlsoElectron", "(3, 0, 3)", set_of_cuts[i], name[i], "Photon isAlsoElectron", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E", "(100, 0, 800)", set_of_cuts[i], name[i], "Photon Energy", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Et", "(100, 0, 800)", set_of_cuts[i], name[i], "Photon Et", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E", "(100, 0, 500)", set_of_cuts[i], name[i], "Photon Energy", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Et", "(100, 0, 250)", set_of_cuts[i], name[i], "Photon Et", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Eta", "(60, -3.0, 3.0)", set_of_cuts[i], name[i], "Photon Eta", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Phi", "(30, -3.15, 3.15)", set_of_cuts[i], name[i], "Photon Phi", true, false, c1);
 //		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCEta", "(60, -3.0, 3.0)", set_of_cuts[i], name[i], "Photon SC	Eta", true, true, c1);
@@ -258,14 +263,14 @@ int main()
 //		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_r9", "(100, 0, 2)", set_of_cuts[i], name[i], "r9", true, true, c1);
 //		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_cross", "(50, -4, 2)", set_of_cuts[i], name[i], "Photon 1-(E4/E1)", true, true, c1);
 //		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_caloConeSize", "(30, 0, 0.5)", set_of_cuts[i], name[i], "Photon caloConeSize", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCEnergy", "(100, 0, 100)", set_of_cuts[i], name[i], "Photon SC Energy", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCEt", "(100, 0, 100)", set_of_cuts[i], name[i], "Photon SC Et", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCRawEnergy", "(100, 0, 100)", set_of_cuts[i], name[i], "Photon SC Raw Energy", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCRawEt", "(100, 0, 1000)", set_of_cuts[i], name[i], "Photon SC Raw Et", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCEnergy", "(100, 0, 500)", set_of_cuts[i], name[i], "Photon SC Energy", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCEt", "(100, 0, 500)", set_of_cuts[i], name[i], "Photon SC Et", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCRawEnergy", "(100, 0, 500)", set_of_cuts[i], name[i], "Photon SC Raw Energy", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCRawEt", "(100, 0, 200)", set_of_cuts[i], name[i], "Photon SC Raw Et", true, true, c1);
 //		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_PreshEnergy", "(40, 0, 10)", set_of_cuts[i], name[i], "Photon Preshower Energy", true, true, c1);
 //		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_HoE", "(30, 0, 0.55)", set_of_cuts[i], name[i], "Photon HoE", true, true, c1);
 //		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Nclusters", "(20, 0, 20)", set_of_cuts[i], name[i], "Photon Nclusters", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_covIetaIeta", "(30, 0, 0.02)", set_of_cuts[i], name[i], "Photon covIetaIeta", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_covIetaIeta", "(30, 0, 0.025)", set_of_cuts[i], name[i], "Photon covIetaIeta", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_covIphiIphi", "(30, 0, 0.025)", set_of_cuts[i], name[i], "Photon covIphiIphi", true, true, c1);
 //		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isoEcalRecHit", "(70, -2, 20)", set_of_cuts[i], name[i], "Photon isoEcalRecHit", true, true, c1);
 //		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isoHcalRecHit", "(100, -1, 10)", set_of_cuts[i], name[i], "Photon isoHcalRecHit", true, true, c1);
@@ -275,8 +280,8 @@ int main()
 //		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isoNTracksHollowCone", "(20, 0, 20)", set_of_cuts[i], name[i], "Photon isoNTracksHollowCone", true, true, c1);
 //		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isoPersoSolidTrkCone", "(100, 0, 30)", set_of_cuts[i], name[i], "Photon isoPersoSolidTrkCone", true, true, c1);
 //		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_convNTracks", "(5, -1, 4)", set_of_cuts[i], name[i], "Photon convNTracks", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_etaWidth", "(20, 0, 0.2)", set_of_cuts[i], name[i], "Photon Eta Width", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_phiWidth", "(20, 0, 0.2)", set_of_cuts[i], name[i], "Photon Phi Width", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_etaWidth", "(20, -1, 0.125)", set_of_cuts[i], name[i], "Photon Eta Width", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_phiWidth", "(20, -1, 0.125)", set_of_cuts[i], name[i], "Photon Phi Width", true, true, c1);
 //		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_nBasicClusters", "(20, 0, 20)", set_of_cuts[i], name[i], "Photon nBasicClusters", true, true, c1);
 //		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_nXtals", "(100, 0, 100)", set_of_cuts[i], name[i], "Photon nXtals", true, true, c1);
 //	//		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_nRecHits", "(100, 0, 100)", set_of_cuts[i], name[i], "Photon nRecHits", true, true, c1);
@@ -291,57 +296,61 @@ int main()
 //
 	
 	} // end of loop over set of cuts
-
+*/
+/*
 //			Plots for super-clusters
+	TTree* Data_SuperCluTree = (TTree*) Data_File->Get("supercluster_miniTree");
+	TTree* MC_SuperCluTree = (TTree*) MC_File->Get("supercluster_miniTree");
+
 	vector<string> set_of_cuts_superclu;
 	vector<string> name_superclu;
-	set_of_cuts_superclu.push_back("SuperClu_isAfterCut3");
-	name_superclu.push_back("isAfterCut3");
-	set_of_cuts_superclu.push_back("SuperClu_isEE==1 && SuperClu_isAfterCut3==1");
-	name_superclu.push_back("isAfterCut3_EE");
-	set_of_cuts_superclu.push_back("SuperClu_isEB==1 && SuperClu_isAfterCut3==1");
-	name_superclu.push_back("isAfterCut3_EB");
-	set_of_cuts_superclu.push_back("SuperClu_isEEP==1 && SuperClu_isAfterCut3==1");
-	name_superclu.push_back("isAfterCut3_EEP");
-	set_of_cuts_superclu.push_back("SuperClu_isEEM==1 && SuperClu_isAfterCut3==1");
-	name_superclu.push_back("isAfterCut3_EEM");
-	set_of_cuts_superclu.push_back("SuperClu_isAfterCut3 && SuperClu_RawEt>2.0");
-	name_superclu.push_back("isAfterCut3_RawEtGT2");
-	set_of_cuts_superclu.push_back("SuperClu_isEE==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>2.0");
-	name_superclu.push_back("isAfterCut3_RawEtGT2_EE");
-	set_of_cuts_superclu.push_back("SuperClu_isEB==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>2.0");
-	name_superclu.push_back("isAfterCut3_RawEtGT2_EB");
-	set_of_cuts_superclu.push_back("SuperClu_isEEP==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>2.0");
-	name_superclu.push_back("isAfterCut3_RawEtGT2_EEP");
-	set_of_cuts_superclu.push_back("SuperClu_isEEM==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>2.0");
-	name_superclu.push_back("isAfterCut3_RawEtGT2_EEM");
-	set_of_cuts_superclu.push_back("SuperClu_isAfterCut3 && SuperClu_RawEt>2.0");
-	name_superclu.push_back("isAfterCut3_RawEtGT4");
-	set_of_cuts_superclu.push_back("SuperClu_isEE==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>4.0");
-	name_superclu.push_back("isAfterCut3_RawEtGT4_EE");
-	set_of_cuts_superclu.push_back("SuperClu_isEB==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>4.0");
-	name_superclu.push_back("isAfterCut3_RawEtGT4_EB");
-	set_of_cuts_superclu.push_back("SuperClu_isEEP==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>4.0");
-	name_superclu.push_back("isAfterCut3_RawEtGT4_EEP");
-	set_of_cuts_superclu.push_back("SuperClu_isEEM==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>4.0");
-	name_superclu.push_back("isAfterCut3_RawEtGT4_EEM");
-	set_of_cuts_superclu.push_back("SuperClu_isAfterCut3 && SuperClu_RawEt>4.0");
-	name_superclu.push_back("isAfterCut3_RawEtGT10");
-	set_of_cuts_superclu.push_back("SuperClu_isEE==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>10.0");
-	name_superclu.push_back("isAfterCut3_RawEtGT10_EE");
-	set_of_cuts_superclu.push_back("SuperClu_isEB==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>10.0");
-	name_superclu.push_back("isAfterCut3_RawEtGT10_EB");
-	set_of_cuts_superclu.push_back("SuperClu_isEEP==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>10.0");
-	name_superclu.push_back("isAfterCut3_RawEtGT10_EEP");
-	set_of_cuts_superclu.push_back("SuperClu_isEEM==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>10.0");
-	name_superclu.push_back("isAfterCut3_RawEtGT10_EEM");
+//	name_superclu.push_back("isAfterCut3");
+//	set_of_cuts_superclu.push_back("SuperClu_isAfterCut3");
+//	name_superclu.push_back("isAfterCut3_EE");
+//	set_of_cuts_superclu.push_back("SuperClu_isEE==1 && SuperClu_isAfterCut3==1");
+//	name_superclu.push_back("isAfterCut3_EB");
+//	set_of_cuts_superclu.push_back("SuperClu_isEB==1 && SuperClu_isAfterCut3==1");
+//	name_superclu.push_back("isAfterCut3_EEP");
+//	set_of_cuts_superclu.push_back("SuperClu_isEEP==1 && SuperClu_isAfterCut3==1");
+//	name_superclu.push_back("isAfterCut3_EEM");
+//	set_of_cuts_superclu.push_back("SuperClu_isEEM==1 && SuperClu_isAfterCut3==1");
+//	name_superclu.push_back("isAfterCut3_RawEtGT2");
+//	set_of_cuts_superclu.push_back("SuperClu_isAfterCut3 && SuperClu_RawEt>2.0");
+//	name_superclu.push_back("isAfterCut3_RawEtGT2_EE");
+//	set_of_cuts_superclu.push_back("SuperClu_isEE==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>2.0");
+//	name_superclu.push_back("isAfterCut3_RawEtGT2_EB");
+//	set_of_cuts_superclu.push_back("SuperClu_isEB==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>2.0");
+//	name_superclu.push_back("isAfterCut3_RawEtGT2_EEP");
+//	set_of_cuts_superclu.push_back("SuperClu_isEEP==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>2.0");
+//	name_superclu.push_back("isAfterCut3_RawEtGT2_EEM");
+//	set_of_cuts_superclu.push_back("SuperClu_isEEM==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>2.0");
+//	name_superclu.push_back("isAfterCut3_RawEtGT4");
+//	set_of_cuts_superclu.push_back("SuperClu_isAfterCut3 && SuperClu_RawEt>2.0");
+//	name_superclu.push_back("isAfterCut3_RawEtGT4_EE");
+//	set_of_cuts_superclu.push_back("SuperClu_isEE==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>4.0");
+//	name_superclu.push_back("isAfterCut3_RawEtGT4_EB");
+//	set_of_cuts_superclu.push_back("SuperClu_isEB==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>4.0");
+//	name_superclu.push_back("isAfterCut3_RawEtGT4_EEP");
+//	set_of_cuts_superclu.push_back("SuperClu_isEEP==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>4.0");
+//	name_superclu.push_back("isAfterCut3_RawEtGT4_EEM");
+//	set_of_cuts_superclu.push_back("SuperClu_isEEM==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>4.0");
+//	name_superclu.push_back("isAfterCut3_RawEtGT10");
+//	set_of_cuts_superclu.push_back("SuperClu_isAfterCut3 && SuperClu_RawEt>4.0");
+//	name_superclu.push_back("isAfterCut3_RawEtGT10_EE");
+//	set_of_cuts_superclu.push_back("SuperClu_isEE==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>10.0");
+//	name_superclu.push_back("isAfterCut3_RawEtGT10_EB");
+//	set_of_cuts_superclu.push_back("SuperClu_isEB==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>10.0");
+//	name_superclu.push_back("isAfterCut3_RawEtGT10_EEP");
+//	set_of_cuts_superclu.push_back("SuperClu_isEEP==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>10.0");
+//	name_superclu.push_back("isAfterCut3_RawEtGT10_EEM");
+//	set_of_cuts_superclu.push_back("SuperClu_isEEM==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>10.0");
 
 	for (int i=0;i<name_superclu.size();i++){
 		cout << "\tStarting loop on superclusters for plots with cuts: " << set_of_cuts_superclu[i] << endl;
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_E", "(100, 0, 800)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster Energy", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_Et", "(100, 0, 800)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster Et", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_RawE", "(100, 0, 800)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster Raw Energy", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_RawEt", "(100, 0, 800)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster Raw Et", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_E", "(100, 0, 500)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster Energy", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_Et", "(100, 0, 500)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster Et", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_RawE", "(100, 0, 500)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster Raw Energy", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_RawEt", "(100, 0, 500)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster Raw Et", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_Eta", "(60, -3.0, 3.0)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster Eta", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_Phi", "(30, -3.15, 3.15)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster Phi", true, false, c1);
 //		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_nXtals", "(100, 0, 100)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster number of crystals", true, true, c1);
@@ -349,20 +358,25 @@ int main()
 //		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_seedSeverity", "(5,0,5)", set_of_cuts[i], name[i], "SuperClu seed Severity", true, false, c1);
 //		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_seedTime", "(300, -40, 40)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster seed time", true, true, c1);
 //		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_s4", "(50, -2, 100)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster s4", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_etaWidth", "(50, -2, 100)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster etaWidth", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_phiWidth", "(50, -2, 100)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster phiWidth", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_etaWidth", "(50, -1, 1)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster etaWidth", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_phiWidth", "(50, -1, 1)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster phiWidth", true, true, c1);
 //		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_seedFlag", "(15, 0, 15)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster seed flag", true, true, c1);
 //
 	}
-
+*/
+	// Plots for the events
+	TTree* Data_eventTree = (TTree*) Data_File->Get("event_miniTree");
+	TTree* MC_eventTree = (TTree*) MC_File->Get("event_miniTree");
 	vector<string> set_of_cuts_events;
 	vector<string> name_events;
-	set_of_cuts_events.push_back("NoCuts");
-	name_events.push_back("NoCuts");
+//	name_events.push_back("NoCuts");
+//	set_of_cuts_events.push_back("");
 	for(int i=0;i<name_events.size();i++){
 		cout << "\tStarting loop on events for plots with cuts: " << set_of_cuts_events[i] << endl;
 		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "Photon_Multiplicity", "(15, 0, 15)", set_of_cuts_events[i], name_events[i], "Photon multiplicity", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "SuperClu_Multiplicity", "(30, 0, 30)", set_of_cuts_events[i], name_events[i], "Super cluster multiplicity", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "Photon_Multiplicity_isAfterCut7", "(15, 0, 15)", set_of_cuts_events[i], name_events[i], "Photon multiplicity", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "SuperClu_Multiplicity_isAfterCut3", "(30, 0, 30)", set_of_cuts_events[i], name_events[i], "Super cluster multiplicity", true, true, c1);
 //
 //		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "nPhotonEB_perEvent", "(15, 0, 15)", set_of_cuts_events[i], name_events[i],"nPhotonEB_perEvent", true, true, c1);
 //		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "nPhotonEE_perEvent", "(15, 0, 15)", set_of_cuts_events[i], name_events[i],"nPhotonEE_perEvent", true, true, c1);
