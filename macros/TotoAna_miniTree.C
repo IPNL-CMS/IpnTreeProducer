@@ -337,7 +337,7 @@ cout << endl;
 
 	TTree* photon_miniTree = new TTree("photon_miniTree","Photons variables");	
 	TTree* supercluster_miniTree = new TTree("supercluster_miniTree", "SuperClusters variables");
-	TTree* event_miniTree = new TTree("event_miniTrees", "Events information");
+	TTree* event_miniTree = new TTree("event_miniTree", "Events information");
 
 	// Creation of the photon Tree
 	photon_miniTree->Branch("Photon_iEvent", &Photon_iEvent, "Photon_iEvent/I");
