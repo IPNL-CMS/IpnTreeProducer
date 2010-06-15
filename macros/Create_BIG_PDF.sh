@@ -13,6 +13,7 @@ then
 fi
 
 directory=${1}
+directoryWOunderscores=`echo ${directory} | sed -e 's/_/\\\_/g'`
 
 cd ${directory}
 
@@ -31,7 +32,7 @@ echo "
 
 \setcounter{tocdepth}{1}
 
-\title{SuperClusters DATA/MC comparisons}
+\title{SuperClusters DATA/MC comparisons\\${directoryWOunderscores}}
 \author{IPN Lyon group}
 \institute{IPN Lyon}
 
@@ -42,81 +43,141 @@ echo "
 \titlepage
 \end{frame}
 
-" > presentation.tex
+
+" > presentation_${directory}.tex
 
 # ******************** SuperClusters
-echo "\section{SuperClusters}" >> presentation.tex
+echo "\section{SuperClusters}" >> presentation_${directory}.tex
+
+
+echo "
+\subsubsection{Multiplicity}
+\begin{frame}
+\begin{center}
+SuperClusters: Multiplicity\\
+\includegraphics[width=.36\textwidth]{pdf/DataMC_SuperClu_Multiplicity_NoCuts.pdf}
+\includegraphics[width=.36\textwidth]{pdf/DataMC_SuperClu_Multiplicity_isAfterCut3_NoCuts.pdf}
+\\
+\footnotesize
+\hspace{.36\textwidth}before selection\hspace{.36\textwidth}after selection
+\\
+\includegraphics[width=.36\textwidth]{pdf/DataMC_SuperClu_Multiplicity_NoCuts_log.pdf}
+\includegraphics[width=.36\textwidth]{pdf/DataMC_SuperClu_Multiplicity_isAfterCut3_NoCuts_log.pdf}
+\\
+\end{center}
+\end{frame}" >> presentation_${directory}.tex
+
 
 for cut in `echo "isAfterCut3 isAfterCut3_RawEtGT2 isAfterCut3_RawEtGT4 isAfterCut3_RawEtGT10"`
 do
+	Cut=`echo "${cut}" | sed -e 's/_/ /g'`
 echo "
-\subsection{${cut}}
-" >> presentation.tex
+\subsection{${Cut}}
+\begin{frame}
+\begin{center}\Huge
+	SuperClusters: ${Cut}
+\end{center}
+\end{frame}
+" >> presentation_${directory}.tex
 	for variable in `echo "E Et RawE RawEt Eta Phi etaWidth phiWidth"`
 	do
 		echo "
 \subsubsection{${variable}}
 \begin{frame}
 \begin{center}
-\includegraphics[width=.3\textwidth]{pdf/DataMC_SuperClu_${variable}_${cut}.pdf}
-\includegraphics[width=.3\textwidth]{pdf/DataMC_SuperClu_${variable}_${cut}_EB.pdf}
-\includegraphics[width=.3\textwidth]{pdf/DataMC_SuperClu_${variable}_${cut}_EE.pdf}
+	SuperClusters: ${Cut}, ${variable}\\
+\includegraphics[width=.36\textwidth]{pdf/DataMC_SuperClu_${variable}_${cut}.pdf}
+\includegraphics[width=.36\textwidth]{pdf/DataMC_SuperClu_${variable}_${cut}_EB.pdf}
+\includegraphics[width=.36\textwidth]{pdf/DataMC_SuperClu_${variable}_${cut}_EE.pdf}
 \\
-\includegraphics[width=.3\textwidth]{pdf/DataMC_SuperClu_${variable}_${cut}_log.pdf}
-\includegraphics[width=.3\textwidth]{pdf/DataMC_SuperClu_${variable}_${cut}_EB_log.pdf}
-\includegraphics[width=.3\textwidth]{pdf/DataMC_SuperClu_${variable}_${cut}_EE_log.pdf}
+all\hspace{.36\textwidth}EB\hspace{.36\textwidth}EE
+\\
+\includegraphics[width=.36\textwidth]{pdf/DataMC_SuperClu_${variable}_${cut}_log.pdf}
+\includegraphics[width=.36\textwidth]{pdf/DataMC_SuperClu_${variable}_${cut}_EB_log.pdf}
+\includegraphics[width=.36\textwidth]{pdf/DataMC_SuperClu_${variable}_${cut}_EE_log.pdf}
 \end{center}
 \end{frame}
 \begin{frame}
 \begin{center}
-\includegraphics[width=.3\textwidth]{pdf/DataMC_SuperClu_${variable}_${cut}_EE.pdf}
-\includegraphics[width=.3\textwidth]{pdf/DataMC_SuperClu_${variable}_${cut}_EEM.pdf}
-\includegraphics[width=.3\textwidth]{pdf/DataMC_SuperClu_${variable}_${cut}_EEP.pdf}
+	SuperClusters: ${Cut}, ${variable}\\
+\includegraphics[width=.36\textwidth]{pdf/DataMC_SuperClu_${variable}_${cut}_EE.pdf}
+\includegraphics[width=.36\textwidth]{pdf/DataMC_SuperClu_${variable}_${cut}_EEM.pdf}
+\includegraphics[width=.36\textwidth]{pdf/DataMC_SuperClu_${variable}_${cut}_EEP.pdf}
 \\
-\includegraphics[width=.3\textwidth]{pdf/DataMC_SuperClu_${variable}_${cut}_EE_log.pdf}
-\includegraphics[width=.3\textwidth]{pdf/DataMC_SuperClu_${variable}_${cut}_EEM_log.pdf}
-\includegraphics[width=.3\textwidth]{pdf/DataMC_SuperClu_${variable}_${cut}_EEP_log.pdf}
+EE\hspace{.36\textwidth}EEM\hspace{.36\textwidth}EEP
+\\
+\includegraphics[width=.36\textwidth]{pdf/DataMC_SuperClu_${variable}_${cut}_EE_log.pdf}
+\includegraphics[width=.36\textwidth]{pdf/DataMC_SuperClu_${variable}_${cut}_EEM_log.pdf}
+\includegraphics[width=.36\textwidth]{pdf/DataMC_SuperClu_${variable}_${cut}_EEP_log.pdf}
 \end{center}
 \end{frame}
-" >> presentation.tex
+" >> presentation_${directory}.tex
 	done
 done
 
+
 # ********************* Photons
-echo "\section{Photons}" >> presentation.tex
+echo "\section{Photons}" >> presentation_${directory}.tex
 
 for cut in `echo "isAfterCut7"`
 do
 echo "
 \subsection{${cut}}
-" >> presentation.tex
+\begin{frame}
+\begin{center}\Huge
+	Photons: ${cut}
+\end{center}
+\end{frame}" >> presentation_${directory}.tex
+
+echo "
+\subsubsection{Multiplicity}
+\begin{frame}
+\begin{center}
+Photons: Multiplicity\\
+\includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_Multiplicity_NoCuts.pdf}
+\includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_Multiplicity_isAfterCut7_NoCuts.pdf}
+\\
+\hspace{.36\textwidth}before selection\hspace{.36\textwidth}after selection
+\\
+\includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_Multiplicity_NoCuts_log.pdf}
+\includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_Multiplicity_isAfterCut7_NoCuts_log.pdf}
+\end{center}
+\end{frame}" >> presentation_${directory}.tex
+
+
   for variable in `echo "E Et Eta Phi SCEnergy SCEt SCRawEnergy SCRawEt covIetaIeta covIphiIphi etaWidth phiWidth"`
   do
     echo "
 \subsubsection{${variable}}
 \begin{frame}
 \begin{center}
-\includegraphics[width=.3\textwidth]{pdf/DataMC_Photon_${variable}_${cut}.pdf}
-\includegraphics[width=.3\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EB.pdf}
-\includegraphics[width=.3\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EE.pdf}
+	Photons: ${cut}, ${variable}\\
+\includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_${variable}_${cut}.pdf}
+\includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EB.pdf}
+\includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EE.pdf}
 \\
-\includegraphics[width=.3\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_log.pdf}
-\includegraphics[width=.3\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EB_log.pdf}
-\includegraphics[width=.3\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EE_log.pdf}
+all\hspace{.36\textwidth}EB\hspace{.36\textwidth}EE
+\\
+\includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_log.pdf}
+\includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EB_log.pdf}
+\includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EE_log.pdf}
 \end{center}
 \end{frame}
 \begin{frame}
 \begin{center}
-\includegraphics[width=.3\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EE.pdf}
-\includegraphics[width=.3\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EEM.pdf}
-\includegraphics[width=.3\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EEP.pdf}
+	Photons: ${cut}, ${variable}\\
+\includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EE.pdf}
+\includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EEM.pdf}
+\includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EEP.pdf}
 \\
-\includegraphics[width=.3\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EE_log.pdf}
-\includegraphics[width=.3\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EEM_log.pdf}
-\includegraphics[width=.3\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EEP_log.pdf}
+EE\hspace{.36\textwidth}EEM\hspace{.36\textwidth}EEP
+\\
+\includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EE_log.pdf}
+\includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EEM_log.pdf}
+\includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EEP_log.pdf}
 \end{center}
 \end{frame}
-" >> presentation.tex
+" >> presentation_${directory}.tex
   done
 done
 
@@ -124,13 +185,17 @@ done
 echo "
 
 \end{document}
-" >> presentation.tex
+" >> presentation_${directory}.tex
 
 
 echo "Creating the pdf with pdflatex"
-pdflatex presentation.tex
-
-pdflatex presentation.tex
-pdflatex presentation.tex
+pdflatex presentation_${directory}.tex
+pdflatex presentation_${directory}.tex
+pdflatex presentation_${directory}.tex
 
 exit 0
+
+
+
+
+
