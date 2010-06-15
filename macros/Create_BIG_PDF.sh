@@ -145,7 +145,8 @@ Photons: Multiplicity\\
 \end{frame}" >> presentation_${directory}.tex
 
 
-  for variable in `echo "E Et Eta Phi SCEnergy SCEt SCRawEnergy SCRawEt covIetaIeta covIphiIphi etaWidth phiWidth"`
+#  for variable in `echo "E Et Eta Phi SCEnergy SCEt SCRawEnergy SCRawEt covIetaIeta covIphiIphi etaWidth phiWidth"`
+  for variable in `echo "Eta Phi SCEta SCPhi hasPixelSeed isAlsoElectron Nclusters nXtals E Et SCEnergy SCEt SCRawEnergy SCRawEt PreshEnergy E5x5 E3x3 E2x2 Emax E2nd r19 r9 cross caloConeSize covIetaIeta covIphiIphi etaWidth phiWidth isoEcalRecHit isoHcalRecHit HoE isoSolidTrkCone isoHollowTrkCone isoNTracksSolidCone isoNTracksHollowCone convNTracks seedTime seedFlag seedSeverity isTightPhoton isLoosePhoton"`
   do
     echo "
 \subsubsection{${variable}}
@@ -163,20 +164,20 @@ all\hspace{.36\textwidth}EB\hspace{.36\textwidth}EE
 \includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EE_log.pdf}
 \end{center}
 \end{frame}
-\begin{frame}
-\begin{center}
-	Photons: ${cut}, ${variable}\\
-\includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EE.pdf}
-\includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EEM.pdf}
-\includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EEP.pdf}
-\\
-EE\hspace{.36\textwidth}EEM\hspace{.36\textwidth}EEP
-\\
-\includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EE_log.pdf}
-\includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EEM_log.pdf}
-\includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EEP_log.pdf}
-\end{center}
-\end{frame}
+%\begin{frame}
+%\begin{center}
+%	Photons: ${cut}, ${variable}\\
+%\includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EE.pdf}
+%\includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EEM.pdf}
+%\includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EEP.pdf}
+%\\
+%EE\hspace{.36\textwidth}EEM\hspace{.36\textwidth}EEP
+%\\
+%\includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EE_log.pdf}
+%\includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EEM_log.pdf}
+%\includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_${variable}_${cut}_EEP_log.pdf}
+%\end{center}
+%\end{frame}
 " >> presentation_${directory}.tex
   done
 done
