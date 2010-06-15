@@ -84,15 +84,18 @@ int main(){
 // ************* MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO
 	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO/MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO_TOTOANA_*root");
 	TFile* OutputRootFile = new TFile("miniTree_MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
-*//*
+*/
+/*
 // ************* MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO
 	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO/MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO_TOTOANA_*root");
 	TFile* OutputRootFile = new TFile("miniTree_MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
-*//*
+*/
+/*
 // ************* MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1_GEN-SIM-RECO
 	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1_GEN-SIM-RECO/MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO_TOTOANA_*root");
 	TFile* OutputRootFile = new TFile("miniTree_MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
 */
+
 // ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO
 	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO/MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO_TOTOANA_*root");
 	TFile* OutputRootFile = new TFile("miniTree_MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
@@ -455,8 +458,8 @@ cout << endl;
 	event_miniTree->Branch("SuperClu_Multiplicity", &SuperClu_Multiplicity, "SuperClu_Multiplicity/I");
 	event_miniTree->Branch("SuperClu_Multiplicity_isAfterCut3", &SuperClu_Multiplicity_isAfterCut3, "SuperClu_Multiplicity_isAfterCut3/I");
 
-	event_miniTree->Branch("nPhotonEEM_perEvent", &nPhotonEEP_perEvent, "nPhotonEEM_perEvent/I");
-	event_miniTree->Branch("nPhotonEEP_perEvent", &nPhotonEEM_perEvent, "nPhotonEEP_perEvent/I");
+	event_miniTree->Branch("nPhotonEEM_perEvent", &nPhotonEEM_perEvent, "nPhotonEEM_perEvent/I");
+	event_miniTree->Branch("nPhotonEEP_perEvent", &nPhotonEEP_perEvent, "nPhotonEEP_perEvent/I");
 	event_miniTree->Branch("nPhotonEE_perEvent", &nPhotonEE_perEvent, "nPhotonEE_perEvent/I");
 	event_miniTree->Branch("nPhotonEB_perEvent", &nPhotonEB_perEvent, "nPhotonEB_perEvent/I");
 
@@ -634,11 +637,6 @@ cout << endl;
 		// Count nb of evts with at least one SC with rawEt>2 GeV (for Eiko)
 		Bool_t atLeastOneSChigherThan2GeV = false;
 		TRootSuperCluster* mysc;
-		nTotSC += superClusters->GetEntriesFast();
-		if (superClusters->GetEntriesFast() == 0){
-			supercluster_miniTree->Fill();
-			continue;
-		}
 		SuperClu_Multiplicity = 0;
 		for (int isc=0; isc < superClusters->GetEntriesFast(); isc++)
 		{
@@ -648,6 +646,7 @@ cout << endl;
 			mysc = (TRootSuperCluster*) superClusters->At(isc);
 			if ( ! ( mysc->type()==211 || mysc->type()==322 ) ){continue;} // All the SC are kept in the same branch, i.e. SC belonging to the different reco collections [...] So to avoid double counting, you have to use only SC with type 211 or 322
 			SuperClu_Multiplicity +=1;
+			nTotSC += 1;
 			Float_t rawEt = mysc->rawEnergy() * sin(mysc->Theta());
 			if (rawEt>2.0) atLeastOneSChigherThan2GeV = true;
 
@@ -714,10 +713,6 @@ cout << endl;
 			int nPhotons_EE = 0; Photon_isEE = 0;
 			int nPhotons_EEM = 0; Photon_isEEM = 0;
 			int nPhotons_EEP = 0; Photon_isEEP = 0;
-			if ( Photon_Multiplicity == 0 ) {
-				photon_miniTree->Fill();
-				continue;
-			}
 			for (int iphoton=0; iphoton<Photon_Multiplicity; iphoton++)
 			{
 				Photon_isAfterCut1 = 0;
