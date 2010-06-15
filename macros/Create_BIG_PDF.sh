@@ -142,6 +142,21 @@ Photons: Multiplicity\\
 \includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_Multiplicity_NoCuts_log.pdf}
 \includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_Multiplicity_isAfterCut7_NoCuts_log.pdf}
 \end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+Photons: Multiplicity\\
+\includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_Multiplicity_isAfterCut7_NoCuts.pdf}
+\includegraphics[width=.36\textwidth]{pdf/DataMC_nPhotonEB_perEvent_NoCuts.pdf}
+\includegraphics[width=.36\textwidth]{pdf/DataMC_nPhotonEE_perEvent_NoCuts.pdf}
+\\
+all\hspace{.36\textwidth}EB\hspace{.36\textwidth}EE
+\\
+\includegraphics[width=.36\textwidth]{pdf/DataMC_Photon_Multiplicity_isAfterCut7_NoCuts_log.pdf}
+\includegraphics[width=.36\textwidth]{pdf/DataMC_nPhotonEB_perEvent_NoCuts_log.pdf}
+\includegraphics[width=.36\textwidth]{pdf/DataMC_nPhotonEE_perEvent_NoCuts_log.pdf}
+\end{center}
 \end{frame}" >> presentation_${directory}.tex
 
 
