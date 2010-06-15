@@ -32,7 +32,9 @@ echo "
 
 \setcounter{tocdepth}{1}
 
-\title{SuperClusters DATA/MC comparisons\\${directoryWOunderscores}}
+\title{SuperClusters DATA/MC comparisons
+\\
+${directoryWOunderscores}}
 \author{IPN Lyon group}
 \institute{IPN Lyon}
 
