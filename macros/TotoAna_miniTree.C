@@ -40,29 +40,29 @@
 int main(){
 	gSystem->Load("/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/src/libToto.so");
 	
-	bool doHLT										= true;
-	bool doMC										 = false;
-	bool doJetMC									= false;
-	bool doMETMC									= false;
-	bool doPDFInfo								= true;
-	bool doSignalMuMuGamma				= false;
-	bool doSignalTopTop					 = false;
-	bool doPhotonConversionC			= false;
-	bool doBeamSpot							 = true;
-	bool doPrimaryVertex					= true;
-	bool doZeePrimaryVertex			 = false;
-	bool doTrack									= true;
-	bool doJet										= false;
-	bool doMuon									 = false;
-	bool doElectron							 = true;
-	bool doPhoton								 = true;
-	bool doCluster								= true;
-	bool doPhotonConversion			 = true;
-	bool doMET										= false;
-	bool doBardak								 = false;
-	bool doPhotonVertexCorrection = false;
-	bool doPhotonIsolation				= true;
-	bool doPhotonConversionMC		 = false;
+	bool doHLT			= true;
+	bool doMC			= false;
+	bool doJetMC 			= false;
+	bool doMETMC			= false;
+	bool doPDFInfo			= true;
+	bool doSignalMuMuGamma		= false;
+	bool doSignalTopTop		= false;
+	bool doPhotonConversionC	= false;
+	bool doBeamSpot			= true;
+	bool doPrimaryVertex		= true;
+	bool doZeePrimaryVertex		= false;
+	bool doTrack			= true;
+	bool doJet			= false;
+	bool doMuon			= false;
+	bool doElectron			= true;
+	bool doPhoton			= true;
+	bool doCluster			= true;
+	bool doPhotonConversion		= true;
+	bool doMET			= false;
+	bool doBardak			= false;
+	bool doPhotonVertexCorrection 	= false;
+	bool doPhotonIsolation		= true;
+	bool doPhotonConversionMC	= false;
 
 	TChain *inputEventTree = new TChain("eventTree");
 //	inputEventTree->Add("");
@@ -105,7 +105,7 @@ int main(){
 	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/DATA_MinimumBias_Commissioning10-May6thPDSkim_GOODCOLL-v1_RAW-RECO/DATA_MinimumBias_Commissioning10-May6thPDSkim_GOODCOLL-v1_RAW-RECO_TOTOANA_77_1.root");
 	TFile* OutputRootFile = new TFile("miniTree_TEST.root", "RECREATE");
 */
-
+	
 	TBranch* event_br = 0;
 	TRootEvent* event = 0;
 	inputEventTree->SetBranchAddress("Event", &event, &event_br);
@@ -329,6 +329,9 @@ cout << endl;
 	// Declaration of all event variables
 	Int_t Photon_Multiplicity, SuperClu_Multiplicity;
 	Int_t Photon_Multiplicity_isAfterCut7, SuperClu_Multiplicity_isAfterCut3;
+	Int_t SuperClu_Multiplicity_isAfterCut3_SCRawEtGT2;
+	Int_t Photon_Multiplicity_isAfterCut7_SCRawEtGT4, SuperClu_Multiplicity_isAfterCut3_SCRawEtGT4;
+	Int_t Photon_Multiplicity_isAfterCut7_SCRawEtGT10, SuperClu_Multiplicity_isAfterCut3_SCRawEtGT10;
 	Int_t nPhotonEEP_perEvent, nPhotonEEM_perEvent, nPhotonEE_perEvent, nPhotonEB_perEvent;
 
 	Int_t HLT_Photon10_L1R, HLT_Photon15_L1R, HLT_Photon15_LooseEcalIso_L1R, HLT_Photon20_L1R, HLT_Photon30_L1R_8E29;
@@ -455,8 +458,14 @@ cout << endl;
 
 	event_miniTree->Branch("Photon_Multiplicity", &Photon_Multiplicity, "Photon_Multiplicity/I");
 	event_miniTree->Branch("Photon_Multiplicity_isAfterCut7", &Photon_Multiplicity_isAfterCut7, "Photon_Multiplicity_isAfterCut7/I");
+        event_miniTree->Branch("Photon_Multiplicity_isAfterCut7_SCRawEtGT4", &Photon_Multiplicity_isAfterCut7_SCRawEtGT4, "Photon_Multiplicity_isAfterCut7_SCRawEtGT4/I");
+        event_miniTree->Branch("Photon_Multiplicity_isAfterCut7_SCRawEtGT10", &Photon_Multiplicity_isAfterCut7_SCRawEtGT10, "Photon_Multiplicity_isAfterCut7_SCRawEtGT10/I");
+
 	event_miniTree->Branch("SuperClu_Multiplicity", &SuperClu_Multiplicity, "SuperClu_Multiplicity/I");
 	event_miniTree->Branch("SuperClu_Multiplicity_isAfterCut3", &SuperClu_Multiplicity_isAfterCut3, "SuperClu_Multiplicity_isAfterCut3/I");
+	event_miniTree->Branch("SuperClu_Multiplicity_isAfterCut3_SCRawEtGT2", &SuperClu_Multiplicity_isAfterCut3_SCRawEtGT2, "SuperClu_Multiplicity_isAfterCut3_SCRawEtGT2/I");
+	event_miniTree->Branch("SuperClu_Multiplicity_isAfterCut3_SCRawEtGT4", &SuperClu_Multiplicity_isAfterCut3_SCRawEtGT4, "SuperClu_Multiplicity_isAfterCut3_SCRawEtGT4/I");
+	event_miniTree->Branch("SuperClu_Multiplicity_isAfterCut3_SCRawEtGT10", &SuperClu_Multiplicity_isAfterCut3_SCRawEtGT10, "SuperClu_Multiplicity_isAfterCut3_SCRawEtGT10/I");
 
 	event_miniTree->Branch("nPhotonEEM_perEvent", &nPhotonEEM_perEvent, "nPhotonEEM_perEvent/I");
 	event_miniTree->Branch("nPhotonEEP_perEvent", &nPhotonEEP_perEvent, "nPhotonEEP_perEvent/I");
@@ -529,8 +538,13 @@ cout << endl;
 		inputEventTree->GetEvent(ievt);
 		Photon_Multiplicity = photons->GetEntriesFast();
 		Photon_Multiplicity_isAfterCut7 = 0;
+		Photon_Multiplicity_isAfterCut7_SCRawEtGT4 = 0;
+		Photon_Multiplicity_isAfterCut7_SCRawEtGT10 = 0;
 		SuperClu_Multiplicity_isAfterCut3 = 0;
-
+		SuperClu_Multiplicity_isAfterCut3_SCRawEtGT2 = 0;
+		SuperClu_Multiplicity_isAfterCut3_SCRawEtGT4 = 0;
+		SuperClu_Multiplicity_isAfterCut3_SCRawEtGT10 = 0;
+	
 		nPhotonEEP_perEvent = 0 ;
 		nPhotonEEM_perEvent = 0 ;
 		nPhotonEE_perEvent = 0 ;
@@ -698,6 +712,14 @@ cout << endl;
 			SuperClu_isAfterCut3 = 1;
 			nSCAfterCut3++;
 			SuperClu_Multiplicity_isAfterCut3 +=1;
+			
+			if(SuperClu_RawEt > 2){SuperClu_Multiplicity_isAfterCut3_SCRawEtGT2 += 1 ; if (SuperClu_RawEt > 4){SuperClu_Multiplicity_isAfterCut3_SCRawEtGT4 += 1 ; if(SuperClu_RawEt > 10){SuperClu_Multiplicity_isAfterCut3_SCRawEtGT10 += 1;} }}
+
+
+
+
+
+
 
 			nSelectedSC++;
 			supercluster_miniTree->Fill();
@@ -936,6 +958,8 @@ cout << endl;
 				Photon_isAfterCut7 = 1;
 				Photon_Multiplicity_isAfterCut7 += 1;
 	
+				 if(scRawEt > 4){Photon_Multiplicity_isAfterCut7_SCRawEtGT4 += 1 ; if(scRawEt > 10){Photon_Multiplicity_isAfterCut7_SCRawEtGT10 += 1; } }
+			
 				nPhotons++;
 				nSelectedPhotons++;
 		
@@ -982,6 +1006,7 @@ cout << endl;
 	<< "	nSelectedEvents/nTotEventsSelectedRuns=" <<100.*nSelectedEvents/nTotEventsSelectedRuns << "%" << "	nSelectedEvents/nTotEvents=" <<100.*nSelectedEvents/nTotEvents << "%" << endl;
 
 	if(nTotPhotons>0) cout << "nSelectedPhotons=" << nSelectedPhotons << "	nTotPhotons=" << nTotPhotons << "	Eff=" <<100.*nSelectedPhotons/nTotPhotons << "%" << endl;
+
 	cout << "nCut1=" << nCut1 << "	nCut2=" << nCut2 << "	nCut3=" << nCut3 << "	nCut4=" << nCut4 << "	nCut5=" << nCut5 << "	nCut6=" << nCut6 << "	 nCut7=" << nCut7 << endl;
 
 	if(nTotSC>0) cout << "nTotSC=" << nTotSC << "  nSelectedSC=" << nSelectedSC << "  nSCAfterCut1=" << nSCAfterCut1 << "  nSCAfterCut2=" << nSCAfterCut2 << "  nSCAfterCut3=" << nSCAfterCut3 << endl;
