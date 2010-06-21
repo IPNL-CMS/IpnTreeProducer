@@ -52,6 +52,7 @@ class TRootMuon : public TRootParticle
       ,d0Error_(-9999.)
       ,dsz_(-9999.)
       ,dszError_(-9999.)
+      ,dB_(-9999.)
       ,normalizedChi2_(-9999.)
       ,ptError_(-9999.)
       ,etaError_(-9999.)
@@ -106,6 +107,7 @@ class TRootMuon : public TRootParticle
       ,d0Error_(muon.d0Error_)
       ,dsz_(muon.dsz_)
       ,dszError_(muon.dszError_)
+      ,dB_(muon.dB_)
       ,normalizedChi2_(muon.normalizedChi2_)
       ,ptError_(muon.ptError_)
       ,etaError_(muon.etaError_)
@@ -160,6 +162,7 @@ class TRootMuon : public TRootParticle
       ,d0Error_(-9999.)
       ,dsz_(-9999.)
       ,dszError_(-9999.)
+      ,dB_(-9999.)
       ,normalizedChi2_(-9999.)
       ,ptError_(-9999.)
       ,etaError_(-9999.)
@@ -214,6 +217,7 @@ class TRootMuon : public TRootParticle
       ,d0Error_(-9999.)
       ,dsz_(-9999.)
       ,dszError_(-9999.)
+      ,dB_(-9999.)
       ,normalizedChi2_(-9999.)
       ,ptError_(-9999.)
       ,etaError_(-9999.)
@@ -268,6 +272,7 @@ class TRootMuon : public TRootParticle
       ,d0Error_(-9999.)
       ,dsz_(-9999.)
       ,dszError_(-9999.)
+      ,dB_(-9999.)
       ,normalizedChi2_(-9999.)
       ,ptError_(-9999.)
       ,etaError_(-9999.)
@@ -322,6 +327,7 @@ class TRootMuon : public TRootParticle
       ,d0Error_(-9999.)
       ,dsz_(-9999.)
       ,dszError_(-9999.)
+      ,dB_(-9999.)
       ,normalizedChi2_(-9999.)
       ,ptError_(-9999.)
       ,etaError_(-9999.)
@@ -376,6 +382,7 @@ class TRootMuon : public TRootParticle
       ,d0Error_(-9999.)
       ,dsz_(-9999.)
       ,dszError_(-9999.)
+      ,dB_(-9999.)
       ,normalizedChi2_(-9999.)
       ,ptError_(-9999.)
       ,etaError_(-9999.)
@@ -451,6 +458,7 @@ class TRootMuon : public TRootParticle
       Float_t d0Error() const { return d0Error_ ;}
       Float_t dsz() const { return dsz_ ;}
       Float_t dszError() const { return dszError_ ;}
+      Float_t dB() const { return dB_ ;}
       Float_t normalizedChi2() const { return normalizedChi2_ ;}
       Float_t ptError() const { return ptError_ ;}
       Float_t etaError() const { return etaError_ ;}
@@ -537,6 +545,7 @@ class TRootMuon : public TRootParticle
       void setD0Error(Float_t d0Error) { d0Error_ = d0Error; }
       void setDsz(Float_t dsz) { dsz_ = dsz; }
       void setDszError(Float_t dszError) { dszError_ = dszError; }
+      void setDB(Float_t dB) { dB_ = dB; }
       void setNormalizedChi2(Float_t normalizedChi2) { normalizedChi2_ = normalizedChi2; }
       void setPtError(Float_t ptError) { ptError_ = ptError; }
       void setEtaError(Float_t etaError) { etaError_ = etaError; }
@@ -561,7 +570,7 @@ class TRootMuon : public TRootParticle
          << "            isolation cone 0.5: Et_em=" << muon.isoR05_emEt_ << "  Et_had=" << muon.isoR05_hadEt_ <<"  Et_ho=" << muon.isoR05_hoEt_  << "  nTracks=" << muon.isoR05_nTracks_ <<"  nJets=" << muon.isoR05_nJets_ << endl
          << "            pat default isolation: Et_em=" << muon.ecalIso_ << "  Et_had=" << muon.hcalIso_ << "  Pt_trk=" << muon.trackIso_ << endl
          << "            PF Isolation : particleIso=" << muon.pfParticleIso_ << "  chargedHadronIso=" << muon.pfChargedHadronIso_ << "  NeutralHadronIso=" << muon.pfNeutralHadronIso_ << endl
-         << "            d0=" << muon.d0_ << " +- " << muon.d0Error_ << "  dsz=" << muon.dsz_ << " +- " << muon.dszError_ << "   IP 3D Significance=" << muon.ip3DSignificance_;
+         << "            d0=" << muon.d0_ << " +- " << muon.d0Error_ << "  dsz=" << muon.dsz_ << " +- " << muon.dszError_ << "  dB=" << muon.dB_ << "   IP 3D Significance=" << muon.ip3DSignificance_;
          return stream;
       };
       
@@ -649,6 +658,7 @@ class TRootMuon : public TRootParticle
       Float_t d0Error_;            // error on d0_
       Float_t dsz_;                // dsz parameter
       Float_t dszError_;           // error on dsz_
+      Float_t dB_;                 // distance to beamline
       Float_t normalizedChi2_;     // chi-squared divided by n.d.o.f. of track fit
       
       Float_t ptError_;            // needed ?  ptError()

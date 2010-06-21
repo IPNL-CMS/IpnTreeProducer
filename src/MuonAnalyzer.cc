@@ -193,6 +193,13 @@ bool MuonAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeamSpot
 				float sig3d = ip3DSignificance(transtrack);
 				localMuon.setIP3DSignificance(sig3d);
 			}
+
+			// Get the distance to the beamline corresponding to dB for pat::muons
+			if(doBeamSpot_)
+			  {
+				const reco::TrackBase::Point point( rootBeamSpot->x(), rootBeamSpot->y(), rootBeamSpot->z() );
+				localMuon.setDB( -1.*(track->dxy(point)) );
+			  }
 		}
 
 
