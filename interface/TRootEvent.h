@@ -14,6 +14,7 @@
 #include "TRef.h"
 
 #include "../interface/TRootVertex.h"
+#include "../interface/TRootBeamStatus.h"
 
 using namespace std;
 
@@ -22,37 +23,17 @@ class TRootEvent : public TObject
    
    public:
       
-      struct BeamStatus
-      {
-         UShort_t bstMasterStatus;   // BST Master Status, updated on each turn
-         UInt_t lhcFillNumber;       // LHC Fill Number, updated at a rate of 1Hz
-         UInt_t turnCountNumber;     // Turn count numbers, 0 .. 4294967294 (106 hours - reset on first injection), updated on each turn
-         UShort_t beamMode;          // Beam mode (RAMP, STABLE, etc), updated at a rate of 1Hz
-         UShort_t beamMomentum;      // Beam Momentum (beam 1 = beam 2), 2 bytes in GeV/c, updated at a rate of 1Hz
-         UInt_t totalIntensityBeam1; // Total Intensity beam 1, measured in Integer × 10E10 charges, updated at a rate of 1Hz
-         UInt_t totalIntensityBeam2; // Total Intensity beam 2, measured in Integer × 10E10 charges, updated at a rate of 1Hz
-         
-         BeamStatus() :
-         bstMasterStatus(0)
-         ,lhcFillNumber(0)
-         ,turnCountNumber(0)
-         ,beamMode(0)
-         ,beamMomentum(0)
-         ,totalIntensityBeam1(0)
-         ,totalIntensityBeam2(0)
-         {}
-      } ;
-      
       TRootEvent() :
       nb_(0)
       ,eventId_(0)
       ,runId_(0)
+      ,storeNumber_(0)
       ,luminosityBlock_(0)
       ,bunchCrossing_(0)
       ,orbitNumber_(0)
       ,collisionTime_(0)
-      ,totoAnaProcessingTime_(0)
       ,beamStatus_()
+      ,totoAnaProcessingTime_(0)
       ,passGlobalL1_(false)
       ,physicsL1Accept_(0)
       ,technicalL1Accept_(0)
@@ -70,6 +51,7 @@ class TRootEvent : public TObject
       ,idParton2_(-1)
       ,xParton2_(-1.)
       ,factorizationScale_(-1.)
+      ,eventScale_(-1.)
       {;}
       
       ~TRootEvent() {;}
@@ -78,6 +60,7 @@ class TRootEvent : public TObject
       UInt_t nb() const { return nb_; }
       UInt_t eventId() const { return eventId_; }
       UInt_t runId() const { return runId_; }
+      UInt_t storeNumber() const { return storeNumber_; }
       UInt_t luminosityBlock() const { return luminosityBlock_; }
       Int_t bunchCrossing() const { return bunchCrossing_; }
       Int_t orbitNumber() const { return orbitNumber_; }
@@ -89,18 +72,8 @@ class TRootEvent : public TObject
       }
       unsigned long  microsecondCollisionTime() const { return (collisionTime_&0xffffffff); }
       char *asciiCollisionTime() const;
+      TRootBeamStatus beamStatus() const { return beamStatus_; }
       UInt_t totoAnaProcessingTime() const { return totoAnaProcessingTime_; }
-
-      // LHC Status
-      UShort_t bstMasterStatus() const { return beamStatus_.bstMasterStatus; }
-      UInt_t lhcFillNumber() const { return beamStatus_.lhcFillNumber; }
-      UInt_t turnCountNumber() const { return beamStatus_.turnCountNumber; }
-      UShort_t beamMode() const { return beamStatus_.beamMode; }
-      UShort_t beamMomentum() const { return beamStatus_.beamMomentum; }
-      UInt_t totalIntensityBeam1() const { return beamStatus_.totalIntensityBeam1; }
-      UInt_t totalIntensityBeam2() const { return beamStatus_.totalIntensityBeam2; }
-      const BeamStatus & beamStatus() const { return beamStatus_; }
-      
       
       // L1 Trigger decision
       Bool_t passGlobalL1() const { return passGlobalL1_; }
@@ -197,18 +170,21 @@ class TRootEvent : public TObject
       Float_t xParton2() const { return xParton2_; }
       // Factorization Scale Q
       Float_t factorizationScale() const { return factorizationScale_; }
+      // Event scale (pt_hat for PYTHIA)
+      Float_t eventScale() const { return eventScale_; }
       
       
       
       void setNb(UInt_t nb) { nb_ = nb; }
       void setEventId(UInt_t eventId) { eventId_ = eventId; }
       void setRunId(UInt_t runId) { runId_ = runId; }
+      void setStoreNumber(UInt_t storeNumber) { storeNumber_ = storeNumber; }
       void setLuminosityBlock(UInt_t luminosityBlock) { luminosityBlock_ = luminosityBlock; }
       void setBunchCrossing(Int_t bunchCrossing) { bunchCrossing_ = bunchCrossing; }
       void setOrbitNumber(Int_t orbitNumber) { orbitNumber_ = orbitNumber; }
       void setCollisionTime(unsigned long long collisionTime) { collisionTime_ = collisionTime; }
+      void setBeamStatus(TRootBeamStatus beamStatus) { beamStatus_ = beamStatus; }
       void setTotoAnaProcessingTime(UInt_t totoAnaProcessingTime) { totoAnaProcessingTime_ = totoAnaProcessingTime; }
-      void setBeamStatus( const BeamStatus & beamStatus ) { beamStatus_ = beamStatus; }
       void setGlobalL1(Bool_t passGlobalL1) { passGlobalL1_ = passGlobalL1; }
       void setPhysicsL1Accept(std::vector<Bool_t> physicsL1Accept)
       {
@@ -244,6 +220,7 @@ class TRootEvent : public TObject
       void setIdParton2(Int_t idParton2) { idParton2_=idParton2; }
       void setXParton2(Float_t xParton2) { xParton2_=xParton2; }
       void setFactorizationScale(Float_t factorizationScale) { factorizationScale_=factorizationScale; }
+      void setEventScale(Float_t eventScale) { eventScale_=eventScale; }
       
       friend std::ostream& operator<< (std::ostream& stream, const TRootEvent& event) {
          stream << "Run " << event.runId() <<" Event "<< event.eventId() <<"  Luminosity block "<< event.luminosityBlock()
@@ -265,13 +242,13 @@ class TRootEvent : public TObject
       UInt_t nb_;
       UInt_t eventId_;
       UInt_t runId_;
+      UInt_t storeNumber_;
       UInt_t luminosityBlock_;
       Int_t bunchCrossing_;
       Int_t orbitNumber_;
       unsigned long long collisionTime_;
+      TRootBeamStatus beamStatus_;
       UInt_t totoAnaProcessingTime_;
-
-      BeamStatus beamStatus_;
       
       // Trigger Infos
       Bool_t passGlobalL1_;
@@ -298,8 +275,9 @@ class TRootEvent : public TObject
       Int_t idParton2_;
       Float_t xParton2_;
       Float_t factorizationScale_;
+      Float_t eventScale_;
       
-      ClassDef (TRootEvent,5);
+      ClassDef (TRootEvent,6);
       
 };
 
