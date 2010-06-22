@@ -48,6 +48,7 @@
 #include "../interface/AmbiguitySolver.h"
 
 #include "../interface/TRootRun.h"
+#include "../interface/TRootBeamStatus.h"
 #include "../interface/TRootEvent.h"
 #include "../interface/TRootSignalEvent.h"
 #include "../interface/TRootParticle.h"
@@ -131,8 +132,8 @@ class TotoAnalyzer : public edm::EDAnalyzer
       
       int nTotEvt_;
       TRootRun* runInfos_;
+      TRootBeamStatus* beamStatus_;
       TRootEvent* rootEvent_;
-      TRootEvent::BeamStatus lhcStatus_;
       L1TriggerAnalyzer* l1TriggerAnalyzer_;
       HLTAnalyzer* hltAnalyzer_;
       TClonesArray* rootMCParticles_;

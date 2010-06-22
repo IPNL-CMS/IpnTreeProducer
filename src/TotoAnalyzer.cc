@@ -108,7 +108,9 @@ void TotoAnalyzer::beginJob()
    runInfos_->setXsection(datasetXsection_);
    runInfos_->setDescription(datasetDesciption_);
    
-   rootEvent_ = 0;
+   beamStatus_ = NULL;
+   
+   rootEvent_ = NULL;
    eventTree_ = new TTree("eventTree", "Event Infos");
    eventTree_->Branch ("Event", "TRootEvent", &rootEvent_);
    
@@ -309,6 +311,7 @@ void TotoAnalyzer::endJob()
 void TotoAnalyzer::beginRun(edm::Run const& iRun, edm::EventSetup const& iSetup)
 {
    if(verbosity_>0) std::cout << std::endl << std::endl << "####### TotoAnalyzer - START NEW RUN #######" << std::endl;
+   if (! beamStatus_) beamStatus_ = new TRootBeamStatus();
    
    // get ConditionsInRunBlock
    edm::Handle<edm::ConditionsInRunBlock> condInRunBlock;
@@ -320,9 +323,9 @@ void TotoAnalyzer::beginRun(edm::Run const& iRun, edm::EventSetup const& iSetup)
       return;
    }
    
-   lhcStatus_.beamMode = condInRunBlock->beamMode;
-   lhcStatus_.beamMomentum = condInRunBlock->beamMomentum;
-   lhcStatus_.lhcFillNumber = condInRunBlock->lhcFillNumber;
+   beamStatus_->setBeamMode( condInRunBlock->beamMode );
+   beamStatus_->setBeamMomentum( condInRunBlock->beamMomentum );
+   beamStatus_->setLhcFillNumber_( condInRunBlock->lhcFillNumber );
 }
 
 void TotoAnalyzer::endRun(edm::Run const& iRun, edm::EventSetup const& iSetup)
@@ -333,6 +336,7 @@ void TotoAnalyzer::endRun(edm::Run const& iRun, edm::EventSetup const& iSetup)
 void TotoAnalyzer::beginLuminosityBlock(edm::LuminosityBlock const& iLumi, edm::EventSetup const& iSetup)
 {
    if(verbosity_>0) std::cout << std::endl << std::endl << "####### TotoAnalyzer - START NEW LUMI SECTION #######" << std::endl;
+   if (! beamStatus_) beamStatus_ = new TRootBeamStatus();
    
    // get ConditionsInLumiBlock
    edm::Handle<edm::ConditionsInLumiBlock> condInLumiBlock;
@@ -344,8 +348,8 @@ void TotoAnalyzer::beginLuminosityBlock(edm::LuminosityBlock const& iLumi, edm::
       return;
    }
    
-   lhcStatus_.totalIntensityBeam1 = condInLumiBlock->totalIntensityBeam1;
-   lhcStatus_.totalIntensityBeam2 = condInLumiBlock->totalIntensityBeam2;
+   beamStatus_->setTotalIntensityBeam1( condInLumiBlock->totalIntensityBeam1 );
+   beamStatus_->setTotalIntensityBeam2( condInLumiBlock->totalIntensityBeam2 );
 }
 
 void TotoAnalyzer::endLuminosityBlock(edm::LuminosityBlock const& iLumi, edm::EventSetup const& iSetup)
@@ -386,12 +390,14 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
    rootEvent_->setNb(nTotEvt_);
    rootEvent_->setEventId(iEvent.id().event());
    rootEvent_->setRunId(iEvent.id().run());
-   rootEvent_->setLuminosityBlock(iEvent.luminosityBlock());
-   rootEvent_->setBunchCrossing(iEvent.bunchCrossing());
-   rootEvent_->setOrbitNumber(iEvent.orbitNumber());
-   rootEvent_->setCollisionTime(iEvent.time().value());
+   rootEvent_->setStoreNumber(iEvent.eventAuxiliary().storeNumber());
+   rootEvent_->setLuminosityBlock(iEvent.id().luminosityBlock());
+   rootEvent_->setBunchCrossing(iEvent.eventAuxiliary().bunchCrossing());
+   rootEvent_->setOrbitNumber(iEvent.eventAuxiliary().orbitNumber());
+   rootEvent_->setCollisionTime(iEvent.eventAuxiliary().time().value());
    
    // get ConditionsInEventBlock
+   if (! beamStatus_) beamStatus_ = new TRootBeamStatus();
    edm::Handle<edm::ConditionsInEventBlock> condInEventBlock;
    iEvent.getByLabel("conditionsInEdm", condInEventBlock);
    
@@ -401,9 +407,9 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
       return;
    }
    
-   lhcStatus_.bstMasterStatus = condInEventBlock->bstMasterStatus;
-   lhcStatus_.turnCountNumber = condInEventBlock->turnCountNumber;
-   rootEvent_->setBeamStatus(lhcStatus_);
+   beamStatus_->setBstMasterStatus( condInEventBlock->bstMasterStatus );
+   beamStatus_->setTurnCountNumber( condInEventBlock->turnCountNumber );
+   //rootEvent_->setBeamStatus(beamStatus_);
    
    if( (verbosity_>1) || (verbosity_>0 && nTotEvt_%10==0 && nTotEvt_<=100)  || (verbosity_>0 && nTotEvt_%100==0 && nTotEvt_>100) )
       std::cout << std::endl << std::endl << "####### TotoAnalyzer - " << *rootEvent_  << " #######" << std::endl;
