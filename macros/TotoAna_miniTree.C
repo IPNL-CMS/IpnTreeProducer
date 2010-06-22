@@ -317,7 +317,7 @@ cout << endl;
 	Int_t Photon_seedFlag, Photon_seedSeverity;
  
 	// Declaration of all SuperCluster variables
-	Int_t SuperClu_isAfterCut1, SuperClu_isAfterCut2, SuperClu_isAfterCut3, SuperClu_isAfterCut4;
+	Int_t SuperClu_isAfterCut1, SuperClu_isAfterCut2, SuperClu_isAfterCut3, SuperClu_isAfterCut4, SuperClu_isAfterCut5, SuperClu_isAfterCut6, SuperClu_isAfterCut7;
 	Float_t SuperClu_E, SuperClu_Et, SuperClu_Eta, SuperClu_Phi, SuperClu_RawE, SuperClu_RawEt;
 	Float_t SuperClu_seedTime;
 	Float_t SuperClu_s4, SuperClu_etaWidth, SuperClu_phiWidth;
@@ -328,10 +328,10 @@ cout << endl;
 
 	// Declaration of all event variables
 	Int_t Photon_Multiplicity, SuperClu_Multiplicity;
-	Int_t Photon_Multiplicity_isAfterCut7, SuperClu_Multiplicity_isAfterCut4;
-	Int_t SuperClu_Multiplicity_isAfterCut4_SCRawEtGT2;
-	Int_t Photon_Multiplicity_isAfterCut7_SCRawEtGT4, SuperClu_Multiplicity_isAfterCut4_SCRawEtGT4;
-	Int_t Photon_Multiplicity_isAfterCut7_SCRawEtGT10, SuperClu_Multiplicity_isAfterCut4_SCRawEtGT10;
+	Int_t Photon_Multiplicity_isAfterCut7, SuperClu_Multiplicity_isAfterCut7;
+	Int_t SuperClu_Multiplicity_isAfterCut7_SCRawEtGT2;
+	Int_t Photon_Multiplicity_isAfterCut7_SCRawEtGT4, SuperClu_Multiplicity_isAfterCut7_SCRawEtGT4;
+	Int_t Photon_Multiplicity_isAfterCut7_SCRawEtGT10, SuperClu_Multiplicity_isAfterCut7_SCRawEtGT10;
 	Int_t nPhotonEEP_perEvent, nPhotonEEM_perEvent, nPhotonEE_perEvent, nPhotonEB_perEvent;
 
 	Int_t HLT_Photon10_L1R, HLT_Photon15_L1R, HLT_Photon15_LooseEcalIso_L1R, HLT_Photon20_L1R, HLT_Photon30_L1R_8E29;
@@ -453,6 +453,9 @@ cout << endl;
 	supercluster_miniTree->Branch("SuperClu_isAfterCut2", &SuperClu_isAfterCut2, "SuperClu_isAfterCut2/I");
 	supercluster_miniTree->Branch("SuperClu_isAfterCut3", &SuperClu_isAfterCut3, "SuperClu_isAfterCut3/I");
 	supercluster_miniTree->Branch("SuperClu_isAfterCut4", &SuperClu_isAfterCut4, "SuperClu_isAfterCut4/I");
+	supercluster_miniTree->Branch("SuperClu_isAfterCut5", &SuperClu_isAfterCut5, "SuperClu_isAfterCut5/I");
+	supercluster_miniTree->Branch("SuperClu_isAfterCut6", &SuperClu_isAfterCut6, "SuperClu_isAfterCut6/I");
+	supercluster_miniTree->Branch("SuperClu_isAfterCut7", &SuperClu_isAfterCut7, "SuperClu_isAfterCut7/I");
 
 	// Creation of the event Tree
 	event_miniTree->Branch("NoCuts", &NoCuts, "NoCuts/I");
@@ -463,10 +466,10 @@ cout << endl;
         event_miniTree->Branch("Photon_Multiplicity_isAfterCut7_SCRawEtGT10", &Photon_Multiplicity_isAfterCut7_SCRawEtGT10, "Photon_Multiplicity_isAfterCut7_SCRawEtGT10/I");
 
 	event_miniTree->Branch("SuperClu_Multiplicity", &SuperClu_Multiplicity, "SuperClu_Multiplicity/I");
-	event_miniTree->Branch("SuperClu_Multiplicity_isAfterCut4", &SuperClu_Multiplicity_isAfterCut4, "SuperClu_Multiplicity_isAfterCut4/I");
-	event_miniTree->Branch("SuperClu_Multiplicity_isAfterCut4_SCRawEtGT2", &SuperClu_Multiplicity_isAfterCut4_SCRawEtGT2, "SuperClu_Multiplicity_isAfterCut4_SCRawEtGT2/I");
-	event_miniTree->Branch("SuperClu_Multiplicity_isAfterCut4_SCRawEtGT4", &SuperClu_Multiplicity_isAfterCut4_SCRawEtGT4, "SuperClu_Multiplicity_isAfterCut4_SCRawEtGT4/I");
-	event_miniTree->Branch("SuperClu_Multiplicity_isAfterCut4_SCRawEtGT10", &SuperClu_Multiplicity_isAfterCut4_SCRawEtGT10, "SuperClu_Multiplicity_isAfterCut4_SCRawEtGT10/I");
+	event_miniTree->Branch("SuperClu_Multiplicity_isAfterCut7", &SuperClu_Multiplicity_isAfterCut7, "SuperClu_Multiplicity_isAfterCut7/I");
+	event_miniTree->Branch("SuperClu_Multiplicity_isAfterCut7_SCRawEtGT2", &SuperClu_Multiplicity_isAfterCut7_SCRawEtGT2, "SuperClu_Multiplicity_isAfterCut7_SCRawEtGT2/I");
+	event_miniTree->Branch("SuperClu_Multiplicity_isAfterCut7_SCRawEtGT4", &SuperClu_Multiplicity_isAfterCut7_SCRawEtGT4, "SuperClu_Multiplicity_isAfterCut7_SCRawEtGT4/I");
+	event_miniTree->Branch("SuperClu_Multiplicity_isAfterCut7_SCRawEtGT10", &SuperClu_Multiplicity_isAfterCut7_SCRawEtGT10, "SuperClu_Multiplicity_isAfterCut7_SCRawEtGT10/I");
 
 	event_miniTree->Branch("nPhotonEEM_perEvent", &nPhotonEEM_perEvent, "nPhotonEEM_perEvent/I");
 	event_miniTree->Branch("nPhotonEEP_perEvent", &nPhotonEEP_perEvent, "nPhotonEEP_perEvent/I");
@@ -524,6 +527,9 @@ cout << endl;
 	unsigned int nSCAfterCut2 = 0;
 	unsigned int nSCAfterCut3 = 0;
 	unsigned int nSCAfterCut4 = 0;
+	unsigned int nSCAfterCut5 = 0;
+	unsigned int nSCAfterCut6 = 0;
+	unsigned int nSCAfterCut7 = 0;
 
 	cout<<"Nb of events : "<<nTotEvents<<endl;
 
@@ -536,6 +542,9 @@ cout << endl;
 		SuperClu_isAfterCut2 = 0;
 		SuperClu_isAfterCut3 = 0;
 		SuperClu_isAfterCut4 = 0;
+		SuperClu_isAfterCut5 = 0;
+		SuperClu_isAfterCut6 = 0;
+		SuperClu_isAfterCut7 = 0;
 
 		Photon_iEvent = ievt;
 		inputEventTree->GetEvent(ievt);
@@ -543,10 +552,10 @@ cout << endl;
 		Photon_Multiplicity_isAfterCut7 = 0;
 		Photon_Multiplicity_isAfterCut7_SCRawEtGT4 = 0;
 		Photon_Multiplicity_isAfterCut7_SCRawEtGT10 = 0;
-		SuperClu_Multiplicity_isAfterCut4 = 0;
-		SuperClu_Multiplicity_isAfterCut4_SCRawEtGT2 = 0;
-		SuperClu_Multiplicity_isAfterCut4_SCRawEtGT4 = 0;
-		SuperClu_Multiplicity_isAfterCut4_SCRawEtGT10 = 0;
+		SuperClu_Multiplicity_isAfterCut7 = 0;
+		SuperClu_Multiplicity_isAfterCut7_SCRawEtGT2 = 0;
+		SuperClu_Multiplicity_isAfterCut7_SCRawEtGT4 = 0;
+		SuperClu_Multiplicity_isAfterCut7_SCRawEtGT10 = 0;
 	
 		nPhotonEEP_perEvent = 0 ;
 		nPhotonEEM_perEvent = 0 ;
@@ -661,6 +670,9 @@ cout << endl;
 			SuperClu_isAfterCut2 = 0;
 			SuperClu_isAfterCut3 = 0;
 			SuperClu_isAfterCut4 = 0;
+			SuperClu_isAfterCut5 = 0;
+			SuperClu_isAfterCut6 = 0;
+			SuperClu_isAfterCut7 = 0;
 			mysc = (TRootSuperCluster*) superClusters->At(isc);
 			if ( ! ( mysc->type()==211 || mysc->type()==322 ) ){continue;} // All the SC are kept in the same branch, i.e. SC belonging to the different reco collections [...] So to avoid double counting, you have to use only SC with type 211 or 322
 			SuperClu_Multiplicity +=1;
@@ -716,16 +728,38 @@ cout << endl;
 			SuperClu_isAfterCut3 = 1;
 			nSCAfterCut3++;
 
-			if( ((1-((double)(mysc->s4())/(double)(mysc->eMax())))>0.95 && (mysc->isEB())) || (mysc->seedRecoFlag()==2)){// Post-spike cleaning
+			if( ((1-((double)(mysc->s4())/(double)(mysc->eMax())))>0.95 && (mysc->isEB())) ){// Post-spike cleaning: Swiss Cross
 				supercluster_miniTree->Fill();
 				continue;
 			}
 			SuperClu_isAfterCut4 = 1;
 			nSCAfterCut4++;
 
-			SuperClu_Multiplicity_isAfterCut4 +=1;
+			if( mysc->seedRecoFlag()==2 ){// Post-spike cleaning: kOutOfTime
+				supercluster_miniTree->Fill();
+				continue;
+			}
+			SuperClu_isAfterCut5 = 1;
+      nSCAfterCut5++;
+
+			if( mysc->seedSeverity()==3 ){// Post-spike cleaning: kWeird
+        supercluster_miniTree->Fill();
+        continue;
+      }
+			SuperClu_isAfterCut6 = 1;
+      nSCAfterCut6++;
+
+			if( mysc->seedSeverity()==4 ){// Post-spike cleaning: kBad
+        supercluster_miniTree->Fill();
+        continue;
+      }
+			SuperClu_isAfterCut7 = 1;
+      nSCAfterCut7++;
+
+
+			SuperClu_Multiplicity_isAfterCut7 +=1;
 	
-			if(SuperClu_RawEt > 2){SuperClu_Multiplicity_isAfterCut4_SCRawEtGT2 += 1 ; if (SuperClu_RawEt > 4){SuperClu_Multiplicity_isAfterCut4_SCRawEtGT4 += 1 ; if(SuperClu_RawEt > 10){SuperClu_Multiplicity_isAfterCut4_SCRawEtGT10 += 1;} }}
+			if(SuperClu_RawEt > 2){SuperClu_Multiplicity_isAfterCut7_SCRawEtGT2 += 1 ; if (SuperClu_RawEt > 4){SuperClu_Multiplicity_isAfterCut7_SCRawEtGT4 += 1 ; if(SuperClu_RawEt > 10){SuperClu_Multiplicity_isAfterCut7_SCRawEtGT10 += 1;} }}
 
 			nSelectedSC++;
 			supercluster_miniTree->Fill();
@@ -1015,7 +1049,7 @@ cout << endl;
 
 	cout << "nCut1=" << nCut1 << "	nCut2=" << nCut2 << "	nCut3=" << nCut3 << "	nCut4=" << nCut4 << "	nCut5=" << nCut5 << "	nCut6=" << nCut6 << "	 nCut7=" << nCut7 << endl;
 
-	if(nTotSC>0) cout << "nTotSC=" << nTotSC << "  nSelectedSC=" << nSelectedSC << "  nSCAfterCut1=" << nSCAfterCut1 << "  nSCAfterCut2=" << nSCAfterCut2 << "  nSCAfterCut3=" << nSCAfterCut3 << "  nSCAfterCut4=" << nSCAfterCut4 << endl;
+	if(nTotSC>0) cout << "nTotSC=" << nTotSC << "  nSelectedSC=" << nSelectedSC << "  nSCAfterCut1=" << nSCAfterCut1 << "  nSCAfterCut2=" << nSCAfterCut2 << "  nSCAfterCut3=" << nSCAfterCut3 << "  nSCAfterCut4=" << nSCAfterCut4 << "  nSCAfterCut5=" << nSCAfterCut5 << "  nSCAfterCut6=" << nSCAfterCut6 << "  nSCAfterCut7=" << nSCAfterCut7 << endl;
 	
 	OutputRootFile->cd();
 	OutputRootFile->Write();
