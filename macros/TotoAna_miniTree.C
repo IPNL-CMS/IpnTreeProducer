@@ -713,7 +713,7 @@ cout << endl;
 			SuperClu_brem = (double)(SuperClu_phiWidth)/(double)(SuperClu_etaWidth);
 			SuperClu_Eseed_o_Esc = (double)(mysc->seedEnergy())/(double)(SuperClu_E);
 			SuperClu_E2x2_o_E5x5 = (double)(mysc->e2x2())/(double)(mysc->e5x5());
-			SuperClu_S2_o_Esc = -99;
+			SuperClu_S2_o_Esc = ((double)(mysc->e2nd()))/((double)(SuperClu_E));
 
 			// Cuts on superclusters.
 			if( SuperClu_RawEt < 2.0 ){// Cut on supercluster rawEt
@@ -917,7 +917,7 @@ cout << endl;
 					Photon_nXtals = myphoton->superCluster()->nXtals();
 					Photon_Eseed_o_Esc = ((double)(myphoton->superCluster()->seedEnergy()))/((double)(Photon_SCEnergy));
 					Photon_E2x2_o_E5x5 = ((double)(Photon_E2x2))/((double)(Photon_E5x5));
-					Photon_S2_o_Esc = -99;
+					Photon_S2_o_Esc = ((double)(Photon_E2nd))/((double)(Photon_SCEnergy));
 					Photon_brem = ((double)(Photon_phiWidth))/((double)(Photon_etaWidth));
 					Photon_s4 = myphoton->superCluster()->s4();
 					Photon_seedTime = myphoton->superCluster()->seedTime();
