@@ -40,10 +40,10 @@
 <use name=Geometry/CommonDetUnit>
 <use name=Geometry/CaloTopology>
 <use name=RecoCaloTools/MetaCollections>
-<use name=clhep>
 <use name=root>
 <flags LDFLAGS="-lTMVA">
 <flags EDM_PLUGIN=1>
+<Flags CXXFLAGS="-O1 -g">
 <export>
 	<use name=AnalysisTotoAnalyzer>
 	<use name=FWCore/Framework>
