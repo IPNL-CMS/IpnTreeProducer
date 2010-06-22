@@ -102,6 +102,7 @@ class TotoAnalyzer : public edm::EDAnalyzer
       std::string dataType_ ;
       double datasetXsection_;
       std::string datasetDesciption_;
+      bool doLHCInfo_;
       bool doL1_;
       bool doHLT_;
       bool doMC_;

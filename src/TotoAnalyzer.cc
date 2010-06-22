@@ -59,7 +59,10 @@ TotoAnalyzer::~TotoAnalyzer()
 }
 
 
-// ------------ method called once each job just before starting event loop  ------------
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//   Method called at the start of TotoAna Job
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void TotoAnalyzer::beginJob()
 {
    
@@ -69,6 +72,7 @@ void TotoAnalyzer::beginJob()
    rootFileName_ = myConfig_.getUntrackedParameter<string>("RootFileName","noname.root");
    datasetXsection_ = myConfig_.getUntrackedParameter<double>("xsection");
    datasetDesciption_ = myConfig_.getUntrackedParameter<string>("description","Pas de description");
+   doLHCInfo_ = myConfig_.getUntrackedParameter<bool>("doLHCInfo",false);
    doL1_ = myConfig_.getUntrackedParameter<bool>("doL1",false);
    doHLT_ = myConfig_.getUntrackedParameter<bool>("doHLT",false);
    doMC_ = myConfig_.getUntrackedParameter<bool>("doMC",false);
@@ -272,7 +276,10 @@ void TotoAnalyzer::beginJob()
 }
 
 
-// ------------ method called once each job just after ending the event loop  ------------
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//   Method called at the end of TotoAna Job
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void TotoAnalyzer::endJob()
 {
    // Trigger Summary Tables
@@ -308,68 +315,108 @@ void TotoAnalyzer::endJob()
    if(doHLT_) delete hltAnalyzer_;
 }
 
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//   Method called at the beginning of a new run
+//   FIXME - RECO files not read by sequential order - Smart enough to identify a run already read ?
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void TotoAnalyzer::beginRun(edm::Run const& iRun, edm::EventSetup const& iSetup)
 {
    if(verbosity_>0) std::cout << std::endl << std::endl << "####### TotoAnalyzer - START NEW RUN #######" << std::endl;
-   if (! beamStatus_) beamStatus_ = new TRootBeamStatus();
-   
-   // get ConditionsInRunBlock
-   edm::Handle<edm::ConditionsInRunBlock> condInRunBlock;
-   iRun.getByLabel("conditionsInEdm", condInRunBlock);
-   
-   if (!condInRunBlock.isValid())
+   if(doLHCInfo_)
    {
-      std::cout << "\n***** ConditionsInRunBlock NOT FOUND *****\n";
-      return;
+      if (! beamStatus_) beamStatus_ = new TRootBeamStatus();
+      
+      // get ConditionsInRunBlock
+      edm::Handle<edm::ConditionsInRunBlock> condInRunBlock;
+      iRun.getByLabel("conditionsInEdm", condInRunBlock);
+      
+      if (!condInRunBlock.isValid())
+      {
+         std::cout << "\n***** ConditionsInRunBlock NOT FOUND *****\n";
+         return;
+      }
+      
+      beamStatus_->setBeamMode( condInRunBlock->beamMode );
+      beamStatus_->setBeamMomentum( condInRunBlock->beamMomentum );
+      beamStatus_->setLhcFillNumber_( condInRunBlock->lhcFillNumber );
    }
-   
-   beamStatus_->setBeamMode( condInRunBlock->beamMode );
-   beamStatus_->setBeamMomentum( condInRunBlock->beamMomentum );
-   beamStatus_->setLhcFillNumber_( condInRunBlock->lhcFillNumber );
 }
 
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//   Method called at the end of run
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void TotoAnalyzer::endRun(edm::Run const& iRun, edm::EventSetup const& iSetup)
 {
    if(verbosity_>0) std::cout << std::endl << std::endl << "####### TotoAnalyzer - END OF RUN #######" << std::endl;
 }
 
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//   Method called at the beginning of each luminosity block
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void TotoAnalyzer::beginLuminosityBlock(edm::LuminosityBlock const& iLumi, edm::EventSetup const& iSetup)
 {
    if(verbosity_>0) std::cout << std::endl << std::endl << "####### TotoAnalyzer - START NEW LUMI SECTION #######" << std::endl;
-   if (! beamStatus_) beamStatus_ = new TRootBeamStatus();
-   
-   // get ConditionsInLumiBlock
-   edm::Handle<edm::ConditionsInLumiBlock> condInLumiBlock;
-   iLumi.getByLabel("conditionsInEdm", condInLumiBlock);
-   
-   if (!condInLumiBlock.isValid())
+   if(doLHCInfo_)
    {
-      std::cout << "\n***** ConditionsInRunBlock NOT FOUND *****\n";
-      return;
+      if (! beamStatus_) beamStatus_ = new TRootBeamStatus();
+      
+      // get ConditionsInLumiBlock
+      edm::Handle<edm::ConditionsInLumiBlock> condInLumiBlock;
+      iLumi.getByLabel("conditionsInEdm", condInLumiBlock);
+      
+      if (!condInLumiBlock.isValid())
+      {
+         std::cout << "\n***** ConditionsInRunBlock NOT FOUND *****\n";
+         return;
+      }
+      
+      beamStatus_->setTotalIntensityBeam1( condInLumiBlock->totalIntensityBeam1 );
+      beamStatus_->setTotalIntensityBeam2( condInLumiBlock->totalIntensityBeam2 );
    }
-   
-   beamStatus_->setTotalIntensityBeam1( condInLumiBlock->totalIntensityBeam1 );
-   beamStatus_->setTotalIntensityBeam2( condInLumiBlock->totalIntensityBeam2 );
 }
 
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//   Method called at the end of each luminosity block
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void TotoAnalyzer::endLuminosityBlock(edm::LuminosityBlock const& iLumi, edm::EventSetup const& iSetup)
 {
    if(verbosity_>0) std::cout << std::endl << std::endl << "####### TotoAnalyzer - END OF LUMI SECTION #######" << std::endl;
 }
 
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//   Method called at the opening of a new input of file
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void TotoAnalyzer::respondToOpenInputFile(edm::FileBlock const& fileBlock)
 {
    if(verbosity_>0) std::cout << std::endl << std::endl << "####### TotoAnalyzer is opening new file: " << fileBlock.fileName() << std::endl << std::endl;
    
 }
 
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//   Method called at the closing of the input of file
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void TotoAnalyzer::respondToCloseInputFile(edm::FileBlock const& fileBlock)
 {
    if(verbosity_>0) std::cout << std::endl << std::endl << "####### TotoAnalyzer is closing file: " << fileBlock.fileName() << std::endl;
 }
 
 
-// ------------ method called to for each event  ------------
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//   Method called at the reading of each edm::Event
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
    time_t startProcessingTime = time(0);
@@ -396,21 +443,24 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
    rootEvent_->setOrbitNumber(iEvent.eventAuxiliary().orbitNumber());
    rootEvent_->setCollisionTime(iEvent.eventAuxiliary().time().value());
    
-   // get ConditionsInEventBlock
-   if (! beamStatus_) beamStatus_ = new TRootBeamStatus();
-   edm::Handle<edm::ConditionsInEventBlock> condInEventBlock;
-   iEvent.getByLabel("conditionsInEdm", condInEventBlock);
-   
-   if (!condInEventBlock.isValid())
+   // LHC Beam Status
+   if(doLHCInfo_)
    {
-      std::cout << "\n***** ConditionsInRunBlock NOT FOUND *****\n";
-      return;
+      if (! beamStatus_) beamStatus_ = new TRootBeamStatus();
+      edm::Handle<edm::ConditionsInEventBlock> condInEventBlock;
+      iEvent.getByLabel("conditionsInEdm", condInEventBlock);
+      
+      if (!condInEventBlock.isValid())
+      {
+         std::cout << "\n***** ConditionsInRunBlock NOT FOUND *****\n";
+         return;
+      }
+      
+      beamStatus_->setBstMasterStatus( condInEventBlock->bstMasterStatus );
+      beamStatus_->setTurnCountNumber( condInEventBlock->turnCountNumber );
+      //rootEvent_->setBeamStatus(beamStatus_);
    }
-   
-   beamStatus_->setBstMasterStatus( condInEventBlock->bstMasterStatus );
-   beamStatus_->setTurnCountNumber( condInEventBlock->turnCountNumber );
-   //rootEvent_->setBeamStatus(beamStatus_);
-   
+      
    if( (verbosity_>1) || (verbosity_>0 && nTotEvt_%10==0 && nTotEvt_<=100)  || (verbosity_>0 && nTotEvt_%100==0 && nTotEvt_>100) )
       std::cout << std::endl << std::endl << "####### TotoAnalyzer - " << *rootEvent_  << " #######" << std::endl;
    
@@ -747,4 +797,3 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
    if(verbosity_>1) std::cout << std::endl << "Objects deleted" << std::endl;
    if(verbosity_>0) std::cout << std::endl;
 }
-
