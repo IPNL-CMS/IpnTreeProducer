@@ -308,23 +308,23 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
       
       // Photon isolation calculated by PhotonID
       // now embeded in reco::Photon
-      TRootPhoton::Isolation dR03Isolation;
-      dR03Isolation.ecalRecHit = photon->ecalRecHitSumEtConeDR03();
-      dR03Isolation.hcalRecHit = photon->hcalTowerSumEtConeDR03();
-      dR03Isolation.solidTrkCone = photon->trkSumPtSolidConeDR03();
-      dR03Isolation.hollowTrkCone = photon->trkSumPtHollowConeDR03();
-      dR03Isolation.nTracksSolidCone = photon->nTrkSolidConeDR03();
-      dR03Isolation.nTracksHollowCone = photon->nTrkHollowConeDR03();
-      localPhoton.setDR03Isolation( dR03Isolation );
+      localPhoton.setDR03Isolation(
+      photon->ecalRecHitSumEtConeDR03()
+      ,photon->hcalTowerSumEtConeDR03()
+      ,photon->trkSumPtSolidConeDR03()
+      ,photon->trkSumPtHollowConeDR03()
+      ,photon->nTrkSolidConeDR03()
+      ,photon->nTrkHollowConeDR03()
+      );
       
-      TRootPhoton::Isolation dR04Isolation;
-      dR04Isolation.ecalRecHit = photon->ecalRecHitSumEtConeDR04();
-      dR04Isolation.hcalRecHit = photon->hcalTowerSumEtConeDR04();
-      dR04Isolation.solidTrkCone = photon->trkSumPtSolidConeDR04();
-      dR04Isolation.hollowTrkCone = photon->trkSumPtHollowConeDR04();
-      dR04Isolation.nTracksSolidCone = photon->nTrkSolidConeDR04();
-      dR04Isolation.nTracksHollowCone = photon->nTrkHollowConeDR04();
-      localPhoton.setDR04Isolation( dR04Isolation );
+      localPhoton.setDR04Isolation(
+      photon->ecalRecHitSumEtConeDR04()
+      ,photon->hcalTowerSumEtConeDR04()
+      ,photon->trkSumPtSolidConeDR04()
+      ,photon->trkSumPtHollowConeDR04()
+      ,photon->nTrkSolidConeDR04()
+      ,photon->nTrkHollowConeDR04()
+      );
       
       
       if( dataType_=="RECO" )

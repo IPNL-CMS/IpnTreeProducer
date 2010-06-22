@@ -16,22 +16,6 @@ class TRootPhoton : public TRootParticle
    
    public:
       
-      struct Isolation
-      {
-         // Photon isolation calculated by PhotonID
-         // need PhotonID ValueMap
-         // Isolation parameters defined in  RecoEgamma/PhotonIdentification/python/photonId_cfi.py
-         Float_t ecalRecHit;      // Jurassic isolation (Sum of ecal rechits in DRmin < DR < DRmax around the photon, excluding an eta slice)
-         Float_t hcalRecHit;      // Sum of HCAL rechits in DRmin < DR < DRmax around the photon
-         Float_t solidTrkCone;    // Pt sum of tracks in a cone around the photon
-         Float_t hollowTrkCone;   // Pt sum of tracks in DRmin < DR < DRmax around the photon
-         Int_t nTracksSolidCone;  // Tracks multiplicity in a cone around the photon
-         Int_t nTracksHollowCone; // Tracks multiplicity in DRmin < DR < DRmax around the photon
-         
-         Isolation() : ecalRecHit(-1.), hcalRecHit(-1.), solidTrkCone(-1.), hollowTrkCone(-1.), nTracksSolidCone(-1), nTracksHollowCone(-1) {}
-      } ;
-      
-      
       TRootPhoton() :
       TRootParticle()
       ,caloPosition_(-9999.,-9999.,-9999.)
@@ -69,8 +53,18 @@ class TRootPhoton : public TRootParticle
       ,isolationPersoHcalRecHit_(-1.)
       ,isolationPersoTracksSolidCone_(-1.)
       ,isolationPersoNTracksSolidCone_(-1)
-      ,dR03Isolation_()
-      ,dR04Isolation_()
+      ,dR03IsolationEcalRecHit_(-1.)
+      ,dR03IsolationHcalRecHit_(-1.)
+      ,dR03IsolationSolidTrkCone_(-1.)
+      ,dR03IsolationHollowTrkCone_(-1.)
+      ,dR03IsolationNTracksSolidCone_(-1)
+      ,dR03IsolationNTracksHollowCone_(-1)
+      ,dR04IsolationEcalRecHit_(-1.)
+      ,dR04IsolationHcalRecHit_(-1.)
+      ,dR04IsolationSolidTrkCone_(-1.)
+      ,dR04IsolationHollowTrkCone_(-1.)
+      ,dR04IsolationNTracksSolidCone_(-1)
+      ,dR04IsolationNTracksHollowCone_(-1)
       ,isLooseEMPhoton_(false)
       ,isLoosePhoton_(false)
       ,isTightPhoton_(false)
@@ -120,8 +114,18 @@ class TRootPhoton : public TRootParticle
       ,isolationPersoHcalRecHit_(photon.isolationPersoHcalRecHit_)
       ,isolationPersoTracksSolidCone_(photon.isolationPersoTracksSolidCone_)
       ,isolationPersoNTracksSolidCone_(photon.isolationPersoNTracksSolidCone_)
-      ,dR03Isolation_(photon.dR03Isolation_)
-      ,dR04Isolation_(photon.dR04Isolation_)
+      ,dR03IsolationEcalRecHit_(photon.dR03IsolationEcalRecHit_)
+      ,dR03IsolationHcalRecHit_(photon.dR03IsolationHcalRecHit_)
+      ,dR03IsolationSolidTrkCone_(photon.dR03IsolationSolidTrkCone_)
+      ,dR03IsolationHollowTrkCone_(photon.dR03IsolationHollowTrkCone_)
+      ,dR03IsolationNTracksSolidCone_(photon.dR03IsolationNTracksSolidCone_)
+      ,dR03IsolationNTracksHollowCone_(photon.dR03IsolationNTracksHollowCone_)
+      ,dR04IsolationEcalRecHit_(photon.dR04IsolationEcalRecHit_)
+      ,dR04IsolationHcalRecHit_(photon.dR04IsolationHcalRecHit_)
+      ,dR04IsolationSolidTrkCone_(photon.dR04IsolationSolidTrkCone_)
+      ,dR04IsolationHollowTrkCone_(photon.dR04IsolationHollowTrkCone_)
+      ,dR04IsolationNTracksSolidCone_(photon.dR04IsolationNTracksSolidCone_)
+      ,dR04IsolationNTracksHollowCone_(photon.dR04IsolationNTracksHollowCone_)
       ,isLooseEMPhoton_(photon.isLooseEMPhoton_)
       ,isLoosePhoton_(photon.isLoosePhoton_)
       ,isTightPhoton_(photon.isTightPhoton_)
@@ -171,8 +175,18 @@ class TRootPhoton : public TRootParticle
       ,isolationPersoHcalRecHit_(-1.)
       ,isolationPersoTracksSolidCone_(-1.)
       ,isolationPersoNTracksSolidCone_(-1)
-      ,dR03Isolation_()
-      ,dR04Isolation_()
+      ,dR03IsolationEcalRecHit_(-1.)
+      ,dR03IsolationHcalRecHit_(-1.)
+      ,dR03IsolationSolidTrkCone_(-1.)
+      ,dR03IsolationHollowTrkCone_(-1.)
+      ,dR03IsolationNTracksSolidCone_(-1)
+      ,dR03IsolationNTracksHollowCone_(-1)
+      ,dR04IsolationEcalRecHit_(-1.)
+      ,dR04IsolationHcalRecHit_(-1.)
+      ,dR04IsolationSolidTrkCone_(-1.)
+      ,dR04IsolationHollowTrkCone_(-1.)
+      ,dR04IsolationNTracksSolidCone_(-1)
+      ,dR04IsolationNTracksHollowCone_(-1)
       ,isLooseEMPhoton_(false)
       ,isLoosePhoton_(false)
       ,isTightPhoton_(false)
@@ -222,8 +236,18 @@ class TRootPhoton : public TRootParticle
       ,isolationPersoHcalRecHit_(-1.)
       ,isolationPersoTracksSolidCone_(-1.)
       ,isolationPersoNTracksSolidCone_(-1)
-      ,dR03Isolation_()
-      ,dR04Isolation_()
+      ,dR03IsolationEcalRecHit_(-1.)
+      ,dR03IsolationHcalRecHit_(-1.)
+      ,dR03IsolationSolidTrkCone_(-1.)
+      ,dR03IsolationHollowTrkCone_(-1.)
+      ,dR03IsolationNTracksSolidCone_(-1)
+      ,dR03IsolationNTracksHollowCone_(-1)
+      ,dR04IsolationEcalRecHit_(-1.)
+      ,dR04IsolationHcalRecHit_(-1.)
+      ,dR04IsolationSolidTrkCone_(-1.)
+      ,dR04IsolationHollowTrkCone_(-1.)
+      ,dR04IsolationNTracksSolidCone_(-1)
+      ,dR04IsolationNTracksHollowCone_(-1)
       ,isLooseEMPhoton_(false)
       ,isLoosePhoton_(false)
       ,isTightPhoton_(false)
@@ -273,8 +297,18 @@ class TRootPhoton : public TRootParticle
       ,isolationPersoHcalRecHit_(-1.)
       ,isolationPersoTracksSolidCone_(-1.)
       ,isolationPersoNTracksSolidCone_(-1)
-      ,dR03Isolation_()
-      ,dR04Isolation_()
+      ,dR03IsolationEcalRecHit_(-1.)
+      ,dR03IsolationHcalRecHit_(-1.)
+      ,dR03IsolationSolidTrkCone_(-1.)
+      ,dR03IsolationHollowTrkCone_(-1.)
+      ,dR03IsolationNTracksSolidCone_(-1)
+      ,dR03IsolationNTracksHollowCone_(-1)
+      ,dR04IsolationEcalRecHit_(-1.)
+      ,dR04IsolationHcalRecHit_(-1.)
+      ,dR04IsolationSolidTrkCone_(-1.)
+      ,dR04IsolationHollowTrkCone_(-1.)
+      ,dR04IsolationNTracksSolidCone_(-1)
+      ,dR04IsolationNTracksHollowCone_(-1)
       ,isLooseEMPhoton_(false)
       ,isLoosePhoton_(false)
       ,isTightPhoton_(false)
@@ -324,8 +358,18 @@ class TRootPhoton : public TRootParticle
       ,isolationPersoHcalRecHit_(-1.)
       ,isolationPersoTracksSolidCone_(-1.)
       ,isolationPersoNTracksSolidCone_(-1)
-      ,dR03Isolation_()
-      ,dR04Isolation_()
+      ,dR03IsolationEcalRecHit_(-1.)
+      ,dR03IsolationHcalRecHit_(-1.)
+      ,dR03IsolationSolidTrkCone_(-1.)
+      ,dR03IsolationHollowTrkCone_(-1.)
+      ,dR03IsolationNTracksSolidCone_(-1)
+      ,dR03IsolationNTracksHollowCone_(-1)
+      ,dR04IsolationEcalRecHit_(-1.)
+      ,dR04IsolationHcalRecHit_(-1.)
+      ,dR04IsolationSolidTrkCone_(-1.)
+      ,dR04IsolationHollowTrkCone_(-1.)
+      ,dR04IsolationNTracksSolidCone_(-1)
+      ,dR04IsolationNTracksHollowCone_(-1)
       ,isLooseEMPhoton_(false)
       ,isLoosePhoton_(false)
       ,isTightPhoton_(false)
@@ -375,8 +419,18 @@ class TRootPhoton : public TRootParticle
       ,isolationPersoHcalRecHit_(-1.)
       ,isolationPersoTracksSolidCone_(-1.)
       ,isolationPersoNTracksSolidCone_(-1)
-      ,dR03Isolation_()
-      ,dR04Isolation_()
+      ,dR03IsolationEcalRecHit_(-1.)
+      ,dR03IsolationHcalRecHit_(-1.)
+      ,dR03IsolationSolidTrkCone_(-1.)
+      ,dR03IsolationHollowTrkCone_(-1.)
+      ,dR03IsolationNTracksSolidCone_(-1)
+      ,dR03IsolationNTracksHollowCone_(-1)
+      ,dR04IsolationEcalRecHit_(-1.)
+      ,dR04IsolationHcalRecHit_(-1.)
+      ,dR04IsolationSolidTrkCone_(-1.)
+      ,dR04IsolationHollowTrkCone_(-1.)
+      ,dR04IsolationNTracksSolidCone_(-1)
+      ,dR04IsolationNTracksHollowCone_(-1)
       ,isLooseEMPhoton_(false)
       ,isLoosePhoton_(false)
       ,isTightPhoton_(false)
@@ -512,21 +566,19 @@ class TRootPhoton : public TRootParticle
       Int_t isolationPersoNTracksSolidCone() const { return isolationPersoNTracksSolidCone_; }
       
       // Get photon isolation calculated by PhotonID
-      Float_t dR03IsolationEcalRecHit() const { return dR03Isolation_.ecalRecHit; }
-      Float_t dR03IsolationHcalRecHit() const { return dR03Isolation_.hcalRecHit; }
-      Float_t dR03IsolationSolidTrkCone() const { return dR03Isolation_.solidTrkCone; }
-      Float_t dR03IsolationHollowTrkCone() const { return dR03Isolation_.hollowTrkCone; }
-      Int_t dR03IsolationNTracksSolidCone() const { return dR03Isolation_.nTracksSolidCone; }
-      Int_t dR03IsolationNTracksHollowCone() const { return dR03Isolation_.nTracksHollowCone; }
-      const Isolation & dR03Isolation() const { return dR03Isolation_ ; }
+      Float_t dR03IsolationEcalRecHit() const { return dR03IsolationEcalRecHit_; }
+      Float_t dR03IsolationHcalRecHit() const { return dR03IsolationHcalRecHit_; }
+      Float_t dR03IsolationSolidTrkCone() const { return dR03IsolationSolidTrkCone_; }
+      Float_t dR03IsolationHollowTrkCone() const { return dR03IsolationHollowTrkCone_; }
+      Int_t dR03IsolationNTracksSolidCone() const { return dR03IsolationNTracksSolidCone_; }
+      Int_t dR03IsolationNTracksHollowCone() const { return dR03IsolationNTracksHollowCone_; }
       
-      Float_t dR04IsolationEcalRecHit() const { return dR04Isolation_.ecalRecHit; }
-      Float_t dR04IsolationHcalRecHit() const { return dR04Isolation_.hcalRecHit; }
-      Float_t dR04IsolationSolidTrkCone() const { return dR04Isolation_.solidTrkCone; }
-      Float_t dR04IsolationHollowTrkCone() const { return dR04Isolation_.hollowTrkCone; }
-      Int_t dR04IsolationNTracksSolidCone() const { return dR04Isolation_.nTracksSolidCone; }
-      Int_t dR04IsolationNTracksHollowCone() const { return dR04Isolation_.nTracksHollowCone; }
-      const Isolation & dR04Isolation() const { return dR04Isolation_ ; }
+      Float_t dR04IsolationEcalRecHit() const { return dR04IsolationEcalRecHit_; }
+      Float_t dR04IsolationHcalRecHit() const { return dR04IsolationHcalRecHit_; }
+      Float_t dR04IsolationSolidTrkCone() const { return dR04IsolationSolidTrkCone_; }
+      Float_t dR04IsolationHollowTrkCone() const { return dR04IsolationHollowTrkCone_; }
+      Int_t dR04IsolationNTracksSolidCone() const { return dR04IsolationNTracksSolidCone_; }
+      Int_t dR04IsolationNTracksHollowCone() const { return dR04IsolationNTracksHollowCone_; }
       
       // Get photon ID
       Bool_t isLooseEMPhoton() const { return isLooseEMPhoton_; }
@@ -606,8 +658,37 @@ class TRootPhoton : public TRootParticle
       }
       
       // Set photon isolation calculated by PhotonID
-      void setDR03Isolation( const Isolation & dR03Isolation ) { dR03Isolation_ = dR03Isolation ; }
-      void setDR04Isolation( const Isolation & dR04Isolation ) { dR04Isolation_ = dR04Isolation ; }
+      void setDR03IsolationEcalRecHit(Float_t dR03IsolationEcalRecHit) { dR03IsolationEcalRecHit_ = dR03IsolationEcalRecHit; }
+      void setDR03IsolationHcalRecHit(Float_t dR03IsolationHcalRecHit) { dR03IsolationHcalRecHit_ = dR03IsolationHcalRecHit; }
+      void setDR03IsolationSolidTrkCone(Float_t dR03IsolationSolidTrkCone) { dR03IsolationSolidTrkCone_ = dR03IsolationSolidTrkCone; }
+      void setDR03IsolationHollowTrkCone(Float_t dR03IsolationHollowTrkCone) { dR03IsolationHollowTrkCone_ = dR03IsolationHollowTrkCone; }
+      void setDR03IsolationNTracksSolidCone(Int_t dR03IsolationNTracksSolidCone) { dR03IsolationNTracksSolidCone_ = dR03IsolationNTracksSolidCone; }
+      void setDR03IsolationNTracksHollowCone(Int_t dR03IsolationNTracksHollowCone) { dR03IsolationNTracksHollowCone_ = dR03IsolationNTracksHollowCone; }
+      void setDR03Isolation(Float_t dR03IsolationEcalRecHit, Float_t dR03IsolationHcalRecHit, Float_t dR03IsolationSolidTrkCone, Float_t dR03IsolationHollowTrkCone, Int_t dR03IsolationNTracksSolidCone, Int_t dR03IsolationNTracksHollowCone)
+      {
+         dR03IsolationEcalRecHit_ = dR03IsolationEcalRecHit;
+         dR03IsolationHcalRecHit_ = dR03IsolationHcalRecHit;
+         dR03IsolationSolidTrkCone_ = dR03IsolationSolidTrkCone;
+         dR03IsolationHollowTrkCone_ = dR03IsolationHollowTrkCone;
+         dR03IsolationNTracksSolidCone_ = dR03IsolationNTracksSolidCone;
+         dR03IsolationNTracksHollowCone_ = dR03IsolationNTracksHollowCone;
+      }
+      
+      void setDR04IsolationEcalRecHit(Float_t dR04IsolationEcalRecHit) { dR04IsolationEcalRecHit_ = dR04IsolationEcalRecHit; }
+      void setDR04IsolationHcalRecHit(Float_t dR04IsolationHcalRecHit) { dR04IsolationHcalRecHit_ = dR04IsolationHcalRecHit; }
+      void setDR04IsolationSolidTrkCone(Float_t dR04IsolationSolidTrkCone) { dR04IsolationSolidTrkCone_ = dR04IsolationSolidTrkCone; }
+      void setDR04IsolationHollowTrkCone(Float_t dR04IsolationHollowTrkCone) { dR04IsolationHollowTrkCone_ = dR04IsolationHollowTrkCone; }
+      void setDR04IsolationNTracksSolidCone(Int_t dR04IsolationNTracksSolidCone) { dR04IsolationNTracksSolidCone_ = dR04IsolationNTracksSolidCone; }
+      void setDR04IsolationNTracksHollowCone(Int_t dR04IsolationNTracksHollowCone) { dR04IsolationNTracksHollowCone_ = dR04IsolationNTracksHollowCone; }
+      void setDR04Isolation(Float_t dR04IsolationEcalRecHit, Float_t dR04IsolationHcalRecHit, Float_t dR04IsolationSolidTrkCone, Float_t dR04IsolationHollowTrkCone, Int_t dR04IsolationNTracksSolidCone, Int_t dR04IsolationNTracksHollowCone)
+      {
+         dR04IsolationEcalRecHit_ = dR04IsolationEcalRecHit;
+         dR04IsolationHcalRecHit_ = dR04IsolationHcalRecHit;
+         dR04IsolationSolidTrkCone_ = dR04IsolationSolidTrkCone;
+         dR04IsolationHollowTrkCone_ = dR04IsolationHollowTrkCone;
+         dR04IsolationNTracksSolidCone_ = dR04IsolationNTracksSolidCone;
+         dR04IsolationNTracksHollowCone_ = dR04IsolationNTracksHollowCone;
+      }
       
       // Set photon ID
       void setIsLooseEMPhoton(Bool_t isLooseEMPhoton) { isLooseEMPhoton_ = isLooseEMPhoton; }
@@ -734,8 +815,19 @@ class TRootPhoton : public TRootParticle
       // Photon isolation calculated by PhotonID
       // need PhotonID ValueMap
       // Isolation parameters defined in  RecoEgamma/PhotonIdentification/python/photonId_cfi.py
-      Isolation dR03Isolation_;
-      Isolation dR04Isolation_;
+      Float_t dR03IsolationEcalRecHit_;      // Jurassic isolation (Sum of ecal rechits in DRmin < DR < DRmax around the photon, excluding an eta slice)
+      Float_t dR03IsolationHcalRecHit_;      // Sum of HCAL rechits in DRmin < DR < DRmax around the photon
+      Float_t dR03IsolationSolidTrkCone_;    // Pt sum of tracks in a cone around the photon
+      Float_t dR03IsolationHollowTrkCone_;   // Pt sum of tracks in DRmin < DR < DRmax around the photon
+      Int_t dR03IsolationNTracksSolidCone_;  // Tracks multiplicity in a cone around the photon
+      Int_t dR03IsolationNTracksHollowCone_; // Tracks multiplicity in DRmin < DR < DRmax around the photon
+      
+      Float_t dR04IsolationEcalRecHit_;      // Jurassic isolation (Sum of ecal rechits in DRmin < DR < DRmax around the photon, excluding an eta slice)
+      Float_t dR04IsolationHcalRecHit_;      // Sum of HCAL rechits in DRmin < DR < DRmax around the photon
+      Float_t dR04IsolationSolidTrkCone_;    // Pt sum of tracks in a cone around the photon
+      Float_t dR04IsolationHollowTrkCone_;   // Pt sum of tracks in DRmin < DR < DRmax around the photon
+      Int_t dR04IsolationNTracksSolidCone_;  // Tracks multiplicity in a cone around the photon
+      Int_t dR04IsolationNTracksHollowCone_; // Tracks multiplicity in DRmin < DR < DRmax around the photon
       
       // Photon ID
       // need PhotonID ValueMap
@@ -755,7 +847,7 @@ class TRootPhoton : public TRootParticle
       // not working in 2.2.X
       Float_t pi0nn_;          // neural network output of gamma/pi0 discriminator  (0=pi0-like  1=photon-like)
       
-      ClassDef (TRootPhoton,8);
+      ClassDef (TRootPhoton,9);
       
 };
 

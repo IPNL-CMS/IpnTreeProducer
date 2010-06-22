@@ -1,5 +1,6 @@
 #ifdef __CINT__
 #include "../interface/TRootRun.h"
+#include "../interface/TRootBeamStatus.h"
 #include "../interface/TRootEvent.h"
 #include "../interface/TRootParticle.h"
 #include "../interface/TRootMCParticle.h"
@@ -20,6 +21,7 @@
 #include "../interface/TRootBardak.h"
 #else
 #include "../interface/TRootRun.h"
+#include "../interface/TRootBeamStatus.h"
 #include "../interface/TRootEvent.h"
 #include "../interface/TRootParticle.h"
 #include "../interface/TRootMCParticle.h"
@@ -47,7 +49,7 @@
 
 #pragma link C++ nestedclass;
 #pragma link C++ class TRootRun;
-#pragma link C++ class TRootEvent::BeamStatus;
+#pragma link C++ class TRootBeamStatus;
 #pragma link C++ class TRootEvent;
 #pragma link C++ class TRootParticle;
 #pragma link C++ class TRootMCParticle;
@@ -56,7 +58,6 @@
 #pragma link C++ class TRootTrack;
 #pragma link C++ class TRootJet;
 #pragma link C++ class TRootMuon;
-#pragma link C++ class TRootPhoton::Isolation;
 #pragma link C++ class TRootPhoton;
 #pragma link C++ class TRootMCPhoton;
 #pragma link C++ class TRootElectron;
