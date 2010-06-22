@@ -330,11 +330,19 @@ void TotoAnalyzer::beginRun(edm::Run const& iRun, edm::EventSetup const& iSetup)
       
       // get ConditionsInRunBlock
       edm::Handle<edm::ConditionsInRunBlock> condInRunBlock;
-      iRun.getByLabel("conditionsInEdm", condInRunBlock);
-      
-      if (!condInRunBlock.isValid())
+      try
       {
-         std::cout << "\n***** ConditionsInRunBlock NOT FOUND *****\n";
+         iRun.getByLabel("conditionsInEdm", condInRunBlock);
+         if ( (!condInRunBlock.isValid()) && verbosity_>1) std::cout << "\n  ##### ERROR IN  TotoAnalyzer::beginRun => ConditionsInRunBlock NOT FOUND #####\n";
+      }
+      catch (cms::Exception& exception)
+      {
+         if ( !allowMissingCollection_ )
+         {
+            cout << "\n  ##### ERROR IN  TotoAnalyzer::beginRun => ConditionsInRunBlock NOT FOUND #####\n"<<endl;
+            throw exception;
+         }
+         if(verbosity_>1) cout <<  "   ===> No edm::ConditionsInRunBlock, skip LHC Beam info" << endl;
          return;
       }
       
@@ -368,11 +376,19 @@ void TotoAnalyzer::beginLuminosityBlock(edm::LuminosityBlock const& iLumi, edm::
       
       // get ConditionsInLumiBlock
       edm::Handle<edm::ConditionsInLumiBlock> condInLumiBlock;
-      iLumi.getByLabel("conditionsInEdm", condInLumiBlock);
-      
-      if (!condInLumiBlock.isValid())
+      try
       {
-         std::cout << "\n***** ConditionsInRunBlock NOT FOUND *****\n";
+         iLumi.getByLabel("conditionsInEdm", condInLumiBlock);
+         if ( (!condInLumiBlock.isValid()) && verbosity_>1) std::cout << "\n  ##### ERROR IN  TotoAnalyzer::beginLuminosityBlock => condInLumiBlock NOT FOUND #####\n";
+      }
+      catch (cms::Exception& exception)
+      {
+         if ( !allowMissingCollection_ )
+         {
+            cout << "\n  ##### ERROR IN  TotoAnalyzer::beginLuminosityBlock => condInLumiBlock NOT FOUND #####\n"<<endl;
+            throw exception;
+         }
+         if(verbosity_>1) cout <<  "   ===> No edm::condInLumiBlock, skip LHC Beam info" << endl;
          return;
       }
       
@@ -448,11 +464,19 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
    {
       if (! beamStatus_) beamStatus_ = new TRootBeamStatus();
       edm::Handle<edm::ConditionsInEventBlock> condInEventBlock;
-      iEvent.getByLabel("conditionsInEdm", condInEventBlock);
-      
-      if (!condInEventBlock.isValid())
+      try
       {
-         std::cout << "\n***** ConditionsInRunBlock NOT FOUND *****\n";
+         iEvent.getByLabel("conditionsInEdm", condInEventBlock);
+         if ( (!condInEventBlock.isValid()) && verbosity_>1) std::cout << "\n  ##### ERROR IN  TotoAnalyzer::analyze => condInEventBlock NOT FOUND #####\n";
+      }
+      catch (cms::Exception& exception)
+      {
+         if ( !allowMissingCollection_ )
+         {
+            cout << "\n  ##### ERROR IN  TotoAnalyzer::analyze => condInEventBlock NOT FOUND #####\n"<<endl;
+            throw exception;
+         }
+         if(verbosity_>1) cout <<  "   ===> No edm::condInEventBlock, skip LHC Beam info" << endl;
          return;
       }
       
@@ -460,7 +484,9 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
       beamStatus_->setTurnCountNumber( condInEventBlock->turnCountNumber );
       //rootEvent_->setBeamStatus(beamStatus_);
    }
-      
+   
+   
+   // Print event infos
    if( (verbosity_>1) || (verbosity_>0 && nTotEvt_%10==0 && nTotEvt_<=100)  || (verbosity_>0 && nTotEvt_%100==0 && nTotEvt_>100) )
       std::cout << std::endl << std::endl << "####### TotoAnalyzer - " << *rootEvent_  << " #######" << std::endl;
    
