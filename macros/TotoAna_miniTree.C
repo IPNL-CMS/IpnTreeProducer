@@ -300,7 +300,7 @@ cout << endl;
 	// Declaration of all photon variables
 	Int_t Photon_iEvent;
 	Int_t Photon_isEBorEE, Photon_isEB, Photon_isEE, Photon_isEEP, Photon_isEEM;
-	Int_t Photon_isAfterCut0, Photon_isAfterCut1, Photon_isAfterCut2, Photon_isAfterCut3, Photon_isAfterCut4, Photon_isAfterCut5, Photon_isAfterCut6, Photon_isAfterCut7;
+	Int_t Photon_isAfterCut0, Photon_isAfterCut1, Photon_isAfterCut2, Photon_isAfterCut3, Photon_isAfterCut4, Photon_isAfterCut5, Photon_isAfterCut6, Photon_isAfterCut7, Photon_isAfterCut8, Photon_isAfterCut9, Photon_isAfterCut10;
 
 	Int_t Photon_hasPixelSeed, Photon_isAlsoElectron, Photon_Nclusters, Photon_nBasicClusters, Photon_nXtals;
 	Int_t Photon_isTightPhoton, Photon_isLoosePhoton;
@@ -328,10 +328,10 @@ cout << endl;
 
 	// Declaration of all event variables
 	Int_t Photon_Multiplicity, SuperClu_Multiplicity;
-	Int_t Photon_Multiplicity_isAfterCut7, SuperClu_Multiplicity_isAfterCut7;
+	Int_t Photon_Multiplicity_isAfterCut10, SuperClu_Multiplicity_isAfterCut7;
 	Int_t SuperClu_Multiplicity_isAfterCut7_SCRawEtGT2;
-	Int_t Photon_Multiplicity_isAfterCut7_SCRawEtGT4, SuperClu_Multiplicity_isAfterCut7_SCRawEtGT4;
-	Int_t Photon_Multiplicity_isAfterCut7_SCRawEtGT10, SuperClu_Multiplicity_isAfterCut7_SCRawEtGT10;
+	Int_t Photon_Multiplicity_isAfterCut10_SCRawEtGT4, SuperClu_Multiplicity_isAfterCut7_SCRawEtGT4;
+	Int_t Photon_Multiplicity_isAfterCut10_SCRawEtGT10, SuperClu_Multiplicity_isAfterCut7_SCRawEtGT10;
 	Int_t nPhotonEEP_perEvent, nPhotonEEM_perEvent, nPhotonEE_perEvent, nPhotonEB_perEvent;
 
 	Int_t HLT_Photon10_L1R, HLT_Photon15_L1R, HLT_Photon15_LooseEcalIso_L1R, HLT_Photon20_L1R, HLT_Photon30_L1R_8E29;
@@ -361,6 +361,9 @@ cout << endl;
 	photon_miniTree->Branch("Photon_isAfterCut5,", &Photon_isAfterCut5, "Photon_isAfterCut5/I");
 	photon_miniTree->Branch("Photon_isAfterCut6,", &Photon_isAfterCut6, "Photon_isAfterCut6/I");
 	photon_miniTree->Branch("Photon_isAfterCut7,", &Photon_isAfterCut7, "Photon_isAfterCut7/I");
+	photon_miniTree->Branch("Photon_isAfterCut8,", &Photon_isAfterCut8, "Photon_isAfterCut8/I");
+	photon_miniTree->Branch("Photon_isAfterCut9,", &Photon_isAfterCut9, "Photon_isAfterCut9/I");
+	photon_miniTree->Branch("Photon_isAfterCut10,", &Photon_isAfterCut10, "Photon_isAfterCut10/I");
 
 	photon_miniTree->Branch("Photon_hasPixelSeed", &Photon_hasPixelSeed, "Photon_hasPixelSeed/I");
 	photon_miniTree->Branch("Photon_isAlsoElectron", &Photon_isAlsoElectron, "Photon_isAlsoElectron/I");
@@ -461,9 +464,9 @@ cout << endl;
 	event_miniTree->Branch("NoCuts", &NoCuts, "NoCuts/I");
 
 	event_miniTree->Branch("Photon_Multiplicity", &Photon_Multiplicity, "Photon_Multiplicity/I");
-	event_miniTree->Branch("Photon_Multiplicity_isAfterCut7", &Photon_Multiplicity_isAfterCut7, "Photon_Multiplicity_isAfterCut7/I");
-        event_miniTree->Branch("Photon_Multiplicity_isAfterCut7_SCRawEtGT4", &Photon_Multiplicity_isAfterCut7_SCRawEtGT4, "Photon_Multiplicity_isAfterCut7_SCRawEtGT4/I");
-        event_miniTree->Branch("Photon_Multiplicity_isAfterCut7_SCRawEtGT10", &Photon_Multiplicity_isAfterCut7_SCRawEtGT10, "Photon_Multiplicity_isAfterCut7_SCRawEtGT10/I");
+	event_miniTree->Branch("Photon_Multiplicity_isAfterCut10", &Photon_Multiplicity_isAfterCut10, "Photon_Multiplicity_isAfterCut10/I");
+        event_miniTree->Branch("Photon_Multiplicity_isAfterCut10_SCRawEtGT4", &Photon_Multiplicity_isAfterCut10_SCRawEtGT4, "Photon_Multiplicity_isAfterCut10_SCRawEtGT4/I");
+        event_miniTree->Branch("Photon_Multiplicity_isAfterCut10_SCRawEtGT10", &Photon_Multiplicity_isAfterCut10_SCRawEtGT10, "Photon_Multiplicity_isAfterCut10_SCRawEtGT10/I");
 
 	event_miniTree->Branch("SuperClu_Multiplicity", &SuperClu_Multiplicity, "SuperClu_Multiplicity/I");
 	event_miniTree->Branch("SuperClu_Multiplicity_isAfterCut7", &SuperClu_Multiplicity_isAfterCut7, "SuperClu_Multiplicity_isAfterCut7/I");
@@ -520,6 +523,9 @@ cout << endl;
 	unsigned int nCut5 = 0;
 	unsigned int nCut6 = 0;
 	unsigned int nCut7 = 0;
+	unsigned int nCut8 = 0;
+	unsigned int nCut9 = 0;
+	unsigned int nCut10 = 0;
 
 	unsigned int nTotSC = 0;
 	unsigned int nSelectedSC = 0;
@@ -549,9 +555,9 @@ cout << endl;
 		Photon_iEvent = ievt;
 		inputEventTree->GetEvent(ievt);
 		Photon_Multiplicity = photons->GetEntriesFast();
-		Photon_Multiplicity_isAfterCut7 = 0;
-		Photon_Multiplicity_isAfterCut7_SCRawEtGT4 = 0;
-		Photon_Multiplicity_isAfterCut7_SCRawEtGT10 = 0;
+		Photon_Multiplicity_isAfterCut10 = 0;
+		Photon_Multiplicity_isAfterCut10_SCRawEtGT4 = 0;
+		Photon_Multiplicity_isAfterCut10_SCRawEtGT10 = 0;
 		SuperClu_Multiplicity_isAfterCut7 = 0;
 		SuperClu_Multiplicity_isAfterCut7_SCRawEtGT2 = 0;
 		SuperClu_Multiplicity_isAfterCut7_SCRawEtGT4 = 0;
@@ -594,6 +600,9 @@ cout << endl;
 		Photon_isAfterCut5 = 0;
 		Photon_isAfterCut6 = 0;
 		Photon_isAfterCut7 = 0;
+		Photon_isAfterCut8 = 0;
+		Photon_isAfterCut9 = 0;
+		Photon_isAfterCut10 = 0;
 		Photon_isEB = 0;
 		Photon_isEE = 0;
 		Photon_isEEM = 0;
@@ -784,6 +793,9 @@ cout << endl;
 				Photon_isAfterCut5 = 0;
 				Photon_isAfterCut6 = 0;
 				Photon_isAfterCut7 = 0;
+				Photon_isAfterCut8 = 0;
+				Photon_isAfterCut9 = 0;
+				Photon_isAfterCut10 = 0;
 				Photon_isEB = 0;
 				Photon_isEE = 0;
 				Photon_isEEM = 0;
@@ -982,7 +994,7 @@ cout << endl;
 				Photon_isAfterCut5 = 1;
 
 				// CUT 6: spike removal
-				if ( ((myphoton->isEBPho()) &&((1 - ((myphoton->superCluster()->s4())/(myphoton->superCluster()->eMax())))>0.95)) || (myphoton->superCluster()->seedRecoFlag()==2) ) {
+				if( (myphoton->isEBPho()) &&((1 - ((myphoton->superCluster()->s4())/(myphoton->superCluster()->eMax())))>0.95) ) {
 					photon_miniTree->Fill();
 					continue;
 				}
@@ -996,9 +1008,33 @@ cout << endl;
 				}
 				nCut7++;
 				Photon_isAfterCut7 = 1;
-				Photon_Multiplicity_isAfterCut7 += 1;
-	
-				 if(scRawEt > 4){Photon_Multiplicity_isAfterCut7_SCRawEtGT4 += 1 ; if(scRawEt > 10){Photon_Multiplicity_isAfterCut7_SCRawEtGT10 += 1; } }
+
+				// CUT 8: Post-spike removal : kOutOfTime
+				if( myphoton->superCluster()->seedRecoFlag()==2 ){
+					photon_miniTree->Fill();
+          continue;
+				}
+				nCut8++;
+        Photon_isAfterCut8 = 1;
+
+				// CUT 9: Post-spike removal : kWeird
+        if( myphoton->superCluster()->seedSeverity()==3 ){
+          photon_miniTree->Fill();
+          continue;
+        }
+				nCut9++;
+        Photon_isAfterCut9 = 1;
+
+				// CUT 10: Post-spike removal : kBad
+        if( myphoton->superCluster()->seedSeverity()==4 ){
+          photon_miniTree->Fill();
+          continue;
+        }
+				nCut10++;
+        Photon_isAfterCut10 = 1;
+
+				Photon_Multiplicity_isAfterCut10 += 1;
+				 if(scRawEt > 4){Photon_Multiplicity_isAfterCut10_SCRawEtGT4 += 1 ; if(scRawEt > 10){Photon_Multiplicity_isAfterCut10_SCRawEtGT10 += 1; } }
 			
 				nPhotons++;
 				nSelectedPhotons++;
@@ -1047,7 +1083,7 @@ cout << endl;
 
 	if(nTotPhotons>0) cout << "nSelectedPhotons=" << nSelectedPhotons << "	nTotPhotons=" << nTotPhotons << "	Eff=" <<100.*nSelectedPhotons/nTotPhotons << "%" << endl;
 
-	cout << "nCut1=" << nCut1 << "	nCut2=" << nCut2 << "	nCut3=" << nCut3 << "	nCut4=" << nCut4 << "	nCut5=" << nCut5 << "	nCut6=" << nCut6 << "	 nCut7=" << nCut7 << endl;
+	cout << "nCut1=" << nCut1 << "	nCut2=" << nCut2 << "	nCut3=" << nCut3 << "	nCut4=" << nCut4 << "	nCut5=" << nCut5 << "	nCut6=" << nCut6 << "	 nCut7=" << nCut7 << "  nCut8=" << nCut8 << "  nCut9=" << nCut9 << "  nCut10=" << nCut10 << endl;
 
 	if(nTotSC>0) cout << "nTotSC=" << nTotSC << "  nSelectedSC=" << nSelectedSC << "  nSCAfterCut1=" << nSCAfterCut1 << "  nSCAfterCut2=" << nSCAfterCut2 << "  nSCAfterCut3=" << nSCAfterCut3 << "  nSCAfterCut4=" << nSCAfterCut4 << "  nSCAfterCut5=" << nSCAfterCut5 << "  nSCAfterCut6=" << nSCAfterCut6 << "  nSCAfterCut7=" << nSCAfterCut7 << endl;
 	
