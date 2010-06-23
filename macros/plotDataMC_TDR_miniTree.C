@@ -23,6 +23,7 @@
 #include <TMath.h>
 #include "TROOT.h"
 #include <TLatex.h>
+#include <TLine.h>
 
 #pragma optimize 0
 
@@ -198,11 +199,64 @@ void DrawDataMCplot_NormEntries_Fast(TTree *Data_PhotonTree, TTree *MC_PhotonTre
 		c1->Print(PicName_log.c_str());
 		c1->SetLogy(0);
 		c1->Update();
-	} 
+	}
 
 	// Clean the memory
 	c1->Clear();
 	legend->Clear();
+
+	string name_compare = "Comparison Histogram";
+	const char* title_compare = Title.c_str();
+/*
+				bool ZeroBin = false;
+				TH1F Histo_compare = new TH1F(name_compare.c_str(),title_Data,nx_Data,x1_Data,x2_Data);
+				for (int i=0;i<=nx_Data && !ZeroBin;i++)
+				{
+				if (Histo_MC->GetBinContent(i)==0){ZeroBin = true; continue;}
+								Histo_compare->Fill(Histo_compare->GetBinCenter(i),(Histo_Data->GetBinContent(i))/(Histo_MC->GetBinContent(i)))
+				}
+*/
+	TLine *Line1 = new TLine(Histo_Data->GetBinLowEdge(1),1,Histo_MC->GetBinLowEdge(Histo_Data->GetNbinsX()+1)+ Histo_Data->GetBinWidth(Histo_Data->GetNbinsX()+1),1);
+	TH1F *Histo_compare = new TH1F(*Histo_Data);
+	 Histo_compare->Divide(Histo_MC);
+	TF1* f = new TF1("f", "[0] + [1]*x", 0, Histo_MC->GetBinLowEdge(Histo_Data->GetNbinsX()+1)+ Histo_Data->GetBinWidth(Histo_Data->GetNbinsX()+1));
+	f->SetParameter(0, 1); // ordonne¿½a ï¿½ l'origine = 1
+	f->SetParameter(1, 0); // coeff directeur = 0
+	Histo_compare->Fit("f", "OQ" );
+	string compare_name = "DataMC_" + var + "_" +name + "_Comp";
+	Histo_compare->SetName(compare_name.c_str());
+	c1->SetName(canvas_name.c_str());
+	c1->SetTitle(canvas_name.c_str());
+
+	PicName= dirName + "/gif/DataMC_" + var + "_" + name + "_Comp.gif";
+	gStyle->SetOptFit(1111);
+	gStyle->SetOptStat(0000);
+	Histo_compare->Draw("e1");
+	Line1->Draw("same");
+
+	c1->Draw();
+	c1->Print(PicName.c_str());
+	PicName= dirName + "/eps/DataMC_" + var + "_" + name + "_Comp.eps";
+	c1->Print(PicName.c_str());
+	if (inlog==true) {
+	c1->cd(1);
+	c1->SetLogy(1);
+	c1->Update();
+	c1->Draw();
+	string PicName_log= dirName + "/gif/DataMC_" + var + "_" + name + "_log_Comp.gif";
+	c1->Print(PicName_log.c_str());
+	PicName_log= dirName + "/eps/DataMC_" + var + "_" + name + "_log_Comp.eps";
+	c1->Print(PicName_log.c_str());
+	c1->SetLogy(0);
+	c1->Update();
+	gStyle->SetOptFit(0000);
+	gStyle->SetOptStat(1111);
+}
+
+	c1->Clear();
+	Histo_compare->Clear();
+	Line1->Clear();
+
 	Histo_Data_temp->Clear();
 	Histo_MC_temp->Clear();
 	Histo_Data->Clear();
@@ -214,24 +268,24 @@ void DrawDataMCplot_NormEntries_2D(TTree *Data_PhotonTree, TTree *MC_PhotonTree,
 	gStyle->SetPalette(1,0);
 
 	// Get Histo_Data from PhotonTree
-	TH1F *Histo_Data_temp = new TH2F();
-	string variable_Data = var1 + ":" + var2 + ">>Histo_Data_temp" + limits;
-	Data_PhotonTree->Draw(variable_Data.c_str(), cut.c_str(), "BOX");
-	TH1F *Histo_Data = (TH2F*)gDirectory->Get("Histo_Data_temp"); 
+	TH2F *Histo_Data_temp = new TH2F();
+	string variable_Data = var2 + ":" + var1 + ">>Histo_Data_temp" + limits;
+	Data_PhotonTree->Draw(variable_Data.c_str(), cut.c_str());
+	TH2F *Histo_Data = (TH2F*)gDirectory->Get("Histo_Data_temp"); 
 	c1->Clear();
 
 	// Get Histo_MC from PhotonTree
-  TH1F *Histo_MC_temp = new TH2F();
-  string variable_MC = var1 + ":" + var2 + ">>Histo_MC_temp" + limits;
-  MC_PhotonTree->Draw(variable_MC.c_str(), cut.c_str(), "BOX");
-  TH1F *Histo_MC = (TH2F*)gDirectory->Get("Histo_MC_temp"); 
+  TH2F *Histo_MC_temp = new TH2F();
+  string variable_MC = var2 + ":" + var1 + ">>Histo_MC_temp" + limits;
+  MC_PhotonTree->Draw(variable_MC.c_str(), cut.c_str());
+  TH2F *Histo_MC = (TH2F*)gDirectory->Get("Histo_MC_temp"); 
   c1->Clear();
 
 	// Get the number of entries for further normalization
 	double a = Histo_Data->GetEntries();
 	double b = Histo_MC->GetEntries();
 	if( (a==0.0) || (b==0.0) ){
-		cout << "no entries in MC or DATA sample, skipping plot " << var << " " << name <<endl;
+		cout << "no entries in MC or DATA sample, skipping plot " << var1 << " "  << var2 << " " << name <<endl;
 		return;
 	}
 
@@ -243,22 +297,92 @@ void DrawDataMCplot_NormEntries_2D(TTree *Data_PhotonTree, TTree *MC_PhotonTree,
 	// // Normalize MC to Data number of entries
 	Histo_MC->Scale((double)((double)a/(double)b));
 
+	// Setup the histo and canvas names and title
+  string data_name = "Data_" + var1 + "_VS_" + var2 + "_" + name;
+  string mc_name = "MC_" + var1 + "_VS_" + var2 + "_" + name;
+  string canvas_name = "DataMC_" + var1 + "_VS_" + var2 + "_" + name;
+  Histo_Data->SetName(data_name.c_str());
+  Histo_MC->SetName(mc_name.c_str());
+  c1->SetName(canvas_name.c_str());
+  c1->SetTitle(canvas_name.c_str());
 
+	// Draw the comparison plots
+  // // First: draw the data to get correct Y-axis scale
+  Histo_Data->SetLineColor(kBlack);
+	Histo_Data->SetLineWidth(2)
+  Histo_Data->GetXaxis()->SetTitle(Title_var1.c_str());
+	Histo_Data->GetYaxis()->SetTitle(Title_var2.c_str());
+  Histo_Data->Draw("BOX");
+
+	// // Second: draw MC on the same canvas
+  Histo_MC->SetLineColor(kBlack);
+  Histo_MC->SetFillColor(kYellow);
+  Histo_MC->GetXaxis()->SetTitle(Title_var1.c_str());
+	Histo_MC->GetYaxis()->SetTitle(Title_var2.c_str());
+	Histo_MC->Draw("BOXsame");
+
+	// // Third: re-draw Data so that data appears in front of MC
+  Histo_Data->Draw("BOXsame");
+
+	// // Fourth: redraw axis so that axis appears in front of everything
+  gPad->RedrawAxis();
+
+  // // Fifth: draw legend
+  TLegend *legend = new TLegend(0.8, 0.83, 0.99, 0.994, "");
+  legend->SetFillColor(kWhite);
+  legend->SetLineColor(kWhite);
+  legend->SetShadowColor(kWhite);
+  legend->AddEntry(Histo_Data->GetName(), "Data", "lp");
+  legend->AddEntry(Histo_MC->GetName(), "MC", "f");
+  legend->Draw();
+  TLatex latexLabel;
+  latexLabel.SetTextSize(0.04);
+  latexLabel.SetNDC();
+  latexLabel.DrawLatex(0.18, 0.87, "CMS Preliminary 2010");
+  latexLabel.DrawLatex(0.18, 0.82, "#sqrt{s} = 7 TeV");
+
+  // // Sixth: update canvas
+  c1->Update();
+  c1->Draw();
+
+	string dirName="Plots_TEST";
+//  string dirName="Plots_DATA_MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1";
+//  string dirName="Plots_DATA_MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1";
+//  string dirName="Plots_DATA_MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1";
+//  string dirName="Plots_DATA_MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1";
+
+  // Print the canvas
+  string PicName= dirName + "/gif/DataMC_" + var1 + "_VS_" + var2 + "_" + name + ".gif";
+  c1->Print(PicName.c_str());
+  PicName= dirName + "/eps/DataMC_" + var1 + "_VS_" + var2 + "_" + name + ".eps";
+  c1->Print(PicName.c_str());
+
+	// Clean the memory
+  c1->Clear();
+  legend->Clear();
+  Histo_Data_temp->Clear();
+  Histo_MC_temp->Clear();
+  Histo_Data->Clear();
+  Histo_MC->Clear();
 
 }
 
-//int plotDataMC_TDR_miniTree()
-int main()
+int plotDataMC_TDR_miniTree()
+//int main()
 {
 //	cout<<"\tDEBUG:\tEntering main()"<<endl;
 	//gStyle->SetOptStat(0);
 	gROOT->ProcessLine(".x setTDRStyle.C");
-	string Data = "miniTree_DATA__ALL.root"; 
+//	string Data = "miniTree_DATA__ALL.root"; 
 //	string MC = "miniTree_MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1___ALL.root"; 
 //	string MC = "miniTree_MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1___ALL.root"; 
 //	string MC = "miniTree_MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1___ALL.root"; 
 //	string MC = "miniTree_MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1___ALL.root"; 
 	
+	// TEST/DEBUG
+	string Data = "miniTree_DATA__0.root";
+	string MC = "miniTree_MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1___3.root";
+
 	TFile *Data_File = new TFile(Data.c_str());
 	TFile *MC_File = new TFile(MC.c_str());
 	TCanvas *c1 = new TCanvas("Default", "Default");
@@ -393,8 +517,8 @@ if(false){ //			Plots for super-clusters
 		cout << "\tStarting loop on superclusters for plots with cuts: " << set_of_cuts_superclu[i] << endl;
 		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_E", "(100, 0, 500)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster corrected Energy (GeV)", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_Et", "(100, 0, 500)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster corrected E_{T} (GeV)", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_RawE", "(100, 0, 500)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster uncorrected Energy", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_RawEt", "(100, 0, 500)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster uncorrected Et", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_RawE", "(100, 0, 500)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster uncorrected Energy (GeV)", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_RawEt", "(100, 0, 500)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster uncorrected Et (GeV)", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_Eta", "(30, -3.0, 3.0)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster #eta", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_Phi", "(30, -3.15, 3.15)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster #phi (rad)", true, false, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_nXtals", "(100, 0, 100)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster # of crystals", true, true, c1);
@@ -464,6 +588,16 @@ if(false){	// Plots for the events
 //		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "HLT_Photon15_TrackIso_L1R", "(2, 0, 2)", set_of_cuts_events[i], name_events[i], "HLT_Photon15_TrackIso_L1R triggered", true, false, c1);
 	}
 }
+
+if( false ){// 2D plots
+	TTree* Data_SuperCluTree = (TTree*) Data_File->Get("supercluster_miniTree");
+  TTree* MC_SuperCluTree = (TTree*) MC_File->Get("supercluster_miniTree");
+
+//void DrawDataMCplot_NormEntries_2D(TTree *Data_PhotonTree, TTree *MC_PhotonTree, string var1, string var2, string limits, string cut, string name, string Title_var1, string Title_var2, bool inlog_var1, bool inlog_var2, TCanvas *c1){
+	DrawDataMCplot_NormEntries_2D(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_E", "SuperClu_RawE", "(100, 0, 500, 100, 0, 500)", "", "isAfterCut7", "SuperCluster corrected Energy (GeV)", "SuperCluster uncorrected Energy (GeV)", false, false, c1);
+
+}
+
 
 	return 0;	
 }
