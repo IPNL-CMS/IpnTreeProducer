@@ -209,7 +209,44 @@ void DrawDataMCplot_NormEntries_Fast(TTree *Data_PhotonTree, TTree *MC_PhotonTre
 	Histo_MC->Clear();
 
 }
-	
+
+void DrawDataMCplot_NormEntries_2D(TTree *Data_PhotonTree, TTree *MC_PhotonTree, string var1, string var2, string limits, string cut, string name, string Title_var1, string Title_var2, bool inlog_var1, bool inlog_var2, TCanvas *c1){
+	gStyle->SetPalette(1,0);
+
+	// Get Histo_Data from PhotonTree
+	TH1F *Histo_Data_temp = new TH2F();
+	string variable_Data = var1 + ":" + var2 + ">>Histo_Data_temp" + limits;
+	Data_PhotonTree->Draw(variable_Data.c_str(), cut.c_str(), "BOX");
+	TH1F *Histo_Data = (TH2F*)gDirectory->Get("Histo_Data_temp"); 
+	c1->Clear();
+
+	// Get Histo_MC from PhotonTree
+  TH1F *Histo_MC_temp = new TH2F();
+  string variable_MC = var1 + ":" + var2 + ">>Histo_MC_temp" + limits;
+  MC_PhotonTree->Draw(variable_MC.c_str(), cut.c_str(), "BOX");
+  TH1F *Histo_MC = (TH2F*)gDirectory->Get("Histo_MC_temp"); 
+  c1->Clear();
+
+	// Get the number of entries for further normalization
+	double a = Histo_Data->GetEntries();
+	double b = Histo_MC->GetEntries();
+	if( (a==0.0) || (b==0.0) ){
+		cout << "no entries in MC or DATA sample, skipping plot " << var << " " << name <<endl;
+		return;
+	}
+
+	// Normalize
+	Histo_Data->Sumw2(); // In order to have the correct error bars on data after renormalization
+	// // Normalize MC and Data to 1
+	//Histo_Data->Scale((double)((double)1.0/(double)a));
+	//Histo_MC->Scale((double)((double)1.0/(double)b));
+	// // Normalize MC to Data number of entries
+	Histo_MC->Scale((double)((double)a/(double)b));
+
+
+
+}
+
 //int plotDataMC_TDR_miniTree()
 int main()
 {
@@ -236,23 +273,23 @@ if(false){	// Plots for the photons
 	vector<string> name;
 
 
-//	name.push_back("isAfterCut7");
-//	set_of_cuts.push_back("Photon_isAfterCut7==1");
-//	name.push_back("isAfterCut7_EB");
-//	set_of_cuts.push_back("Photon_isAfterCut7==1 && Photon_isEB==1");
-//	name.push_back("isAfterCut7_EE");
-//	set_of_cuts.push_back("Photon_isAfterCut7==1 && Photon_isEE==1");
-//	name.push_back("isAfterCut7_EEP");
-//	set_of_cuts.push_back("Photon_isAfterCut7==1 && Photon_isEEP==1");
-//	name.push_back("isAfterCut7_EEM");
-//	set_of_cuts.push_back("Photon_isAfterCut7==1 && Photon_isEEM==1");
+//	name.push_back("isAfterCut10");
+//	set_of_cuts.push_back("Photon_isAfterCut10==1");
+//	name.push_back("isAfterCut10_EB");
+//	set_of_cuts.push_back("Photon_isAfterCut10==1 && Photon_isEB==1");
+//	name.push_back("isAfterCut10_EE");
+//	set_of_cuts.push_back("Photon_isAfterCut10==1 && Photon_isEE==1");
+//	name.push_back("isAfterCut10_EEP");
+//	set_of_cuts.push_back("Photon_isAfterCut10==1 && Photon_isEEP==1");
+//	name.push_back("isAfterCut10_EEM");
+//	set_of_cuts.push_back("Photon_isAfterCut10==1 && Photon_isEEM==1");
 
 	for(int i=0; i<set_of_cuts.size() ; i++){ // loop over different set of cuts
 		cout << "\tStarting loop on photons for plots with cuts: " << set_of_cuts[i] << endl;
     DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_hasPixelSeed", "(2, 0, 2)", set_of_cuts[i], name[i], "Photon hasPixelSeed", true, false, c1);
     DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isAlsoElectron", "(2, 0, 2)", set_of_cuts[i], name[i], "Photon isAlsoElectron", true, false, c1);
-    DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E", "(60, 0, 90)", set_of_cuts[i], name[i], "Photon Energy (GeV)", true, true, c1);
-    DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Et", "(75, 0, 30)", set_of_cuts[i], name[i], "Photon E_{T} (GeV)", true, true, c1);
+    DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E", "(60, 0, 90)", set_of_cuts[i], name[i], "Photon corrected Energy (GeV)", true, true, c1);
+    DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Et", "(75, 0, 30)", set_of_cuts[i], name[i], "Photon corrected E_{T} (GeV)", true, true, c1);
     DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Eta", "(30, -3.0, 3.0)", set_of_cuts[i], name[i], "Photon #eta", true, true, c1);
     DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Phi", "(30, -3.15, 3.15)", set_of_cuts[i], name[i], "Photon #phi (rad)", true, false, c1);
     DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCEta", "(30, -3.0, 3.0)", set_of_cuts[i], name[i], "Photon SC #eta", true, true, c1);
@@ -260,16 +297,16 @@ if(false){	// Plots for the photons
     DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E2x2", "(70, 0, 70)", set_of_cuts[i], name[i], "Photon E_{2x2} (GeV)", true, true, c1);
     DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E3x3", "(70, 0, 70)", set_of_cuts[i], name[i], "Photon E_{3x3} (GeV)", true, true, c1);
     DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E5x5", "(70, 0, 70)", set_of_cuts[i], name[i], "Photon E_{5x5} (GeV)", true, true, c1);
-    DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Emax", "(63, 0, 50)", set_of_cuts[i], name[i], "Photon Crystal Emax (GeV)", true, true, c1);
-    DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E2nd", "(34, 0, 20)", set_of_cuts[i], name[i], "Photon Crystal E2nd (GeV)", true, true, c1);
+    DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Emax", "(63, 0, 50)", set_of_cuts[i], name[i], "Photon Crystal Emax (S1) (GeV)", true, true, c1);
+    DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E2nd", "(34, 0, 20)", set_of_cuts[i], name[i], "Photon Crystal E2nd (S2) (GeV)", true, true, c1);
     DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_r19", "(50, 0.1, 1.3)", set_of_cuts[i], name[i], "Photon r19", true, true, c1);
     DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_r9", "(50, 0.1, 1.3)", set_of_cuts[i], name[i], "r9", true, true, c1);
     DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_cross", "(83, 0, 1.1)", set_of_cuts[i], name[i], "Photon 1-(E4/E1)", true, true, c1);
     DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_caloConeSize", "(50, 0, 0.4)", set_of_cuts[i], name[i], "Photon caloConeSize", true, true, c1);
     DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCEnergy", "(167, 0, 200)", set_of_cuts[i], name[i], "Photon SC corrected Energy (GeV)", true, true, c1);
     DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCEt", "(75, 0, 30)", set_of_cuts[i], name[i], "Photon SC corrected E_{T} (GeV)", true, true, c1);
-    DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCRawEnergy", "(67, 0, 300)", set_of_cuts[i], name[i], "Photon SC raw Energy (GeV)", true, true, c1);
-    DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCRawEt", "(75, 0, 150)", set_of_cuts[i], name[i], "Photon SC raw E_{T} (GeV)", true, true, c1);
+    DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCRawEnergy", "(67, 0, 300)", set_of_cuts[i], name[i], "Photon SC uncorrected Energy (GeV)", true, true, c1);
+    DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCRawEt", "(75, 0, 150)", set_of_cuts[i], name[i], "Photon SC uncorrected E_{T} (GeV)", true, true, c1);
     DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_PreshEnergy", "(125, 0, 8)", set_of_cuts[i], name[i], "Photon Preshower Energy (GeV)", true, true, c1);
     DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_HoE", "(21, 0, 0.55)", set_of_cuts[i], name[i], "Photon HoE", true, true, c1);
     DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Nclusters", "(14, 0, 14)", set_of_cuts[i], name[i], "Photon # of cluster constituents", true, true, c1);
@@ -296,10 +333,10 @@ if(false){	// Plots for the photons
     DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isLoosePhoton", "(2, 0, 2)", set_of_cuts[i], name[i], "Photon isLoose", true, false, c1);
 //    DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isolationPersoTracksSolidCone", "(30, 0, 100)", set_of_cuts[i], name[i], "Photon isolationPersoTracksSolidCone", true, true, c1);
 //    DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_isolationPersoNTracksSolidCone", "(30, 0, 100)", set_of_cuts[i], name[i], "Photon isolationPersoNTracksSolidCone", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_brem", "(50, 0, 5)", set_of_cuts[i], name[i], "Photon brem", true, false, c1);
-//		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_S2_o_Esc", "(50, 0, 1)", set_of_cuts[i], name[i], "Photon S2_o_Esc", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E2x2_o_E5x5", "(50, 0, 1)", set_of_cuts[i], name[i], "Photon E2x2_o_E5x5", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Eseed_o_Esc", "(50, 0, 1)", set_of_cuts[i], name[i], "Photon Eseed_o_Esc", true, false, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_brem", "(50, 0, 5)", set_of_cuts[i], name[i], "Photon brem = #phi Width / #eta Width", true, false, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_S2_o_Esc", "(50, 0, 1)", set_of_cuts[i], name[i], "Photon S2 / E_{SC}", true, false, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E2x2_o_E5x5", "(50, 0, 1)", set_of_cuts[i], name[i], "Photon E_{2x2} / E_{5x5}", true, false, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Eseed_o_Esc", "(50, 0, 1)", set_of_cuts[i], name[i], "Photon E_{seed} / E_{SC}", true, false, c1);
 		} // end of loop over set of cuts
 }
 
@@ -311,67 +348,67 @@ if(false){ //			Plots for super-clusters
 	vector<string> name_superclu;
 
 
-//	name_superclu.push_back("isAfterCut3");
-//	set_of_cuts_superclu.push_back("SuperClu_isAfterCut3");
-//	name_superclu.push_back("isAfterCut3_EE");
-//	set_of_cuts_superclu.push_back("SuperClu_isEE==1 && SuperClu_isAfterCut3==1");
-//	name_superclu.push_back("isAfterCut3_EB");
-//	set_of_cuts_superclu.push_back("SuperClu_isEB==1 && SuperClu_isAfterCut3==1");
-//	name_superclu.push_back("isAfterCut3_EEP");
-//	set_of_cuts_superclu.push_back("SuperClu_isEEP==1 && SuperClu_isAfterCut3==1");
-//	name_superclu.push_back("isAfterCut3_EEM");
-//	set_of_cuts_superclu.push_back("SuperClu_isEEM==1 && SuperClu_isAfterCut3==1");
-//	name_superclu.push_back("isAfterCut3_RawEtGT2");
-//	set_of_cuts_superclu.push_back("SuperClu_isAfterCut3 && SuperClu_RawEt>2.0");
-//	name_superclu.push_back("isAfterCut3_RawEtGT2_EE");
-//	set_of_cuts_superclu.push_back("SuperClu_isEE==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>2.0");
-//	name_superclu.push_back("isAfterCut3_RawEtGT2_EB");
-//	set_of_cuts_superclu.push_back("SuperClu_isEB==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>2.0");
-//	name_superclu.push_back("isAfterCut3_RawEtGT2_EEP");
-//	set_of_cuts_superclu.push_back("SuperClu_isEEP==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>2.0");
-//	name_superclu.push_back("isAfterCut3_RawEtGT2_EEM");
-//	set_of_cuts_superclu.push_back("SuperClu_isEEM==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>2.0");
-//	name_superclu.push_back("isAfterCut3_RawEtGT4");
-//	set_of_cuts_superclu.push_back("SuperClu_isAfterCut3 && SuperClu_RawEt>2.0");
-//	name_superclu.push_back("isAfterCut3_RawEtGT4_EE");
-//	set_of_cuts_superclu.push_back("SuperClu_isEE==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>4.0");
-//	name_superclu.push_back("isAfterCut3_RawEtGT4_EB");
-//	set_of_cuts_superclu.push_back("SuperClu_isEB==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>4.0");
-//	name_superclu.push_back("isAfterCut3_RawEtGT4_EEP");
-//	set_of_cuts_superclu.push_back("SuperClu_isEEP==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>4.0");
-//	name_superclu.push_back("isAfterCut3_RawEtGT4_EEM");
-//	set_of_cuts_superclu.push_back("SuperClu_isEEM==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>4.0");
-//	name_superclu.push_back("isAfterCut3_RawEtGT10");
-//	set_of_cuts_superclu.push_back("SuperClu_isAfterCut3 && SuperClu_RawEt>4.0");
-//	name_superclu.push_back("isAfterCut3_RawEtGT10_EE");
-//	set_of_cuts_superclu.push_back("SuperClu_isEE==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>10.0");
-//	name_superclu.push_back("isAfterCut3_RawEtGT10_EB");
-//	set_of_cuts_superclu.push_back("SuperClu_isEB==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>10.0");
-//	name_superclu.push_back("isAfterCut3_RawEtGT10_EEP");
-//	set_of_cuts_superclu.push_back("SuperClu_isEEP==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>10.0");
-//	name_superclu.push_back("isAfterCut3_RawEtGT10_EEM");
-//	set_of_cuts_superclu.push_back("SuperClu_isEEM==1 && SuperClu_isAfterCut3==1 && SuperClu_RawEt>10.0");
+//	name_superclu.push_back("isAfterCut7");
+//	set_of_cuts_superclu.push_back("SuperClu_isAfterCut7");
+//	name_superclu.push_back("isAfterCut7_EE");
+//	set_of_cuts_superclu.push_back("SuperClu_isEE==1 && SuperClu_isAfterCut7==1");
+//	name_superclu.push_back("isAfterCut7_EB");
+//	set_of_cuts_superclu.push_back("SuperClu_isEB==1 && SuperClu_isAfterCut7==1");
+//	name_superclu.push_back("isAfterCut7_EEP");
+//	set_of_cuts_superclu.push_back("SuperClu_isEEP==1 && SuperClu_isAfterCut7==1");
+//	name_superclu.push_back("isAfterCut7_EEM");
+//	set_of_cuts_superclu.push_back("SuperClu_isEEM==1 && SuperClu_isAfterCut7==1");
+//	name_superclu.push_back("isAfterCut7_RawEtGT2");
+//	set_of_cuts_superclu.push_back("SuperClu_isAfterCut7 && SuperClu_RawEt>2.0");
+//	name_superclu.push_back("isAfterCut7_RawEtGT2_EE");
+//	set_of_cuts_superclu.push_back("SuperClu_isEE==1 && SuperClu_isAfterCut7==1 && SuperClu_RawEt>2.0");
+//	name_superclu.push_back("isAfterCut7_RawEtGT2_EB");
+//	set_of_cuts_superclu.push_back("SuperClu_isEB==1 && SuperClu_isAfterCut7==1 && SuperClu_RawEt>2.0");
+//	name_superclu.push_back("isAfterCut7_RawEtGT2_EEP");
+//	set_of_cuts_superclu.push_back("SuperClu_isEEP==1 && SuperClu_isAfterCut7==1 && SuperClu_RawEt>2.0");
+//	name_superclu.push_back("isAfterCut7_RawEtGT2_EEM");
+//	set_of_cuts_superclu.push_back("SuperClu_isEEM==1 && SuperClu_isAfterCut7==1 && SuperClu_RawEt>2.0");
+//	name_superclu.push_back("isAfterCut7_RawEtGT4");
+//	set_of_cuts_superclu.push_back("SuperClu_isAfterCut7 && SuperClu_RawEt>2.0");
+//	name_superclu.push_back("isAfterCut7_RawEtGT4_EE");
+//	set_of_cuts_superclu.push_back("SuperClu_isEE==1 && SuperClu_isAfterCut7==1 && SuperClu_RawEt>4.0");
+//	name_superclu.push_back("isAfterCut7_RawEtGT4_EB");
+//	set_of_cuts_superclu.push_back("SuperClu_isEB==1 && SuperClu_isAfterCut7==1 && SuperClu_RawEt>4.0");
+//	name_superclu.push_back("isAfterCut7_RawEtGT4_EEP");
+//	set_of_cuts_superclu.push_back("SuperClu_isEEP==1 && SuperClu_isAfterCut7==1 && SuperClu_RawEt>4.0");
+//	name_superclu.push_back("isAfterCut7_RawEtGT4_EEM");
+//	set_of_cuts_superclu.push_back("SuperClu_isEEM==1 && SuperClu_isAfterCut7==1 && SuperClu_RawEt>4.0");
+//	name_superclu.push_back("isAfterCut7_RawEtGT10");
+//	set_of_cuts_superclu.push_back("SuperClu_isAfterCut7 && SuperClu_RawEt>4.0");
+//	name_superclu.push_back("isAfterCut7_RawEtGT10_EE");
+//	set_of_cuts_superclu.push_back("SuperClu_isEE==1 && SuperClu_isAfterCut7==1 && SuperClu_RawEt>10.0");
+//	name_superclu.push_back("isAfterCut7_RawEtGT10_EB");
+//	set_of_cuts_superclu.push_back("SuperClu_isEB==1 && SuperClu_isAfterCut7==1 && SuperClu_RawEt>10.0");
+//	name_superclu.push_back("isAfterCut7_RawEtGT10_EEP");
+//	set_of_cuts_superclu.push_back("SuperClu_isEEP==1 && SuperClu_isAfterCut7==1 && SuperClu_RawEt>10.0");
+//	name_superclu.push_back("isAfterCut7_RawEtGT10_EEM");
+//	set_of_cuts_superclu.push_back("SuperClu_isEEM==1 && SuperClu_isAfterCut7==1 && SuperClu_RawEt>10.0");
 
 	for (int i=0;i<name_superclu.size();i++){
 		cout << "\tStarting loop on superclusters for plots with cuts: " << set_of_cuts_superclu[i] << endl;
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_E", "(100, 0, 500)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster Energy", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_Et", "(100, 0, 500)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster Et", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_RawE", "(100, 0, 500)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster Raw Energy", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_RawEt", "(100, 0, 500)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster Raw Et", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_Eta", "(30, -3.0, 3.0)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster Eta", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_Phi", "(30, -3.15, 3.15)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster Phi", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_nXtals", "(100, 0, 100)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster number of crystals", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_E", "(100, 0, 500)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster corrected Energy (GeV)", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_Et", "(100, 0, 500)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster corrected E_{T} (GeV)", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_RawE", "(100, 0, 500)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster uncorrected Energy", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_RawEt", "(100, 0, 500)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster uncorrected Et", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_Eta", "(30, -3.0, 3.0)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster #eta", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_Phi", "(30, -3.15, 3.15)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster #phi (rad)", true, false, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_nXtals", "(100, 0, 100)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster # of crystals", true, true, c1);
 //		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_nBasicClusters", "(100, 0, 100)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster number of basic clusters", true, true, c1);
 //		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_seedSeverity", "(5,0,5)", set_of_cuts_superclu[i], name_superclu[i], "SuperClu seed Severity", true, false, c1);
 //		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_seedTime", "(300, -40, 40)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster seed time", true, true, c1);
 //		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_s4", "(50, -2, 100)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster s4", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_etaWidth", "(50, 0, 0.2)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster etaWidth", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_phiWidth", "(50, 0, 0.3)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster phiWidth", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_etaWidth", "(50, 0, 0.2)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster #eta Width", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_phiWidth", "(50, 0, 0.3)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster #phi Width", true, true, c1);
 //		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_seedFlag", "(15, 0, 15)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster seed flag", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_brem", "(50, 0, 5)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster brem", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_Eseed_o_Esc", "(50, 0, 1)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster Eseed_o_Esc", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_E2x2_o_E5x5", "(50, 0, 1)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster E2x2_o_E5x5", true, true, c1);
-//		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_S2_o_Esc", "(50, 0, 1)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster S2_o_Esc", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_brem", "(50, 0, 5)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster brem = #phi Width / #eta Width", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_Eseed_o_Esc", "(50, 0, 1)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster E_{seed} / E_{SC}", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_E2x2_o_E5x5", "(50, 0, 1)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster E_{2x2} / E_{5x5}", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_S2_o_Esc", "(50, 0, 1)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster S2 / E_{SC}", true, true, c1);
 //
 	}
 }
@@ -387,13 +424,13 @@ if(false){	// Plots for the events
 		cout << "\tStarting loop on events for plots with cuts: " << set_of_cuts_events[i] << endl;
 		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "Photon_Multiplicity", "(7, 0, 7)", set_of_cuts_events[i], name_events[i], "Photon multiplicity", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "SuperClu_Multiplicity", "(30, 0, 30)", set_of_cuts_events[i], name_events[i], "Super cluster multiplicity", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "Photon_Multiplicity_isAfterCut7", "(7, 0, 7)", set_of_cuts_events[i], name_events[i], "Photon multiplicity", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "SuperClu_Multiplicity_isAfterCut3", "(30, 0, 30)", set_of_cuts_events[i], name_events[i], "Super cluster multiplicity", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "Photon_Multiplicity_isAfterCut7_SCRawEtGT4", "(7, 0, 7)", set_of_cuts_events[i], name_events[i], "Photon Multiplicity SCEt>4GeV", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "Photon_Multiplicity_isAfterCut7_SCRawEtGT10", "(7, 0, 7)", set_of_cuts_events[i], name_events[i], "Photon Multiplicity SCEt>10GeV", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "SuperClu_Multiplicity_isAfterCut3_SCRawEtGT2", "(30, 0, 30)", set_of_cuts_events[i], name_events[i], "Super cluster multiplicity Et>2GeV", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "SuperClu_Multiplicity_isAfterCut3_SCRawEtGT4", "(30, 0, 30)", set_of_cuts_events[i], name_events[i], "Super cluster multiplicity Et>4GeV", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "SuperClu_Multiplicity_isAfterCut3_SCRawEtGT10", "(30, 0, 30)", set_of_cuts_events[i], name_events[i], "Super cluster multiplicity Et>10GeV", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "Photon_Multiplicity_isAfterCut10", "(7, 0, 7)", set_of_cuts_events[i], name_events[i], "Photon multiplicity", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "SuperClu_Multiplicity_isAfterCut7", "(30, 0, 30)", set_of_cuts_events[i], name_events[i], "Super cluster multiplicity", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "Photon_Multiplicity_isAfterCut10_SCRawEtGT4", "(7, 0, 7)", set_of_cuts_events[i], name_events[i], "Photon Multiplicity SCEt>4GeV", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "Photon_Multiplicity_isAfterCut10_SCRawEtGT10", "(7, 0, 7)", set_of_cuts_events[i], name_events[i], "Photon Multiplicity SCEt>10GeV", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "SuperClu_Multiplicity_isAfterCut7_SCRawEtGT2", "(30, 0, 30)", set_of_cuts_events[i], name_events[i], "Super cluster multiplicity Et>2GeV", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "SuperClu_Multiplicity_isAfterCut7_SCRawEtGT4", "(30, 0, 30)", set_of_cuts_events[i], name_events[i], "Super cluster multiplicity Et>4GeV", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "SuperClu_Multiplicity_isAfterCut7_SCRawEtGT10", "(30, 0, 30)", set_of_cuts_events[i], name_events[i], "Super cluster multiplicity Et>10GeV", true, true, c1);
 
 		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "nPhotonEB_perEvent", "(15, 0, 15)", set_of_cuts_events[i], name_events[i],"nPhotonEB_perEvent", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_eventTree, MC_eventTree, "nPhotonEE_perEvent", "(15, 0, 15)", set_of_cuts_events[i], name_events[i],"nPhotonEE_perEvent", true, true, c1);
