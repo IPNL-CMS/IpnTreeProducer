@@ -65,6 +65,7 @@ int main(){
 	bool doPhotonConversionMC	= false;
 
 	TChain *inputEventTree = new TChain("eventTree");
+	TFile* OutputRootFile;
 //	inputEventTree->Add("");
 //	TFile* OutputRootFile = new TFile("miniTree_.root", "RECREATE");
 
