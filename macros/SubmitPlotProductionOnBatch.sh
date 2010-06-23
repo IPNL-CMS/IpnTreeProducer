@@ -16,7 +16,7 @@ do
 		sed -i -e "/${sample}/s/^\/\///g" -e "/\"${cut}\"/{s_^\/\/__g;n;s_^\/\/__g;}" plotDataMC_TDR_miniTree_${sample}_${cut}.C;
 		g++ plotDataMC_TDR_miniTree_${sample}_${cut}.C `root-config --libs --cflags` -m32 -O3 -o plotDataMC_TDR_miniTree_${sample}_${cut};
 		cp batch_template.sh batch_plotDataMC_TDR_miniTree_${sample}_${cut}.sh;
-		sed -i -e "s/TotoAna_miniTree_TEMPLATE/plotDataMC_TDR_miniTree_${sample}_${cut}/g" -e "s/TEMPLATE/${sample}_${counter}/g" batch_plotDataMC_TDR_miniTree_${sample}_${cut}.sh;
+		sed -i -e "s/TotoAna_miniTree_TEMPLATE/plotDataMC_TDR_miniTree_${sample}_${cut}/g" -e "s/TEMPLATE/Ph_${sample}_${counter}/g" batch_plotDataMC_TDR_miniTree_${sample}_${cut}.sh;
 		qsub batch_plotDataMC_TDR_miniTree_${sample}_${cut}.sh;
 		counter=$[${counter}+1];
 	done
