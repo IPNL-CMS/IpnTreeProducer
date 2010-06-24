@@ -17,6 +17,7 @@ nSelectedEvents=0
 nEventsWithScHigherThan2GeV=0
 nSelectedPhotons=0
 nTotPhotons=0
+nCut1=0
 nCut4=0
 nCut5=0
 nCut6=0
@@ -40,7 +41,7 @@ numberOfFiles=`'ls' ${sample}_*.out | grep -v ALL | wc -l`
 for (( ifile=0 ; ifile<${numberOfFiles} ; ifile++ ))
 do
 	echo "Scanning file ${sample}_${ifile}.out"
-	for cut in `echo "nTotEventsSelectedRuns nSelectedEvents nEventsWithScHigherThan2GeV nSelectedPhotons nTotPhotons nCut4 nCut5 nCut6 nCut7 nCut8 nCut9 nCut10 nTotSC nSelectedSC nSCAfterCut1 nSCAfterCut2 nSCAfterCut3 nSCAfterCut4 nSCAfterCut5 nSCAfterCut6 nSCAfterCut7"`
+	for cut in `echo "nTotEventsSelectedRuns nSelectedEvents nEventsWithScHigherThan2GeV nSelectedPhotons nTotPhotons nCut1 nCut4 nCut5 nCut6 nCut7 nCut8 nCut9 nCut10 nTotSC nSelectedSC nSCAfterCut1 nSCAfterCut2 nSCAfterCut3 nSCAfterCut4 nSCAfterCut5 nSCAfterCut6 nSCAfterCut7"`
 	do
 		cat ${sample}_${ifile}.out | grep = | sed 's/  /\n/g' | sed 's/\t/\n/g' | grep "${cut}=" | grep -v "\%" | sed 's/=/ /g' >> TEMP_${sample}
 	done
@@ -51,6 +52,7 @@ nSelectedEvents=`cat TEMP_${sample} | grep nSelectedEvents | awk 'BEGIN {SUM=0} 
 nEventsWithScHigherThan2GeV=`cat TEMP_${sample} | grep nEventsWithScHigherThan2GeV | awk 'BEGIN {SUM=0} {SUM+=$2} END {print SUM}'`
 nSelectedPhotons=`cat TEMP_${sample} | grep nSelectedPhotons | awk 'BEGIN {SUM=0} {SUM+=$2} END {print SUM}'`
 nTotPhotons=`cat TEMP_${sample} | grep nTotPhotons | awk 'BEGIN {SUM=0} {SUM+=$2} END {print SUM}'`
+nCut1=`cat TEMP_${sample} | grep "nCut1 " | awk 'BEGIN {SUM=0} {SUM+=$2} END {print SUM}'`
 nCut4=`cat TEMP_${sample} | grep nCut4 | awk 'BEGIN {SUM=0} {SUM+=$2} END {print SUM}'`
 nCut5=`cat TEMP_${sample} | grep nCut5 | awk 'BEGIN {SUM=0} {SUM+=$2} END {print SUM}'`
 nCut6=`cat TEMP_${sample} | grep nCut6 | awk 'BEGIN {SUM=0} {SUM+=$2} END {print SUM}'`
@@ -74,6 +76,7 @@ echo "nSelectedEvents= ${nSelectedEvents}"
 echo "nEventsWithScHigherThan2GeV= ${nEventsWithScHigherThan2GeV}"
 echo "nSelectedPhotons= ${nSelectedPhotons}"
 echo "nTotPhotons= ${nTotPhotons}"
+echo "nCut1= ${nCut1}"
 echo "nCut4= ${nCut4}"
 echo "nCut5= ${nCut5}"
 echo "nCut6= ${nCut6}"

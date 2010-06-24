@@ -6,9 +6,11 @@
 ### Photon plots
 ##############################################################
 for sample in `echo "MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1 MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1 MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1 MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1"`;
+#for sample in `echo "MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1"`;
 do
 	counter=0;
 	for cut in `echo "isAfterCut10 isAfterCut10_EB isAfterCut10_EE isAfterCut10_EEM isAfterCut10_EEP"`;
+#	for cut in `echo "isAfterCut10"`;
 	do
 		echo -e "\n${sample}\t\t${cut}";
 		cp plotDataMC_TDR_miniTree.C plotDataMC_TDR_miniTree_${sample}_${cut}.C;
@@ -26,9 +28,11 @@ done
 ### SuperClu plots
 ##############################################################
 for sample in `echo "MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1 MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1 MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1 MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1"`;
+#for sample in `echo "MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1"`;
 do
   counter=0;
   for cut in `echo "isAfterCut7 isAfterCut7_EE isAfterCut7_EB isAfterCut7_EEM isAfterCut7_EEP isAfterCut7_RawEtGT2 isAfterCut7_RawEtGT2_EE isAfterCut7_RawEtGT2_EB isAfterCut7_RawEtGT2_EEM isAfterCut7_RawEtGT2_EEP isAfterCut7_RawEtGT4 isAfterCut7_RawEtGT4_EE isAfterCut7_RawEtGT4_EB isAfterCut7_RawEtGT4_EEM isAfterCut7_RawEtGT4_EEP isAfterCut7_RawEtGT10 isAfterCut7_RawEtGT10_EE isAfterCut7_RawEtGT10_EB isAfterCut7_RawEtGT10_EEM isAfterCut7_RawEtGT10_EEP"`;
+#	for cut in `echo "isAfterCut7"`;
   do
     echo -e "\n${sample}\t\t${cut}";
     cp plotDataMC_TDR_miniTree.C plotDataMC_TDR_miniTree_${sample}_${cut}.C;
@@ -46,6 +50,7 @@ done
 ### Event plots
 ##############################################################
 for sample in `echo "MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1 MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1 MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1 MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1"`;
+#for sample in `echo "MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1"`;
 do
   counter=0;
   for cut in `echo "NoCuts"`;

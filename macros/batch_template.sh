@@ -1,8 +1,8 @@
 #!/usr/local/bin/bash
-#PBS -l platform=LINUX,u_sps_cmsf     # Plateforme d'execution
-#PBS -l T=4286000              # Nombre d'unite normalisee (consommation cpu)
+#PBS -l platform=LINUX,u_sps_cmsf
+#PBS -l T=680000
 #PBS -q T
-#PBS -l M=1024MB
+#PBS -l M=512MB
 #PBS -N TEMPLATE               # Job Name
 #PBS -o TEMPLATE.out
 #PBS -e TEMPLATE.err
