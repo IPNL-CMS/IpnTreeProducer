@@ -103,12 +103,6 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 	TFile* OutputRootFile = new TFile("miniTree_MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
 }
 
-/*
-// ************* TEST
-	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/DATA_MinimumBias_Commissioning10-May6thPDSkim_GOODCOLL-v1_RAW-RECO/DATA_MinimumBias_Commissioning10-May6thPDSkim_GOODCOLL-v1_RAW-RECO_TOTOANA_77_1.root");
-	TFile* OutputRootFile = new TFile("miniTree_TEST.root", "RECREATE");
-*/
-	
 	TBranch* event_br = 0;
 	TRootEvent* event = 0;
 	inputEventTree->SetBranchAddress("Event", &event, &event_br);
@@ -468,8 +462,8 @@ cout << endl;
 
 	event_miniTree->Branch("Photon_Multiplicity", &Photon_Multiplicity, "Photon_Multiplicity/I");
 	event_miniTree->Branch("Photon_Multiplicity_isAfterCut10", &Photon_Multiplicity_isAfterCut10, "Photon_Multiplicity_isAfterCut10/I");
-        event_miniTree->Branch("Photon_Multiplicity_isAfterCut10_SCRawEtGT4", &Photon_Multiplicity_isAfterCut10_SCRawEtGT4, "Photon_Multiplicity_isAfterCut10_SCRawEtGT4/I");
-        event_miniTree->Branch("Photon_Multiplicity_isAfterCut10_SCRawEtGT10", &Photon_Multiplicity_isAfterCut10_SCRawEtGT10, "Photon_Multiplicity_isAfterCut10_SCRawEtGT10/I");
+	event_miniTree->Branch("Photon_Multiplicity_isAfterCut10_SCRawEtGT4", &Photon_Multiplicity_isAfterCut10_SCRawEtGT4, "Photon_Multiplicity_isAfterCut10_SCRawEtGT4/I");
+	event_miniTree->Branch("Photon_Multiplicity_isAfterCut10_SCRawEtGT10", &Photon_Multiplicity_isAfterCut10_SCRawEtGT10, "Photon_Multiplicity_isAfterCut10_SCRawEtGT10/I");
 
 	event_miniTree->Branch("SuperClu_Multiplicity", &SuperClu_Multiplicity, "SuperClu_Multiplicity/I");
 	event_miniTree->Branch("SuperClu_Multiplicity_isAfterCut7", &SuperClu_Multiplicity_isAfterCut7, "SuperClu_Multiplicity_isAfterCut7/I");
@@ -482,7 +476,6 @@ cout << endl;
 	event_miniTree->Branch("nPhotonEE_perEvent", &nPhotonEE_perEvent, "nPhotonEE_perEvent/I");
 	event_miniTree->Branch("nPhotonEB_perEvent", &nPhotonEB_perEvent, "nPhotonEB_perEvent/I");
 
-/*
 	event_miniTree->Branch("HLT_Photon10_L1R", &HLT_Photon10_L1R,"HLT_Photon10_L1R/I");
 	event_miniTree->Branch("HLT_Photon15_L1R", &HLT_Photon15_L1R,"HLT_Photon15_L1R/I");
 	event_miniTree->Branch("HLT_Photon15_LooseEcalIso_L1R", &HLT_Photon15_LooseEcalIso_L1R,"HLT_Photon15_LooseEcalIso_L1R/I");
@@ -508,7 +501,7 @@ cout << endl;
 	event_miniTree->Branch("HLT_Ele10_LW_L1R", &HLT_Ele10_LW_L1R,"HLT_Ele10_LW_L1R/I");
 
 	event_miniTree->Branch("HLT_Photon15_TrackIso_L1R", &HLT_Photon15_TrackIso_L1R,"HLT_Photon15_TrackIso_L1R/I");
-*/
+
 
 	unsigned int nTotEvents = (int)inputEventTree->GetEntries();
 	//unsigned int nTotEvents = 1000;
@@ -771,7 +764,15 @@ cout << endl;
 
 			SuperClu_Multiplicity_isAfterCut7 +=1;
 	
-			if(SuperClu_RawEt > 2){SuperClu_Multiplicity_isAfterCut7_SCRawEtGT2 += 1 ; if (SuperClu_RawEt > 4){SuperClu_Multiplicity_isAfterCut7_SCRawEtGT4 += 1 ; if(SuperClu_RawEt > 10){SuperClu_Multiplicity_isAfterCut7_SCRawEtGT10 += 1;} }}
+			if(SuperClu_RawEt > 2){
+				SuperClu_Multiplicity_isAfterCut7_SCRawEtGT2 += 1 ;
+				if (SuperClu_RawEt > 4){
+					SuperClu_Multiplicity_isAfterCut7_SCRawEtGT4 += 1 ;
+					if(SuperClu_RawEt > 10){
+						SuperClu_Multiplicity_isAfterCut7_SCRawEtGT10 += 1;
+					}
+				}
+			}
 
 			nSelectedSC++;
 			supercluster_miniTree->Fill();
@@ -1037,7 +1038,12 @@ cout << endl;
         Photon_isAfterCut10 = 1;
 
 				Photon_Multiplicity_isAfterCut10 += 1;
-				 if(scRawEt > 4){Photon_Multiplicity_isAfterCut10_SCRawEtGT4 += 1 ; if(scRawEt > 10){Photon_Multiplicity_isAfterCut10_SCRawEtGT10 += 1; } }
+				if(scRawEt > 4){
+					Photon_Multiplicity_isAfterCut10_SCRawEtGT4 += 1 ;
+					if(scRawEt > 10){
+						Photon_Multiplicity_isAfterCut10_SCRawEtGT10 += 1;
+					}
+				}
 			
 				nPhotons++;
 				nSelectedPhotons++;
@@ -1048,7 +1054,6 @@ cout << endl;
 			
 		} // end of do photons
 
-/*
 		if (event->trigHLT()[71]==true) HLT_Photon10_L1R = 1; else HLT_Photon10_L1R =0;
 		if (event->trigHLT()[72]==true) HLT_Photon10_L1R = 1; else HLT_Photon10_L1R =0;
 		if (event->trigHLT()[74]==true) HLT_Photon15_LooseEcalIso_L1R = 1; else HLT_Photon15_LooseEcalIso_L1R =0;
@@ -1074,7 +1079,7 @@ cout << endl;
 		if (event->trigHLT()[64]==true) HLT_Ele10_LW_L1R = 1; else HLT_Ele10_LW_L1R =0;
 
 		if (event->trigHLT()[73]==true) HLT_Photon15_TrackIso_L1R = 1; else HLT_Photon15_TrackIso_L1R =0;
-*/
+
 		event_miniTree->Fill();	
 		nSelectedEvents++;	
 	} // fin boucle sur evts
@@ -1089,10 +1094,17 @@ cout << endl;
 	cout << "nCut1=" << nCut1 << "	nCut2=" << nCut2 << "	nCut3=" << nCut3 << "	nCut4=" << nCut4 << "	nCut5=" << nCut5 << "	nCut6=" << nCut6 << "	 nCut7=" << nCut7 << "  nCut8=" << nCut8 << "  nCut9=" << nCut9 << "  nCut10=" << nCut10 << endl;
 
 	if(nTotSC>0) cout << "nTotSC=" << nTotSC << "  nSelectedSC=" << nSelectedSC << "  nSCAfterCut1=" << nSCAfterCut1 << "  nSCAfterCut2=" << nSCAfterCut2 << "  nSCAfterCut3=" << nSCAfterCut3 << "  nSCAfterCut4=" << nSCAfterCut4 << "  nSCAfterCut5=" << nSCAfterCut5 << "  nSCAfterCut6=" << nSCAfterCut6 << "  nSCAfterCut7=" << nSCAfterCut7 << endl;
+
+
+	event_miniTree->Write();
+	supercluster_miniTree->Write();
+	photon_miniTree->Write();
 	
+/*
 	OutputRootFile->cd();
 	OutputRootFile->Write();
 	OutputRootFile->Close();
+*/
 
 	return 0;
 }
