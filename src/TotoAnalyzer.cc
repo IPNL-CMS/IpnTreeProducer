@@ -482,7 +482,7 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
       
       beamStatus_->setBstMasterStatus( condInEventBlock->bstMasterStatus );
       beamStatus_->setTurnCountNumber( condInEventBlock->turnCountNumber );
-      //rootEvent_->setBeamStatus(beamStatus_);
+      rootEvent_->setBeamStatus((*beamStatus_));
    }
    
    

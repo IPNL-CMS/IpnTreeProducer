@@ -194,8 +194,7 @@ class TRootEvent : public TObject
       void setBunchCrossing(Int_t bunchCrossing) { bunchCrossing_ = bunchCrossing; }
       void setOrbitNumber(Int_t orbitNumber) { orbitNumber_ = orbitNumber; }
       void setCollisionTime(unsigned long long collisionTime) { collisionTime_ = collisionTime; }
-      void setBeamStatus(TRootBeamStatus beamStatus) { beamStatus_ = beamStatus; }
-      //void setBeamStatus(const TRootBeamStatus& beamStatus) { beamStatus_ = beamStatus; }
+      void setBeamStatus(const TRootBeamStatus& beamStatus) { beamStatus_ = beamStatus; }
       void setTotoAnaProcessingTime(UInt_t totoAnaProcessingTime) { totoAnaProcessingTime_ = totoAnaProcessingTime; }
       void setGlobalL1(Bool_t passGlobalL1) { passGlobalL1_ = passGlobalL1; }
       void setPhysicsL1Accept(std::vector<Bool_t> physicsL1Accept)
