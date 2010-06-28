@@ -48,10 +48,14 @@ class TRootEvent : public TObject
       ,primaryVertex_(0)
       ,idParton1_(-1)
       ,xParton1_(-1.)
+      ,xPDF1_(-1.)
       ,idParton2_(-1)
       ,xParton2_(-1.)
-      ,factorizationScale_(-1.)
+      ,xPDF2_(-1.)
+      ,pdfScale_(-1.)
       ,eventScale_(-1.)
+      ,ptHat_(-1.)
+      ,weight_(-1.)
       {;}
       
       ~TRootEvent() {;}
@@ -164,14 +168,21 @@ class TRootEvent : public TObject
       Int_t idParton1() const { return idParton1_; }
       // energy fraction carried by first incoming parton
       Float_t xParton1() const { return xParton1_; }
+      Float_t xPDF1() const { return xPDF1_; }
       // flavour first incoming parton
       Int_t idParton2() const { return idParton2_; }
       // energy fraction carried by first incoming parton
       Float_t xParton2() const { return xParton2_; }
-      // Factorization Scale Q
-      Float_t factorizationScale() const { return factorizationScale_; }
-      // Event scale (pt_hat for PYTHIA)
+      Float_t xPDF2() const { return xPDF2_; }
+      // PDF Scale
+      Float_t pdfScale() const { return pdfScale_; }
+      // Event scale (= Q scale for PYTHIA - PARI[23] )
       Float_t eventScale() const { return eventScale_; }
+      //  GenEventInfoProduct::binningValues().at(0) - For PYTHIA, it is pt_hat, i.e. PARI[17]
+      // see GeneratorInterface/Pythia6Interface/plugins/Pythia6Hadronizer.cc
+      Float_t ptHat() const { return ptHat_; }
+      // Event weight
+      Float_t weight() const { return weight_; }
       
       
       
@@ -184,6 +195,7 @@ class TRootEvent : public TObject
       void setOrbitNumber(Int_t orbitNumber) { orbitNumber_ = orbitNumber; }
       void setCollisionTime(unsigned long long collisionTime) { collisionTime_ = collisionTime; }
       void setBeamStatus(TRootBeamStatus beamStatus) { beamStatus_ = beamStatus; }
+      //void setBeamStatus(const TRootBeamStatus& beamStatus) { beamStatus_ = beamStatus; }
       void setTotoAnaProcessingTime(UInt_t totoAnaProcessingTime) { totoAnaProcessingTime_ = totoAnaProcessingTime; }
       void setGlobalL1(Bool_t passGlobalL1) { passGlobalL1_ = passGlobalL1; }
       void setPhysicsL1Accept(std::vector<Bool_t> physicsL1Accept)
@@ -217,10 +229,14 @@ class TRootEvent : public TObject
       
       void setIdParton1(Int_t idParton1) { idParton1_=idParton1; }
       void setXParton1(Float_t xParton1) { xParton1_=xParton1; }
+      void setXPDF1(Float_t xPDF1) { xPDF1_=xPDF1; }
       void setIdParton2(Int_t idParton2) { idParton2_=idParton2; }
       void setXParton2(Float_t xParton2) { xParton2_=xParton2; }
-      void setFactorizationScale(Float_t factorizationScale) { factorizationScale_=factorizationScale; }
+      void setXPDF2(Float_t xPDF2) { xPDF2_=xPDF2; }
+      void setPdfScale(Float_t pdfScale) { pdfScale_=pdfScale; }
       void setEventScale(Float_t eventScale) { eventScale_=eventScale; }
+      void setPtHat(Float_t ptHat) { ptHat_=ptHat; }
+      void setWeight(Float_t weight) { weight_=weight; }
       
       friend std::ostream& operator<< (std::ostream& stream, const TRootEvent& event) {
          stream << "Run " << event.runId() <<" Event "<< event.eventId() <<"  Luminosity block "<< event.luminosityBlock()
@@ -269,15 +285,19 @@ class TRootEvent : public TObject
       Int_t primaryVertexIndex_; // Index in vertices TClonesArray of the selected primary vertex
       TRef primaryVertex_; // Reference to the TRootVertex of the selected primary vertex
       
-      // PDF infos
+      // GenEvent and PDF infos
       Int_t idParton1_;
       Float_t xParton1_;
+      Float_t xPDF1_;
       Int_t idParton2_;
       Float_t xParton2_;
-      Float_t factorizationScale_;
+      Float_t xPDF2_;
+      Float_t pdfScale_;
       Float_t eventScale_;
+      Float_t ptHat_;
+      Float_t weight_;
       
-      ClassDef (TRootEvent,6);
+      ClassDef (TRootEvent,7);
       
 };
 
