@@ -69,6 +69,9 @@ class MCAnalyzer
       bool doMuonMC_;
       double muonMC_etaMax_;
       double muonMC_ptMin_;
+      bool doOtherStablePartsMC_;
+      double otherStablePartMC_etaMax_;
+      double otherStablePartMC_ptMin_;
       bool doJetMC_;
       double jetMC_etaMax_;
       double jetMC_ptMin_;

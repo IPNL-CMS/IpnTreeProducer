@@ -19,6 +19,10 @@ MCAnalyzer::MCAnalyzer(const edm::ParameterSet& config, const edm::ParameterSet&
    muonMC_etaMax_ = config.getParameter<double>("muonMC_etaMax");
    muonMC_ptMin_ = config.getParameter<double>("muonMC_ptMin");
    
+   doOtherStablePartsMC_ = config.getUntrackedParameter<bool>("doOtherStablePartsMC", false);
+   otherStablePartMC_etaMax_ = config.getParameter<double>("otherStablePartMC_etaMax");
+   otherStablePartMC_ptMin_ = config.getParameter<double>("otherStablePartMC_ptMin");
+   
    doJetMC_ = config.getUntrackedParameter<bool>("doJetMC", false);
    jetMC_etaMax_ = config.getParameter<double>("jetMC_etaMax");
    jetMC_ptMin_ = config.getParameter<double>("jetMC_ptMin");
@@ -82,8 +86,6 @@ bool MCAnalyzer::pdfInfo(const edm::Event& iEvent, TRootEvent* rootEvent)
    
    if ( genEvent->hasPDF() )
    {
-      const gen::PdfInfo* pdf = genEvent->pdf();
-      cout << "id1=" << pdf->id.first << endl;
       if (verbosity_>1)
       {
          cout << "   First incoming parton:  flavour=" << genEvent->pdf()->id.first << " x1 = " << genEvent->pdf()->x.first << " xPDF1 = " << genEvent->pdf()->xPDF.first << endl;
@@ -109,8 +111,8 @@ bool MCAnalyzer::processMCParticle(const edm::Event& iEvent, TClonesArray* rootM
    // Fill TCloneArrays with preselected MC Electrons, Muons and Photons, and with the primary decaying particles
    if(verbosity_>1) cout << endl << "   Process MC Particles..." << endl;
    
-   int iPhoton=0; int iElectron=0; int iMuon=0; int iUnstableParticle=0;
-   int iPartSel=0; int iPhotonSel=0; int iElectronSel=0; int iMuonSel=0;
+   int iPhoton=0; int iElectron=0; int iMuon=0; int iOtherStableParticle=0; int iUnstableParticle=0;
+   int iPartSel=0; int iPhotonSel=0; int iElectronSel=0; int iMuonSel=0; int iOtherStableParticleSel=0;
    
    edm::Handle <reco::GenParticleCollection> genParticles;
    try
@@ -178,7 +180,17 @@ bool MCAnalyzer::processMCParticle(const edm::Event& iEvent, TClonesArray* rootM
          iMuonSel++;
       }
       
-      
+      // Optionnaly keep all other stable MC particles
+      if ( doOtherStablePartsMC_ && p.status()==1 && p.pdgId() != 22 && abs(p.pdgId()) != 11 && abs(p.pdgId()) != 13 )
+      {
+         iOtherStableParticle++;
+         if ( abs(p.eta()>otherStablePartMC_etaMax_) || p.pt()<otherStablePartMC_ptMin_ ) continue;
+         new( (*rootMCParticles)[iPartSel] ) TRootMCParticle( p.px(), p.py(), p.pz(), p.energy(), p.vx(), p.vy(), p.vz(), p.pdgId(), p.charge(), p.status(), p.numberOfDaughters(), motherID, grannyID, oldgrannyId, 0, 0, 0, 0, j );
+         if(verbosity_>2) cout << "   ["<< setw(3) << iPartSel << "] other MC stable particles  " << (const TRootMCParticle&)(*rootMCParticles->At(iPartSel)) << endl;
+         iPartSel++;
+         iOtherStableParticleSel++;
+      }
+         
       // add information on primary unstable particles: keep quarks, taus, Z, W, Higgs and susy particles, with status 3
       if ( doUnstablePartsMC_ && (abs(p.pdgId()) < 7 || (abs(p.pdgId()) > 10 && abs(p.pdgId()) < 17 )  ||
          (abs(p.pdgId()) > 20 && abs(p.pdgId()) < 38) || (abs(p.pdgId()) > 1000000 && abs(p.pdgId()) < 3000000) )
@@ -208,6 +220,7 @@ bool MCAnalyzer::processMCParticle(const edm::Event& iEvent, TClonesArray* rootM
       cout << "   Number of MC photons = " << iPhoton << ", preselected = " << iPhotonSel << endl;
       cout << "   Number of MC electrons = " << iElectron << ", preselected = " << iElectronSel << endl;
       cout << "   Number of MC muons = " << iMuon << ", preselected = " << iMuonSel << endl;
+      cout << "   Number of other MC stable particles = " << iOtherStableParticle << ", preselected = " << iOtherStableParticleSel << endl;
       cout << "   Number of primary unstable particles dumped in the ntuple = " << iUnstableParticle << endl;
    }
    
