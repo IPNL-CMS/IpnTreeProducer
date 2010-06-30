@@ -297,7 +297,7 @@ cout << endl;
 	// Declaration of all photon variables
 	Int_t Photon_iEvent;
 	Int_t Photon_isEBorEE, Photon_isEB, Photon_isEE, Photon_isEEP, Photon_isEEM;
-	Int_t Photon_isAfterCut0, Photon_isAfterCut1, Photon_isAfterCut2, Photon_isAfterCut3, Photon_isAfterCut4, Photon_isAfterCut5, Photon_isAfterCut6, Photon_isAfterCut7, Photon_isAfterCut8, Photon_isAfterCut9, Photon_isAfterCut10;
+	Int_t Photon_isAfterCut0, Photon_isAfterCut1, Photon_isAfterCut2, Photon_isAfterCut3, Photon_isAfterCut4, Photon_isAfterCut5, Photon_isAfterCut6, Photon_isAfterCut7, Photon_isAfterCut8, Photon_isAfterCut9, Photon_isAfterCut10, Photon_isSelected;
 
 	Int_t Photon_hasPixelSeed, Photon_isAlsoElectron, Photon_Nclusters, Photon_nBasicClusters, Photon_nXtals;
 	Int_t Photon_isTightPhoton, Photon_isLoosePhoton;
@@ -314,7 +314,7 @@ cout << endl;
 	Int_t Photon_seedFlag, Photon_seedSeverity;
  
 	// Declaration of all SuperCluster variables
-	Int_t SuperClu_isAfterCut1, SuperClu_isAfterCut2, SuperClu_isAfterCut3, SuperClu_isAfterCut4, SuperClu_isAfterCut5, SuperClu_isAfterCut6, SuperClu_isAfterCut7;
+	Int_t SuperClu_isAfterCut1, SuperClu_isAfterCut2, SuperClu_isAfterCut3, SuperClu_isAfterCut4, SuperClu_isAfterCut5, SuperClu_isAfterCut6, SuperClu_isAfterCut7, SuperClu_isSelected;
 	Float_t SuperClu_E, SuperClu_Et, SuperClu_Eta, SuperClu_Phi, SuperClu_RawE, SuperClu_RawEt;
 	Float_t SuperClu_seedTime;
 	Float_t SuperClu_s4, SuperClu_etaWidth, SuperClu_phiWidth;
@@ -361,6 +361,7 @@ cout << endl;
 	photon_miniTree->Branch("Photon_isAfterCut8,", &Photon_isAfterCut8, "Photon_isAfterCut8/I");
 	photon_miniTree->Branch("Photon_isAfterCut9,", &Photon_isAfterCut9, "Photon_isAfterCut9/I");
 	photon_miniTree->Branch("Photon_isAfterCut10,", &Photon_isAfterCut10, "Photon_isAfterCut10/I");
+	photon_miniTree->Branch("Photon_isSelected,", &Photon_isSelected, "Photon_isSelected/I");
 
 	photon_miniTree->Branch("Photon_hasPixelSeed", &Photon_hasPixelSeed, "Photon_hasPixelSeed/I");
 	photon_miniTree->Branch("Photon_isAlsoElectron", &Photon_isAlsoElectron, "Photon_isAlsoElectron/I");
@@ -456,6 +457,7 @@ cout << endl;
 	supercluster_miniTree->Branch("SuperClu_isAfterCut5", &SuperClu_isAfterCut5, "SuperClu_isAfterCut5/I");
 	supercluster_miniTree->Branch("SuperClu_isAfterCut6", &SuperClu_isAfterCut6, "SuperClu_isAfterCut6/I");
 	supercluster_miniTree->Branch("SuperClu_isAfterCut7", &SuperClu_isAfterCut7, "SuperClu_isAfterCut7/I");
+	supercluster_miniTree->Branch("SuperClu_isSelected", &SuperClu_isSelected, "SuperClu_isSelected/I");
 
 	// Creation of the event Tree
 	event_miniTree->Branch("NoCuts", &NoCuts, "NoCuts/I");
@@ -547,6 +549,7 @@ cout << endl;
 		SuperClu_isAfterCut5 = 0;
 		SuperClu_isAfterCut6 = 0;
 		SuperClu_isAfterCut7 = 0;
+		SuperClu_isSelected = 0;
 
 		Photon_iEvent = ievt;
 		inputEventTree->GetEvent(ievt);
@@ -599,6 +602,7 @@ cout << endl;
 		Photon_isAfterCut8 = 0;
 		Photon_isAfterCut9 = 0;
 		Photon_isAfterCut10 = 0;
+		Photon_isSelected = 0;
 		Photon_isEB = 0;
 		Photon_isEE = 0;
 		Photon_isEEM = 0;
@@ -678,6 +682,7 @@ cout << endl;
 			SuperClu_isAfterCut5 = 0;
 			SuperClu_isAfterCut6 = 0;
 			SuperClu_isAfterCut7 = 0;
+			SuperClu_isSelected = 0;
 			mysc = (TRootSuperCluster*) superClusters->At(isc);
 			if ( ! ( mysc->type()==211 || mysc->type()==322 ) ){continue;} // All the SC are kept in the same branch, i.e. SC belonging to the different reco collections [...] So to avoid double counting, you have to use only SC with type 211 or 322
 			SuperClu_Multiplicity +=1;
@@ -760,6 +765,7 @@ cout << endl;
       }
 			SuperClu_isAfterCut7 = 1;
       nSCAfterCut7++;
+			SuperClu_isSelected = 1;
 
 
 			SuperClu_Multiplicity_isAfterCut7 +=1;
@@ -800,6 +806,7 @@ cout << endl;
 				Photon_isAfterCut8 = 0;
 				Photon_isAfterCut9 = 0;
 				Photon_isAfterCut10 = 0;
+				Photon_isSelected = 0;
 				Photon_isEB = 0;
 				Photon_isEE = 0;
 				Photon_isEEM = 0;
@@ -1036,6 +1043,7 @@ cout << endl;
         }
 				nCut10++;
         Photon_isAfterCut10 = 1;
+        Photon_isSelected = 1;
 
 				Photon_Multiplicity_isAfterCut10 += 1;
 				if(scRawEt > 4){
