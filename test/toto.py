@@ -18,7 +18,7 @@ process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 
 # Needed for GlobalPositionRcd
 process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_cff')
-process.GlobalTag.globaltag = 'START36_V9::All'
+process.GlobalTag.globaltag = 'START37_V4::All'
 
 # Global geometry
 #process.load("Configuration.StandardSequences.Geometry_cff")
@@ -47,9 +47,7 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source("PoolSource",
 
 # RECO
-fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/relval/CMSSW_3_6_1_patch1/RelValTTbar/GEN-SIM-RECO/START36_V8-v1/0000/029EA068-F462-DF11-A4DC-0030487C90EE.root')
-# fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/user/c/ccecal/BEAM/Skims/InterestingEvents/bit40or41skim_minBiasRECO_run130910.root')
-# fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/user/h/hbrun/BSCSkim_MinBiasFilter/data/BSCFilter_Jan29_v8_MinBiasFilter_Run123596_88.root')
+fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/relval/CMSSW_3_7_0/RelValQCD_Pt_80_120/GEN-SIM-RECO/START37_V4-v1/0024/50B4BEF7-3669-DF11-BEFC-002618943967.root')
 #  fileNames = cms.untracked.vstring(
 #   'file:/sps/cms/morgan/data/CMSSW_3_1_2__RelValH130GGgluonfusion__GEN-SIM-RECO__STARTUP31X_V2-v1__0007__104E25AC-CC78-DE11-AE55-001D09F2447F.root'
 #   ,'file:/sps/cms/morgan/data/CMSSW_3_1_2__RelValH130GGgluonfusion__GEN-SIM-RECO__STARTUP31X_V2-v1__0007__748489A8-CC78-DE11-991C-000423D99896.root'
