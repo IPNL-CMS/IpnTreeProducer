@@ -459,7 +459,7 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 	// Declaration of all photon variables
 	Int_t Photon_iEvent;
 	Int_t Photon_isEBorEE, Photon_isEB, Photon_isEE, Photon_isEEP, Photon_isEEM;
-	Int_t Photon_isAfterCut0, Photon_isAfterCut1, Photon_isAfterCut2, Photon_isAfterCut3, Photon_isAfterCut4, Photon_isAfterCut5, Photon_isAfterCut6, Photon_isAfterCut7, Photon_isAfterCut8, Photon_isAfterCut9, Photon_isAfterCut10, Photon_isAfterCut11, Photon_isAfterCut12, Photon_isAfterCut13, Photon_isAfterCut14, Photon_isSelected;
+	Int_t Photon_isAfterCut0, Photon_isAfterCut1, Photon_isAfterCut2, Photon_isAfterCut3, Photon_isAfterCut4, Photon_isAfterCut5, Photon_isAfterCut6, Photon_isAfterCut7, Photon_isAfterCut8, Photon_isAfterCut9, Photon_isAfterCut10, Photon_isAfterCut11, Photon_isAfterCut12, Photon_isAfterCut13, Photon_isAfterCut14, Photon_isAfterCut15, Photon_isSelected;
 
 	Int_t Photon_hasPixelSeed, Photon_isAlsoElectron, Photon_Nclusters, Photon_nBasicClusters, Photon_nXtals;
 	Int_t Photon_isTightPhoton, Photon_isLoosePhoton;
@@ -476,7 +476,7 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 	Int_t Photon_seedFlag, Photon_seedSeverity;
  
 	// Declaration of all SuperCluster variables
-	Int_t SuperClu_isAfterCut1, SuperClu_isAfterCut2, SuperClu_isAfterCut3, SuperClu_isAfterCut4, SuperClu_isAfterCut5, SuperClu_isAfterCut6, SuperClu_isAfterCut7, SuperClu_isSelected;
+	Int_t SuperClu_isAfterCut1, SuperClu_isAfterCut2, SuperClu_isAfterCut3, SuperClu_isAfterCut4, SuperClu_isAfterCut5, SuperClu_isAfterCut6, SuperClu_isAfterCut7, SuperClu_isAfterCut8, SuperClu_isSelected;
 	Float_t SuperClu_E, SuperClu_Et, SuperClu_Eta, SuperClu_Phi, SuperClu_RawE, SuperClu_RawEt;
 	Float_t SuperClu_seedTime;
 	Float_t SuperClu_s4, SuperClu_etaWidth, SuperClu_phiWidth;
@@ -487,10 +487,10 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 
 	// Declaration of all event variables
 	Int_t Photon_Multiplicity, SuperClu_Multiplicity;
-	Int_t Photon_Multiplicity_isAfterCut10, SuperClu_Multiplicity_isAfterCut7;
-	Int_t SuperClu_Multiplicity_isAfterCut7_SCRawEtGT2;
-	Int_t Photon_Multiplicity_isAfterCut10_SCRawEtGT4, SuperClu_Multiplicity_isAfterCut7_SCRawEtGT4;
-	Int_t Photon_Multiplicity_isAfterCut10_SCRawEtGT10, SuperClu_Multiplicity_isAfterCut7_SCRawEtGT10;
+	Int_t Photon_Multiplicity_isAfterCut10, SuperClu_Multiplicity_isAfterCut8;
+	Int_t SuperClu_Multiplicity_isAfterCut8_SCRawEtGT2;
+	Int_t Photon_Multiplicity_isAfterCut10_SCRawEtGT4, SuperClu_Multiplicity_isAfterCut8_SCRawEtGT4;
+	Int_t Photon_Multiplicity_isAfterCut10_SCRawEtGT10, SuperClu_Multiplicity_isAfterCut8_SCRawEtGT10;
 	Int_t nPhotonEEP_perEvent, nPhotonEEM_perEvent, nPhotonEE_perEvent, nPhotonEB_perEvent;
 
 /*
@@ -529,6 +529,7 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 	photon_miniTree->Branch("Photon_isAfterCut12,", &Photon_isAfterCut12, "Photon_isAfterCut12/I");
 	photon_miniTree->Branch("Photon_isAfterCut13,", &Photon_isAfterCut13, "Photon_isAfterCut13/I");
 	photon_miniTree->Branch("Photon_isAfterCut14,", &Photon_isAfterCut14, "Photon_isAfterCut14/I");
+	photon_miniTree->Branch("Photon_isAfterCut15,", &Photon_isAfterCut15, "Photon_isAfterCut15/I");
 	photon_miniTree->Branch("Photon_isSelected,", &Photon_isSelected, "Photon_isSelected/I");
 
 	photon_miniTree->Branch("Photon_hasPixelSeed", &Photon_hasPixelSeed, "Photon_hasPixelSeed/I");
@@ -649,6 +650,7 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 	supercluster_miniTree->Branch("SuperClu_isAfterCut5", &SuperClu_isAfterCut5, "SuperClu_isAfterCut5/I");
 	supercluster_miniTree->Branch("SuperClu_isAfterCut6", &SuperClu_isAfterCut6, "SuperClu_isAfterCut6/I");
 	supercluster_miniTree->Branch("SuperClu_isAfterCut7", &SuperClu_isAfterCut7, "SuperClu_isAfterCut7/I");
+	supercluster_miniTree->Branch("SuperClu_isAfterCut8", &SuperClu_isAfterCut8, "SuperClu_isAfterCut8/I");
 	supercluster_miniTree->Branch("SuperClu_isSelected", &SuperClu_isSelected, "SuperClu_isSelected/I");
 
 	// Creation of the event Tree
@@ -660,10 +662,10 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 	event_miniTree->Branch("Photon_Multiplicity_isAfterCut10_SCRawEtGT10", &Photon_Multiplicity_isAfterCut10_SCRawEtGT10, "Photon_Multiplicity_isAfterCut10_SCRawEtGT10/I");
 
 	event_miniTree->Branch("SuperClu_Multiplicity", &SuperClu_Multiplicity, "SuperClu_Multiplicity/I");
-	event_miniTree->Branch("SuperClu_Multiplicity_isAfterCut7", &SuperClu_Multiplicity_isAfterCut7, "SuperClu_Multiplicity_isAfterCut7/I");
-	event_miniTree->Branch("SuperClu_Multiplicity_isAfterCut7_SCRawEtGT2", &SuperClu_Multiplicity_isAfterCut7_SCRawEtGT2, "SuperClu_Multiplicity_isAfterCut7_SCRawEtGT2/I");
-	event_miniTree->Branch("SuperClu_Multiplicity_isAfterCut7_SCRawEtGT4", &SuperClu_Multiplicity_isAfterCut7_SCRawEtGT4, "SuperClu_Multiplicity_isAfterCut7_SCRawEtGT4/I");
-	event_miniTree->Branch("SuperClu_Multiplicity_isAfterCut7_SCRawEtGT10", &SuperClu_Multiplicity_isAfterCut7_SCRawEtGT10, "SuperClu_Multiplicity_isAfterCut7_SCRawEtGT10/I");
+	event_miniTree->Branch("SuperClu_Multiplicity_isAfterCut8", &SuperClu_Multiplicity_isAfterCut8, "SuperClu_Multiplicity_isAfterCut8/I");
+	event_miniTree->Branch("SuperClu_Multiplicity_isAfterCut8_SCRawEtGT2", &SuperClu_Multiplicity_isAfterCut8_SCRawEtGT2, "SuperClu_Multiplicity_isAfterCut8_SCRawEtGT2/I");
+	event_miniTree->Branch("SuperClu_Multiplicity_isAfterCut8_SCRawEtGT4", &SuperClu_Multiplicity_isAfterCut8_SCRawEtGT4, "SuperClu_Multiplicity_isAfterCut8_SCRawEtGT4/I");
+	event_miniTree->Branch("SuperClu_Multiplicity_isAfterCut8_SCRawEtGT10", &SuperClu_Multiplicity_isAfterCut8_SCRawEtGT10, "SuperClu_Multiplicity_isAfterCut8_SCRawEtGT10/I");
 
 	event_miniTree->Branch("nPhotonEEM_perEvent", &nPhotonEEM_perEvent, "nPhotonEEM_perEvent/I");
 	event_miniTree->Branch("nPhotonEEP_perEvent", &nPhotonEEP_perEvent, "nPhotonEEP_perEvent/I");
@@ -721,6 +723,7 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 	unsigned int nCut12 = 0;
 	unsigned int nCut13 = 0;
 	unsigned int nCut14 = 0;
+	unsigned int nCut15 = 0;
 
 	unsigned int nTotSC = 0;
 	unsigned int nSelectedSC = 0;
@@ -731,6 +734,7 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 	unsigned int nSCAfterCut5 = 0;
 	unsigned int nSCAfterCut6 = 0;
 	unsigned int nSCAfterCut7 = 0;
+	unsigned int nSCAfterCut8 = 0;
 
 	cout<<"Nb of events : "<<nTotEvents<<endl;
 	inputRunTree->GetEvent(0);
@@ -747,6 +751,7 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 		SuperClu_isAfterCut5 = 0;
 		SuperClu_isAfterCut6 = 0;
 		SuperClu_isAfterCut7 = 0;
+		SuperClu_isAfterCut8 = 0;
 		SuperClu_isSelected = 0;
 
 		Photon_iEvent = ievt;
@@ -755,10 +760,10 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 		Photon_Multiplicity_isAfterCut10 = 0;
 		Photon_Multiplicity_isAfterCut10_SCRawEtGT4 = 0;
 		Photon_Multiplicity_isAfterCut10_SCRawEtGT10 = 0;
-		SuperClu_Multiplicity_isAfterCut7 = 0;
-		SuperClu_Multiplicity_isAfterCut7_SCRawEtGT2 = 0;
-		SuperClu_Multiplicity_isAfterCut7_SCRawEtGT4 = 0;
-		SuperClu_Multiplicity_isAfterCut7_SCRawEtGT10 = 0;
+		SuperClu_Multiplicity_isAfterCut8 = 0;
+		SuperClu_Multiplicity_isAfterCut8_SCRawEtGT2 = 0;
+		SuperClu_Multiplicity_isAfterCut8_SCRawEtGT4 = 0;
+		SuperClu_Multiplicity_isAfterCut8_SCRawEtGT10 = 0;
 	
 		nPhotonEEP_perEvent = 0 ;
 		nPhotonEEM_perEvent = 0 ;
@@ -804,6 +809,7 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 		Photon_isAfterCut12 = 0;
 		Photon_isAfterCut13 = 0;
 		Photon_isAfterCut14 = 0;
+		Photon_isAfterCut15 = 0;
 		Photon_isSelected = 0;
 		Photon_isEB = 0;
 		Photon_isEE = 0;
@@ -884,6 +890,7 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 			SuperClu_isAfterCut5 = 0;
 			SuperClu_isAfterCut6 = 0;
 			SuperClu_isAfterCut7 = 0;
+			SuperClu_isAfterCut8 = 0;
 			SuperClu_isSelected = 0;
 			mysc = (TRootSuperCluster*) superClusters->At(isc);
 			if ( ! ( mysc->type()==211 || mysc->type()==322 ) ){continue;} // All the SC are kept in the same branch, i.e. SC belonging to the different reco collections [...] So to avoid double counting, you have to use only SC with type 211 or 322
@@ -919,7 +926,7 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 			SuperClu_S2_o_Esc = ((double)(mysc->e2nd()))/((double)(SuperClu_E));
 
 			// Cuts on superclusters.
-			if( SuperClu_RawEt < 15.0 ){// Cut on supercluster rawEt
+			if( SuperClu_RawEt < 10.0 ){// Cut on supercluster rawEt
 				supercluster_miniTree->Fill();
 				continue;
 			}
@@ -961,24 +968,33 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 			SuperClu_isAfterCut6 = 1;
 			nSCAfterCut6++;
 
-		if( mysc->seedSeverity()==4 ){// Post-spike cleaning: kBad
+			if( mysc->seedSeverity()==4 ){// Post-spike cleaning: kBad
 				supercluster_miniTree->Fill();
 				continue;
 			}
 			SuperClu_isAfterCut7 = 1;
 			nSCAfterCut7++;
 
+			if( ((mysc->Eta())<0.0) && ((mysc->seedDetector())==2) &&
+					((((mysc->seedPosition1())>=6) && ((mysc->seedPosition1())<=10) && ((mysc->seedPosition2())>=31) && ((mysc->seedPosition2())<=35) ) 
+						|| ( ((mysc->seedPosition1())>=6) && ((mysc->seedPosition1())<=10) && ((mysc->seedPosition2())>=66) && ((mysc->seedPosition2())<=70) )) ){
+				supercluster_miniTree->Fill();
+				continue;
+			}
+			SuperClu_isAfterCut8 = 1;
+			nSCAfterCut8++;
+
 			SuperClu_isSelected = 1;
 
 
-			SuperClu_Multiplicity_isAfterCut7 +=1;
+			SuperClu_Multiplicity_isAfterCut8 +=1;
 	
 			if(SuperClu_RawEt > 2){
-				SuperClu_Multiplicity_isAfterCut7_SCRawEtGT2 += 1 ;
+				SuperClu_Multiplicity_isAfterCut8_SCRawEtGT2 += 1 ;
 				if (SuperClu_RawEt > 4){
-					SuperClu_Multiplicity_isAfterCut7_SCRawEtGT4 += 1 ;
+					SuperClu_Multiplicity_isAfterCut8_SCRawEtGT4 += 1 ;
 					if(SuperClu_RawEt > 10){
-						SuperClu_Multiplicity_isAfterCut7_SCRawEtGT10 += 1;
+						SuperClu_Multiplicity_isAfterCut8_SCRawEtGT10 += 1;
 					}
 				}
 			}
@@ -1022,6 +1038,7 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 				Photon_isAfterCut12 = 0;
 				Photon_isAfterCut13 = 0;
 				Photon_isAfterCut14 = 0;
+				Photon_isAfterCut15 = 0;
 				Photon_isSelected = 0;
 				Photon_isEB = 0;
 				Photon_isEE = 0;
@@ -1311,6 +1328,16 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 				nCut14++;
 				Photon_isAfterCut14 = 1;
 
+				if(((myphoton->superCluster()->Eta())<0.0) && ((myphoton->superCluster()->seedDetector())==2) &&
+          ((((myphoton->superCluster()->seedPosition1())>=6) && ((myphoton->superCluster()->seedPosition1())<=10) && ((myphoton->superCluster()->seedPosition2())>=31) && ((myphoton->superCluster()->seedPosition2())<=35) )  
+            || ( ((myphoton->superCluster()->seedPosition1())>=6) && ((myphoton->superCluster()->seedPosition1())<=10) && ((myphoton->superCluster()->seedPosition2())>=66) && ((myphoton->superCluster()->seedPosition2())<=70) )) ){
+					photon_miniTree->Fill();
+					continue;
+				}
+				nCut15++;
+        Photon_isAfterCut15 = 1;
+
+
 
 				Photon_isSelected = 1;
 
@@ -1370,9 +1397,9 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 
 	if(nTotPhotons>0) cout << "nSelectedPhotons=" << nSelectedPhotons << "	nTotPhotons=" << nTotPhotons << "	Eff=" <<100.*nSelectedPhotons/nTotPhotons << "%" << endl;
 
-	cout << "nCut1=" << nCut1 << "	nCut2=" << nCut2 << "	nCut3=" << nCut3 << "	nCut4=" << nCut4 << "	nCut5=" << nCut5 << "	nCut6=" << nCut6 << "	 nCut7=" << nCut7 << "	nCut8=" << nCut8 << "	nCut9=" << nCut9 << "	nCut10=" << nCut10 << "	nCut11=" << nCut11 << "	nCut12=" << nCut12 << "	nCut13=" << nCut13 << "	nCut14=" << nCut14 << endl;
+	cout << "nCut1=" << nCut1 << "	nCut2=" << nCut2 << "	nCut3=" << nCut3 << "	nCut4=" << nCut4 << "	nCut5=" << nCut5 << "	nCut6=" << nCut6 << "	 nCut7=" << nCut7 << "	nCut8=" << nCut8 << "	nCut9=" << nCut9 << "	nCut10=" << nCut10 << "	nCut11=" << nCut11 << "	nCut12=" << nCut12 << "	nCut13=" << nCut13 << "	nCut14=" << nCut14 << " nCut15=" << nCut15 << endl;
 
-	if(nTotSC>0) cout << "nTotSC=" << nTotSC << "	nSelectedSC=" << nSelectedSC << "	nSCAfterCut1=" << nSCAfterCut1 << "	nSCAfterCut2=" << nSCAfterCut2 << "	nSCAfterCut3=" << nSCAfterCut3 << "	nSCAfterCut4=" << nSCAfterCut4 << "	nSCAfterCut5=" << nSCAfterCut5 << "	nSCAfterCut6=" << nSCAfterCut6 << "	nSCAfterCut7=" << nSCAfterCut7 << endl;
+	if(nTotSC>0) cout << "nTotSC=" << nTotSC << "	nSelectedSC=" << nSelectedSC << "	nSCAfterCut1=" << nSCAfterCut1 << "	nSCAfterCut2=" << nSCAfterCut2 << "	nSCAfterCut3=" << nSCAfterCut3 << "	nSCAfterCut4=" << nSCAfterCut4 << "	nSCAfterCut5=" << nSCAfterCut5 << "	nSCAfterCut6=" << nSCAfterCut6 << "	nSCAfterCut7=" << nSCAfterCut7 << " nSCAfterCut8=" << nSCAfterCut8 << endl;
 
 
 	event_miniTree->Write();
