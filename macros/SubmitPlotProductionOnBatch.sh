@@ -67,6 +67,28 @@ do
   done
 done
 
+##############################################################
+### 2D plots
+##############################################################
+for sample in `echo "MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1 MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1 MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1 MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1"`;
+do
+  for cut in `echo "2D"`;
+  do
+    echo -e "\n${sample}\t\t${cut}";
+    cp plotDataMC_TDR_miniTree.C plotDataMC_TDR_miniTree_${sample}_${cut}.C;
+    sed -i -e "/2D plots/s/false/true/g" plotDataMC_TDR_miniTree_${sample}_${cut}.C;
+    sed -i -e "/${sample}/s/^\/\///g" plotDataMC_TDR_miniTree_${sample}_${cut}.C;
+    g++ plotDataMC_TDR_miniTree_${sample}_${cut}.C `root-config --libs --cflags` -m32 -O3 -o plotDataMC_TDR_miniTree_${sample}_${cut};
+    cp batch_template.sh batch_plotDataMC_TDR_miniTree_${sample}_${cut}.sh;
+    sed -i -e "s/TotoAna_miniTree_TEMPLATE/plotDataMC_TDR_miniTree_${sample}_${cut}/g" -e "s/TEMPLATE/Ev_${sample}_${counter}/g" batch_plotDataMC_TDR_miniTree_${sample}_${cut}.sh;
+    qsub batch_plotDataMC_TDR_miniTree_${sample}_${cut}.sh;
+  done
+done
+
+
+
+
+exit 0
 
 
 
