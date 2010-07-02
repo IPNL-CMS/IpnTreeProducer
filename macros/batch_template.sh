@@ -16,7 +16,7 @@ echo ${ROOTSYS}
 echo "LD_LIBRARY_PATH"
 echo ${LD_LIBRARY_PATH}
 
-WORKDIR=/sps/cms/obondu/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/macros
+WORKDIR=/sps/cms/obondu/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/macros_10GeV_woSC
 echo "Move to WORKDIR ${WORKDIR}"
 cd ${WORKDIR}
 pwd
@@ -24,3 +24,5 @@ pwd
 
 echo "Running actual job"
 ./TotoAna_miniTree_TEMPLATE
+
+exit 0
