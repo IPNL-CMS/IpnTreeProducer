@@ -470,7 +470,7 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 	Float_t Photon_r19, Photon_r9, Photon_cross;
 	Float_t Photon_caloConeSize, Photon_PreshEnergy, Photon_HoE, Photon_covIetaIeta, Photon_covIphiIphi, Photon_etaWidth, Photon_phiWidth;
 	Float_t Photon_isoEcalRecHit, Photon_isoHcalRecHit, Photon_isoSolidTrkCone, Photon_isoHollowTrkCone, Photon_isoPersoSolidTrkCone, Photon_isolationPersoTracksSolidCone;
-	Float_t Photon_s4;
+	Float_t Photon_s4, Photon_esRatio;
 	Float_t Photon_brem, Photon_Eseed_o_Esc, Photon_E2x2_o_E5x5, Photon_S2_o_Esc;
 	Float_t Photon_seedTime;
 	Int_t Photon_seedFlag, Photon_seedSeverity;
@@ -479,7 +479,7 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 	Int_t SuperClu_isAfterCut1, SuperClu_isAfterCut2, SuperClu_isAfterCut3, SuperClu_isAfterCut4, SuperClu_isAfterCut5, SuperClu_isAfterCut6, SuperClu_isAfterCut7, SuperClu_isAfterCut8, SuperClu_isSelected;
 	Float_t SuperClu_E, SuperClu_Et, SuperClu_Eta, SuperClu_Phi, SuperClu_RawE, SuperClu_RawEt;
 	Float_t SuperClu_seedTime;
-	Float_t SuperClu_s4, SuperClu_etaWidth, SuperClu_phiWidth;
+	Float_t SuperClu_s4, SuperClu_esRatio, SuperClu_etaWidth, SuperClu_phiWidth;
 	Int_t SuperClu_seedFlag, SuperClu_seedSeverity;
 	Int_t SuperClu_nXtals, SuperClu_nBasicClusters;
 	Int_t SuperClu_isEE, SuperClu_isEB, SuperClu_isEEM, SuperClu_isEEP;
@@ -493,13 +493,6 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 	Int_t Photon_Multiplicity_isAfterCut10_SCRawEtGT10, SuperClu_Multiplicity_isAfterCut8_SCRawEtGT10;
 	Int_t nPhotonEEP_perEvent, nPhotonEEM_perEvent, nPhotonEE_perEvent, nPhotonEB_perEvent;
 
-/*
-	Int_t HLT_Photon10_L1R, HLT_Photon15_L1R, HLT_Photon15_LooseEcalIso_L1R, HLT_Photon20_L1R, HLT_Photon30_L1R_8E29;
-	Int_t HLT_DoublePhoton4_Jpsi_L1R, HLT_DoublePhoton4_Upsilon_L1R, HLT_DoublePhoton4_eeRes_L1R, HLT_DoublePhoton5_eeRes_L1R, HLT_DoublePhoton5_Jpsi_L1R;
-	Int_t HLT_DoublePhoton5_Upsilon_L1R, HLT_DoublePhoton5_L1R, HLT_DoublePhoton10_L1R, HLT_DoubleEle5_SW_L1R, HLT_Ele20_LW_L1R;
-	Int_t HLT_Ele15_SiStrip_L1R, HLT_Ele15_SC10_LW_L1R, HLT_Ele15_LW_L1R, HLT_Ele10_LW_EleId_L1R, HLT_Ele10_LW_L1R; 
-	Int_t HLT_Photon15_TrackIso_L1R;
-*/
 	Int_t NoCuts;
 
 	TTree* photon_miniTree = new TTree("photon_miniTree","Photons variables");	
@@ -583,6 +576,7 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 	photon_miniTree->Branch("Photon_isolationPersoNTracksSolidCone", &Photon_isolationPersoNTracksSolidCone, "Photon_isolationPersoNTracksSolidCone/I");
 
 	photon_miniTree->Branch("Photon_s4", &Photon_s4, "Photon_s4/F");
+	photon_miniTree->Branch("Photon_esRatio", &Photon_esRatio, "Photon_esRatio/F");
 	photon_miniTree->Branch("Photon_Eseed_o_Esc", &Photon_Eseed_o_Esc, "Photon_Eseed_o_Esc/F");
 	photon_miniTree->Branch("Photon_E2x2_o_E5x5", &Photon_E2x2_o_E5x5, "Photon_E2x2_o_E5x5/F");
 	photon_miniTree->Branch("Photon_S2_o_Esc", &Photon_S2_o_Esc, "Photon_S2_o_Esc/F");
@@ -625,6 +619,7 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 	supercluster_miniTree->Branch("SuperClu_S2_o_Esc", &SuperClu_S2_o_Esc, "SuperClu_S2_o_Esc/F");
 	supercluster_miniTree->Branch("SuperClu_brem", &SuperClu_brem, "SuperClu_brem/F");
 	supercluster_miniTree->Branch("SuperClu_s4", &SuperClu_s4, "SuperClu_s4/F");
+	supercluster_miniTree->Branch("SuperClu_esRatio", &SuperClu_esRatio, "SuperClu_esRatio/F");
 	supercluster_miniTree->Branch("SuperClu_phiWidth", &SuperClu_phiWidth, "SuperClu_phiWidth/F");
 	supercluster_miniTree->Branch("SuperClu_etaWidth", &SuperClu_etaWidth, "SuperClu_etaWidth/F");
 
@@ -671,34 +666,6 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 	event_miniTree->Branch("nPhotonEEP_perEvent", &nPhotonEEP_perEvent, "nPhotonEEP_perEvent/I");
 	event_miniTree->Branch("nPhotonEE_perEvent", &nPhotonEE_perEvent, "nPhotonEE_perEvent/I");
 	event_miniTree->Branch("nPhotonEB_perEvent", &nPhotonEB_perEvent, "nPhotonEB_perEvent/I");
-
-/*
-	event_miniTree->Branch("HLT_Photon10_L1R", &HLT_Photon10_L1R,"HLT_Photon10_L1R/I");
-	event_miniTree->Branch("HLT_Photon15_L1R", &HLT_Photon15_L1R,"HLT_Photon15_L1R/I");
-	event_miniTree->Branch("HLT_Photon15_LooseEcalIso_L1R", &HLT_Photon15_LooseEcalIso_L1R,"HLT_Photon15_LooseEcalIso_L1R/I");
-	event_miniTree->Branch("HLT_Photon20_L1R", &HLT_Photon20_L1R,"HLT_Photon20_L1R/I");
-	event_miniTree->Branch("HLT_Photon30_L1R_8E29", &HLT_Photon30_L1R_8E29,"HLT_Photon30_L1R_8E29/I");
-
-	event_miniTree->Branch("HLT_DoublePhoton4_Jpsi_L1R", &HLT_DoublePhoton4_Jpsi_L1R,"HLT_DoublePhoton4_Jpsi_L1R/I");
-	event_miniTree->Branch("HLT_DoublePhoton4_Upsilon_L1R", &HLT_DoublePhoton4_Upsilon_L1R,"HLT_DoublePhoton4_Upsilon_L1R/I");
-	event_miniTree->Branch("HLT_DoublePhoton4_eeRes_L1R", &HLT_DoublePhoton4_eeRes_L1R,"HLT_DoublePhoton4_eeRes_L1R/I");
-	event_miniTree->Branch("HLT_DoublePhoton5_eeRes_L1R", &HLT_DoublePhoton5_eeRes_L1R,"HLT_DoublePhoton5_eeRes_L1R/I");
-	event_miniTree->Branch("HLT_DoublePhoton5_Jpsi_L1R", &HLT_DoublePhoton5_Jpsi_L1R,"HLT_DoublePhoton5_Jpsi_L1R/I");
-
-	event_miniTree->Branch("HLT_DoublePhoton5_Upsilon_L1R", &HLT_DoublePhoton5_Upsilon_L1R,"HLT_DoublePhoton5_Upsilon_L1R/I");
-	event_miniTree->Branch("HLT_DoublePhoton5_L1R", &HLT_DoublePhoton5_L1R,"HLT_DoublePhoton5_L1R/I");
-	event_miniTree->Branch("HLT_DoublePhoton10_L1R", &HLT_DoublePhoton10_L1R,"HLT_DoublePhoton10_L1R/I");
-	event_miniTree->Branch("HLT_DoubleEle5_SW_L1R", &HLT_DoubleEle5_SW_L1R,"HLT_DoubleEle5_SW_L1R/I");
-	event_miniTree->Branch("HLT_Ele20_LW_L1R", &HLT_Ele20_LW_L1R,"HLT_Ele20_LW_L1R/I");
-
-	event_miniTree->Branch("HLT_Ele15_SiStrip_L1R", &HLT_Ele15_SiStrip_L1R,"HLT_Ele15_SiStrip_L1R/I");
-	event_miniTree->Branch("HLT_Ele15_SC10_LW_L1R", &HLT_Ele15_SC10_LW_L1R,"HLT_Ele15_SC10_LW_L1R/I");
-	event_miniTree->Branch("HLT_Ele15_LW_L1R", &HLT_Ele15_LW_L1R,"HLT_Ele15_LW_L1R/I");
-	event_miniTree->Branch("HLT_Ele10_LW_EleId_L1R", &HLT_Ele10_LW_EleId_L1R,"HLT_Ele10_LW_EleId_L1R/I");
-	event_miniTree->Branch("HLT_Ele10_LW_L1R", &HLT_Ele10_LW_L1R,"HLT_Ele10_LW_L1R/I");
-
-	event_miniTree->Branch("HLT_Photon15_TrackIso_L1R", &HLT_Photon15_TrackIso_L1R,"HLT_Photon15_TrackIso_L1R/I");
-*/
 
 	unsigned int nTotEvents = (int)inputEventTree->GetEntries();
 	//unsigned int nTotEvents = 30000;
@@ -792,6 +759,7 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 		SuperClu_E2x2_o_E5x5 = -99;
 		SuperClu_S2_o_Esc = -99;
 		SuperClu_s4 = -99;
+		SuperClu_esRatio = -99;
 		SuperClu_phiWidth = -99;
 		SuperClu_etaWidth = -99;
 
@@ -863,6 +831,7 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 		Photon_S2_o_Esc = -99;
 		Photon_brem = -99;
 		Photon_s4 = -99;
+		Photon_esRatio = -99;
 		Photon_seedTime = -99;
 		Photon_seedFlag = -99;
 		Photon_seedSeverity = -99;
@@ -918,6 +887,7 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 			SuperClu_seedFlag = mysc->seedRecoFlag();
 			SuperClu_seedTime = mysc->seedTime();
 			SuperClu_s4 = mysc->s4();
+			SuperClu_esRatio = mysc->esRatio();
 			SuperClu_etaWidth = mysc->etaWidth();
 			SuperClu_phiWidth = mysc->phiWidth();
 			SuperClu_brem = (double)(SuperClu_phiWidth)/(double)(SuperClu_etaWidth);
@@ -1095,6 +1065,7 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 				Photon_S2_o_Esc = -99;
 				Photon_brem = -99;
 				Photon_s4 = -99;
+				Photon_esRatio = -99;
 				Photon_seedTime = -99;
 				Photon_seedFlag = -99;
 				Photon_seedSeverity = -99;
@@ -1181,6 +1152,7 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 					Photon_S2_o_Esc = ((double)(Photon_E2nd))/((double)(Photon_SCEnergy));
 					Photon_brem = ((double)(Photon_phiWidth))/((double)(Photon_etaWidth));
 					Photon_s4 = myphoton->superCluster()->s4();
+					Photon_esRatio = myphoton->superCluster()->esRatio();
 					Photon_seedTime = myphoton->superCluster()->seedTime();
 					Photon_seedFlag = myphoton->superCluster()->seedRecoFlag();
 					Photon_seedSeverity = myphoton->superCluster()->seedSeverity();
@@ -1205,6 +1177,7 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 					Photon_S2_o_Esc = -99;
 					Photon_brem = -99;
 					Photon_s4 = -99;
+					Photon_esRatio = -99;
 					Photon_seedTime = -99;
 					Photon_seedFlag = -99;
 					Photon_seedSeverity = -99;
@@ -1239,7 +1212,7 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 				Photon_isAfterCut3 = 1;
 
 				// CUT 4: minimum supercluster transverse energy
-				if ( scRawEt<15.0 ) {
+				if ( scRawEt<10.0 ) {
 					photon_miniTree->Fill();
 					continue;
 				}
@@ -1263,10 +1236,10 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 				Photon_isAfterCut6 = 1;
 			
 				// CUT 7: H/E
-				if (Photon_HoE > 0.05){
-					photon_miniTree->Fill();
-					continue;
-				}
+//				if (Photon_HoE > 0.05){
+//					photon_miniTree->Fill();
+//					continue;
+//				}
 				nCut7++;
 				Photon_isAfterCut7 = 1;
 
@@ -1294,37 +1267,37 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 				Photon_isAfterCut10 = 1;
 
 				// CUT 11: HLT_Photon10
-				if( Photon_eventPassHLT_Photon10_L1R==0 ){
-					photon_miniTree->Fill();
-					continue;
-				}
+//				if( Photon_eventPassHLT_Photon10_L1R==0 ){
+//					photon_miniTree->Fill();
+//					continue;
+//				}
 				nCut11++;
 				Photon_isAfterCut11 = 1;
 
 				// CUT 12: IsoTrk
-				if( ((Photon_isEB) && (Photon_isoHollowTrkCone < (2.0 + 0.001*myphoton->Pt())))
-					|| ((Photon_isEE) && (Photon_isoHollowTrkCone < (2.0 + 0.001*myphoton->Pt()))) ){
-					photon_miniTree->Fill();
-					continue;
-				}
+//				if( ((Photon_isEB) && (Photon_isoHollowTrkCone < (2.0 + 0.001*myphoton->Pt())))
+//					|| ((Photon_isEE) && (Photon_isoHollowTrkCone < (2.0 + 0.001*myphoton->Pt()))) ){
+//					photon_miniTree->Fill();
+//					continue;
+//				}
 				nCut12++;
 				Photon_isAfterCut12 = 1;
 
 				// CUT 13: IsoECAL
-				if( ((Photon_isEB) && (Photon_isoEcalRecHit < (4.2 + 0.003*myphoton->Pt())))
-					|| ((Photon_isEE) && ((4.2 + 0.003*myphoton->Pt()))) ){
-					photon_miniTree->Fill();
-					continue;
-				}
+//				if( ((Photon_isEB) && (Photon_isoEcalRecHit < (4.2 + 0.003*myphoton->Pt())))
+//					|| ((Photon_isEE) && ((4.2 + 0.003*myphoton->Pt()))) ){
+//					photon_miniTree->Fill();
+//					continue;
+//				}
 				nCut13++;
 				Photon_isAfterCut13 = 1;
 
 				// CUT 14: IsoHCAL
-				if( ((Photon_isEB) && (Photon_isoHcalRecHit < (2.2 + 0.001*myphoton->Pt())))
-					|| ((Photon_isEE) && (Photon_isoHcalRecHit < (2.2 + 0.001*myphoton->Pt()))) ){
-					photon_miniTree->Fill();
-					continue;
-				}
+//				if( ((Photon_isEB) && (Photon_isoHcalRecHit < (2.2 + 0.001*myphoton->Pt())))
+//					|| ((Photon_isEE) && (Photon_isoHcalRecHit < (2.2 + 0.001*myphoton->Pt()))) ){
+//					photon_miniTree->Fill();
+//					continue;
+//				}
 				nCut14++;
 				Photon_isAfterCut14 = 1;
 
@@ -1358,34 +1331,6 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 			
 		} // end of do photons
 
-/*
-		if (event->trigHLT()[71]==true) HLT_Photon10_L1R = 1; else HLT_Photon10_L1R =0;
-		if (event->trigHLT()[72]==true) HLT_Photon10_L1R = 1; else HLT_Photon10_L1R =0;
-		if (event->trigHLT()[74]==true) HLT_Photon15_LooseEcalIso_L1R = 1; else HLT_Photon15_LooseEcalIso_L1R =0;
-		if (event->trigHLT()[75]==true) HLT_Photon20_L1R = 1; else HLT_Photon20_L1R =0;
-		if (event->trigHLT()[76]==true) HLT_Photon30_L1R_8E29 = 1; else HLT_Photon30_L1R_8E29 =0;
-
-		if (event->trigHLT()[78]==true) HLT_DoublePhoton4_Jpsi_L1R = 1; else HLT_DoublePhoton4_Jpsi_L1R =0;
-		if (event->trigHLT()[79]==true) HLT_DoublePhoton4_Upsilon_L1R = 1; else HLT_DoublePhoton4_Upsilon_L1R =0;
-		if (event->trigHLT()[77]==true) HLT_DoublePhoton4_eeRes_L1R = 1; else HLT_DoublePhoton4_eeRes_L1R =0;
-//		if (event->trigHLT()[]==true) HLT_DoublePhoton5_eeRes_L1R = 1; else HLT_DoublePhoton5_eeRes_L1R =0;
-		if (event->trigHLT()[80]==true) HLT_DoublePhoton5_Jpsi_L1R = 1; else HLT_DoublePhoton5_Jpsi_L1R =0;
-
-		if (event->trigHLT()[81]==true) HLT_DoublePhoton5_Upsilon_L1R = 1; else HLT_DoublePhoton5_Upsilon_L1R =0;
-		if (event->trigHLT()[82]==true) HLT_DoublePhoton5_L1R = 1; else HLT_DoublePhoton5_L1R =0;
-		if (event->trigHLT()[83]==true) HLT_DoublePhoton10_L1R = 1; else HLT_DoublePhoton10_L1R =0;
-		if (event->trigHLT()[70]==true) HLT_DoubleEle5_SW_L1R = 1; else HLT_DoubleEle5_SW_L1R =0;
-		if (event->trigHLT()[69]==true) HLT_Ele20_LW_L1R = 1; else HLT_Ele20_LW_L1R =0;
-
-		if (event->trigHLT()[68]==true) HLT_Ele15_SiStrip_L1R = 1; else HLT_Ele15_SiStrip_L1R =0;
-		if (event->trigHLT()[67]==true) HLT_Ele15_SC10_LW_L1R = 1; else HLT_Ele15_SC10_LW_L1R =0;
-		if (event->trigHLT()[66]==true) HLT_Ele15_LW_L1R = 1; else HLT_Ele15_LW_L1R =0;
-		if (event->trigHLT()[65]==true) HLT_Ele10_LW_EleId_L1R = 1; else HLT_Ele10_LW_EleId_L1R =0;
-		if (event->trigHLT()[64]==true) HLT_Ele10_LW_L1R = 1; else HLT_Ele10_LW_L1R =0;
-
-		if (event->trigHLT()[73]==true) HLT_Photon15_TrackIso_L1R = 1; else HLT_Photon15_TrackIso_L1R =0;
-*/
-
 		event_miniTree->Fill();	
 		nSelectedEvents++;	
 	} // fin boucle sur evts
@@ -1406,11 +1351,5 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 	supercluster_miniTree->Write();
 	photon_miniTree->Write();
 	
-/*
-	OutputRootFile->cd();
-	OutputRootFile->Write();
-	OutputRootFile->Close();
-*/
-
 	return 0;
 }
