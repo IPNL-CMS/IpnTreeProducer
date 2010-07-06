@@ -225,60 +225,44 @@ int main(){
 	string dataset;
 	TFile* OutputRootFile;
 
-if( false ){// ************ DATA
+if( false ){// ************ DATA EG_Run2010A
 	dataset = "DATA";
 	// inputEventTree
-	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/DATA_MinimumBias_Commissioning10-May6thPDSkim_GOODCOLL-v1_RAW-RECO/DATA_MinimumBias_Commissioning10-May6thPDSkim_GOODCOLL-v1_RAW-RECO_TOTOANA_*root");
-	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/DATA_MinimumBias_Commissioning10-May6thPDSkim_GOODCOLL-v1_RAW-RECO2/DATA_MinimumBias_Commissioning10-May6thPDSkim_GOODCOLL-v1_RAW-RECO_TOTOANA_*root");
-	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/NEW/DATA_MinimumBias_Commissioning10-GOODCOLL-v9_RAW-RECO/DATA_MinimumBias_Commissioning10-GOODCOLL-v9_RAW-RECO_TOTOANA_*root");
-	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/NEW/DATA_MinimumBias_Commissioning10-GOODCOLL-v9_RAW-RECO2/DATA_MinimumBias_Commissioning10-GOODCOLL-v9_RAW-RECO_TOTOANA_*root");
+	inputEventTree->Add("/sps/cms/chanon/Samples/DATA_MC_IpnTreeProducer358p4_CMSSW358p3_GoodCollEG/EG_Run2010A/*root");
 	// inputRunTree
-	inputRunTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/DATA_MinimumBias_Commissioning10-May6thPDSkim_GOODCOLL-v1_RAW-RECO/DATA_MinimumBias_Commissioning10-May6thPDSkim_GOODCOLL-v1_RAW-RECO_TOTOANA_*root");
-	inputRunTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/DATA_MinimumBias_Commissioning10-May6thPDSkim_GOODCOLL-v1_RAW-RECO2/DATA_MinimumBias_Commissioning10-May6thPDSkim_GOODCOLL-v1_RAW-RECO_TOTOANA_*root");
-	inputRunTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/NEW/DATA_MinimumBias_Commissioning10-GOODCOLL-v9_RAW-RECO/DATA_MinimumBias_Commissioning10-GOODCOLL-v9_RAW-RECO_TOTOANA_*root");
-	inputRunTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/NEW/DATA_MinimumBias_Commissioning10-GOODCOLL-v9_RAW-RECO2/DATA_MinimumBias_Commissioning10-GOODCOLL-v9_RAW-RECO_TOTOANA_*root");
+	inputRunTree->Add("/sps/cms/chanon/Samples/DATA_MC_IpnTreeProducer358p4_CMSSW358p3_GoodCollEG/EG_Run2010A/*root");
 	// OutputRootFile
-	TFile* OutputRootFile = new TFile("miniTree_DATA.root", "RECREATE");
+	TFile* OutputRootFile = new TFile("miniTree_EG_Run2010A.root", "RECREATE");
 }
 
-if( false ){// ************* MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO
-	dataset = "MC";
+if( false ){// ************ DATA MinimumBias_Commissioning10-May6thPDSkim2_SD_EG-v1_RECOGOODCOLL
+	dataset = "DATA";
 	// inputEventTree
-	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO/MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO_TOTOANA_*root");
+	inputEventTree->Add("/sps/cms/falkiewi/Data_MC_EG_GOODCOLL_filter_CMSSW_3_5_8_patch3/MinimumBias_Commissioning10-May6thPDSkim2_SD_EG-v1_RECOGOODCOLL/*root");
 	// inputRunTree
-	inputRunTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO/MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO_TOTOANA_*root");
+	inputRunTree->Add("/sps/cms/falkiewi/Data_MC_EG_GOODCOLL_filter_CMSSW_3_5_8_patch3/MinimumBias_Commissioning10-May6thPDSkim2_SD_EG-v1_RECOGOODCOLL/*root");
 	// OutputRootFile
-	TFile* OutputRootFile = new TFile("miniTree_MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
+	TFile* OutputRootFile = new TFile("miniTree_MinimumBias_Commissioning10-May6thPDSkim2_SD_EG-v1_RECOGOODCOLL.root", "RECREATE");
 }
 
-if( false ){// ************* MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO
-	dataset = "MC";
+if( false ){// ************ DATA MinimumBias_Commissioning10-SD_EG-v9_RECOGOODCOLL
+	dataset = "DATA";
 	// inputEventTree
-	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO/MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO_TOTOANA_*root");
+	inputEventTree->Add("/sps/cms/falkiewi/Data_MC_EG_GOODCOLL_filter_CMSSW_3_5_8_patch3/MinimumBias_Commissioning10-SD_EG-v9_RECOGOODCOLL/*root");
 	// inputRunTree
-	inputRunTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO/MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO_TOTOANA_*root");
+	inputRunTree->Add("/sps/cms/falkiewi/Data_MC_EG_GOODCOLL_filter_CMSSW_3_5_8_patch3/MinimumBias_Commissioning10-SD_EG-v9_RECOGOODCOLL/*root");
 	// OutputRootFile
-	TFile* OutputRootFile = new TFile("miniTree_MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
+	TFile* OutputRootFile = new TFile("miniTree_MinimumBias_Commissioning10-SD_EG-v9_RECOGOODCOLL.root", "RECREATE");
 }
 
-if( false ){// ************* MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1_GEN-SIM-RECO
+if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1GOODCOLL
 	dataset = "MC";
 	// inputEventTree
-	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1_GEN-SIM-RECO/MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO_TOTOANA_*root");
+	inputEventTree->Add("/sps/cms/falkiewi/Data_MC_EG_GOODCOLL_filter_CMSSW_3_5_8_patch3/QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1GOODCOLL/*root");
 	// inputRunTree
-	inputRunTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1_GEN-SIM-RECO/MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO_TOTOANA_*root");
+	inputRunTree->Add("/sps/cms/falkiewi/Data_MC_EG_GOODCOLL_filter_CMSSW_3_5_8_patch3/QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1GOODCOLL/*root");
 	// OutputRootFile
-	TFile* OutputRootFile = new TFile("miniTree_MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
-}
-
-if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO
-	dataset = "MC";
-	// inputEventTree
-	inputEventTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO/MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO_TOTOANA_*root");
-	// inputRunTree
-	inputRunTree->Add("/sps/cms/xiaoh/7TeVdata/CMSSW_3_5_8/MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO/MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO_TOTOANA_*root");
-	// OutputRootFile
-	TFile* OutputRootFile = new TFile("miniTree_MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_GEN-SIM-RECO.root", "RECREATE");
+	TFile* OutputRootFile = new TFile("miniTree_MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1GOODCOLL.root", "RECREATE");
 }
 
 	TBranch* event_br = 0;
@@ -705,11 +689,16 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 
 	cout<<"Nb of events : "<<nTotEvents<<endl;
 	inputRunTree->GetEvent(0);
+	string lastFile = "";
 
 	for(unsigned int ievt=0; ievt<nTotEvents; ievt++)
 	{
 		int nprint = (int)((double)nTotEvents/(double)100.0);
 		if( (ievt % nprint)==0 ){ cout<< ievt <<" events done over "<<nTotEvents<<" ( "<<ceil((double)ievt/(double)nTotEvents*100)<<" \% )"<<endl; }
+		if( lastFile == "" ){
+			lastFile = string(inputEventTree->GetCurrentFile()->GetName());
+			cout << ievt << "\t" << lastFile << endl;
+		}
 		NoCuts = 1;
 		SuperClu_isAfterCut1 = 0;
 		SuperClu_isAfterCut2 = 0;
@@ -896,7 +885,7 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 			SuperClu_S2_o_Esc = ((double)(mysc->e2nd()))/((double)(SuperClu_E));
 
 			// Cuts on superclusters.
-			if( SuperClu_RawEt < 10.0 ){// Cut on supercluster rawEt
+			if( SuperClu_RawEt < 15.0 ){// Cut on supercluster rawEt
 				supercluster_miniTree->Fill();
 				continue;
 			}
@@ -945,12 +934,12 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 			SuperClu_isAfterCut7 = 1;
 			nSCAfterCut7++;
 
-			if( ((mysc->Eta())<0.0) && ((mysc->seedDetector())==2) &&
-					((((mysc->seedPosition1())>=6) && ((mysc->seedPosition1())<=10) && ((mysc->seedPosition2())>=31) && ((mysc->seedPosition2())<=35) ) 
-						|| ( ((mysc->seedPosition1())>=6) && ((mysc->seedPosition1())<=10) && ((mysc->seedPosition2())>=66) && ((mysc->seedPosition2())<=70) )) ){
-				supercluster_miniTree->Fill();
-				continue;
-			}
+//			if( ((mysc->Eta())<0.0) && ((mysc->seedDetector())==2) &&
+//					((((mysc->seedPosition1())>=6) && ((mysc->seedPosition1())<=10) && ((mysc->seedPosition2())>=31) && ((mysc->seedPosition2())<=35) ) 
+//						|| ( ((mysc->seedPosition1())>=6) && ((mysc->seedPosition1())<=10) && ((mysc->seedPosition2())>=66) && ((mysc->seedPosition2())<=70) )) ){
+//				supercluster_miniTree->Fill();
+//				continue;
+//			}
 			SuperClu_isAfterCut8 = 1;
 			nSCAfterCut8++;
 
@@ -976,11 +965,16 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 		if (atLeastOneSChigherThan2GeV) nEventsWithScHigherThan2GeV++;
 
 		if(doHLT)
-		{
-					if (ievt==0) NumWantedHLTnames = InitializeHLTinfo(inputRunTree, runInfos, event->nHLTPaths(), ListWantedHLTnames, 3);
+		{//FIXME
+			if( ievt==0 ){ inputRunTree->GetEvent(ievt); NumWantedHLTnames = InitializeHLTinfo(inputRunTree, runInfos, event->nHLTPaths(), ListWantedHLTnames, 3);	}
+			if ( string(inputEventTree->GetCurrentFile()->GetName()) != lastFile ){
+				inputRunTree->GetEntry(inputEventTree->GetTreeNumber());
+				lastFile = string(inputEventTree->GetCurrentFile()->GetName());
+				cout << ievt << "\t" << lastFile << endl;
+				NumWantedHLTnames = InitializeHLTinfo(inputRunTree, runInfos, event->nHLTPaths(), ListWantedHLTnames, 3);
+			}
 
-
-					doHLTInfo(event, runInfos, NumWantedHLTnames, 3, &Photon_eventPassHLT_Photon10_L1R, &Photon_eventPassHLT_Photon15_L1R, &Photon_eventPassHLT_DoublePhoton10_L1R);
+			doHLTInfo(event, runInfos, NumWantedHLTnames, 3, &Photon_eventPassHLT_Photon10_L1R, &Photon_eventPassHLT_Photon15_L1R, &Photon_eventPassHLT_DoublePhoton10_L1R);
 		}
 
 		
@@ -1189,21 +1183,22 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 					Photon_SCRawEnergy = -99;
 				} // end of loop over photons having a supercluster
 
-				// CUT 0: check if the photon have a superCluster
+				// CUT 1: check if the photon have a superCluster
 				if (myphoton->superCluster() == 0 ) {
 					cout << "WOW WOW WOW: a _WEIRD_ thing is happening here" << endl;
 					photon_miniTree->Fill();
 					continue;
 				}
-
+				nCut1++;
+				Photon_isAfterCut1 = 1;
 				Float_t scRawEt = myphoton->superCluster()->rawEnergy() * sin(myphoton->superCluster()->Theta());
 				Float_t abs_eta = fabs(myphoton->superCluster()->Eta());
 
-				// CUT 1: obsolete
-				nCut1++;
-				Photon_isAfterCut1 = 1;
-
-				// CUT 2: obsolete
+				// CUT 2: HLT_Photon10
+				if( Photon_eventPassHLT_Photon10_L1R==0 ){
+					photon_miniTree->Fill();
+					continue;
+				}
 				nCut2++;
 				Photon_isAfterCut2 = 1;
 
@@ -1212,7 +1207,7 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 				Photon_isAfterCut3 = 1;
 
 				// CUT 4: minimum supercluster transverse energy
-				if ( scRawEt<10.0 ) {
+				if ( scRawEt<15.0 ) {
 					photon_miniTree->Fill();
 					continue;
 				}
@@ -1235,23 +1230,24 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 				nCut6++;
 				Photon_isAfterCut6 = 1;
 			
-				// CUT 7: H/E
-//				if (Photon_HoE > 0.05){
-//					photon_miniTree->Fill();
-//					continue;
-//				}
-				nCut7++;
-				Photon_isAfterCut7 = 1;
-
-				// CUT 8: Post-spike removal : kWeird
+				// CUT 7: Post-spike removal : kWeird
 				if( myphoton->superCluster()->seedSeverity()==3 ){
 					photon_miniTree->Fill();
 					continue;
-				}				nCut8++;
+				}
+				nCut7++;
+				Photon_isAfterCut7 = 1;
+
+				// CUT 8: Post-spike removal : kOutOfTime
+				if( myphoton->superCluster()->seedRecoFlag()==2 ){
+					photon_miniTree->Fill();
+					continue;
+				}
+				nCut8++;
 				Photon_isAfterCut8 = 1;
 
-				// CUT 9: Post-spike removal : kOutOfTime
-				if( myphoton->superCluster()->seedRecoFlag()==2 ){
+				// CUT 9: H/E
+				if (Photon_HoE > 0.05){
 					photon_miniTree->Fill();
 					continue;
 				}
@@ -1301,12 +1297,16 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1_
 				nCut14++;
 				Photon_isAfterCut14 = 1;
 
-				if(((myphoton->superCluster()->Eta())<0.0) && ((myphoton->superCluster()->seedDetector())==2) &&
-          ((((myphoton->superCluster()->seedPosition1())>=6) && ((myphoton->superCluster()->seedPosition1())<=10) && ((myphoton->superCluster()->seedPosition2())>=31) && ((myphoton->superCluster()->seedPosition2())<=35) )  
-            || ( ((myphoton->superCluster()->seedPosition1())>=6) && ((myphoton->superCluster()->seedPosition1())<=10) && ((myphoton->superCluster()->seedPosition2())>=66) && ((myphoton->superCluster()->seedPosition2())<=70) )) ){
-					photon_miniTree->Fill();
-					continue;
-				}
+//				if(((myphoton->superCluster()->Eta())<0.0) && ((myphoton->superCluster()->seedDetector())==2) &&
+//          ((((myphoton->superCluster()->seedPosition1())>=6) && ((myphoton->superCluster()->seedPosition1())<=10) && ((myphoton->superCluster()->seedPosition2())>=31) && ((myphoton->superCluster()->seedPosition2())<=35) )  
+//            || ( ((myphoton->superCluster()->seedPosition1())>=6) && ((myphoton->superCluster()->seedPosition1())<=10) && ((myphoton->superCluster()->seedPosition2())>=66) && ((myphoton->superCluster()->seedPosition2())<=70) )) ){
+//					photon_miniTree->Fill();
+//					continue;
+//				}
+//				if( Photon_isAlsoElectron==0 ){
+//					photon_miniTree->Fill();
+//					continue;
+//				}
 				nCut15++;
         Photon_isAfterCut15 = 1;
 
