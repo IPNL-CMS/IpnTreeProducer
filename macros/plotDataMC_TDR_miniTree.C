@@ -48,43 +48,41 @@ void DrawDataMCplot_NormEntries_Fast_TH1I(TTree *Data_PhotonTree, TTree *MC_Phot
 
 	// TODO: implement underflow
 	if( drawUnderOverFlow ){
-		// overflow bin for data
-		string name_Data = "temp Data";
-		char* title_Data = (char*)Histo_Data->GetTitle();
-		Int_t nx_Data = Histo_Data->GetNbinsX()+1;
-		Double_t bw_Data = Histo_Data->GetBinWidth(nx_Data);
-		Double_t x1_Data = Histo_Data->GetBinLowEdge(1);
-		Double_t x2_Data = Histo_Data->GetBinLowEdge(nx_Data)+bw_Data;
-		TH1I *htmp_Data = new TH1I(name_Data.c_str(), title_Data, nx_Data, x1_Data, x2_Data); // Book a temporary histogram having an extra bin for overflows
-		for (Int_t i=1; i<=nx_Data; i++) {// Fill the new hitogram including the extra bin for overflows
-			 htmp_Data->Fill(htmp_Data->GetBinCenter(i), Histo_Data->GetBinContent(i));
-		}
-		htmp_Data->Fill(x1_Data-1, Histo_Data->GetBinContent(0));		// Restore the number of entries
-		htmp_Data->SetEntries(Histo_Data->GetEntries());		// Draw the temporary histogram
-		Histo_Data->Clear();
-		Histo_Data = new TH1I(*htmp_Data);
-		Histo_Data->SetName("Histo Data");
+  	string name_Data = "temp Data";
+    char* title_Data = (char*)Histo_Data->GetTitle();
+    Int_t nx_Data = Histo_Data->GetNbinsX();
+    Double_t bw_Data = Histo_Data->GetBinWidth(nx_Data);
+    Double_t x1_Data = Histo_Data->GetBinLowEdge(1);
+    Double_t x2_Data = Histo_Data->GetBinLowEdge(nx_Data)+bw_Data;
+    TH1I *htmp_Data = new TH1I(name_Data.c_str(), title_Data, nx_Data, x1_Data, x2_Data); // Book a temporary histogram having an extra bin for overflows
+    for (Int_t i=1; i<=nx_Data; i++) {// Fill the new hitogram including the extra bin for overflows
+       htmp_Data->Fill(htmp_Data->GetBinCenter(i), Histo_Data->GetBinContent(i));
+    }
+    htmp_Data->SetBinContent(1, Histo_Data->GetBinContent(0) + Histo_Data->GetBinContent(1));
+    htmp_Data->SetBinContent(nx_Data, Histo_Data->GetBinContent(nx_Data) + Histo_Data->GetBinContent(nx_Data+1));
+    htmp_Data->SetEntries(Histo_Data->GetEntries());
+    Histo_Data->Clear();
+    Histo_Data = new TH1I(*htmp_Data);
+    Histo_Data->SetName("Histo Data");
+    htmp_Data->Clear();
 
-		// overflow bin for mc
-		string name_MC	= "temp MC";
-		char* title_MC = (char*)Histo_MC->GetTitle();
-		Int_t nx_MC = Histo_MC->GetNbinsX()+1;
-		Double_t bw_MC = Histo_MC->GetBinWidth(nx_MC);
-		Double_t x1_MC = Histo_MC->GetBinLowEdge(1);
-		Double_t x2_MC = Histo_MC->GetBinLowEdge(nx_MC)+bw_MC;
-		TH1I *htmp_MC = new TH1I(name_MC.c_str(), title_MC, nx_MC, x1_MC, x2_MC); // Book a temporary histogram having an extra bin for overflows
-		for (Int_t i=1; i<=nx_MC; i++) {// Fill the new hitogram including the extra bin for overflows
-			 htmp_MC->Fill(htmp_MC->GetBinCenter(i), Histo_MC->GetBinContent(i));
-		}
-		htmp_MC->Fill(x1_MC-1, Histo_MC->GetBinContent(0));		// Restore the number of entries
-		htmp_MC->SetEntries(Histo_MC->GetEntries());		// Draw the temporary histogram
-		Histo_MC->Clear();
-		Histo_MC = new TH1I(*htmp_MC);
-		Histo_MC->SetName("Histo MC");
-
-		htmp_Data->Clear();
-		htmp_MC->Clear();
-
+  string name_MC = "temp MC";
+    char* title_MC = (char*)Histo_MC->GetTitle();
+    Int_t nx_MC = Histo_MC->GetNbinsX();
+    Double_t bw_MC = Histo_MC->GetBinWidth(nx_MC);
+    Double_t x1_MC = Histo_MC->GetBinLowEdge(1);
+    Double_t x2_MC = Histo_MC->GetBinLowEdge(nx_MC)+bw_MC;
+    TH1I *htmp_MC = new TH1I(name_MC.c_str(), title_MC, nx_MC, x1_MC, x2_MC); // Book a temporary histogram having an extra bin for overflows
+    for (Int_t i=1; i<=nx_MC; i++) {// Fill the new hitogram including the extra bin for overflows
+       htmp_MC->Fill(htmp_MC->GetBinCenter(i), Histo_MC->GetBinContent(i));
+    }
+    htmp_MC->SetBinContent(1, Histo_MC->GetBinContent(0) + Histo_MC->GetBinContent(1));
+    htmp_MC->SetBinContent(nx_MC, Histo_MC->GetBinContent(nx_MC) + Histo_MC->GetBinContent(nx_MC+1));
+    htmp_MC->SetEntries(Histo_MC->GetEntries());
+    Histo_MC->Clear();
+    Histo_MC = new TH1I(*htmp_MC);
+    Histo_MC->SetName("Histo MC");
+    htmp_MC->Clear();
 	}
 
 	// Get the number of entries for further normalization
@@ -207,17 +205,58 @@ void DrawDataMCplot_NormEntries_Fast_TH1I(TTree *Data_PhotonTree, TTree *MC_Phot
 	c1->Clear();
 	legend->Clear();
 
+  gPad->SetLeftMargin(0.22);
+  gPad->SetBottomMargin(0.18);
+  gPad->SetTopMargin(0.05);
+  gPad->SetRightMargin(0.05);
+  c1->SetFrameBorderSize(0);
+  c1->SetFrameBorderMode(0);
+
+  //prepare 2 pads
+    const Int_t nx=1;
+    const Int_t ny=2;
+    const Double_t x1[] = {0.0,0.0};
+    const Double_t x2[] = {1.0,1.0};
+    const Double_t y1[] = {1.0,0.3};
+    const Double_t y2[] = {0.3,0.00};
+    Float_t psize[2];
+
+  TPad *pad;
+  {
+    const char *myname = "c";
+    char *name2 = new char [strlen(myname)+6];
+    Int_t n = 0;
+    for (int iy=0;iy<ny;iy++) {
+      for (int ix=0;ix<nx;ix++) {
+        n++;
+        sprintf(name2,"%s_%d",myname,n);
+        if(ix==0){
+          gStyle->SetPadLeftMargin(.166);
+        }else{
+          gStyle->SetPadLeftMargin(.002);
+          gStyle->SetPadTopMargin(.002);
+        }
+        if(iy==0){//upper
+          gStyle->SetPadTopMargin(0.05*(1./0.7)); // 0.05
+          gStyle->SetPadBottomMargin(.000);
+        }
+        if(iy==(ny-1)){//lower pad
+          gStyle->SetPadTopMargin(.000);
+          gStyle->SetPadBottomMargin(.13*(1./0.3));
+        }
+        pad = new TPad(name2,name2,x1[ix],y1[iy],x2[ix],y2[iy]);
+        pad->SetNumber(n);
+        pad->Draw();
+        psize[iy]=y1[iy]-y2[iy];
+     //if(iy>0 )pad->SetGrid(kTRUE);
+      }// end of loop over x
+    }// end of loop over y
+    delete [] name2;
+  }// end of piece of code
+
+
 	string name_compare = "Comparison Histogram";
 	const char* title_compare = Title.c_str();
-/*
-				bool ZeroBin = false;
-				TH1I Histo_compare = new TH1I(name_compare.c_str(),title_Data,nx_Data,x1_Data,x2_Data);
-				for (int i=0;i<=nx_Data && !ZeroBin;i++)
-				{
-				if (Histo_MC->GetBinContent(i)==0){ZeroBin = true; continue;}
-								Histo_compare->Fill(Histo_compare->GetBinCenter(i),(Histo_Data->GetBinContent(i))/(Histo_MC->GetBinContent(i)))
-				}
-*/
 	TLine *Line1 = new TLine(Histo_Data->GetBinLowEdge(1),1,Histo_MC->GetBinLowEdge(Histo_Data->GetNbinsX()+1)+ Histo_Data->GetBinWidth(Histo_Data->GetNbinsX()+1),1);
 	TH1I *Histo_compare = new TH1I(*Histo_Data);
 	Histo_compare ->Sumw2();
@@ -231,43 +270,82 @@ void DrawDataMCplot_NormEntries_Fast_TH1I(TTree *Data_PhotonTree, TTree *MC_Phot
   }
   Histo_compare->SetMaximum(compMax*1.3);
   Histo_compare->SetMinimum(compMin*0.8);
+  c1->cd(1);
+  Histo_Data->SetLabelOffset(0.007*(1./0.7), "XYZ");
+  Histo_Data->SetLabelSize(0.05*(1./0.7), "XYZ");
+  Histo_Data->GetXaxis()->SetTitle(Title.c_str());
+  Histo_Data->SetLineColor(kBlack);
+  Histo_Data->SetMarkerColor(kBlack);
+  Histo_Data->SetMarkerSize(0.7);
+  Histo_Data->SetMarkerStyle(20);
+  Histo_Data->SetMaximum(YMax_lin);
+  Histo_Data->SetMinimum(YMin_lin);
+  Histo_Data->DrawCopy("PE");
+  Histo_MC->SetLineColor(kBlack);
+  Histo_MC->SetFillColor(kYellow);
+  Histo_MC->SetMaximum(YMax_lin);
+  Histo_MC->SetMinimum(YMin_lin);
+  Histo_MC->Draw("Same");
+  Histo_Data->Draw("PE Same axis");
+  Histo_Data->Draw("PE Same");
+  gPad->RedrawAxis();
+//  TLegend *legend = new TLegend(0.7, 0.795, 0.905, 0.905, "");
+  legend->SetFillColor(kWhite);
+  legend->SetLineColor(kWhite);
+  legend->SetShadowColor(kWhite);
+  legend->AddEntry(Histo_Data->GetName(), "Data", "lp");
+  legend->AddEntry(Histo_MC->GetName(), "MC", "f");
+  legend->Draw();
+//  TLatex latexLabel;
+  latexLabel.SetTextSize(0.04);
+  latexLabel.SetNDC();
+  latexLabel.DrawLatex(0.18, 0.87, "CMS Preliminary 2010");
+  latexLabel.DrawLatex(0.18, 0.82, "#sqrt{s} = 7 TeV");
+  c1->cd(2);
   c1->Update();
   c1->Draw();
+  Histo_compare->GetYaxis()->SetTitle("DATA / MC");
+  Histo_compare->SetTitleOffset(0.35,"Y");
+  Histo_compare->SetTitleOffset(0.9,"X");
+  Histo_compare->SetMarkerSize(0.7);
+  Histo_compare->SetMarkerStyle(20);
+  Histo_compare->SetTitleSize(0.06*(1./0.3), "X");
+  Histo_compare->SetTitleSize(0.06*(1./0.35), "Y");
+  Histo_compare->SetNdivisions(510, "X");
+  Histo_compare->SetNdivisions(502, "Y");
+  Histo_compare->SetLabelOffset(0.007*(1./0.3), "XYZ");
+  Histo_compare->SetLabelSize(0.05*(1./0.3), "XYZ");
+  Histo_compare->SetMinimum(0.);
+  Histo_compare->SetMaximum(2.);
+  Histo_compare->Draw("PE");
+  TF1* f = new TF1("f", "[0] + [1]*x", 0, Histo_MC->GetBinLowEdge(Histo_Data->GetNbinsX()+1)+ Histo_Data->GetBinWidth(Histo_Data->GetNbinsX()+1));
+  f->SetParameter(0, 1); // ordonnee a l'origine = 1
+  f->SetParameter(1, 0); // coeff directeur = 0
+//  Histo_compare->Fit("f", "OQ" );
+  string compare_name = "DataMC_" + var + "_" +name + "_Comp";
+  Histo_compare->SetName(compare_name.c_str());
+  c1->SetName(canvas_name.c_str());
+  c1->SetTitle(canvas_name.c_str());
+  PicName= dirName + "/gif/DataMC_" + var + "_" + name + "_Comp.gif";
   Histo_compare->Draw("e1");
-	TF1* f = new TF1("f", "[0] + [1]*x", 0, Histo_MC->GetBinLowEdge(Histo_Data->GetNbinsX()+1)+ Histo_Data->GetBinWidth(Histo_Data->GetNbinsX()+1));
-	f->SetParameter(0, 1); // ordonnee a l'origine = 1
-	f->SetParameter(1, 0); // coeff directeur = 0
-	Histo_compare->Fit("f", "OQ" );
-	string compare_name = "DataMC_" + var + "_" +name + "_Comp";
-	Histo_compare->SetName(compare_name.c_str());
-	c1->SetName(canvas_name.c_str());
-	c1->SetTitle(canvas_name.c_str());
-
-	PicName= dirName + "/gif/DataMC_" + var + "_" + name + "_Comp.gif";
-//	gStyle->SetOptFit(1111);
-//	gStyle->SetOptStat(0000);
-	Histo_compare->Draw("e1");
-	Line1->Draw("same");
-
-	c1->Draw();
-	c1->Print(PicName.c_str());
-	PicName= dirName + "/eps/DataMC_" + var + "_" + name + "_Comp.eps";
-	c1->Print(PicName.c_str());
-	if (inlog==true) {
-		c1->cd(1);
-		c1->SetLogy(1);
-		Histo_compare->SetMaximum(compMax*3);
+  Line1->Draw("same");
+  c1->Draw();
+  c1->Print(PicName.c_str());
+  PicName= dirName + "/eps/DataMC_" + var + "_" + name + "_Comp.eps";
+  c1->Print(PicName.c_str());
+  if (inlog==true) {
+    c1->cd(2)->SetLogy(1);
+    c1->cd(1)->SetLogy(1);
+    Histo_compare->SetMaximum(compMax*3);
     Histo_compare->SetMinimum(((double)(compMin))/((double)(1.5)));
-		c1->Update();
-		c1->Draw();
-		string PicName_log= dirName + "/gif/DataMC_" + var + "_" + name + "_log_Comp.gif";
-		c1->Print(PicName_log.c_str());
-		PicName_log= dirName + "/eps/DataMC_" + var + "_" + name + "_log_Comp.eps";
-		c1->Print(PicName_log.c_str());
-		c1->SetLogy(0);
-		c1->Update();
-//		gStyle->SetOptFit(0000);
-//		gStyle->SetOptStat(1111);
+    c1->Update();
+    c1->Draw();
+    string PicName_log= dirName + "/gif/DataMC_" + var + "_" + name + "_log_Comp.gif";
+    c1->Print(PicName_log.c_str());
+    PicName_log= dirName + "/eps/DataMC_" + var + "_" + name + "_log_Comp.eps";
+    c1->Print(PicName_log.c_str());
+    c1->SetLogy(0);
+    c1->Update();
 	}
 
 	c1->Clear();
@@ -299,43 +377,41 @@ void DrawDataMCplot_NormEntries_Fast(TTree *Data_PhotonTree, TTree *MC_PhotonTre
 
 	// TODO: implement underflow
 	if( drawUnderOverFlow ){
-		// overflow bin for data
-		string name_Data = "temp Data";
-		char* title_Data = (char*)Histo_Data->GetTitle();
-		Int_t nx_Data = Histo_Data->GetNbinsX()+1;
-		Double_t bw_Data = Histo_Data->GetBinWidth(nx_Data);
-		Double_t x1_Data = Histo_Data->GetBinLowEdge(1);
-		Double_t x2_Data = Histo_Data->GetBinLowEdge(nx_Data)+bw_Data;
-		TH1F *htmp_Data = new TH1F(name_Data.c_str(), title_Data, nx_Data, x1_Data, x2_Data); // Book a temporary histogram having an extra bin for overflows
-		for (Int_t i=1; i<=nx_Data; i++) {// Fill the new hitogram including the extra bin for overflows
-			 htmp_Data->Fill(htmp_Data->GetBinCenter(i), Histo_Data->GetBinContent(i));
-		}
-		htmp_Data->Fill(x1_Data-1, Histo_Data->GetBinContent(0));		// Restore the number of entries
-		htmp_Data->SetEntries(Histo_Data->GetEntries());		// Draw the temporary histogram
-		Histo_Data->Clear();
-		Histo_Data = new TH1F(*htmp_Data);
-		Histo_Data->SetName("Histo Data");
+  	string name_Data = "temp Data";
+    char* title_Data = (char*)Histo_Data->GetTitle();
+    Int_t nx_Data = Histo_Data->GetNbinsX();
+    Double_t bw_Data = Histo_Data->GetBinWidth(nx_Data);
+    Double_t x1_Data = Histo_Data->GetBinLowEdge(1);
+    Double_t x2_Data = Histo_Data->GetBinLowEdge(nx_Data)+bw_Data;
+    TH1F *htmp_Data = new TH1F(name_Data.c_str(), title_Data, nx_Data, x1_Data, x2_Data); // Book a temporary histogram having an extra bin for overflows
+    for (Int_t i=1; i<=nx_Data; i++) {// Fill the new hitogram including the extra bin for overflows
+       htmp_Data->Fill(htmp_Data->GetBinCenter(i), Histo_Data->GetBinContent(i));
+    }
+    htmp_Data->SetBinContent(1, Histo_Data->GetBinContent(0) + Histo_Data->GetBinContent(1));
+    htmp_Data->SetBinContent(nx_Data, Histo_Data->GetBinContent(nx_Data) + Histo_Data->GetBinContent(nx_Data+1));
+    htmp_Data->SetEntries(Histo_Data->GetEntries());
+    Histo_Data->Clear();
+    Histo_Data = new TH1F(*htmp_Data);
+    Histo_Data->SetName("Histo Data");
+    htmp_Data->Clear();
 
-		// overflow bin for mc
-		string name_MC	= "temp MC";
-		char* title_MC = (char*)Histo_MC->GetTitle();
-		Int_t nx_MC = Histo_MC->GetNbinsX()+1;
-		Double_t bw_MC = Histo_MC->GetBinWidth(nx_MC);
-		Double_t x1_MC = Histo_MC->GetBinLowEdge(1);
-		Double_t x2_MC = Histo_MC->GetBinLowEdge(nx_MC)+bw_MC;
-		TH1F *htmp_MC = new TH1F(name_MC.c_str(), title_MC, nx_MC, x1_MC, x2_MC); // Book a temporary histogram having an extra bin for overflows
-		for (Int_t i=1; i<=nx_MC; i++) {// Fill the new hitogram including the extra bin for overflows
-			 htmp_MC->Fill(htmp_MC->GetBinCenter(i), Histo_MC->GetBinContent(i));
-		}
-		htmp_MC->Fill(x1_MC-1, Histo_MC->GetBinContent(0));		// Restore the number of entries
-		htmp_MC->SetEntries(Histo_MC->GetEntries());		// Draw the temporary histogram
-		Histo_MC->Clear();
-		Histo_MC = new TH1F(*htmp_MC);
-		Histo_MC->SetName("Histo MC");
-
-		htmp_Data->Clear();
-		htmp_MC->Clear();
-
+  string name_MC = "temp MC";
+    char* title_MC = (char*)Histo_MC->GetTitle();
+    Int_t nx_MC = Histo_MC->GetNbinsX();
+    Double_t bw_MC = Histo_MC->GetBinWidth(nx_MC);
+    Double_t x1_MC = Histo_MC->GetBinLowEdge(1);
+    Double_t x2_MC = Histo_MC->GetBinLowEdge(nx_MC)+bw_MC;
+    TH1F *htmp_MC = new TH1F(name_MC.c_str(), title_MC, nx_MC, x1_MC, x2_MC); // Book a temporary histogram having an extra bin for overflows
+    for (Int_t i=1; i<=nx_MC; i++) {// Fill the new hitogram including the extra bin for overflows
+       htmp_MC->Fill(htmp_MC->GetBinCenter(i), Histo_MC->GetBinContent(i));
+    }
+    htmp_MC->SetBinContent(1, Histo_MC->GetBinContent(0) + Histo_MC->GetBinContent(1));
+    htmp_MC->SetBinContent(nx_MC, Histo_MC->GetBinContent(nx_MC) + Histo_MC->GetBinContent(nx_MC+1));
+    htmp_MC->SetEntries(Histo_MC->GetEntries());
+    Histo_MC->Clear();
+    Histo_MC = new TH1F(*htmp_MC);
+    Histo_MC->SetName("Histo MC");
+    htmp_MC->Clear();
 	}
 
 	// Get the number of entries for further normalization
@@ -458,17 +534,58 @@ void DrawDataMCplot_NormEntries_Fast(TTree *Data_PhotonTree, TTree *MC_PhotonTre
 	c1->Clear();
 	legend->Clear();
 
+  gPad->SetLeftMargin(0.22);
+  gPad->SetBottomMargin(0.18);
+  gPad->SetTopMargin(0.05);
+  gPad->SetRightMargin(0.05);
+  c1->SetFrameBorderSize(0);
+  c1->SetFrameBorderMode(0);
+
+  //prepare 2 pads
+    const Int_t nx=1;
+    const Int_t ny=2;
+    const Double_t x1[] = {0.0,0.0};
+    const Double_t x2[] = {1.0,1.0};
+    const Double_t y1[] = {1.0,0.3};
+    const Double_t y2[] = {0.3,0.00};
+    Float_t psize[2];
+
+  TPad *pad;
+  {
+    const char *myname = "c";
+    char *name2 = new char [strlen(myname)+6];
+    Int_t n = 0;
+    for (int iy=0;iy<ny;iy++) {
+      for (int ix=0;ix<nx;ix++) {
+        n++;
+        sprintf(name2,"%s_%d",myname,n);
+        if(ix==0){
+          gStyle->SetPadLeftMargin(.166);
+        }else{
+          gStyle->SetPadLeftMargin(.002);
+          gStyle->SetPadTopMargin(.002);
+        }
+        if(iy==0){//upper
+          gStyle->SetPadTopMargin(0.05*(1./0.7)); // 0.05
+          gStyle->SetPadBottomMargin(.000);
+        }
+        if(iy==(ny-1)){//lower pad
+          gStyle->SetPadTopMargin(.000);
+          gStyle->SetPadBottomMargin(.13*(1./0.3));
+        }
+        pad = new TPad(name2,name2,x1[ix],y1[iy],x2[ix],y2[iy]);
+        pad->SetNumber(n);
+        pad->Draw();
+        psize[iy]=y1[iy]-y2[iy];
+     //if(iy>0 )pad->SetGrid(kTRUE);
+      }// end of loop over x
+    }// end of loop over y
+    delete [] name2;
+  }// end of piece of code
+
+
 	string name_compare = "Comparison Histogram";
 	const char* title_compare = Title.c_str();
-/*
-				bool ZeroBin = false;
-				TH1F Histo_compare = new TH1F(name_compare.c_str(),title_Data,nx_Data,x1_Data,x2_Data);
-				for (int i=0;i<=nx_Data && !ZeroBin;i++)
-				{
-				if (Histo_MC->GetBinContent(i)==0){ZeroBin = true; continue;}
-								Histo_compare->Fill(Histo_compare->GetBinCenter(i),(Histo_Data->GetBinContent(i))/(Histo_MC->GetBinContent(i)))
-				}
-*/
 	TLine *Line1 = new TLine(Histo_Data->GetBinLowEdge(1),1,Histo_MC->GetBinLowEdge(Histo_Data->GetNbinsX()+1)+ Histo_Data->GetBinWidth(Histo_Data->GetNbinsX()+1),1);
 	TH1F *Histo_compare = new TH1F(*Histo_Data);
 	Histo_compare ->Sumw2();
@@ -482,43 +599,82 @@ void DrawDataMCplot_NormEntries_Fast(TTree *Data_PhotonTree, TTree *MC_PhotonTre
   }
   Histo_compare->SetMaximum(compMax*1.3);
   Histo_compare->SetMinimum(compMin*0.8);
+  c1->cd(1);
+  Histo_Data->SetLabelOffset(0.007*(1./0.7), "XYZ");
+  Histo_Data->SetLabelSize(0.05*(1./0.7), "XYZ");
+  Histo_Data->GetXaxis()->SetTitle(Title.c_str());
+  Histo_Data->SetLineColor(kBlack);
+  Histo_Data->SetMarkerColor(kBlack);
+  Histo_Data->SetMarkerSize(0.7);
+  Histo_Data->SetMarkerStyle(20);
+  Histo_Data->SetMaximum(YMax_lin);
+  Histo_Data->SetMinimum(YMin_lin);
+  Histo_Data->DrawCopy("PE");
+  Histo_MC->SetLineColor(kBlack);
+  Histo_MC->SetFillColor(kYellow);
+  Histo_MC->SetMaximum(YMax_lin);
+  Histo_MC->SetMinimum(YMin_lin);
+  Histo_MC->Draw("Same");
+  Histo_Data->Draw("PE Same axis");
+  Histo_Data->Draw("PE Same");
+  gPad->RedrawAxis();
+//  TLegend *legend = new TLegend(0.7, 0.795, 0.905, 0.905, "");
+  legend->SetFillColor(kWhite);
+  legend->SetLineColor(kWhite);
+  legend->SetShadowColor(kWhite);
+  legend->AddEntry(Histo_Data->GetName(), "Data", "lp");
+  legend->AddEntry(Histo_MC->GetName(), "MC", "f");
+  legend->Draw();
+//  TLatex latexLabel;
+  latexLabel.SetTextSize(0.04);
+  latexLabel.SetNDC();
+  latexLabel.DrawLatex(0.18, 0.87, "CMS Preliminary 2010");
+  latexLabel.DrawLatex(0.18, 0.82, "#sqrt{s} = 7 TeV");
+  c1->cd(2);
   c1->Update();
   c1->Draw();
+  Histo_compare->GetYaxis()->SetTitle("DATA / MC");
+  Histo_compare->SetTitleOffset(0.35,"Y");
+  Histo_compare->SetTitleOffset(0.9,"X");
+  Histo_compare->SetMarkerSize(0.7);
+  Histo_compare->SetMarkerStyle(20);
+  Histo_compare->SetTitleSize(0.06*(1./0.3), "X");
+  Histo_compare->SetTitleSize(0.06*(1./0.35), "Y");
+  Histo_compare->SetNdivisions(510, "X");
+  Histo_compare->SetNdivisions(502, "Y");
+  Histo_compare->SetLabelOffset(0.007*(1./0.3), "XYZ");
+  Histo_compare->SetLabelSize(0.05*(1./0.3), "XYZ");
+  Histo_compare->SetMinimum(0.);
+  Histo_compare->SetMaximum(2.);
+  Histo_compare->Draw("PE");
+  TF1* f = new TF1("f", "[0] + [1]*x", 0, Histo_MC->GetBinLowEdge(Histo_Data->GetNbinsX()+1)+ Histo_Data->GetBinWidth(Histo_Data->GetNbinsX()+1));
+  f->SetParameter(0, 1); // ordonnee a l'origine = 1
+  f->SetParameter(1, 0); // coeff directeur = 0
+//  Histo_compare->Fit("f", "OQ" );
+  string compare_name = "DataMC_" + var + "_" +name + "_Comp";
+  Histo_compare->SetName(compare_name.c_str());
+  c1->SetName(canvas_name.c_str());
+  c1->SetTitle(canvas_name.c_str());
+  PicName= dirName + "/gif/DataMC_" + var + "_" + name + "_Comp.gif";
   Histo_compare->Draw("e1");
-	TF1* f = new TF1("f", "[0] + [1]*x", 0, Histo_MC->GetBinLowEdge(Histo_Data->GetNbinsX()+1)+ Histo_Data->GetBinWidth(Histo_Data->GetNbinsX()+1));
-	f->SetParameter(0, 1); // ordonnee a l'origine = 1
-	f->SetParameter(1, 0); // coeff directeur = 0
-	Histo_compare->Fit("f", "OQ" );
-	string compare_name = "DataMC_" + var + "_" +name + "_Comp";
-	Histo_compare->SetName(compare_name.c_str());
-	c1->SetName(canvas_name.c_str());
-	c1->SetTitle(canvas_name.c_str());
-
-	PicName= dirName + "/gif/DataMC_" + var + "_" + name + "_Comp.gif";
-//	gStyle->SetOptFit(1111);
-//	gStyle->SetOptStat(0000);
-	Histo_compare->Draw("e1");
-	Line1->Draw("same");
-
-	c1->Draw();
-	c1->Print(PicName.c_str());
-	PicName= dirName + "/eps/DataMC_" + var + "_" + name + "_Comp.eps";
-	c1->Print(PicName.c_str());
-	if (inlog==true) {
-		c1->cd(1);
-		c1->SetLogy(1);
-		Histo_compare->SetMaximum(compMax*3);
+  Line1->Draw("same");
+  c1->Draw();
+  c1->Print(PicName.c_str());
+  PicName= dirName + "/eps/DataMC_" + var + "_" + name + "_Comp.eps";
+  c1->Print(PicName.c_str());
+  if (inlog==true) {
+    c1->cd(2)->SetLogy(1);
+    c1->cd(1)->SetLogy(1);
+    Histo_compare->SetMaximum(compMax*3);
     Histo_compare->SetMinimum(((double)(compMin))/((double)(1.5)));
-		c1->Update();
-		c1->Draw();
-		string PicName_log= dirName + "/gif/DataMC_" + var + "_" + name + "_log_Comp.gif";
-		c1->Print(PicName_log.c_str());
-		PicName_log= dirName + "/eps/DataMC_" + var + "_" + name + "_log_Comp.eps";
-		c1->Print(PicName_log.c_str());
-		c1->SetLogy(0);
-		c1->Update();
-//		gStyle->SetOptFit(0000);
-//		gStyle->SetOptStat(1111);
+    c1->Update();
+    c1->Draw();
+    string PicName_log= dirName + "/gif/DataMC_" + var + "_" + name + "_log_Comp.gif";
+    c1->Print(PicName_log.c_str());
+    PicName_log= dirName + "/eps/DataMC_" + var + "_" + name + "_log_Comp.eps";
+    c1->Print(PicName_log.c_str());
+    c1->SetLogy(0);
+    c1->Update();
 	}
 
 	c1->Clear();
@@ -639,17 +795,16 @@ void DrawDataMCplot_NormEntries_2D(TTree *Data_PhotonTree, TTree *MC_PhotonTree,
 int main()
 {
 //	cout<<"\tDEBUG:\tEntering main()"<<endl;
-	//gStyle->SetOptStat(0);
 	gROOT->ProcessLine(".x setTDRStyle.C");
 	string Data = "miniTree_DATA__ALL.root"; 
 //	string MC = "miniTree_MC_MinBias_7TeV-pythia8_Spring10-START3X_V26B-v1__ALL.root"; 
 //	string MC = "miniTree_MC_MinBias_TuneD6T_7TeV-pythia6_Spring10-START3X_V26B-v1__ALL.root"; 
 //	string MC = "miniTree_MC_MinBias_TuneP0_7TeV-pythia6_Spring10-START3X_V26B-v1__ALL.root"; 
-//	string MC = "miniTree_MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1__ALL.root"; 
+//	string MC = "miniTree_MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1GOODCOLL.root"; 
 	
 	TFile *Data_File = new TFile(Data.c_str());
 	TFile *MC_File = new TFile(MC.c_str());
-	TCanvas *c1 = new TCanvas("Default", "Default");
+	TCanvas *c1 = new TCanvas("Default", "Default", 600, 600);
 
 
 
@@ -661,40 +816,40 @@ if(false){	// Plots for the photons
 	vector<string> name;
 
 
-//	name.push_back("isAfterCut10");
-//	set_of_cuts.push_back("Photon_isAfterCut10==1");
-//	name.push_back("isAfterCut10_EB");
-//	set_of_cuts.push_back("Photon_isAfterCut10==1 && Photon_isEB==1");
-//	name.push_back("isAfterCut10_EE");
-//	set_of_cuts.push_back("Photon_isAfterCut10==1 && Photon_isEE==1");
-//	name.push_back("isAfterCut10_EEP");
-//	set_of_cuts.push_back("Photon_isAfterCut10==1 && Photon_isEEP==1");
-//	name.push_back("isAfterCut10_EEM");
-//	set_of_cuts.push_back("Photon_isAfterCut10==1 && Photon_isEEM==1");
+//	name.push_back("isSelected");
+//	set_of_cuts.push_back("Photon_isSelected==1");
+//	name.push_back("isSelected_EB");
+//	set_of_cuts.push_back("Photon_isSelected==1 && Photon_isEB==1");
+//	name.push_back("isSelected_EE");
+//	set_of_cuts.push_back("Photon_isSelected==1 && Photon_isEE==1");
+//	name.push_back("isSelected_EEP");
+//	set_of_cuts.push_back("Photon_isSelected==1 && Photon_isEEP==1");
+//	name.push_back("isSelected_EEM");
+//	set_of_cuts.push_back("Photon_isSelected==1 && Photon_isEEM==1");
 
 	for(int i=0; i<set_of_cuts.size() ; i++){ // loop over different set of cuts
 		cout << "\tStarting loop on photons for plots with cuts: " << set_of_cuts[i] << endl;
 		DrawDataMCplot_NormEntries_Fast_TH1I(Data_PhotonTree, MC_PhotonTree, "Photon_hasPixelSeed", "(2, 0, 2)", set_of_cuts[i], name[i], "Photon hasPixelSeed", true, false, c1);
 		DrawDataMCplot_NormEntries_Fast_TH1I(Data_PhotonTree, MC_PhotonTree, "Photon_isAlsoElectron", "(2, 0, 2)", set_of_cuts[i], name[i], "Photon isAlsoElectron", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E", "(60, 0, 90)", set_of_cuts[i], name[i], "Photon corrected Energy (GeV)", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Et", "(75, 0, 30)", set_of_cuts[i], name[i], "Photon corrected E_{T} (GeV)", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E", "(100, 0, 500)", set_of_cuts[i], name[i], "Photon corrected Energy (GeV)", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Et", "(30, 0, 150)", set_of_cuts[i], name[i], "Photon corrected E_{T} (GeV)", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Eta", "(30, -3.0, 3.0)", set_of_cuts[i], name[i], "Photon #eta", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Phi", "(30, -3.15, 3.15)", set_of_cuts[i], name[i], "Photon #phi (rad)", true, false, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCEta", "(30, -3.0, 3.0)", set_of_cuts[i], name[i], "Photon SC #eta", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCPhi", "(30, -3.15, 3.15)", set_of_cuts[i], name[i], "Photon SC #phi (rad)", true, false, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E2x2", "(500, 0, 500)", set_of_cuts[i], name[i], "Photon E_{2x2} (GeV)", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E3x3", "(500, 0, 500)", set_of_cuts[i], name[i], "Photon E_{3x3} (GeV)", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E5x5", "(500, 0, 500)", set_of_cuts[i], name[i], "Photon E_{5x5} (GeV)", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E5x5", "(100, 0, 500)", set_of_cuts[i], name[i], "Photon E_{5x5} (GeV)", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Emax", "(63, 0, 50)", set_of_cuts[i], name[i], "Photon Crystal Emax (S1) (GeV)", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E2nd", "(34, 0, 20)", set_of_cuts[i], name[i], "Photon Crystal E2nd (S2) (GeV)", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_r19", "(50, 0.1, 1.3)", set_of_cuts[i], name[i], "Photon r19", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_r9", "(50, 0.1, 1.3)", set_of_cuts[i], name[i], "r9", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_cross", "(83, 0, 1.1)", set_of_cuts[i], name[i], "Photon 1-(E4/E1)", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_caloConeSize", "(50, 0, 0.4)", set_of_cuts[i], name[i], "Photon caloConeSize", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCEnergy", "(418, 0, 500)", set_of_cuts[i], name[i], "Photon SC corrected Energy (GeV)", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCEt", "(375, 0, 150)", set_of_cuts[i], name[i], "Photon SC corrected E_{T} (GeV)", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCRawEnergy", "(112, 0, 500)", set_of_cuts[i], name[i], "Photon SC uncorrected Energy (GeV)", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCRawEt", "(75, 0, 150)", set_of_cuts[i], name[i], "Photon SC uncorrected E_{T} (GeV)", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCEnergy", "(100, 0, 500)", set_of_cuts[i], name[i], "Photon SC corrected Energy (GeV)", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCEt", "(30, 0, 150)", set_of_cuts[i], name[i], "Photon SC corrected E_{T} (GeV)", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCRawEnergy", "(100, 0, 500)", set_of_cuts[i], name[i], "Photon SC uncorrected Energy (GeV)", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCRawEt", "(30, 0, 150)", set_of_cuts[i], name[i], "Photon SC uncorrected E_{T} (GeV)", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_PreshEnergy", "(125, 0, 8)", set_of_cuts[i], name[i], "Photon Preshower Energy (GeV)", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_HoE", "(21, 0, 0.55)", set_of_cuts[i], name[i], "Photon HoE", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Nclusters", "(14, 0, 14)", set_of_cuts[i], name[i], "Photon # of cluster constituents", true, true, c1);
@@ -736,46 +891,17 @@ if(false){ //			Plots for super-clusters
 	vector<string> name_superclu;
 
 
-//	name_superclu.push_back("isAfterCut7");
-//	set_of_cuts_superclu.push_back("SuperClu_isAfterCut7");
-//	name_superclu.push_back("isAfterCut7_EE");
-//	set_of_cuts_superclu.push_back("SuperClu_isEE==1 && SuperClu_isAfterCut7==1");
-//	name_superclu.push_back("isAfterCut7_EB");
-//	set_of_cuts_superclu.push_back("SuperClu_isEB==1 && SuperClu_isAfterCut7==1");
-//	name_superclu.push_back("isAfterCut7_EEP");
-//	set_of_cuts_superclu.push_back("SuperClu_isEEP==1 && SuperClu_isAfterCut7==1");
-//	name_superclu.push_back("isAfterCut7_EEM");
-//	set_of_cuts_superclu.push_back("SuperClu_isEEM==1 && SuperClu_isAfterCut7==1");
-//	name_superclu.push_back("isAfterCut7_RawEtGT2");
-//	set_of_cuts_superclu.push_back("SuperClu_isAfterCut7 && SuperClu_RawEt>2.0");
-//	name_superclu.push_back("isAfterCut7_RawEtGT2_EE");
-//	set_of_cuts_superclu.push_back("SuperClu_isEE==1 && SuperClu_isAfterCut7==1 && SuperClu_RawEt>2.0");
-//	name_superclu.push_back("isAfterCut7_RawEtGT2_EB");
-//	set_of_cuts_superclu.push_back("SuperClu_isEB==1 && SuperClu_isAfterCut7==1 && SuperClu_RawEt>2.0");
-//	name_superclu.push_back("isAfterCut7_RawEtGT2_EEP");
-//	set_of_cuts_superclu.push_back("SuperClu_isEEP==1 && SuperClu_isAfterCut7==1 && SuperClu_RawEt>2.0");
-//	name_superclu.push_back("isAfterCut7_RawEtGT2_EEM");
-//	set_of_cuts_superclu.push_back("SuperClu_isEEM==1 && SuperClu_isAfterCut7==1 && SuperClu_RawEt>2.0");
-//	name_superclu.push_back("isAfterCut7_RawEtGT4");
-//	set_of_cuts_superclu.push_back("SuperClu_isAfterCut7 && SuperClu_RawEt>2.0");
-//	name_superclu.push_back("isAfterCut7_RawEtGT4_EE");
-//	set_of_cuts_superclu.push_back("SuperClu_isEE==1 && SuperClu_isAfterCut7==1 && SuperClu_RawEt>4.0");
-//	name_superclu.push_back("isAfterCut7_RawEtGT4_EB");
-//	set_of_cuts_superclu.push_back("SuperClu_isEB==1 && SuperClu_isAfterCut7==1 && SuperClu_RawEt>4.0");
-//	name_superclu.push_back("isAfterCut7_RawEtGT4_EEP");
-//	set_of_cuts_superclu.push_back("SuperClu_isEEP==1 && SuperClu_isAfterCut7==1 && SuperClu_RawEt>4.0");
-//	name_superclu.push_back("isAfterCut7_RawEtGT4_EEM");
-//	set_of_cuts_superclu.push_back("SuperClu_isEEM==1 && SuperClu_isAfterCut7==1 && SuperClu_RawEt>4.0");
-//	name_superclu.push_back("isAfterCut7_RawEtGT10");
-//	set_of_cuts_superclu.push_back("SuperClu_isAfterCut7 && SuperClu_RawEt>4.0");
-//	name_superclu.push_back("isAfterCut7_RawEtGT10_EE");
-//	set_of_cuts_superclu.push_back("SuperClu_isEE==1 && SuperClu_isAfterCut7==1 && SuperClu_RawEt>10.0");
-//	name_superclu.push_back("isAfterCut7_RawEtGT10_EB");
-//	set_of_cuts_superclu.push_back("SuperClu_isEB==1 && SuperClu_isAfterCut7==1 && SuperClu_RawEt>10.0");
-//	name_superclu.push_back("isAfterCut7_RawEtGT10_EEP");
-//	set_of_cuts_superclu.push_back("SuperClu_isEEP==1 && SuperClu_isAfterCut7==1 && SuperClu_RawEt>10.0");
-//	name_superclu.push_back("isAfterCut7_RawEtGT10_EEM");
-//	set_of_cuts_superclu.push_back("SuperClu_isEEM==1 && SuperClu_isAfterCut7==1 && SuperClu_RawEt>10.0");
+//	name_superclu.push_back("isSelected");
+//	set_of_cuts_superclu.push_back("SuperClu_isSelected");
+//	name_superclu.push_back("isSelected_EE");
+//	set_of_cuts_superclu.push_back("SuperClu_isEE==1 && SuperClu_isSelected==1");
+//	name_superclu.push_back("isSelected_EB");
+//	set_of_cuts_superclu.push_back("SuperClu_isEB==1 && SuperClu_isSelected==1");
+//	name_superclu.push_back("isSelected_EEP");
+//	set_of_cuts_superclu.push_back("SuperClu_isEEP==1 && SuperClu_isSelected==1");
+//	name_superclu.push_back("isSelected_EEM");
+//	set_of_cuts_superclu.push_back("SuperClu_isEEM==1 && SuperClu_isSelected==1");
+
 
 	for (int i=0;i<name_superclu.size();i++){
 		cout << "\tStarting loop on superclusters for plots with cuts: " << set_of_cuts_superclu[i] << endl;
@@ -813,12 +939,12 @@ if(false){	// Plots for the events
 		DrawDataMCplot_NormEntries_Fast_TH1I(Data_eventTree, MC_eventTree, "Photon_Multiplicity", "(7, 0, 7)", set_of_cuts_events[i], name_events[i], "Photon multiplicity", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast_TH1I(Data_eventTree, MC_eventTree, "SuperClu_Multiplicity", "(30, 0, 30)", set_of_cuts_events[i], name_events[i], "Super cluster multiplicity", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast_TH1I(Data_eventTree, MC_eventTree, "Photon_Multiplicity_isAfterCut10", "(7, 0, 7)", set_of_cuts_events[i], name_events[i], "Photon multiplicity", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast_TH1I(Data_eventTree, MC_eventTree, "SuperClu_Multiplicity_isAfterCut7", "(30, 0, 30)", set_of_cuts_events[i], name_events[i], "Super cluster multiplicity", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast_TH1I(Data_eventTree, MC_eventTree, "SuperClu_Multiplicity_isAfterCut8", "(30, 0, 30)", set_of_cuts_events[i], name_events[i], "Super cluster multiplicity", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast_TH1I(Data_eventTree, MC_eventTree, "Photon_Multiplicity_isAfterCut10_SCRawEtGT4", "(7, 0, 7)", set_of_cuts_events[i], name_events[i], "Photon Multiplicity SCEt>4GeV", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast_TH1I(Data_eventTree, MC_eventTree, "Photon_Multiplicity_isAfterCut10_SCRawEtGT10", "(7, 0, 7)", set_of_cuts_events[i], name_events[i], "Photon Multiplicity SCEt>10GeV", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast_TH1I(Data_eventTree, MC_eventTree, "SuperClu_Multiplicity_isAfterCut7_SCRawEtGT2", "(30, 0, 30)", set_of_cuts_events[i], name_events[i], "Super cluster multiplicity Et>2GeV", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast_TH1I(Data_eventTree, MC_eventTree, "SuperClu_Multiplicity_isAfterCut7_SCRawEtGT4", "(30, 0, 30)", set_of_cuts_events[i], name_events[i], "Super cluster multiplicity Et>4GeV", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast_TH1I(Data_eventTree, MC_eventTree, "SuperClu_Multiplicity_isAfterCut7_SCRawEtGT10", "(30, 0, 30)", set_of_cuts_events[i], name_events[i], "Super cluster multiplicity Et>10GeV", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast_TH1I(Data_eventTree, MC_eventTree, "SuperClu_Multiplicity_isAfterCut8_SCRawEtGT2", "(30, 0, 30)", set_of_cuts_events[i], name_events[i], "Super cluster multiplicity Et>2GeV", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast_TH1I(Data_eventTree, MC_eventTree, "SuperClu_Multiplicity_isAfterCut8_SCRawEtGT4", "(30, 0, 30)", set_of_cuts_events[i], name_events[i], "Super cluster multiplicity Et>4GeV", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast_TH1I(Data_eventTree, MC_eventTree, "SuperClu_Multiplicity_isAfterCut8_SCRawEtGT10", "(30, 0, 30)", set_of_cuts_events[i], name_events[i], "Super cluster multiplicity Et>10GeV", true, true, c1);
 
 		DrawDataMCplot_NormEntries_Fast_TH1I(Data_eventTree, MC_eventTree, "nPhotonEB_perEvent", "(15, 0, 15)", set_of_cuts_events[i], name_events[i],"nPhotonEB_perEvent", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast_TH1I(Data_eventTree, MC_eventTree, "nPhotonEE_perEvent", "(15, 0, 15)", set_of_cuts_events[i], name_events[i],"nPhotonEE_perEvent", true, true, c1);
