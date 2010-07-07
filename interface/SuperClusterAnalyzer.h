@@ -29,6 +29,8 @@
 #include "DataFormats/EgammaReco/interface/SuperCluster.h"
 #include "DataFormats/EgammaReco/interface/SuperClusterFwd.h"
 
+#include "RecoEgamma/EgammaIsolationAlgos/interface/EgammaTowerIsolation.h"
+
 #include "../interface/TRootEvent.h"
 #include "../interface/TRootSuperCluster.h"
 
@@ -37,21 +39,23 @@
 
 class SuperClusterAnalyzer
 {
-
+   
    public:
       SuperClusterAnalyzer(const edm::ParameterSet& producersNames, int verbosity);
       ~SuperClusterAnalyzer();
       void setVerbosity(int verbosity) {verbosity_ = verbosity; };
-		bool process(const edm::Event& iEvent, const edm::EventSetup& iSetup, TRootEvent* rootEvent, TClonesArray* rootSuperClusters, const string moduleLabel, const string instanceName, const int clusterType);
-		float getESRatio(reco::CaloClusterPtr& seed, const edm::Event& iEvent, const edm::EventSetup& iSetup);
-		
+      bool process(const edm::Event& iEvent, const edm::EventSetup& iSetup, TRootEvent* rootEvent, TClonesArray* rootSuperClusters, const string moduleLabel, const string instanceName, const int clusterType);
+      float getESRatio(reco::CaloClusterPtr& seed, const edm::Event& iEvent, const edm::EventSetup& iSetup);
+      
    private:
       int verbosity_;
       int iClus_;
+      bool doHcal_;
       std::string dataType_ ;
+      edm::InputTag caloTowerCollection_;
       bool allowMissingCollection_;
       bool patEncapsulation_;
-
+      
 };
 
 #endif

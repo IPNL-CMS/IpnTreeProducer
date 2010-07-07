@@ -32,6 +32,7 @@
 <use name=RecoEgamma/EgammaTools>
 <use name=RecoEgamma/EgammaMCTools>
 <use name=RecoEcal/EgammaCoreTools>
+<use name=RecoEgamma/EgammaIsolationAlgos>
 <use name=Geometry/CaloGeometry>
 <use name=Geometry/EcalAlgo>
 <use name=MagneticField/Engine>

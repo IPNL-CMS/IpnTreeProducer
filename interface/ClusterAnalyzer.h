@@ -35,7 +35,7 @@ class ClusterAnalyzer
 {
    
    public:
-		ClusterAnalyzer(const edm::ParameterSet& config, const edm::ParameterSet& producersNames, int verbosity);
+      ClusterAnalyzer(const edm::ParameterSet& config, const edm::ParameterSet& producersNames, int verbosity);
       ~ClusterAnalyzer();
       void setVerbosity(int verbosity) {verbosity_ = verbosity; };
       bool process(const edm::Event& iEvent, const edm::EventSetup& iSetup, TRootEvent* rootEvent, EcalClusterLazyTools* lazyTools,  TClonesArray* rootClusters, const string moduleLabel, const string instanceName, const int clusterType);
@@ -43,12 +43,12 @@ class ClusterAnalyzer
    private:
       int verbosity_;
       int iClus_;
-		bool doRecHits_;
+      bool doRecHits_;
       std::string dataType_ ;
-		edm::InputTag reducedBarrelEcalRecHitCollection_;
-		edm::InputTag reducedEndcapEcalRecHitCollection_;
-		bool keepClusterizedEcalRecHits_;
-		bool allowMissingCollection_;
+      edm::InputTag reducedBarrelEcalRecHitCollection_;
+      edm::InputTag reducedEndcapEcalRecHitCollection_;
+      bool keepClusterizedEcalRecHits_;
+      bool allowMissingCollection_;
       
 };
 
