@@ -452,7 +452,7 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1G
 	Float_t Photon_SCEta, Photon_SCPhi, Photon_SCEnergy, Photon_SCEt, Photon_SCRawEnergy, Photon_SCRawEt;
 	Float_t Photon_E, Photon_Et, Photon_E2x2, Photon_E3x3, Photon_E5x5, Photon_Emax, Photon_E2nd;
 	Float_t Photon_r19, Photon_r9, Photon_cross;
-	Float_t Photon_caloConeSize, Photon_PreshEnergy, Photon_HoE, Photon_covIetaIeta, Photon_covIphiIphi, Photon_etaWidth, Photon_phiWidth;
+	Float_t Photon_caloConeSize, Photon_PreshEnergy, Photon_HoE, Photon_covIetaIeta, Photon_covIphiIphi, Photon_etaWidth, Photon_phiWidth, Photon_sigmaIetaIeta;
 	Float_t Photon_isoEcalRecHit, Photon_isoHcalRecHit, Photon_isoSolidTrkCone, Photon_isoHollowTrkCone, Photon_isoPersoSolidTrkCone, Photon_isolationPersoTracksSolidCone;
 	Float_t Photon_s4, Photon_esRatio;
 	Float_t Photon_brem, Photon_Eseed_o_Esc, Photon_E2x2_o_E5x5, Photon_S2_o_Esc;
@@ -548,6 +548,7 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1G
 	photon_miniTree->Branch("Photon_convNTracks", &Photon_convNTracks, "Photon_convNTracks/I");
 	photon_miniTree->Branch("Photon_etaWidth", &Photon_etaWidth, "Photon_etaWidth/F");
 	photon_miniTree->Branch("Photon_phiWidth", &Photon_phiWidth, "Photon_phiWidth/F");
+	photon_miniTree->Branch("Photon_sigmaIetaIeta", &Photon_sigmaIetaIeta, "Photon_sigmaIetaIeta/F");
 
 	photon_miniTree->Branch("Photon_isoEcalRecHit", &Photon_isoEcalRecHit, "Photon_isoEcalRecHit/F");
 	photon_miniTree->Branch("Photon_isoHcalRecHit", &Photon_isoHcalRecHit, "Photon_isoHcalRecHit/F");
@@ -791,6 +792,7 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1G
 		Photon_HoE = -99;
 		Photon_Nclusters = -99;
 		Photon_covIetaIeta = -99;
+		Photon_sigmaIetaIeta = -99;
 		Photon_covIphiIphi = -99;
 		Photon_isoEcalRecHit = -99;
 		Photon_isoHcalRecHit = -99;
@@ -1030,6 +1032,7 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1G
 				Photon_HoE = -99;
 				Photon_Nclusters = -99;
 				Photon_covIetaIeta = -99;
+				Photon_sigmaIetaIeta = -99;
 				Photon_covIphiIphi = -99;
 				Photon_isoEcalRecHit = -99;
 				Photon_isoHcalRecHit = -99;
@@ -1114,6 +1117,7 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1G
 				Photon_HoE = myphoton->hoe();
 				Photon_Nclusters = myphoton->nbClusters();
 				Photon_covIetaIeta = myphoton->covIetaIeta();
+				Photon_sigmaIetaIeta = sqrt(Photon_covIetaIeta);
 				Photon_covIphiIphi = myphoton->covIphiIphi();
 				Photon_isoEcalRecHit = myphoton->isolationEcalRecHit();
 				Photon_isoHcalRecHit = myphoton->isolationHcalRecHit();
