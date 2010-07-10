@@ -14,26 +14,26 @@
 #include "TSystem.h"
 
 
-#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootBardak.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootBeamSpot.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootCluster.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootDummyEvent.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootEcalRecHit.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootElectron.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootEvent.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootJet.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootMCParticle.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootMCPhoton.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootMET.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootMuon.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootParticle.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootPhoton.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootRun.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootSignalEvent.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootSuperCluster.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootTopTop.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootTrack.h"
-#include "/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/interface/TRootVertex.h"
+#include "/sps/cms/obondu/CMSSW_3_6_2/src/UserCode/IpnTreeProducer/interface/TRootBardak.h"
+#include "/sps/cms/obondu/CMSSW_3_6_2/src/UserCode/IpnTreeProducer/interface/TRootBeamSpot.h"
+#include "/sps/cms/obondu/CMSSW_3_6_2/src/UserCode/IpnTreeProducer/interface/TRootCluster.h"
+#include "/sps/cms/obondu/CMSSW_3_6_2/src/UserCode/IpnTreeProducer/interface/TRootDummyEvent.h"
+#include "/sps/cms/obondu/CMSSW_3_6_2/src/UserCode/IpnTreeProducer/interface/TRootEcalRecHit.h"
+#include "/sps/cms/obondu/CMSSW_3_6_2/src/UserCode/IpnTreeProducer/interface/TRootElectron.h"
+#include "/sps/cms/obondu/CMSSW_3_6_2/src/UserCode/IpnTreeProducer/interface/TRootEvent.h"
+#include "/sps/cms/obondu/CMSSW_3_6_2/src/UserCode/IpnTreeProducer/interface/TRootJet.h"
+#include "/sps/cms/obondu/CMSSW_3_6_2/src/UserCode/IpnTreeProducer/interface/TRootMCParticle.h"
+#include "/sps/cms/obondu/CMSSW_3_6_2/src/UserCode/IpnTreeProducer/interface/TRootMCPhoton.h"
+#include "/sps/cms/obondu/CMSSW_3_6_2/src/UserCode/IpnTreeProducer/interface/TRootMET.h"
+#include "/sps/cms/obondu/CMSSW_3_6_2/src/UserCode/IpnTreeProducer/interface/TRootMuon.h"
+#include "/sps/cms/obondu/CMSSW_3_6_2/src/UserCode/IpnTreeProducer/interface/TRootParticle.h"
+#include "/sps/cms/obondu/CMSSW_3_6_2/src/UserCode/IpnTreeProducer/interface/TRootPhoton.h"
+#include "/sps/cms/obondu/CMSSW_3_6_2/src/UserCode/IpnTreeProducer/interface/TRootRun.h"
+#include "/sps/cms/obondu/CMSSW_3_6_2/src/UserCode/IpnTreeProducer/interface/TRootSignalEvent.h"
+#include "/sps/cms/obondu/CMSSW_3_6_2/src/UserCode/IpnTreeProducer/interface/TRootSuperCluster.h"
+#include "/sps/cms/obondu/CMSSW_3_6_2/src/UserCode/IpnTreeProducer/interface/TRootTopTop.h"
+#include "/sps/cms/obondu/CMSSW_3_6_2/src/UserCode/IpnTreeProducer/interface/TRootTrack.h"
+#include "/sps/cms/obondu/CMSSW_3_6_2/src/UserCode/IpnTreeProducer/interface/TRootVertex.h"
 
 #pragma optimize 0
 
@@ -192,9 +192,9 @@ void doGenInfo(TRootPhoton* myphoton, TClonesArray* mcParticles, Int_t* Photon_G
 
 
 
-//int TotoAna_miniTree(){
-int main(){
-	gSystem->Load("/sps/cms/morgan/common/CMSSW_3_5_8_patch3/src/UserCode/IpnTreeProducer/src/libToto.so");
+int TotoAna_miniTree(){
+//int main(){
+	gSystem->Load("/sps/cms/obondu/CMSSW_3_6_2/src/UserCode/IpnTreeProducer/src/libToto.so");
 	
 	bool doHLT			= true;
 	bool doMC			= true;
@@ -225,45 +225,16 @@ int main(){
 	string dataset;
 	TFile* OutputRootFile;
 
-if( false ){// ************ DATA EG_Run2010A
-	dataset = "DATA";
-	// inputEventTree
-	inputEventTree->Add("/sps/cms/chanon/Samples/DATA_MC_IpnTreeProducer358p4_CMSSW358p3_GoodCollEG/EG_Run2010A/*root");
-	// inputRunTree
-	inputRunTree->Add("/sps/cms/chanon/Samples/DATA_MC_IpnTreeProducer358p4_CMSSW358p3_GoodCollEG/EG_Run2010A/*root");
-	// OutputRootFile
-	TFile* OutputRootFile = new TFile("miniTree_EG_Run2010A.root", "RECREATE");
-}
-
-if( false ){// ************ DATA MinimumBias_Commissioning10-May6thPDSkim2_SD_EG-v1_RECOGOODCOLL
-	dataset = "DATA";
-	// inputEventTree
-	inputEventTree->Add("/sps/cms/falkiewi/Data_MC_EG_GOODCOLL_filter_CMSSW_3_5_8_patch3/MinimumBias_Commissioning10-May6thPDSkim2_SD_EG-v1_RECOGOODCOLL/*root");
-	// inputRunTree
-	inputRunTree->Add("/sps/cms/falkiewi/Data_MC_EG_GOODCOLL_filter_CMSSW_3_5_8_patch3/MinimumBias_Commissioning10-May6thPDSkim2_SD_EG-v1_RECOGOODCOLL/*root");
-	// OutputRootFile
-	TFile* OutputRootFile = new TFile("miniTree_MinimumBias_Commissioning10-May6thPDSkim2_SD_EG-v1_RECOGOODCOLL.root", "RECREATE");
-}
-
-if( false ){// ************ DATA MinimumBias_Commissioning10-SD_EG-v9_RECOGOODCOLL
-	dataset = "DATA";
-	// inputEventTree
-	inputEventTree->Add("/sps/cms/falkiewi/Data_MC_EG_GOODCOLL_filter_CMSSW_3_5_8_patch3/MinimumBias_Commissioning10-SD_EG-v9_RECOGOODCOLL/*root");
-	// inputRunTree
-	inputRunTree->Add("/sps/cms/falkiewi/Data_MC_EG_GOODCOLL_filter_CMSSW_3_5_8_patch3/MinimumBias_Commissioning10-SD_EG-v9_RECOGOODCOLL/*root");
-	// OutputRootFile
-	TFile* OutputRootFile = new TFile("miniTree_MinimumBias_Commissioning10-SD_EG-v9_RECOGOODCOLL.root", "RECREATE");
-}
-
-if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1GOODCOLL
+if( true ){// ************ DATA EG_Run2010A
 	dataset = "MC";
 	// inputEventTree
-	inputEventTree->Add("/sps/cms/falkiewi/Data_MC_EG_GOODCOLL_filter_CMSSW_3_5_8_patch3/QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1GOODCOLL/*root");
+	inputEventTree->Add("/sps/cms/obondu/CMSSW_3_6_2/src/UserCode/IpnTreeProducer/test/PhotonJet_Pt15_TEST_00/*root");
 	// inputRunTree
-	inputRunTree->Add("/sps/cms/falkiewi/Data_MC_EG_GOODCOLL_filter_CMSSW_3_5_8_patch3/QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1GOODCOLL/*root");
+	inputRunTree->Add("/sps/cms/obondu/CMSSW_3_6_2/src/UserCode/IpnTreeProducer/test/PhotonJet_Pt15_TEST_00/*root");
 	// OutputRootFile
-	TFile* OutputRootFile = new TFile("miniTree_MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1GOODCOLL.root", "RECREATE");
+	TFile* OutputRootFile = new TFile("TEST_00.root", "RECREATE");
 }
+
 
 	TBranch* event_br = 0;
 	TRootEvent* event = 0;
@@ -447,13 +418,15 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1G
 
 	Int_t Photon_hasPixelSeed, Photon_isAlsoElectron, Photon_Nclusters, Photon_nBasicClusters, Photon_nXtals;
 	Int_t Photon_isTightPhoton, Photon_isLoosePhoton;
-	Int_t Photon_convNTracks, Photon_isoNTracksSolidCone, Photon_isoNTracksHollowCone, Photon_isolationPersoNTracksSolidCone;
+	Int_t Photon_convNTracks, Photon_dR04IsoNTracksSolidCone, Photon_dR03IsoNTracksSolidCone, Photon_dR04IsoNTracksHollowCone, Photon_dR03IsoNTracksHollowCone, Photon_isolationPersoNTracksSolidCone;
 	Float_t Photon_Eta, Photon_Phi;
 	Float_t Photon_SCEta, Photon_SCPhi, Photon_SCEnergy, Photon_SCEt, Photon_SCRawEnergy, Photon_SCRawEt;
 	Float_t Photon_E, Photon_Et, Photon_E2x2, Photon_E3x3, Photon_E5x5, Photon_Emax, Photon_E2nd;
 	Float_t Photon_r19, Photon_r9, Photon_cross;
 	Float_t Photon_caloConeSize, Photon_PreshEnergy, Photon_HoE, Photon_covIetaIeta, Photon_covIphiIphi, Photon_etaWidth, Photon_phiWidth, Photon_sigmaIetaIeta;
-	Float_t Photon_isoEcalRecHit, Photon_isoHcalRecHit, Photon_isoSolidTrkCone, Photon_isoHollowTrkCone, Photon_isoPersoSolidTrkCone, Photon_isolationPersoTracksSolidCone;
+	Float_t Photon_dR03IsoEcalRecHit, Photon_dR03IsoHcalRecHit, Photon_dR03IsoSolidTrkCone, Photon_dR03IsoHollowTrkCone;
+	Float_t Photon_dR04IsoEcalRecHit, Photon_dR04IsoHcalRecHit, Photon_dR04IsoSolidTrkCone, Photon_dR04IsoHollowTrkCone;
+	Float_t Photon_isoPersoSolidTrkCone, Photon_isolationPersoTracksSolidCone;
 	Float_t Photon_s4, Photon_esRatio;
 	Float_t Photon_brem, Photon_Eseed_o_Esc, Photon_E2x2_o_E5x5, Photon_S2_o_Esc;
 	Float_t Photon_seedTime;
@@ -550,12 +523,18 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1G
 	photon_miniTree->Branch("Photon_phiWidth", &Photon_phiWidth, "Photon_phiWidth/F");
 	photon_miniTree->Branch("Photon_sigmaIetaIeta", &Photon_sigmaIetaIeta, "Photon_sigmaIetaIeta/F");
 
-	photon_miniTree->Branch("Photon_isoEcalRecHit", &Photon_isoEcalRecHit, "Photon_isoEcalRecHit/F");
-	photon_miniTree->Branch("Photon_isoHcalRecHit", &Photon_isoHcalRecHit, "Photon_isoHcalRecHit/F");
-	photon_miniTree->Branch("Photon_isoSolidTrkCone", &Photon_isoSolidTrkCone, "Photon_isoSolidTrkCone/F");
-	photon_miniTree->Branch("Photon_isoHollowTrkCone", &Photon_isoHollowTrkCone, "Photon_isoHollowTrkCone/F");
-	photon_miniTree->Branch("Photon_isoNTracksSolidCone", &Photon_isoNTracksSolidCone, "Photon_isoNTracksSolidCone/I");
-	photon_miniTree->Branch("Photon_isoNTracksHollowCone", &Photon_isoNTracksHollowCone, "Photon_isoNTracksHollowCone/I");
+	photon_miniTree->Branch("Photon_dR03IsoEcalRecHit", &Photon_dR03IsoEcalRecHit, "Photon_dR03IsoEcalRecHit/F");
+	photon_miniTree->Branch("Photon_dR03IsoHcalRecHit", &Photon_dR03IsoHcalRecHit, "Photon_dR03IsoHcalRecHit/F");
+	photon_miniTree->Branch("Photon_dR03IsoSolidTrkCone", &Photon_dR03IsoSolidTrkCone, "Photon_dR03IsoSolidTrkCone/F");
+	photon_miniTree->Branch("Photon_dR03IsoHollowTrkCone", &Photon_dR03IsoHollowTrkCone, "Photon_dR03IsoHollowTrkCone/F");
+	photon_miniTree->Branch("Photon_dR03IsoNTracksSolidCone", &Photon_dR03IsoNTracksSolidCone, "Photon_dR03IsoNTracksSolidCone/I");
+	photon_miniTree->Branch("Photon_dR03IsoNTracksHollowCone", &Photon_dR03IsoNTracksHollowCone, "Photon_dR03IsoNTracksHollowCone/I");
+	photon_miniTree->Branch("Photon_dR04IsoEcalRecHit", &Photon_dR04IsoEcalRecHit, "Photon_dR04IsoEcalRecHit/F");
+	photon_miniTree->Branch("Photon_dR04IsoHcalRecHit", &Photon_dR04IsoHcalRecHit, "Photon_dR04IsoHcalRecHit/F");
+	photon_miniTree->Branch("Photon_dR04IsoSolidTrkCone", &Photon_dR04IsoSolidTrkCone, "Photon_dR04IsoSolidTrkCone/F");
+	photon_miniTree->Branch("Photon_dR04IsoHollowTrkCone", &Photon_dR04IsoHollowTrkCone, "Photon_dR04IsoHollowTrkCone/F");
+	photon_miniTree->Branch("Photon_dR04IsoNTracksSolidCone", &Photon_dR04IsoNTracksSolidCone, "Photon_dR04IsoNTracksSolidCone/I");
+	photon_miniTree->Branch("Photon_dR04IsoNTracksHollowCone", &Photon_dR04IsoNTracksHollowCone, "Photon_dR04IsoNTracksHollowCone/I");
 	photon_miniTree->Branch("Photon_isoPersoSolidTrkCone", &Photon_isoPersoSolidTrkCone, "Photon_isoPersoSolidTrkCone/F");
 	photon_miniTree->Branch("Photon_isolationPersoTracksSolidCone", &Photon_isolationPersoTracksSolidCone, "Photon_isolationPersoTracksSolidCone/F");
 	photon_miniTree->Branch("Photon_isolationPersoNTracksSolidCone", &Photon_isolationPersoNTracksSolidCone, "Photon_isolationPersoNTracksSolidCone/I");
@@ -694,8 +673,8 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1G
 
 	for(unsigned int ievt=0; ievt<nTotEvents; ievt++)
 	{
-		int nprint = (int)((double)nTotEvents/(double)100.0);
-		if( (ievt % nprint)==0 ){ cout<< ievt <<" events done over "<<nTotEvents<<" ( "<<ceil((double)ievt/(double)nTotEvents*100)<<" \% )"<<endl; }
+		//int nprint = (int)((double)nTotEvents/(double)100.0);
+		//if( (ievt % nprint)==0 ){ cout<< ievt <<" events done over "<<nTotEvents<<" ( "<<ceil((double)ievt/(double)nTotEvents*100)<<" \% )"<<endl; }
 		if( lastFile == "" ){
 			lastFile = string(inputEventTree->GetCurrentFile()->GetName());
 			cout << ievt << "\t" << lastFile << endl;
@@ -794,12 +773,18 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1G
 		Photon_covIetaIeta = -99;
 		Photon_sigmaIetaIeta = -99;
 		Photon_covIphiIphi = -99;
-		Photon_isoEcalRecHit = -99;
-		Photon_isoHcalRecHit = -99;
-		Photon_isoSolidTrkCone = -99;
-		Photon_isoHollowTrkCone = -99;
-		Photon_isoNTracksSolidCone = -99;
-		Photon_isoNTracksHollowCone = -99;
+		Photon_dR03IsoEcalRecHit = -99;
+		Photon_dR03IsoHcalRecHit = -99;
+		Photon_dR03IsoSolidTrkCone = -99;
+		Photon_dR03IsoHollowTrkCone = -99;
+		Photon_dR03IsoNTracksSolidCone = -99;
+		Photon_dR03IsoNTracksHollowCone = -99;
+		Photon_dR04IsoEcalRecHit = -99;
+		Photon_dR04IsoHcalRecHit = -99;
+		Photon_dR04IsoSolidTrkCone = -99;
+		Photon_dR04IsoHollowTrkCone = -99;
+		Photon_dR04IsoNTracksSolidCone = -99;
+		Photon_dR04IsoNTracksHollowCone = -99;
 		Photon_isoPersoSolidTrkCone = -99;
 		Photon_convNTracks = -99;
 		Photon_hasPixelSeed = -99;
@@ -1034,12 +1019,18 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1G
 				Photon_covIetaIeta = -99;
 				Photon_sigmaIetaIeta = -99;
 				Photon_covIphiIphi = -99;
-				Photon_isoEcalRecHit = -99;
-				Photon_isoHcalRecHit = -99;
-				Photon_isoSolidTrkCone = -99;
-				Photon_isoHollowTrkCone = -99;
-				Photon_isoNTracksSolidCone = -99;
-				Photon_isoNTracksHollowCone = -99;
+				Photon_dR03IsoEcalRecHit = -99;
+				Photon_dR03IsoHcalRecHit = -99;
+				Photon_dR03IsoSolidTrkCone = -99;
+				Photon_dR03IsoHollowTrkCone = -99;
+				Photon_dR03IsoNTracksSolidCone = -99;
+				Photon_dR03IsoNTracksHollowCone = -99;
+				Photon_dR04IsoEcalRecHit = -99;
+				Photon_dR04IsoHcalRecHit = -99;
+				Photon_dR04IsoSolidTrkCone = -99;
+				Photon_dR04IsoHollowTrkCone = -99;
+				Photon_dR04IsoNTracksSolidCone = -99;
+				Photon_dR04IsoNTracksHollowCone = -99;
 				Photon_isoPersoSolidTrkCone = -99;
 				Photon_convNTracks = -99;
 				Photon_hasPixelSeed = -99;
@@ -1119,12 +1110,18 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1G
 				Photon_covIetaIeta = myphoton->covIetaIeta();
 				Photon_sigmaIetaIeta = sqrt(Photon_covIetaIeta);
 				Photon_covIphiIphi = myphoton->covIphiIphi();
-				Photon_isoEcalRecHit = myphoton->isolationEcalRecHit();
-				Photon_isoHcalRecHit = myphoton->isolationHcalRecHit();
-				Photon_isoSolidTrkCone = myphoton->isolationSolidTrkCone();
-				Photon_isoHollowTrkCone = myphoton->isolationHollowTrkCone();
-				Photon_isoNTracksSolidCone = myphoton->isolationNTracksSolidCone();
-				Photon_isoNTracksHollowCone = myphoton->isolationNTracksHollowCone();
+				Photon_dR03IsoEcalRecHit = myphoton->dR03IsolationEcalRecHit();
+				Photon_dR03IsoHcalRecHit = myphoton->dR03IsolationHcalRecHit();
+				Photon_dR03IsoSolidTrkCone = myphoton->dR03IsolationSolidTrkCone();
+				Photon_dR03IsoHollowTrkCone = myphoton->dR03IsolationHollowTrkCone();
+				Photon_dR03IsoNTracksSolidCone = myphoton->dR03IsolationNTracksSolidCone();
+				Photon_dR03IsoNTracksHollowCone = myphoton->dR03IsolationNTracksHollowCone();
+				Photon_dR04IsoEcalRecHit = myphoton->dR04IsolationEcalRecHit();
+				Photon_dR04IsoHcalRecHit = myphoton->dR04IsolationHcalRecHit();
+				Photon_dR04IsoSolidTrkCone = myphoton->dR04IsolationSolidTrkCone();
+				Photon_dR04IsoHollowTrkCone = myphoton->dR04IsolationHollowTrkCone();
+				Photon_dR04IsoNTracksSolidCone = myphoton->dR04IsolationNTracksSolidCone();
+				Photon_dR04IsoNTracksHollowCone = myphoton->dR04IsolationNTracksHollowCone();
 				Photon_isoPersoSolidTrkCone = myphoton->isolationPersoTracksSolidCone();
 				Photon_convNTracks = myphoton->convNTracks();
 				Photon_hasPixelSeed = myphoton->hasPixelSeed();
@@ -1275,8 +1272,8 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1G
 				Photon_isAfterCut11 = 1;
 
 				// CUT 12: IsoTrk
-//				if( ((Photon_isEB) && (Photon_isoHollowTrkCone < (2.0 + 0.001*myphoton->Pt())))
-//					|| ((Photon_isEE) && (Photon_isoHollowTrkCone < (2.0 + 0.001*myphoton->Pt()))) ){
+//				if( ((Photon_isEB) && (Photon_dR04IsoHollowTrkCone < (2.0 + 0.001*myphoton->Pt())))
+//					|| ((Photon_isEE) && (Photon_dR04IsoHollowTrkCone < (2.0 + 0.001*myphoton->Pt()))) ){
 //					photon_miniTree->Fill();
 //					continue;
 //				}
@@ -1284,7 +1281,7 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1G
 				Photon_isAfterCut12 = 1;
 
 				// CUT 13: IsoECAL
-//				if( ((Photon_isEB) && (Photon_isoEcalRecHit < (4.2 + 0.003*myphoton->Pt())))
+//				if( ((Photon_isEB) && (Photon_dR04IsoEcalRecHit < (4.2 + 0.003*myphoton->Pt())))
 //					|| ((Photon_isEE) && ((4.2 + 0.003*myphoton->Pt()))) ){
 //					photon_miniTree->Fill();
 //					continue;
@@ -1293,8 +1290,8 @@ if( false ){// ************* MC_QCD_Pt-15_7TeV-pythia6_Spring10-START3X_V26B-v1G
 				Photon_isAfterCut13 = 1;
 
 				// CUT 14: IsoHCAL
-//				if( ((Photon_isEB) && (Photon_isoHcalRecHit < (2.2 + 0.001*myphoton->Pt())))
-//					|| ((Photon_isEE) && (Photon_isoHcalRecHit < (2.2 + 0.001*myphoton->Pt()))) ){
+//				if( ((Photon_isEB) && (Photon_dR04IsoHcalRecHit < (2.2 + 0.001*myphoton->Pt())))
+//					|| ((Photon_isEE) && (Photon_dR04IsoHcalRecHit < (2.2 + 0.001*myphoton->Pt()))) ){
 //					photon_miniTree->Fill();
 //					continue;
 //				}
