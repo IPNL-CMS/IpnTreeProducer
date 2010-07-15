@@ -157,6 +157,8 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
       localPhoton.setCaloPosition( photon->caloPosition().X(), photon->caloPosition().Y(), photon->caloPosition().Z() );
       localPhoton.setHoE(photon->hadronicOverEm());
       localPhoton.setHasPixelSeed( photon->hasPixelSeed() );
+      localPhoton.setSigmaEtaEta(photon->sigmaEtaEta());
+      localPhoton.setSigmaIetaIeta(photon->sigmaIetaIeta());
       
       
       // Variables from reco::SuperCluster
@@ -198,9 +200,9 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
             localPhoton.setE5x5( lazyTools->e5x5(*seedCaloCluster) );
             localPhoton.setEMax( lazyTools->eMax(*seedCaloCluster) );
             localPhoton.setE2nd(lazyTools->e2nd(*seedCaloCluster));
-            localPhoton.setCovIetaIeta( (lazyTools->covariances(*seedCaloCluster)).at(0) );
-            localPhoton.setCovIetaIphi( (lazyTools->covariances(*seedCaloCluster)).at(1) );
-            localPhoton.setCovIphiIphi( (lazyTools->covariances(*seedCaloCluster)).at(2) );
+            localPhoton.setCovEtaEta( (lazyTools->covariances(*seedCaloCluster)).at(0) );
+            localPhoton.setCovEtaPhi( (lazyTools->covariances(*seedCaloCluster)).at(1) );
+            localPhoton.setCovPhiPhi( (lazyTools->covariances(*seedCaloCluster)).at(2) );
          }
       }
       

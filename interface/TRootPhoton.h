@@ -26,6 +26,8 @@ class TRootPhoton : public TRootParticle
       ,preshowerEnergy_(-1.)
       ,scIndex_()
       ,scRef_()
+      ,sigmaEtaEta_(-9999.)
+      ,sigmaIetaIeta_(-9999.)
       ,clusterAlgo_(-1)
       ,caloConeSize_(-1.)
       ,e2x2_(-9999.)
@@ -33,9 +35,9 @@ class TRootPhoton : public TRootParticle
       ,e5x5_(-9999.)
       ,eMax_(-9999.)
       ,e2nd_(-9999.)
-      ,covIetaIeta_(-9999.)
-      ,covIetaIphi_(-9999.)
-      ,covIphiIphi_(-9999.)
+      ,covEtaEta_(-9999.)
+      ,covEtaPhi_(-9999.)
+      ,covPhiPhi_(-9999.)
       ,convNTracks_(-1)
       ,convEoverP_(-1.)
       ,convMass_(-1.)
@@ -87,6 +89,8 @@ class TRootPhoton : public TRootParticle
       ,preshowerEnergy_(photon.preshowerEnergy_)
       ,scIndex_(photon.scIndex_)
       ,scRef_(photon.scRef_)
+      ,sigmaEtaEta_(photon.sigmaEtaEta_)
+      ,sigmaIetaIeta_(photon.sigmaIetaIeta_)
       ,clusterAlgo_(photon.clusterAlgo_)
       ,caloConeSize_(photon.caloConeSize_)
       ,e2x2_(photon.e2x2_)
@@ -94,9 +98,9 @@ class TRootPhoton : public TRootParticle
       ,e5x5_(photon.e5x5_)
       ,eMax_(photon.eMax_)
       ,e2nd_(photon.e2nd_)
-      ,covIetaIeta_(photon.covIetaIeta_)
-      ,covIetaIphi_(photon.covIetaIphi_)
-      ,covIphiIphi_(photon.covIphiIphi_)
+      ,covEtaEta_(photon.covEtaEta_)
+      ,covEtaPhi_(photon.covEtaPhi_)
+      ,covPhiPhi_(photon.covPhiPhi_)
       ,convNTracks_(photon.convNTracks_)
       ,convEoverP_(photon.convEoverP_)
       ,convMass_(photon.convMass_)
@@ -148,6 +152,8 @@ class TRootPhoton : public TRootParticle
       ,preshowerEnergy_(-1.)
       ,scIndex_()
       ,scRef_()
+      ,sigmaEtaEta_(-9999.)
+      ,sigmaIetaIeta_(-9999.)
       ,clusterAlgo_(-1)
       ,caloConeSize_(-1.)
       ,e2x2_(-9999.)
@@ -155,9 +161,9 @@ class TRootPhoton : public TRootParticle
       ,e5x5_(-9999.)
       ,eMax_(-9999.)
       ,e2nd_(-9999.)
-      ,covIetaIeta_(-9999.)
-      ,covIetaIphi_(-9999.)
-      ,covIphiIphi_(-9999.)
+      ,covEtaEta_(-9999.)
+      ,covEtaPhi_(-9999.)
+      ,covPhiPhi_(-9999.)
       ,convNTracks_(-1)
       ,convEoverP_(-1.)
       ,convMass_(-1.)
@@ -209,6 +215,8 @@ class TRootPhoton : public TRootParticle
       ,preshowerEnergy_(-1.)
       ,scIndex_()
       ,scRef_()
+      ,sigmaEtaEta_(-9999.)
+      ,sigmaIetaIeta_(-9999.)
       ,clusterAlgo_(-1)
       ,caloConeSize_(-1.)
       ,e2x2_(-9999.)
@@ -216,9 +224,9 @@ class TRootPhoton : public TRootParticle
       ,e5x5_(-9999.)
       ,eMax_(-9999.)
       ,e2nd_(-9999.)
-      ,covIetaIeta_(-9999.)
-      ,covIetaIphi_(-9999.)
-      ,covIphiIphi_(-9999.)
+      ,covEtaEta_(-9999.)
+      ,covEtaPhi_(-9999.)
+      ,covPhiPhi_(-9999.)
       ,convNTracks_(-1)
       ,convEoverP_(-1.)
       ,convMass_(-1.)
@@ -270,6 +278,8 @@ class TRootPhoton : public TRootParticle
       ,preshowerEnergy_(-1.)
       ,scIndex_()
       ,scRef_()
+      ,sigmaEtaEta_(-9999.)
+      ,sigmaIetaIeta_(-9999.)
       ,clusterAlgo_(-1)
       ,caloConeSize_(-1.)
       ,e2x2_(-9999.)
@@ -277,9 +287,9 @@ class TRootPhoton : public TRootParticle
       ,e5x5_(-9999.)
       ,eMax_(-9999.)
       ,e2nd_(-9999.)
-      ,covIetaIeta_(-9999.)
-      ,covIetaIphi_(-9999.)
-      ,covIphiIphi_(-9999.)
+      ,covEtaEta_(-9999.)
+      ,covEtaPhi_(-9999.)
+      ,covPhiPhi_(-9999.)
       ,convNTracks_(-1)
       ,convEoverP_(-1.)
       ,convMass_(-1.)
@@ -331,6 +341,8 @@ class TRootPhoton : public TRootParticle
       ,preshowerEnergy_(-1.)
       ,scIndex_()
       ,scRef_()
+      ,sigmaEtaEta_(-9999.)
+      ,sigmaIetaIeta_(-9999.)
       ,clusterAlgo_(-1)
       ,caloConeSize_(-1.)
       ,e2x2_(-9999.)
@@ -338,9 +350,9 @@ class TRootPhoton : public TRootParticle
       ,e5x5_(-9999.)
       ,eMax_(-9999.)
       ,e2nd_(-9999.)
-      ,covIetaIeta_(-9999.)
-      ,covIetaIphi_(-9999.)
-      ,covIphiIphi_(-9999.)
+      ,covEtaEta_(-9999.)
+      ,covEtaPhi_(-9999.)
+      ,covPhiPhi_(-9999.)
       ,convNTracks_(-1)
       ,convEoverP_(-1.)
       ,convMass_(-1.)
@@ -392,6 +404,8 @@ class TRootPhoton : public TRootParticle
       ,preshowerEnergy_(-1.)
       ,scIndex_()
       ,scRef_()
+      ,sigmaEtaEta_(-9999.)
+      ,sigmaIetaIeta_(-9999.)
       ,clusterAlgo_(-1)
       ,caloConeSize_(-1.)
       ,e2x2_(-9999.)
@@ -399,9 +413,9 @@ class TRootPhoton : public TRootParticle
       ,e5x5_(-9999.)
       ,eMax_(-9999.)
       ,e2nd_(-9999.)
-      ,covIetaIeta_(-9999.)
-      ,covIetaIphi_(-9999.)
-      ,covIphiIphi_(-9999.)
+      ,covEtaEta_(-9999.)
+      ,covEtaPhi_(-9999.)
+      ,covPhiPhi_(-9999.)
       ,convNTracks_(-1)
       ,convEoverP_(-1.)
       ,convMass_(-1.)
@@ -537,9 +551,11 @@ class TRootPhoton : public TRootParticle
       Float_t e5x5() const { return e5x5_ ;}
       Float_t eMax() const { return eMax_ ;}
       Float_t e2nd() const { return e2nd_ ;}
-      Float_t covIetaIeta() const { return covIetaIeta_ ;}
-      Float_t covIetaIphi() const { return covIetaIphi_ ;}
-      Float_t covIphiIphi() const { return covIphiIphi_ ;}
+      Float_t sigmaEtaEta() const { return sigmaEtaEta_ ;}
+      Float_t sigmaIetaIeta() const { return sigmaIetaIeta_ ;}
+      Float_t covEtaEta() const { return covEtaEta_ ;}
+      Float_t covEtaPhi() const { return covEtaPhi_ ;}
+      Float_t covPhiPhi() const { return covPhiPhi_ ;}
       Float_t r19() const { return ( e3x3_ == 0. ? -1. : eMax_/e3x3_ ); }  // ratio of Emax/E(3x3)
       // FIXME - Check definition of r9... include preshowerEnergy as in SimplePhotonAnalyzer.cc ?
       Float_t r9() const { return ( superClusterRawEnergy_ == 0. ? -1. : e3x3_/superClusterRawEnergy_ ); } // ratio of E(3x3)/ESC
@@ -621,9 +637,11 @@ class TRootPhoton : public TRootParticle
       void setE5x5(Float_t e5x5) { e5x5_ = e5x5; }
       void setEMax(Float_t eMax) { eMax_ = eMax; }
       void setE2nd(Float_t e2nd) { e2nd_ = e2nd; }
-      void setCovIetaIeta(Float_t covIetaIeta) { covIetaIeta_ = covIetaIeta; }
-      void setCovIetaIphi(Float_t covIetaIphi) { covIetaIphi_ = covIetaIphi; }
-      void setCovIphiIphi(Float_t covIphiIphi) { covIphiIphi_ = covIphiIphi; }
+      void setSigmaEtaEta(Float_t sigmaEtaEta) { sigmaEtaEta_ = sigmaEtaEta; }
+      void setSigmaIetaIeta(Float_t sigmaIetaIeta) { sigmaIetaIeta_ = sigmaIetaIeta; }
+      void setCovEtaEta(Float_t covEtaEta) { covEtaEta_ = covEtaEta; }
+      void setCovEtaPhi(Float_t covEtaPhi) { covEtaPhi_ = covEtaPhi; }
+      void setCovPhiPhi(Float_t covPhiPhi) { covPhiPhi_ = covPhiPhi; }
       
       // Set photon conversions infos
       void setConvNTracks(Int_t convNTracks) { convNTracks_=convNTracks; }
@@ -743,8 +761,9 @@ class TRootPhoton : public TRootParticle
          << "            algo=" << this->clusterAlgo() << " hasPxlSeed=" << this-> hasPixelSeed() <<"  H/E=" << this->hoe() <<"  Pi0=" << this->pi0nn()
          <<"  nBC=" << this->nbClusters() << " scRawEnergy=" << this->scRawEnergy() << " preshEnergy=" << this->preshowerEnergy() << endl
          <<"            E2x2=" << this->e2x2() <<" E3x3=" << this->e3x3() <<" E5x5=" << this->e5x5() <<" Emax=" << this->eMax()
-         <<" E2nd=" << this->e2nd() <<" cEtaEta=" << this->covIetaIeta() <<" cEtaPhi=" << this->covIetaIphi() <<" cPhiPhi=" << this->covIphiIphi()
-         <<" R19=" << this->r19() <<" R9=" << this->r9() << endl
+         <<" E2nd=" << this->e2nd() <<" R19=" << this->r19() <<" R9=" << this->r9() << endl
+         <<"            sigmaEtaEta=" << this->sigmaEtaEta() <<" sigmaIetaIeta=" << this->sigmaIetaIeta()
+         <<" cEtaEta=" << this->covEtaEta() <<" cEtaPhi=" << this->covEtaPhi() <<" cPhiPhi=" << this->covPhiPhi() << endl
          << "            isoPerso  BC="<< this->isolationPersoBasicClusters() << " DoubleConeBC=" << this->isolationPersoBasicClustersDoubleCone()
          << " hcal=" << this->isolationPersoHcalRecHit() << " track=" << this->isolationPersoTracksSolidCone() << " ntracks=" << this->isolationPersoNTracksSolidCone() << endl
          << "            dR03 isoPhotonID  ecal="<< this->dR03IsolationEcalRecHit() << " hcal=" << this->dR03IsolationHcalRecHit() << " track-hollow=" << this->dR03IsolationHollowTrkCone()
@@ -775,18 +794,21 @@ class TRootPhoton : public TRootParticle
       map<Int_t,TRef> scRef_;         // references to the seed SuperClusters (one per SC tytpe)
       
       // Cluster Shape variables
+      // already kept in reco::Photon
+      Float_t sigmaEtaEta_;           // sqrt(covariance(Eta,Eta)) taken from reco::Photon::ShowerShape struct
+      Float_t sigmaIetaIeta_;         // sqrt(covariance(iEta,iEta)) taken from reco::Photon::ShowerShape struct
       // need reco::SuperCluster and reco::BasicCluster
       Int_t clusterAlgo_;             // reco::BasicCluster::algo() island = 0, hybrid = 1, fixedMatrix = 2, dynamicHybrid = 3, multi5x5 = 4
       Float_t caloConeSize_;          // Delta_R of the cone centered on the reco::GsfElectron and containing all its basic clusters constituents
-      // need reco::SuperCluster and reco::BasicCluster and reduced Ecal RecHits Collections for EcalClusterLazyTools
+      // need reco::SuperCluster and reco::BasicCluster and reduced Ecal RecHits Collections for EcalClusterLazyTools calculations
       Float_t e2x2_;                  // 2x2 energy
       Float_t e3x3_;                  // 3x3 energy
       Float_t e5x5_;                  // 5x5 energy
       Float_t eMax_;                  // energy of crystal with max energy
       Float_t e2nd_;                  // energy of crystal with 2nd max energy
-      Float_t covIetaIeta_;           // Covariance (iEta,iEta) of xtals composing the photon seed BasicCluster (weighted by their energy)
-      Float_t covIetaIphi_;           // Covariance (iEta,iPhi) of xtals composing the photon seed BasicCluster (weighted by their energy)
-      Float_t covIphiIphi_;           // Covariance (iPhi,iPhi) of xtals composing the photon seed BasicCluster (weighted by their energy)
+      Float_t covEtaEta_;             // Covariance (Eta,Eta) of xtals composing the photon seed BasicCluster (weighted by their energy) calculated by lazytools
+      Float_t covEtaPhi_;             // Covariance (Eta,Phi) of xtals composing the photon seed BasicCluster (weighted by their energy) calculated by lazytools
+      Float_t covPhiPhi_;             // Covariance (Phi,Phi) of xtals composing the photon seed BasicCluster (weighted by their energy) calculated by lazytools
       
       // Photon conversions
       // Variables from reco::Conversion
@@ -847,7 +869,7 @@ class TRootPhoton : public TRootParticle
       // not working in 2.2.X
       Float_t pi0nn_;          // neural network output of gamma/pi0 discriminator  (0=pi0-like  1=photon-like)
       
-      ClassDef (TRootPhoton,9);
+      ClassDef (TRootPhoton,10);
       
 };
 
