@@ -848,25 +848,25 @@ if(false){	// Plots for the photons
 		cout << "\tStarting loop on photons for plots with cuts: " << set_of_cuts[i] << endl;
 		DrawDataMCplot_NormEntries_Fast_TH1I(Data_PhotonTree, MC_PhotonTree, "Photon_hasPixelSeed", "(3, 0, 3)", set_of_cuts[i], name[i], "Photon hasPixelSeed", true, false, c1);
 		DrawDataMCplot_NormEntries_Fast_TH1I(Data_PhotonTree, MC_PhotonTree, "Photon_isAlsoElectron", "(3, 0, 3)", set_of_cuts[i], name[i], "Photon isAlsoElectron", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E", "(100, 0, 500)", set_of_cuts[i], name[i], "Photon corrected Energy (GeV)", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Et", "(30, 0, 150)", set_of_cuts[i], name[i], "Photon corrected E_{T} (GeV)", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E", "(200, 0, 1000)", set_of_cuts[i], name[i], "Photon corrected Energy (GeV)", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Et", "(60, 0, 300)", set_of_cuts[i], name[i], "Photon corrected E_{T} (GeV)", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Eta", "(30, -3.0, 3.0)", set_of_cuts[i], name[i], "Photon #eta", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Phi", "(30, -3.15, 3.15)", set_of_cuts[i], name[i], "Photon #phi (rad)", true, false, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCEta", "(30, -3.0, 3.0)", set_of_cuts[i], name[i], "Photon SC #eta", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCPhi", "(30, -3.15, 3.15)", set_of_cuts[i], name[i], "Photon SC #phi (rad)", true, false, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E2x2", "(100, 0, 500)", set_of_cuts[i], name[i], "Photon E_{2x2} (GeV)", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E3x3", "(100, 0, 500)", set_of_cuts[i], name[i], "Photon E_{3x3} (GeV)", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E5x5", "(100, 0, 500)", set_of_cuts[i], name[i], "Photon E_{5x5} (GeV)", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Emax", "(100, 0, 500)", set_of_cuts[i], name[i], "Photon Crystal Emax (S1) (GeV)", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E2nd", "(100, 0, 500)", set_of_cuts[i], name[i], "Photon Crystal E2nd (S2) (GeV)", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E2x2", "(200, 0, 1000)", set_of_cuts[i], name[i], "Photon E_{2x2} (GeV)", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E3x3", "(200, 0, 1000)", set_of_cuts[i], name[i], "Photon E_{3x3} (GeV)", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E5x5", "(200, 0, 1000)", set_of_cuts[i], name[i], "Photon E_{5x5} (GeV)", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Emax", "(200, 0, 1000)", set_of_cuts[i], name[i], "Photon Crystal Emax (S1) (GeV)", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_E2nd", "(200, 0, 1000)", set_of_cuts[i], name[i], "Photon Crystal E2nd (S2) (GeV)", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_r19", "(50, 0.0, 1.3)", set_of_cuts[i], name[i], "Photon r19", true, true, c1);
 DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_r9", "(50, 0.0, 1.3)", set_of_cuts[i], name[i], "r9", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_cross", "(83, 0, 1.1)", set_of_cuts[i], name[i], "Photon 1-(E4/E1)", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_caloConeSize", "(50, 0, 0.4)", set_of_cuts[i], name[i], "Photon caloConeSize", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCEnergy", "(100, 0, 500)", set_of_cuts[i], name[i], "Photon SC corrected Energy (GeV)", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCEt", "(30, 0, 150)", set_of_cuts[i], name[i], "Photon SC corrected E_{T} (GeV)", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCRawEnergy", "(100, 0, 500)", set_of_cuts[i], name[i], "Photon SC uncorrected Energy (GeV)", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCRawEt", "(30, 0, 150)", set_of_cuts[i], name[i], "Photon SC uncorrected E_{T} (GeV)", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCEnergy", "(200, 0, 1000)", set_of_cuts[i], name[i], "Photon SC corrected Energy (GeV)", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCEt", "(60, 0, 300)", set_of_cuts[i], name[i], "Photon SC corrected E_{T} (GeV)", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCRawEnergy", "(200, 0, 1000)", set_of_cuts[i], name[i], "Photon SC uncorrected Energy (GeV)", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_SCRawEt", "(60, 0, 300)", set_of_cuts[i], name[i], "Photon SC uncorrected E_{T} (GeV)", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_PreshEnergy", "(125, 0, 8)", set_of_cuts[i], name[i], "Photon Preshower Energy (GeV)", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_HoE", "(21, 0, 0.055)", set_of_cuts[i], name[i], "Photon HoE", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_PhotonTree, MC_PhotonTree, "Photon_Nclusters", "(14, 0, 14)", set_of_cuts[i], name[i], "Photon # of cluster constituents", true, true, c1);
@@ -927,10 +927,10 @@ if(false){ //			Plots for super-clusters
 
 	for (int i=0;i<name_superclu.size();i++){
 		cout << "\tStarting loop on superclusters for plots with cuts: " << set_of_cuts_superclu[i] << endl;
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_E", "(100, 0, 500)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster corrected Energy (GeV)", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_Et", "(100, 0, 500)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster corrected E_{T} (GeV)", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_RawE", "(100, 0, 500)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster uncorrected Energy (GeV)", true, true, c1);
-		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_RawEt", "(100, 0, 500)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster uncorrected Et (GeV)", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_E", "(200, 0, 1000)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster corrected Energy (GeV)", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_Et", "(200, 0, 1000)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster corrected E_{T} (GeV)", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_RawE", "(200, 0, 1000)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster uncorrected Energy (GeV)", true, true, c1);
+		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_RawEt", "(200, 0, 1000)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster uncorrected Et (GeV)", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_Eta", "(30, -3.0, 3.0)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster #eta", true, true, c1);
 		DrawDataMCplot_NormEntries_Fast(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_Phi", "(30, -3.15, 3.15)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster #phi (rad)", true, false, c1);
 		DrawDataMCplot_NormEntries_Fast_TH1I(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_nXtals", "(100, 0, 100)", set_of_cuts_superclu[i], name_superclu[i], "SuperCluster # of crystals", true, true, c1);
@@ -1008,8 +1008,8 @@ if( false ){// 2D plots
 	TTree* MC_PhotonTree = (TTree*) MC_File->Get("photon_miniTree");
 
 //void DrawDataMCplot_NormEntries_2D(TTree *Data_PhotonTree, TTree *MC_PhotonTree, string var1, string var2, string limits, string cut, string name, string Title_var1, string Title_var2, bool inlog_var1, bool inlog_var2, TCanvas *c1){
-	DrawDataMCplot_NormEntries_2D(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_E", "SuperClu_RawE", "(100, 0, 500, 100, 0, 500)", "SuperClu_isAfterCut7", "isAfterCut7", "SuperCluster corrected Energy (GeV)", "SuperCluster uncorrected Energy (GeV)", false, false, c1);
-	DrawDataMCplot_NormEntries_2D(Data_PhotonTree, MC_PhotonTree, "Photon_E", "Photon_SCEnergy", "(60, 0, 90, 167, 0, 200)", "Photon_isAfterCut10==1", "isAfterCut10", "Photon corrected Energy (GeV)", "Photon SC corrected Energy (GeV)", false, false, c1);
+	DrawDataMCplot_NormEntries_2D(Data_SuperCluTree, MC_SuperCluTree, "SuperClu_E", "SuperClu_RawE", "(200, 0, 1000, 200, 0, 1000)", "SuperClu_isAfterCut7", "isAfterCut7", "SuperCluster corrected Energy (GeV)", "SuperCluster uncorrected Energy (GeV)", false, false, c1);
+	DrawDataMCplot_NormEntries_2D(Data_PhotonTree, MC_PhotonTree, "Photon_E", "Photon_SCEnergy", "(200, 0, 1000, 200, 0, 1000)", "Photon_isAfterCut10==1", "isAfterCut10", "Photon corrected Energy (GeV)", "Photon SC corrected Energy (GeV)", false, false, c1);
 
 }
 
