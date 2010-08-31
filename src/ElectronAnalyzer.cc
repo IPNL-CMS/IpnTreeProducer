@@ -6,8 +6,9 @@ using namespace edm;
 
 ElectronAnalyzer::ElectronAnalyzer(const edm::InputTag& electronProducer, const edm::ParameterSet& producersNames, const edm::ParameterSet& myConfig, int verbosity):LeptonAnalyzer(producersNames, myConfig, verbosity)
 {
-   useMC_ = myConfig.getUntrackedParameter<bool>("doElectronMC");
-   electronProducer_ = electronProducer;
+  useMC_ = myConfig.getUntrackedParameter<bool>("doElectronMC");
+  electronProducer_ = electronProducer;
+  barrelEcalRecHitCollection_ = producersNames.getParameter<edm::InputTag>("barrelEcalRecHitCollection");
 }
 
 ElectronAnalyzer::~ElectronAnalyzer()
@@ -74,6 +75,11 @@ bool ElectronAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeam
    }
    
    edm::Handle < std::vector <pat::Electron> > patElectrons;
+   //rechits used for swiss cross
+   edm::Handle < EcalRecHitCollection > ebRecHitsHandle;
+   iEvent.getByLabel(barrelEcalRecHitCollection_, ebRecHitsHandle );
+   const    EcalRecHitCollection *myRecHits = ebRecHitsHandle.product();
+
    if( dataType_=="PAT" )
    {
       try
@@ -121,6 +127,7 @@ bool ElectronAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeam
       localElectron.setCaloEnergyError(electron->ecalEnergyError());
       if ( electron->trackMomentumAtVtx().Mag2()>0 ) localElectron.setTrackMomentum(sqrt(electron->trackMomentumAtVtx().Mag2()));
       localElectron.setTrackMomentumError(electron->trackMomentumError());
+      localElectron.setTrackMissedInnerLayers(electron->gsfTrack()->trackerExpectedHitsInner().numberOfHits());
       localElectron.setHadOverEm(electron->hadronicOverEm());
       localElectron.setDeltaEtaIn(electron->deltaEtaSuperClusterTrackAtVtx());
       localElectron.setDeltaPhiIn(electron->deltaPhiSuperClusterTrackAtVtx());
@@ -155,7 +162,18 @@ bool ElectronAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeam
             localElectron.setD0( -1.*(gsfTrack->dxy()) );
             localElectron.setDsz( gsfTrack->dsz() );
          }
-         
+
+         // Get the distance to the beamline corresponding to dB for pat::electrons
+         if(doBeamSpot_)
+         {
+             const reco::TrackBase::Point point( rootBeamSpot->x(), rootBeamSpot->y(), rootBeamSpot->z() );
+             localElectron.setDB( -1.*(gsfTrack->dxy(point)) );
+         }
+         else
+         {
+             localElectron.setDB( -1.*(gsfTrack->dxy()) );
+         }
+                  
          // FIXME - Add Vertex error quadratically
          localElectron.setD0Error(gsfTrack->d0Error());
          localElectron.setDszError(gsfTrack->dszError());
@@ -249,7 +267,6 @@ bool ElectronAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeam
          
       }
       
-      
       if( dataType_=="PAT" )
       {
          // Some specific methods to pat::Electron
@@ -258,10 +275,20 @@ bool ElectronAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeam
          if ((patElectron->pfCandidateRef()).isNonnull()) electronType="PFElectron";
          
          // Isolation
-         localElectron.setTrackIso( patElectron->trackIso() );
-         localElectron.setEcalIso( patElectron->ecalIso() );
-         localElectron.setHcalIso( patElectron->hcalIso() );
-         
+	 localElectron.setTrackIso( patElectron->trackIso() );  //corresponds to dr03TkSumPt
+         localElectron.setEcalIso( patElectron->ecalIso() );  //corresponds to dr03EcalRecHitSumEt
+         localElectron.setHcalIso( patElectron->hcalIso() );  //corresponds to dr03HcalTowerSumEt
+	 //	 if(patElectron->ecalDrivenSeed() && fabs(patElectron->superCluster()->eta())<1.4442){
+	 if(fabs(patElectron->superCluster()->eta())<1.4442){
+	   const reco::CaloClusterPtr    seed =    patElectron->superCluster()->seed(); // seed cluster                                 
+	   const   DetId seedId = seed->seed();
+	   EcalSeverityLevelAlgo severity;
+	   localElectron.setSwissCross(severity.swissCross(seedId, *myRecHits)); 
+	 }
+
+
+
+
          // Electron ID (updated for 2.2.X)
          // Only Cut Based ID available by default (4 sequential cuts on H/E, DeltaEta, DeltaPhi, SigmaEtaEta)
          // "Robust" ids (eidRobustLoose, eidRobustTight, eidRobustHighEnergy) corresponds to fixed threshold
@@ -273,7 +300,12 @@ bool ElectronAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeam
          if ( patElectron->isElectronIDAvailable("eidTight") ) localElectron.setIDCutBasedCategorizedTight(int(patElectron->electronID("eidTight")));
          if ( patElectron->isElectronIDAvailable("likelihood") ) localElectron.setIDLikelihood(patElectron->electronID("likelihood"));
          if ( patElectron->isElectronIDAvailable("neuralnet") ) localElectron.setIDNeuralNet(patElectron->electronID("neuralnet"));
-         
+         // VBTF ele-ID 361patchX
+	 if( patElectron->isElectronIDAvailable("simpleEleId70cIso")) localElectron.setIDCutBasedsimpleEleId70cIso(patElectron->electronID("simpleEleId70cIso")); 
+	 if( patElectron->isElectronIDAvailable("simpleEleId95cIso")) localElectron.setIDCutBasedsimpleEleId95cIso(patElectron->electronID("simpleEleId95cIso")); 
+	 if( patElectron->isElectronIDAvailable("simpleEleId70relIso")) localElectron.setIDCutBasedsimpleEleId70relIso(patElectron->electronID("simpleEleId70relIso")); 
+	 if( patElectron->isElectronIDAvailable("simpleEleId95relIso")) localElectron.setIDCutBasedsimpleEleId95relIso(patElectron->electronID("simpleEleId95relIso")); 
+
          if (electronType=="PFElectron")
          {
             localElectron.setPFParticleIso(patElectron->particleIso());

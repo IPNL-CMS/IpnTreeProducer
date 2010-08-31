@@ -23,6 +23,7 @@ class TRootElectron : public TRootParticle
       ,caloEnergyError_(-9999.)
       ,trackMomentum_(-9999.)
       ,trackMomentumError_(-9999.)
+      ,trackMissedInnerLayers_(-1)
       ,hadOverEm_(-9999.)
       ,deltaEtaIn_(-9999.)
       ,deltaPhiIn_(-9999.)
@@ -42,6 +43,7 @@ class TRootElectron : public TRootParticle
       ,d0Error_(-9999.)
       ,dsz_(-9999.)
       ,dszError_(-9999.)
+      ,dB_(-9999.)
       ,normalizedChi2_(-9999.)
       ,ptError_(-9999.)
       ,etaError_(-9999.)
@@ -62,6 +64,7 @@ class TRootElectron : public TRootParticle
       ,trackIso_(-9999)
       ,ecalIso_(-9999)
       ,hcalIso_(-9999)
+      ,swissCross_(-9999)
       ,pfParticleIso_(-9999)
       ,pfChargedHadronIso_(-9999)
       ,pfNeutralHadronIso_(-9999)
@@ -73,6 +76,10 @@ class TRootElectron : public TRootParticle
       ,idCutBasedCategorizedTight_(-1)
       ,idLikelihood_(-9999.)
       ,idNeuralNet_(-9999.)
+      ,idCutBasedsimpleEleId70cIso_(-1)
+      ,idCutBasedsimpleEleId95cIso_(-1)
+      ,idCutBasedsimpleEleId70relIso_(-1)
+      ,idCutBasedsimpleEleId95relIso_(-1)
       ,isAlsoPhoton_(false)
       {;}
       
@@ -85,6 +92,7 @@ class TRootElectron : public TRootParticle
       ,caloEnergyError_(electron.caloEnergyError_)
       ,trackMomentum_(electron.trackMomentum_)
       ,trackMomentumError_(electron.trackMomentumError_)
+      ,trackMissedInnerLayers_(electron.trackMissedInnerLayers_)
       ,hadOverEm_(electron.hadOverEm_)
       ,deltaEtaIn_(electron.deltaEtaIn_)
       ,deltaPhiIn_(electron.deltaPhiIn_)
@@ -104,6 +112,7 @@ class TRootElectron : public TRootParticle
       ,d0Error_(electron.d0Error_)
       ,dsz_(electron.dsz_)
       ,dszError_(electron.dszError_)
+      ,dB_(electron.dB_)
       ,normalizedChi2_(electron.normalizedChi2_)
       ,ptError_(electron.ptError_)
       ,etaError_(electron.etaError_)
@@ -124,6 +133,7 @@ class TRootElectron : public TRootParticle
       ,trackIso_(electron.trackIso_)
       ,ecalIso_(electron.ecalIso_)
       ,hcalIso_(electron.hcalIso_)
+      ,swissCross_(electron.swissCross_)
       ,pfParticleIso_(electron.pfParticleIso_)
       ,pfChargedHadronIso_(electron.pfChargedHadronIso_)
       ,pfNeutralHadronIso_(electron.pfNeutralHadronIso_)
@@ -135,6 +145,10 @@ class TRootElectron : public TRootParticle
       ,idCutBasedCategorizedTight_(electron.idCutBasedCategorizedTight_)
       ,idLikelihood_(electron.idLikelihood_)
       ,idNeuralNet_(electron.idNeuralNet_)
+      ,idCutBasedsimpleEleId70cIso_(electron.idCutBasedsimpleEleId70cIso_)
+      ,idCutBasedsimpleEleId95cIso_(electron.idCutBasedsimpleEleId95cIso_)
+      ,idCutBasedsimpleEleId70relIso_(electron.idCutBasedsimpleEleId70relIso_)
+      ,idCutBasedsimpleEleId95relIso_(electron.idCutBasedsimpleEleId95relIso_)
       ,isAlsoPhoton_(electron.isAlsoPhoton_)
       {;}
       
@@ -147,6 +161,7 @@ class TRootElectron : public TRootParticle
       ,caloEnergyError_(-9999.)
       ,trackMomentum_(-9999.)
       ,trackMomentumError_(-9999.)
+      ,trackMissedInnerLayers_(-1)
       ,hadOverEm_(-9999.)
       ,deltaEtaIn_(-9999.)
       ,deltaPhiIn_(-9999.)
@@ -166,6 +181,7 @@ class TRootElectron : public TRootParticle
       ,d0Error_(-9999.)
       ,dsz_(-9999.)
       ,dszError_(-9999.)
+      ,dB_(-9999.)
       ,normalizedChi2_(-9999.)
       ,ptError_(-9999.)
       ,etaError_(-9999.)
@@ -186,6 +202,7 @@ class TRootElectron : public TRootParticle
       ,trackIso_(-9999)
       ,ecalIso_(-9999)
       ,hcalIso_(-9999)
+      ,swissCross_(-9999)
       ,pfParticleIso_(-9999)
       ,pfChargedHadronIso_(-9999)
       ,pfNeutralHadronIso_(-9999)
@@ -197,6 +214,10 @@ class TRootElectron : public TRootParticle
       ,idCutBasedCategorizedTight_(-1)
       ,idLikelihood_(-9999.)
       ,idNeuralNet_(-9999.)
+      ,idCutBasedsimpleEleId70cIso_(-1)
+      ,idCutBasedsimpleEleId95cIso_(-1)
+      ,idCutBasedsimpleEleId70relIso_(-1)
+      ,idCutBasedsimpleEleId95relIso_(-1)
       ,isAlsoPhoton_(false)
       {;}
       
@@ -209,6 +230,7 @@ class TRootElectron : public TRootParticle
       ,caloEnergyError_(-9999.)
       ,trackMomentum_(-9999.)
       ,trackMomentumError_(-9999.)
+      ,trackMissedInnerLayers_(-1)
       ,hadOverEm_(-9999.)
       ,deltaEtaIn_(-9999.)
       ,deltaPhiIn_(-9999.)
@@ -228,6 +250,7 @@ class TRootElectron : public TRootParticle
       ,d0Error_(-9999.)
       ,dsz_(-9999.)
       ,dszError_(-9999.)
+      ,dB_(-9999.)
       ,normalizedChi2_(-9999.)
       ,ptError_(-9999.)
       ,etaError_(-9999.)
@@ -248,6 +271,7 @@ class TRootElectron : public TRootParticle
       ,trackIso_(-9999)
       ,ecalIso_(-9999)
       ,hcalIso_(-9999)
+      ,swissCross_(-9999)
       ,pfParticleIso_(-9999)
       ,pfChargedHadronIso_(-9999)
       ,pfNeutralHadronIso_(-9999)
@@ -271,6 +295,7 @@ class TRootElectron : public TRootParticle
       ,caloEnergyError_(-9999.)
       ,trackMomentum_(-9999.)
       ,trackMomentumError_(-9999.)
+      ,trackMissedInnerLayers_(-1)
       ,hadOverEm_(-9999.)
       ,deltaEtaIn_(-9999.)
       ,deltaPhiIn_(-9999.)
@@ -290,6 +315,7 @@ class TRootElectron : public TRootParticle
       ,d0Error_(-9999.)
       ,dsz_(-9999.)
       ,dszError_(-9999.)
+      ,dB_(-9999.)
       ,normalizedChi2_(-9999.)
       ,ptError_(-9999.)
       ,etaError_(-9999.)
@@ -310,6 +336,7 @@ class TRootElectron : public TRootParticle
       ,trackIso_(-9999)
       ,ecalIso_(-9999)
       ,hcalIso_(-9999)
+      ,swissCross_(-9999)
       ,pfParticleIso_(-9999)
       ,pfChargedHadronIso_(-9999)
       ,pfNeutralHadronIso_(-9999)
@@ -321,6 +348,10 @@ class TRootElectron : public TRootParticle
       ,idCutBasedCategorizedTight_(-1)
       ,idLikelihood_(-9999.)
       ,idNeuralNet_(-9999.)
+      ,idCutBasedsimpleEleId70cIso_(-1)
+      ,idCutBasedsimpleEleId95cIso_(-1)
+      ,idCutBasedsimpleEleId70relIso_(-1)
+      ,idCutBasedsimpleEleId95relIso_(-1)
       ,isAlsoPhoton_(false)
       {;}
       
@@ -333,6 +364,7 @@ class TRootElectron : public TRootParticle
       ,caloEnergyError_(-9999.)
       ,trackMomentum_(-9999.)
       ,trackMomentumError_(-9999.)
+      ,trackMissedInnerLayers_(-1)
       ,hadOverEm_(-9999.)
       ,deltaEtaIn_(-9999.)
       ,deltaPhiIn_(-9999.)
@@ -352,6 +384,7 @@ class TRootElectron : public TRootParticle
       ,d0Error_(-9999.)
       ,dsz_(-9999.)
       ,dszError_(-9999.)
+      ,dB_(-9999.)
       ,normalizedChi2_(-9999.)
       ,ptError_(-9999.)
       ,etaError_(-9999.)
@@ -372,6 +405,7 @@ class TRootElectron : public TRootParticle
       ,trackIso_(-9999)
       ,ecalIso_(-9999)
       ,hcalIso_(-9999)
+      ,swissCross_(-9999)
       ,pfParticleIso_(-9999)
       ,pfChargedHadronIso_(-9999)
       ,pfNeutralHadronIso_(-9999)
@@ -383,6 +417,10 @@ class TRootElectron : public TRootParticle
       ,idCutBasedCategorizedTight_(-1)
       ,idLikelihood_(-9999.)
       ,idNeuralNet_(-9999.)
+      ,idCutBasedsimpleEleId70cIso_(-1)
+      ,idCutBasedsimpleEleId95cIso_(-1)
+      ,idCutBasedsimpleEleId70relIso_(-1)
+      ,idCutBasedsimpleEleId95relIso_(-1)
       ,isAlsoPhoton_(false)
       {;}
       
@@ -395,6 +433,7 @@ class TRootElectron : public TRootParticle
       ,caloEnergyError_(-9999.)
       ,trackMomentum_(-9999.)
       ,trackMomentumError_(-9999.)
+      ,trackMissedInnerLayers_(-1)
       ,hadOverEm_(-9999.)
       ,deltaEtaIn_(-9999.)
       ,deltaPhiIn_(-9999.)
@@ -414,6 +453,7 @@ class TRootElectron : public TRootParticle
       ,d0Error_(-9999.)
       ,dsz_(-9999.)
       ,dszError_(-9999.)
+      ,dB_(-9999.)
       ,normalizedChi2_(-9999.)
       ,ptError_(-9999.)
       ,etaError_(-9999.)
@@ -434,6 +474,7 @@ class TRootElectron : public TRootParticle
       ,trackIso_(-9999)
       ,ecalIso_(-9999)
       ,hcalIso_(-9999)
+      ,swissCross_(-9999)
       ,pfParticleIso_(-9999)
       ,pfChargedHadronIso_(-9999)
       ,pfNeutralHadronIso_(-9999)
@@ -445,6 +486,10 @@ class TRootElectron : public TRootParticle
       ,idCutBasedCategorizedTight_(-1)
       ,idLikelihood_(-9999.)
       ,idNeuralNet_(-9999.)
+      ,idCutBasedsimpleEleId70cIso_(-1)
+      ,idCutBasedsimpleEleId95cIso_(-1)
+      ,idCutBasedsimpleEleId70relIso_(-1)
+      ,idCutBasedsimpleEleId95relIso_(-1)
       ,isAlsoPhoton_(false)
       {;}
       
@@ -458,6 +503,7 @@ class TRootElectron : public TRootParticle
       Float_t caloEnergyError() const { return caloEnergyError_ ;}
       Float_t trackMomentum() const { return trackMomentum_ ;}
       Float_t trackMomentumError() const { return trackMomentumError_ ;}
+      Int_t   trackMissedInnerLayers() const { return trackMissedInnerLayers_;}
       Float_t hadOverEm() const { return hadOverEm_ ;}
       Float_t deltaEtaIn() const { return deltaEtaIn_ ;}
       Float_t deltaPhiIn() const { return deltaPhiIn_ ;}
@@ -480,6 +526,7 @@ class TRootElectron : public TRootParticle
       Float_t d0Error() const { return d0Error_ ;}
       Float_t dsz() const { return dsz_ ;}
       Float_t dszError() const { return dszError_ ;}
+      Float_t dB() const {return dB_ ;}
       Float_t normalizedChi2() const { return normalizedChi2_ ;}
       Float_t ptError() const { return ptError_ ;}
       Float_t etaError() const { return etaError_ ;}
@@ -574,6 +621,7 @@ class TRootElectron : public TRootParticle
       Float_t trackIso() const {return trackIso_;}
       Float_t ecalIso() const {return ecalIso_;}
       Float_t hcalIso() const {return hcalIso_;}
+      Double_t swissCross() const {return swissCross_;}
       
       Float_t pfParticleIso() const {return pfParticleIso_;}
       Float_t pfChargedHadronIso() const {return pfChargedHadronIso_;}
@@ -587,6 +635,10 @@ class TRootElectron : public TRootParticle
       Int_t idCutBasedCategorizedTight() const { return idCutBasedCategorizedTight_ ;}
       Float_t idLikelihood() const { return idLikelihood_ ;}
       Float_t idNeuralNet() const { return idNeuralNet_ ;}
+      Int_t idCutBasedsimpleEleId70cIso() const { return idCutBasedsimpleEleId70cIso_;}
+      Int_t idCutBasedsimpleEleId95cIso() const { return idCutBasedsimpleEleId95cIso_;}
+      Int_t idCutBasedsimpleEleId70relIso() const { return idCutBasedsimpleEleId70relIso_;}
+      Int_t idCutBasedsimpleEleId95relIso() const { return idCutBasedsimpleEleId95relIso_;}
       Bool_t isAlsoPhoton() const { return isAlsoPhoton_; }
       
       /* TODO - isBarrel / isEndcap / isCrack
@@ -611,6 +663,7 @@ else if (fabs (eta) >= 1.5560) {
       void setCaloEnergyError(Float_t caloEnergyError) { caloEnergyError_ = caloEnergyError; }
       void setTrackMomentum(Float_t trackMomentum) { trackMomentum_ = trackMomentum; }
       void setTrackMomentumError(Float_t trackMomentumError) { trackMomentumError_ = trackMomentumError; }
+      void setTrackMissedInnerLayers(Int_t trackMissedInnerLayers) { trackMissedInnerLayers_ = trackMissedInnerLayers; }
       void setHadOverEm(Float_t hadOverEm) { hadOverEm_ = hadOverEm; }
       void setDeltaEtaIn(Float_t deltaEtaIn) { deltaEtaIn_ = deltaEtaIn; }
       void setDeltaPhiIn(Float_t deltaPhiIn) { deltaPhiIn_ = deltaPhiIn; }
@@ -631,6 +684,7 @@ else if (fabs (eta) >= 1.5560) {
       void setD0Error(Float_t d0Error) { d0Error_ = d0Error; }
       void setDsz(Float_t dsz) { dsz_ = dsz; }
       void setDszError(Float_t dszError) { dszError_ = dszError; }
+      void setDB(Float_t dB) { dB_ = dB; }
       void setNormalizedChi2(Float_t normalizedChi2) { normalizedChi2_ = normalizedChi2; }
       void setPtError(Float_t ptError) { ptError_ = ptError; }
       void setEtaError(Float_t etaError) { etaError_ = etaError; }
@@ -653,6 +707,7 @@ else if (fabs (eta) >= 1.5560) {
       void setTrackIso(Float_t trackIso) { trackIso_ = trackIso; }
       void setEcalIso(Float_t ecalIso) { ecalIso_ = ecalIso; }
       void setHcalIso(Float_t hcalIso) { hcalIso_ = hcalIso; }
+      void setSwissCross(Double_t swissCross) { swissCross_ = swissCross; }
       
       void setPFParticleIso(Float_t iso) { pfParticleIso_=iso; }
       void setPFChargedHadronIso(Float_t iso) { pfChargedHadronIso_=iso; }
@@ -666,6 +721,10 @@ else if (fabs (eta) >= 1.5560) {
       void setIDCutBasedCategorizedTight(Int_t idCutBasedCategorizedTight) { idCutBasedCategorizedTight_ = idCutBasedCategorizedTight; }
       void setIDLikelihood(Float_t idLikelihood) { idLikelihood_ = idLikelihood; }
       void setIDNeuralNet(Float_t idNeuralNet) { idNeuralNet_ = idNeuralNet; }
+      void setIDCutBasedsimpleEleId70cIso(Int_t idCutBasedsimpleEleId70cIso) { idCutBasedsimpleEleId70cIso_ = idCutBasedsimpleEleId70cIso; }
+      void setIDCutBasedsimpleEleId95cIso(Int_t idCutBasedsimpleEleId95cIso) { idCutBasedsimpleEleId95cIso_ = idCutBasedsimpleEleId95cIso; }
+      void setIDCutBasedsimpleEleId70relIso(Int_t idCutBasedsimpleEleId70relIso) { idCutBasedsimpleEleId70relIso_ = idCutBasedsimpleEleId70relIso; }
+      void setIDCutBasedsimpleEleId95relIso(Int_t idCutBasedsimpleEleId95relIso) { idCutBasedsimpleEleId95relIso_ = idCutBasedsimpleEleId95relIso; }
       void setIsAlsoPhoton(Bool_t isAlsoPhoton) { isAlsoPhoton_ = isAlsoPhoton; }
       
       friend std::ostream& operator<< (std::ostream& stream, const TRootElectron& electron)
@@ -680,7 +739,7 @@ else if (fabs (eta) >= 1.5560) {
          std::cout << "TRootElectron - Charge=" << this->charge() << " (E,Et,eta,phi)=("<< this->Energy() <<","<< this->Et() <<","<< this->Eta() <<","<< this->Phi() << ")"
          << "  vertex=("<< this->vx() <<","<< this->vy() <<","<< this->vz() << ")"
          << "  caloPosition=(" << this->caloPosition().X() << "," << this->caloPosition().Y() << "," << this->caloPosition().Z() << ")" << endl
-         << "            trackMomentum=" << this->trackMomentum() << "+-" << this->trackMomentumError() << " nPixels=" << this->pixelLayersWithMeasurement()
+		   << "            trackMomentum=" << this->trackMomentum() << "+-" << this->trackMomentumError() <<"  track missed inner layers "<< this->trackMissedInnerLayers() << " nPixels=" << this->pixelLayersWithMeasurement()
          << " nStrips=" << this->stripLayersWithMeasurement() << " d0=" << this->d0() << "+-" << this->d0Error()<< " dsz=" << this->dsz() << "+-" << this->dszError() << endl
          << "            algo=" << this->clusterAlgo() << " nBC=" << this->nbClusters() << "  caloEnergy=" << this->caloEnergy() << "+-" << this->caloEnergyError()
          << " scRawEnergy=" << this->superClusterRawEnergy() << " preshEnergy=" << this->preshowerEnergy()
@@ -688,11 +747,11 @@ else if (fabs (eta) >= 1.5560) {
          << " R19=" << this->r19() <<" R9=" << this->r9() << endl
          <<"            fbrem=" << this->fbrem() << "  H/E=" << this->hadOverEm() <<"  deltaEtaIn=" << this->deltaEtaIn() <<"  deltaPhiIn=" << this->deltaPhiIn() <<"  deltaEtaOut=" << this->deltaEtaOut() <<"  deltaPhiOut=" << this->deltaPhiOut() <<"  E/p in=" << this->energySuperClusterOverPin() <<"  E/p out=" << this->energySeedClusterOverPout() << endl
          << "            reco iso03  ecal="<< this->dr03EcalRecHitSumEt() << " hcal1=" << this->dr03HcalDepth1TowerSumEt() << " hcal2=" << this->dr03HcalDepth2TowerSumEt() << " tracker=" << this->dr03TkSumPt() << endl
-         << "            pat iso (no isodeposit) ecal="<< this->trackIso()<<" hcal="<<this->hcalIso()<<" tracker="<<this->trackIso()<<endl
+		   << "            pat iso (no isodeposit) ecal="<< this->trackIso()<<" hcal="<<this->hcalIso()<< " swissCross= " << this->swissCross()<< " tracker="<<this->trackIso()<<endl
          << "            PF Isolation : particleIso=" << this->pfParticleIso_ << "  chargedHadronIso=" << this->pfChargedHadronIso_ << "  NeutralHadronIso=" << this->pfNeutralHadronIso_ << endl
          <<"            ID:  Fixed-Threshold(Loose,Tight,HighEnergy)=(" << this->idCutBasedFixedThresholdLoose() << "," << this->idCutBasedFixedThresholdTight()  << "," << this->idCutBasedFixedThresholdHighEnergy() << ")"
          <<"  Categorized(Loose,Tight)=(" << this->idCutBasedCategorizedLoose() << "," << this->idCutBasedCategorizedTight()  << ")"
-         <<"  LH=" << this->idLikelihood() << "  NN=" << this->idNeuralNet() << "  isAlsoPhoton=" << this->isAlsoPhoton();
+		   <<"  LH=" << this->idLikelihood() << "  NN=" << this->idNeuralNet() << "  idCutBasedsimpleEleId70cIso " << this->idCutBasedsimpleEleId70cIso() << "  idCutBasedsimpleEleId95cIso " << this->idCutBasedsimpleEleId95cIso() << "  idCutBasedsimpleEleId70relIso " << this->idCutBasedsimpleEleId70relIso() << "  idCutBasedsimpleEleId95relIso " << this->idCutBasedsimpleEleId95relIso() << "  isAlsoPhoton=" << this->isAlsoPhoton();
       };
       
       
@@ -710,6 +769,7 @@ else if (fabs (eta) >= 1.5560) {
       Float_t caloEnergyError_;           // Error on caloEnergy_
       Float_t trackMomentum_;             // Track momentum at vertex
       Float_t trackMomentumError_;        // Error on trackMomentum_
+      Int_t   trackMissedInnerLayers_;    // Track missed inner layers (for conversions rejection)
       
       Float_t hadOverEm_;                 // hadronic over electromagnetic fraction
       
@@ -760,6 +820,7 @@ else if (fabs (eta) >= 1.5560) {
       Float_t d0Error_;        // error on d0_
       Float_t dsz_;            // dsz parameter
       Float_t dszError_;       // error on dsz_
+      Float_t dB_;             // absolute 2D impact parameter d0(Bsp)
       Float_t normalizedChi2_; // chi-squared divided by n.d.o.f. of track fit
       
       Float_t ptError_;        // needed ?  ptError()
@@ -813,7 +874,9 @@ else if (fabs (eta) >= 1.5560) {
       Float_t trackIso_; // returns the value of the summed track pt in a cone of deltaR<0.4
       Float_t ecalIso_; // returns the value of the summed Et of all recHits in the ecal in a cone of deltaR<0.4
       Float_t hcalIso_; // returns the value of the summed Et of all recHits in the hcal in a cone of deltaR<0.4
+      Double_t swissCross_; // returns the value of swiss cross for spikes rejection
       
+
       // Added by Stephane 23/04/2010 -- pat Isolation for PFlow muons
       Float_t pfParticleIso_; // isolation calculated with all the PFCandidates
       Float_t pfChargedHadronIso_; // isolation calculated with only the charged hadron PFCandidates
@@ -830,7 +893,13 @@ else if (fabs (eta) >= 1.5560) {
       Int_t idCutBasedCategorizedTight_;         // Category based ID - Different tight thresholds on H/E, DeltaEta, DeltaPhi, SigmaEtaEta, eSeedOverPin for differents regions in the E/p vs fBrem plane
       Float_t idLikelihood_;                     // Lieklihood ID - not activated by default in 2.2.X
       Float_t idNeuralNet_;                      // NN ID - not activated by default in 2.2.X
+      Float_t idCutBasedsimpleEleId70cIso_;      // VBTF simple cut-based e-ID W70 (working point for "70%" efficiency)
+      Float_t idCutBasedsimpleEleId95cIso_;      // VBTF simple cut-based e-ID W95 (working point for "95%" efficiency)
+      Float_t idCutBasedsimpleEleId70relIso_;      // VBTF simple cut-based e-ID W70 relative (working point for "70%" efficiency)
+      Float_t idCutBasedsimpleEleId95relIso_;      // VBTF simple cut-based e-ID W95 relative (working point for "95%" efficiency)
       
+ 
+     
       Bool_t isAlsoPhoton_;                      // is electron also a photon ?
       
       // needed ?

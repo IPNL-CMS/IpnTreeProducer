@@ -9,6 +9,8 @@
 #include "DataFormats/EgammaReco/interface/BasicClusterFwd.h"
 #include "DataFormats/RecoCandidate/interface/IsoDeposit.h"
 #include "RecoEcal/EgammaCoreTools/interface/EcalClusterLazyTools.h"
+#include "RecoLocalCalo/EcalRecAlgos/interface/EcalSeverityLevelAlgo.h"
+#include "DataFormats/EgammaReco/interface/ElectronSeed.h"
 
 #include "../interface/LeptonAnalyzer.h"
 #include "../interface/TRootElectron.h"
@@ -27,7 +29,7 @@ class ElectronAnalyzer : public LeptonAnalyzer
    private:
       bool useMC_;
       edm::InputTag electronProducer_;
-
+      edm::InputTag barrelEcalRecHitCollection_;
 };
 
 #endif
