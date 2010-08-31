@@ -18,7 +18,8 @@ process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 
 # Needed for GlobalPositionRcd
 process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_cff')
-process.GlobalTag.globaltag = 'START36_V10::All'
+#process.GlobalTag.globaltag = 'START36_V10::All'
+process.GlobalTag.globaltag = cms.string('START36_V10::All')
 
 # Global geometry
 #process.load("Configuration.StandardSequences.Geometry_cff")
@@ -47,7 +48,9 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source("PoolSource",
 
 # RECO
-fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/relval/CMSSW_3_6_2/RelValQCD_Pt_80_120/GEN-SIM-RECO/START36_V10-v1/0002/046737B5-0571-DF11-843E-00261894391D.root')
+#fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/relval/CMSSW_3_6_2/RelValQCD_Pt_80_120/GEN-SIM-RECO/START36_V10-v1/0002/046737B5-0571-DF11-843E-00261894391D.root')
+#fileNames = cms.untracked.vstring('file:/scratch/perries/TTBAR_RECO_Spring10.root')
+fileNames = cms.untracked.vstring('/store/user/sperries/TTbarJets-madgraph/TTbarJets-madgraph_Spring10_PAT361p4/70e9499e8ed44653b27a37e9de88fd85/PATLyon_9_1.root')
 #  fileNames = cms.untracked.vstring(
 #   'file:/sps/cms/morgan/data/CMSSW_3_1_2__RelValH130GGgluonfusion__GEN-SIM-RECO__STARTUP31X_V2-v1__0007__104E25AC-CC78-DE11-AE55-001D09F2447F.root'
 #   ,'file:/sps/cms/morgan/data/CMSSW_3_1_2__RelValH130GGgluonfusion__GEN-SIM-RECO__STARTUP31X_V2-v1__0007__748489A8-CC78-DE11-991C-000423D99896.root'
@@ -58,8 +61,8 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
    myConfig = cms.PSet(
 
       # Data type of the PoolSource ( RECO / PAT )
-      dataType = cms.untracked.string("RECO"),   # use reco::Objects
-      #dataType = cms.untracked.string("PAT"),    # use pat::Objects
+      #dataType = cms.untracked.string("RECO"),   # use reco::Objects
+      dataType = cms.untracked.string("PAT"),    # use pat::Objects
 
       # Verbosite
       #     0 = muet
@@ -78,7 +81,7 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       description = cms.untracked.string('Le dataset pourri a Roberto'),
 
       # What is written to rootuple
-      doLHCInfo = cms.untracked.bool(True),
+      doLHCInfo = cms.untracked.bool(False),
       doL1 = cms.untracked.bool(True),
       doHLT = cms.untracked.bool(True),
       doMC = cms.untracked.bool(True),
@@ -202,10 +205,10 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
          cms.InputTag("ak5CaloJets"),
          cms.InputTag("kt4PFJets"),
          ),
-      muonProducer = cms.InputTag("muons"),
-      electronProducer = cms.InputTag("gsfElectrons"),
-      photonProducer = cms.InputTag("photons"),
-      metProducer = cms.InputTag("met"),
+      muonProducer = cms.VInputTag(cms.InputTag("muons")),
+      electronProducer = cms.VInputTag(cms.InputTag("gsfElectrons")),
+      photonProducer = cms.VInputTag(cms.InputTag("photons")),
+      metProducer = cms.VInputTag(cms.InputTag("met")),
       barrelEcalRecHitCollection = cms.InputTag("ecalRecHit","EcalRecHitsEB"),
       endcapEcalRecHitCollection = cms.InputTag("ecalRecHit","EcalRecHitsEE"),
       reducedBarrelEcalRecHitCollection = cms.InputTag("reducedEcalRecHitsEB"),
@@ -230,10 +233,10 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       primaryVertexProducer = cms.InputTag("offlinePrimaryVertices"),
       trackProducer = cms.InputTag("generalTracks"),
       jetProducer = cms.VInputTag(cms.InputTag("cleanPatJets")),
-      muonProducer = cms.InputTag("cleanPatMuons"),
-      electronProducer = cms.InputTag("cleanPatElectrons"),
-      photonProducer = cms.InputTag("cleanPatPhotons"),
-      metProducer = cms.InputTag("patMETs"),
+      muonProducer = cms.VInputTag(cms.InputTag("cleanPatMuons")),
+      electronProducer = cms.VInputTag(cms.InputTag("cleanPatElectrons")),
+      photonProducer = cms.VInputTag(cms.InputTag("cleanPatPhotons")),
+      metProducer = cms.VInputTag(cms.InputTag("patMETs")),
       barrelEcalRecHitCollection = cms.InputTag("ecalRecHit","EcalRecHitsEB"),
       endcapEcalRecHitCollection = cms.InputTag("ecalRecHit","EcalRecHitsEE"),
       reducedBarrelEcalRecHitCollection = cms.InputTag("reducedEcalRecHitsEB"),
