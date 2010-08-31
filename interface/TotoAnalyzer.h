@@ -149,14 +149,18 @@ class TotoAnalyzer : public edm::EDAnalyzer
       TClonesArray* rootTracks_;
       unsigned int nJetsArrays_;
       TClonesArray** rootJetsArrays_;
-      TClonesArray* rootMuons_;
-      TClonesArray* rootElectrons_;
-      TClonesArray* rootPhotons_;
+      unsigned int nMuonsArrays_;
+      TClonesArray** rootMuonsArrays_;
+      unsigned int nElectronsArrays_;
+      TClonesArray** rootElectronsArrays_;
+      unsigned int nPhotonsArrays_;
+      TClonesArray** rootPhotonsArrays_;
       TClonesArray* rootBasicClusters_;
       TClonesArray* rootSuperClusters_;
       TClonesArray* rootEcalRecHits_;
       TClonesArray* rootConversionTracks_;
-      TClonesArray* rootMETs_;
+      unsigned int nMETsArrays_;
+      TClonesArray** rootMETsArrays_;
       TRootBardak* rootBardak_;
       
 };

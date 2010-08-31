@@ -4,10 +4,10 @@ using namespace std;
 using namespace reco;
 using namespace edm;
 
-ElectronAnalyzer::ElectronAnalyzer(const edm::ParameterSet& producersNames, const edm::ParameterSet& myConfig, int verbosity):LeptonAnalyzer(producersNames, myConfig, verbosity)
+ElectronAnalyzer::ElectronAnalyzer(const edm::InputTag& electronProducer, const edm::ParameterSet& producersNames, const edm::ParameterSet& myConfig, int verbosity):LeptonAnalyzer(producersNames, myConfig, verbosity)
 {
    useMC_ = myConfig.getUntrackedParameter<bool>("doElectronMC");
-   electronProducer_ = producersNames.getParameter<edm::InputTag>("electronProducer");
+   electronProducer_ = electronProducer;
 }
 
 ElectronAnalyzer::~ElectronAnalyzer()

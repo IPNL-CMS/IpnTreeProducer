@@ -15,10 +15,10 @@ using namespace reco;
 using namespace edm;
 
 
-METAnalyzer::METAnalyzer(const edm::ParameterSet& producersNames, const edm::ParameterSet& myConfig, int verbosity):verbosity_(verbosity)
+METAnalyzer::METAnalyzer(const edm::InputTag& metProducer, const edm::ParameterSet& producersNames, const edm::ParameterSet& myConfig, int verbosity):verbosity_(verbosity)
 {
    dataType_ = producersNames.getUntrackedParameter<string>("dataType","unknown");
-   metProducer_ = producersNames.getParameter<edm::InputTag>("metProducer");
+   metProducer_ = metProducer;
    useMC_ = myConfig.getUntrackedParameter<bool>("doMETMC");
    allowMissingCollection_ = producersNames.getUntrackedParameter<bool>("allowMissingCollection", false);
 }

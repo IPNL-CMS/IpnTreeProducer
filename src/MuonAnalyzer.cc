@@ -4,10 +4,10 @@ using namespace std;
 using namespace reco;
 using namespace edm;
 
-MuonAnalyzer::MuonAnalyzer(const edm::ParameterSet& producersNames, const edm::ParameterSet& myConfig, int verbosity):LeptonAnalyzer(producersNames, myConfig, verbosity)
+MuonAnalyzer::MuonAnalyzer(const edm::InputTag& muonProducer, const edm::ParameterSet& producersNames, const edm::ParameterSet& myConfig, int verbosity):LeptonAnalyzer(producersNames, myConfig, verbosity)
 {
 	useMC_ = myConfig.getUntrackedParameter<bool>("doMuonMC");
-	muonProducer_ = producersNames.getParameter<edm::InputTag>("muonProducer");
+	muonProducer_ = muonProducer;
 }
 
 MuonAnalyzer::~MuonAnalyzer()

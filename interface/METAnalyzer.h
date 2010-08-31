@@ -26,7 +26,7 @@ class METAnalyzer
 {
 
 	public:
-		METAnalyzer(const edm::ParameterSet& producersNames, const edm::ParameterSet& myConfig, int verbosity);
+		METAnalyzer(const edm::InputTag& jetProducer, const edm::ParameterSet& producersNames, const edm::ParameterSet& myConfig, int verbosity);
 		~METAnalyzer();
 		void setVerbosity(int verbosity) {verbosity_ = verbosity; };
 		bool process(const edm::Event& iEvent, TClonesArray* rootMET);

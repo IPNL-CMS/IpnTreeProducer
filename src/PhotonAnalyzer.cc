@@ -5,10 +5,10 @@ using namespace reco;
 using namespace edm;
 
 
-PhotonAnalyzer::PhotonAnalyzer(const edm::ParameterSet& producersNames, const edm::ParameterSet& myConfig, int verbosity):verbosity_(verbosity), iconvtrack_(0)
+PhotonAnalyzer::PhotonAnalyzer(const edm::InputTag& photonProducer, const edm::ParameterSet& producersNames, const edm::ParameterSet& myConfig, int verbosity):verbosity_(verbosity), iconvtrack_(0)
 {
    dataType_ = producersNames.getUntrackedParameter<string>("dataType","unknown");
-   photonProducer_ = producersNames.getParameter<edm::InputTag>("photonProducer");
+   photonProducer_ = photonProducer;
    doPhotonConversion_ = myConfig.getUntrackedParameter<bool>("doPhotonConversion", false);
    doVertexCorrection_ = myConfig.getUntrackedParameter<bool>("doPhotonVertexCorrection", false);
    useMC_ = myConfig.getUntrackedParameter<bool>("doMuonMC", false);
