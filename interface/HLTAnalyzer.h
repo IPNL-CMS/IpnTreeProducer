@@ -32,7 +32,7 @@ class HLTAnalyzer
       void setVerbosity(int verbosity) {verbosity_ = verbosity; };
       bool init(const edm::Run & iRun, const edm::EventSetup & iSetup);
       bool process(const edm::Event& iEvent, const edm::EventSetup & iSetup, TRootEvent* rootEvent);
-      void printStats();
+      void printSummary();
       void copySummary(TRootRun* runInfos);
       
       unsigned int  nHLTPaths() const { return hltNames_.size(); }

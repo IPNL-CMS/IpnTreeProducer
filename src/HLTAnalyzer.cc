@@ -103,7 +103,6 @@ bool HLTAnalyzer::init(const edm::Run & iRun, const edm::EventSetup & iSetup)
          //hltConfig_.dump("Datasets");
          //hltConfig_.dump("PrescaleTable");
          
-         printStats();
          nEvents_=0;
          nWasRun_=0;
          nAccept_=0;
@@ -140,7 +139,6 @@ bool HLTAnalyzer::init(const edm::Run & iRun, const edm::EventSetup & iSetup)
    }
    else
    {
-      printStats();
       nEvents_=0;
       nWasRun_=0;
       nAccept_=0;
@@ -230,7 +228,7 @@ bool HLTAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup & iSet
 }
 
 
-void HLTAnalyzer::printStats()
+void HLTAnalyzer::printSummary()
 {
    // final printout of accumulated statistics
    const unsigned int n(hltNames_.size());

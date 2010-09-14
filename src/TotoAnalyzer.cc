@@ -318,7 +318,7 @@ void TotoAnalyzer::endJob()
       if(verbosity_>0)
       {
          std::cout << "L1 Trigger Summary Tables" << std::endl;
-         l1TriggerAnalyzer_->printStats();
+         l1TriggerAnalyzer_->printSummary();
       }
    }
    
@@ -328,7 +328,7 @@ void TotoAnalyzer::endJob()
       if(verbosity_>0)
       {
          std::cout << "HLT Summary Tables" << std::endl;
-         hltAnalyzer_->printStats();
+         hltAnalyzer_->printSummary();
       }
    }
    
@@ -395,6 +395,15 @@ void TotoAnalyzer::beginRun(edm::Run const& iRun, edm::EventSetup const& iSetup)
 void TotoAnalyzer::endRun(edm::Run const& iRun, edm::EventSetup const& iSetup)
 {
    if(verbosity_>0) std::cout << std::endl << std::endl << "####### TotoAnalyzer - END OF RUN #######" << std::endl;
+   if(doHLT_)
+   {
+      //hltAnalyzer_ ->copySummary(runInfos_);
+      if(verbosity_>0)
+      {
+         std::cout << "HLT Summary Tables" << std::endl;
+         hltAnalyzer_->printSummary();
+      }
+   }
 }
 
 
@@ -537,12 +546,9 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
    // HLT
    if(doHLT_)
    {
-      //if(nTotEvt_==1 && verbosity_>1) std::cout << std::endl << "HLTAnalyzer initialization..." << std::endl;
-      //if (nTotEvt_==1) hltAnalyzer_->init(iEvent, rootEvent_);
       if(verbosity_>1) std::cout << std::endl << "Get HLT Results..." << std::endl;
       hltAnalyzer_->process(iEvent, iSetup, rootEvent_);
    }
-   //if ( ! rootEvent_->passGlobalHLT() ) return;
    
    
    // MC Info
