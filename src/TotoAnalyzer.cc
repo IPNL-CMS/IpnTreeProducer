@@ -293,7 +293,7 @@ void TotoAnalyzer::beginJob()
          rootMETsArrays_[i] = new TClonesArray("TRootMET", 1000);
          eventTree_->Branch (metProducer.label().data(), "TClonesArray", &(rootMETsArrays_[i]));
       }
-
+      
    }
    
    if(doBardak_)
@@ -378,6 +378,12 @@ void TotoAnalyzer::beginRun(edm::Run const& iRun, edm::EventSetup const& iSetup)
       beamStatus_->setBeamMode( condInRunBlock->beamMode );
       beamStatus_->setBeamMomentum( condInRunBlock->beamMomentum );
       beamStatus_->setLhcFillNumber_( condInRunBlock->lhcFillNumber );
+   }
+   
+   if(doHLT_)
+   {
+      if(verbosity_>1) std::cout << std::endl << "HLTAnalyzer initialization..." << std::endl;
+      hltAnalyzer_->init(iRun, iSetup);
    }
 }
 
@@ -529,13 +535,12 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
    }
    
    // HLT
-   rootEvent_->setGlobalHLT(true);
    if(doHLT_)
    {
-      if(nTotEvt_==1 && verbosity_>1) std::cout << std::endl << "HLTAnalyzer initialization..." << std::endl;
-      if (nTotEvt_==1) hltAnalyzer_->init(iEvent, rootEvent_);
+      //if(nTotEvt_==1 && verbosity_>1) std::cout << std::endl << "HLTAnalyzer initialization..." << std::endl;
+      //if (nTotEvt_==1) hltAnalyzer_->init(iEvent, rootEvent_);
       if(verbosity_>1) std::cout << std::endl << "Get HLT Results..." << std::endl;
-      hltAnalyzer_->process(iEvent, rootEvent_);
+      hltAnalyzer_->process(iEvent, iSetup, rootEvent_);
    }
    //if ( ! rootEvent_->passGlobalHLT() ) return;
    
@@ -728,7 +733,7 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
    {
       ElectronAssociator* myElectronAssociator = new ElectronAssociator();
       myElectronAssociator->setVerbosity(verbosity_);
-      for(unsigned int i=0; i<nElectronsArrays_; ++i) 
+      for(unsigned int i=0; i<nElectronsArrays_; ++i)
       {
          myElectronAssociator->associateSuperCluster(rootElectronsArrays_[i], rootSuperClusters_);
          if(verbosity_>2) myElectronAssociator->fullPrintElectrons(rootElectronsArrays_[i],rootSuperClusters_,rootBasicClusters_,0);
@@ -741,7 +746,7 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
    {
       PhotonAssociator* myPhotonAssociator = new PhotonAssociator();
       myPhotonAssociator->setVerbosity(verbosity_);
-      for(unsigned int i=0; i<nPhotonsArrays_; ++i) 
+      for(unsigned int i=0; i<nPhotonsArrays_; ++i)
       {
          myPhotonAssociator->associateSuperCluster(rootPhotonsArrays_[i], rootSuperClusters_);
       }
@@ -760,42 +765,42 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
       Int_t isoNTracks;
       TRootPhoton* localPhoton;
       
-      for(unsigned int i=0; i<nPhotonsArrays_; ++i) 
+      for(unsigned int i=0; i<nPhotonsArrays_; ++i)
       {
-			PhotonIsolator* myPhotonIsolator = new PhotonIsolator(&myConfig_, &producersNames_);
-      	for (int iphoton=0; iphoton<rootPhotonsArrays_[i]->GetEntriesFast(); iphoton++)
+         PhotonIsolator* myPhotonIsolator = new PhotonIsolator(&myConfig_, &producersNames_);
+         for (int iphoton=0; iphoton<rootPhotonsArrays_[i]->GetEntriesFast(); iphoton++)
          {
             localPhoton = (TRootPhoton*)rootPhotonsArrays_[i]->At(iphoton);
-         
+            
             ecalIslandIsolation=-1.;
             if (doCluster_) ecalIslandIsolation = myPhotonIsolator->basicClustersIsolation(localPhoton, rootSuperClusters_, rootBasicClusters_);
-         
+            
             ecalDoubleConeIsolation=-1.;
             if (doCluster_) ecalDoubleConeIsolation = myPhotonIsolator->basicClustersDoubleConeIsolation(localPhoton, rootSuperClusters_, rootBasicClusters_);
-         
+            
             hcalRecHitIsolation=-1.;
-				if ( myPhotonIsolator->loadHcalRecHits(iEvent, iSetup) ) hcalRecHitIsolation = myPhotonIsolator->hcalRecHitIsolation(localPhoton);
-         
-				isoTracks=-1.;
-				isoNTracks=-1;
-				if(doTrack_) isoTracks = myPhotonIsolator->trackerIsolation(localPhoton, rootTracks_, isoNTracks);
-
-				localPhoton->setIsolationPerso(ecalIslandIsolation, ecalDoubleConeIsolation, hcalRecHitIsolation, isoTracks, isoNTracks);
-				if(verbosity_>4) { std::cout << "   After isolation - ["<< setw(3) << iphoton << "] "; localPhoton->Print(); std::cout << std::endl; }
-			}
-			delete myPhotonIsolator;
-		}
-	}
+            if ( myPhotonIsolator->loadHcalRecHits(iEvent, iSetup) ) hcalRecHitIsolation = myPhotonIsolator->hcalRecHitIsolation(localPhoton);
+            
+            isoTracks=-1.;
+            isoNTracks=-1;
+            if(doTrack_) isoTracks = myPhotonIsolator->trackerIsolation(localPhoton, rootTracks_, isoNTracks);
+            
+            localPhoton->setIsolationPerso(ecalIslandIsolation, ecalDoubleConeIsolation, hcalRecHitIsolation, isoTracks, isoNTracks);
+            if(verbosity_>4) { std::cout << "   After isolation - ["<< setw(3) << iphoton << "] "; localPhoton->Print(); std::cout << std::endl; }
+         }
+         delete myPhotonIsolator;
+      }
+   }
    
    
-	if(doPhoton_ && doElectron_ && doCluster_)
+   if(doPhoton_ && doElectron_ && doCluster_)
    {
       if(verbosity_>1) std::cout << std::endl << "Runing Ambiguity Solver..." << std::endl;
       AmbiguitySolver* myAmbiguitySolver = new AmbiguitySolver(myConfig_, verbosity_);
       for(unsigned int i=0; i<nElectronsArrays_; ++i)
          for(unsigned int j=0; j<nPhotonsArrays_; ++j)
-				myAmbiguitySolver->processElectronsPhotons(rootSuperClusters_, rootElectronsArrays_[i], rootPhotonsArrays_[j]);
-      delete myAmbiguitySolver;
+            myAmbiguitySolver->processElectronsPhotons(rootSuperClusters_, rootElectronsArrays_[i], rootPhotonsArrays_[j]);
+         delete myAmbiguitySolver;
    }
    
    
@@ -803,9 +808,9 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
    if(doPhoton_)
    {
       PhotonAssociator* myPhotonAssociator = new PhotonAssociator();
-      for(unsigned int i=0; i<nPhotonsArrays_; ++i) 
-      	if(verbosity_>2) myPhotonAssociator->fullPrintPhotons(rootPhotonsArrays_[i],rootSuperClusters_,rootBasicClusters_,0);
-      delete myPhotonAssociator;
+      for(unsigned int i=0; i<nPhotonsArrays_; ++i)
+         if(verbosity_>2) myPhotonAssociator->fullPrintPhotons(rootPhotonsArrays_[i],rootSuperClusters_,rootBasicClusters_,0);
+         delete myPhotonAssociator;
    }
    
    
@@ -833,7 +838,7 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
          MCAssociator* myMCAssociator = new MCAssociator(producersNames_, verbosity_);
          myMCAssociator->init(iEvent, rootMCParticles_);
          if(verbosity_>4) std::cout << std::endl << "Printing recoParticles / mcParticles associations... " << std::endl;
-         for(unsigned int i=0; i<nPhotonsArrays_; ++i) 
+         for(unsigned int i=0; i<nPhotonsArrays_; ++i)
          {
             if(doPhoton_) myMCAssociator->matchGenParticlesTo(rootPhotonsArrays_[i]);
             if(verbosity_>4 && doPhoton_) myMCAssociator->printParticleAssociation(rootPhotonsArrays_[i]);

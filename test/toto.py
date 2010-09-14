@@ -49,8 +49,15 @@ process.source = cms.Source("PoolSource",
 
 # RECO
 #fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/relval/CMSSW_3_6_2/RelValQCD_Pt_80_120/GEN-SIM-RECO/START36_V10-v1/0002/046737B5-0571-DF11-843E-00261894391D.root')
+#fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/relval/CMSSW_3_6_2/RelValZMM/GEN-SIM-RECO/START36_V10-v1/0002/16F4C9D1-1B71-DF11-B488-0018F3D095FE.root')
+#fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/data/Run2010A/EG/RECO/v4/000/144/114/C2497931-2CB4-DF11-A92C-003048F1183E.root')
+fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/data/Run2010A/EG/RECO/v4/000/143/192/40927555-35AB-DF11-B264-0030487C7E18.root')
+#fileNames = cms.untracked.vstring(
+#'rfio:/castor/cern.ch/cms/store/data/Run2010A/EG/RECO/v4/000/144/114/C2497931-2CB4-DF11-A92C-003048F1183E.root'
+#,'rfio:/castor/cern.ch/cms/store/data/Run2010A/EG/RECO/v4/000/143/192/40927555-35AB-DF11-B264-0030487C7E18.root'
+#)
 #fileNames = cms.untracked.vstring('file:/scratch/perries/TTBAR_RECO_Spring10.root')
-fileNames = cms.untracked.vstring('/store/user/sperries/TTbarJets-madgraph/TTbarJets-madgraph_Spring10_PAT361p4/70e9499e8ed44653b27a37e9de88fd85/PATLyon_9_1.root')
+#fileNames = cms.untracked.vstring('/store/user/sperries/TTbarJets-madgraph/TTbarJets-madgraph_Spring10_PAT361p4/70e9499e8ed44653b27a37e9de88fd85/PATLyon_9_1.root')
 #  fileNames = cms.untracked.vstring(
 #   'file:/sps/cms/morgan/data/CMSSW_3_1_2__RelValH130GGgluonfusion__GEN-SIM-RECO__STARTUP31X_V2-v1__0007__104E25AC-CC78-DE11-AE55-001D09F2447F.root'
 #   ,'file:/sps/cms/morgan/data/CMSSW_3_1_2__RelValH130GGgluonfusion__GEN-SIM-RECO__STARTUP31X_V2-v1__0007__748489A8-CC78-DE11-991C-000423D99896.root'
@@ -61,8 +68,8 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
    myConfig = cms.PSet(
 
       # Data type of the PoolSource ( RECO / PAT )
-      #dataType = cms.untracked.string("RECO"),   # use reco::Objects
-      dataType = cms.untracked.string("PAT"),    # use pat::Objects
+      dataType = cms.untracked.string("RECO"),   # use reco::Objects
+      #dataType = cms.untracked.string("PAT"),    # use pat::Objects
 
       # Verbosite
       #     0 = muet
@@ -71,7 +78,7 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       #     3 = Liste objets de haut niveau (electrons, muons, photons...)
       #     4 = Liste tous les objets (haut niveau, clusters....)
       #     5 = Debug
-      verbosity = cms.untracked.int32(4),
+      verbosity = cms.untracked.int32(5),
 
       # name of output root file
       RootFileName = cms.untracked.string('Test.root'),

@@ -16,6 +16,9 @@
 #include "../interface/TRootVertex.h"
 #include "../interface/TRootBeamStatus.h"
 
+#include <vector>
+#include <algorithm>
+
 using namespace std;
 
 class TRootEvent : public TObject
@@ -37,8 +40,9 @@ class TRootEvent : public TObject
       ,passGlobalL1_(false)
       ,physicsL1Accept_(0)
       ,technicalL1Accept_(0)
-      ,passGlobalHLT_(false)
       ,trigHLT_(0)
+      ,prescaleHLT_(0)
+      ,hltAcceptNames_(0)
       ,csa07id_(-1)
       ,csa07weight_(-1.)
       ,csa07process_()
@@ -110,8 +114,19 @@ class TRootEvent : public TObject
          }
       }
       
-      // HLT decision
-      Bool_t passGlobalHLT() const { return passGlobalHLT_; }
+      // HLT decision & prescale
+      std::vector<std::string> hltAcceptNames() const { return hltAcceptNames_; }
+      std::string hltAcceptNamesAt(unsigned int i) const { return hltAcceptNames_.at(i); }
+      Bool_t passGlobalHLT() const { return ( hltAcceptNames_.size() == 0 ? false : true); }
+      Bool_t hltAccept(std::string name) { return ( std::find(hltAcceptNames_.begin(), hltAcceptNames_.end(), name) != hltAcceptNames_.end() ); }
+      
+      void printHltAcceptNames()
+      {
+         std::cout << "HLT paths triggered for Run " << this->runId() <<" Event "<< this->eventId() <<":\n";
+         for (unsigned int i=0; i!=hltAcceptNames_.size(); ++i)
+            std::cout << "   " << hltAcceptNames_.at(i) << std::endl;
+      }
+      
       unsigned int nHLTPaths() const { return trigHLT_.size(); }
       std::vector<Bool_t> trigHLT() const { return trigHLT_; }
       Bool_t trigHLT(unsigned int i) const
@@ -119,6 +134,20 @@ class TRootEvent : public TObject
          if (0<=i && i<trigHLT_.size())
          {
             return trigHLT_.at(i);
+         }
+         else
+         {
+            cout << "HLT path " << i << " not found" << endl;
+            return false;
+         }
+      }
+      
+      std::vector<UInt_t> prescaleHLT() const { return prescaleHLT_; }
+      UInt_t prescaleHLT(unsigned int i) const
+      {
+         if (0<=i && i<prescaleHLT_.size())
+         {
+            return prescaleHLT_.at(i);
          }
          else
          {
@@ -208,11 +237,20 @@ class TRootEvent : public TObject
          for (unsigned int i=0; i!=technicalL1Accept.size(); ++i) technicalL1Accept_[i]=technicalL1Accept[i];
       }
       
-      void setGlobalHLT(Bool_t passGlobalHLT) { passGlobalHLT_ = passGlobalHLT; }
+      void setHltAcceptNames(std::vector<std::string> hltAcceptNames)
+      {
+         hltAcceptNames_.resize(hltAcceptNames.size());
+         for (unsigned int i=0; i!=hltAcceptNames.size(); ++i) hltAcceptNames_[i]=hltAcceptNames[i];
+      }
       void setTrigHLT(std::vector<Bool_t> trigHLT)
       {
          trigHLT_.resize(trigHLT.size());
          for (unsigned int i=0; i!=trigHLT.size(); ++i) trigHLT_[i]=trigHLT[i];
+      }
+      void setPrescaleHLT(std::vector<UInt_t> prescaleHLT)
+      {
+         prescaleHLT_.resize(prescaleHLT.size());
+         for (unsigned int i=0; i!=prescaleHLT.size(); ++i) prescaleHLT_[i]=prescaleHLT[i];
       }
       
       void setCsa07id(Int_t csa07id) { csa07id_=csa07id; }
@@ -269,8 +307,10 @@ class TRootEvent : public TObject
       Bool_t passGlobalL1_;
       std::vector<Bool_t> physicsL1Accept_;
       std::vector<Bool_t> technicalL1Accept_;
-      Bool_t passGlobalHLT_;
       std::vector<Bool_t> trigHLT_;
+      std::vector<UInt_t> prescaleHLT_;
+
+      std::vector<std::string> hltAcceptNames_; // keep only names of triggered HLT paths
       
       // CSA07 Process ID and Weight
       Int_t csa07id_;
@@ -296,7 +336,7 @@ class TRootEvent : public TObject
       Float_t ptHat_;
       Float_t weight_;
       
-      ClassDef (TRootEvent,7);
+      ClassDef (TRootEvent,8);
       
 };
 
