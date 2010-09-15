@@ -241,7 +241,7 @@ bool L1TriggerAnalyzer::process(const edm::Event& iEvent, TRootEvent* rootEvent)
 }
 
 
-void L1TriggerAnalyzer::printStats()
+void L1TriggerAnalyzer::printSummary()
 {
 
 	// final printout of accumulated statistics
