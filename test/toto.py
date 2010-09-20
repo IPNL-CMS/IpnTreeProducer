@@ -18,8 +18,8 @@ process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 
 # Needed for GlobalPositionRcd
 process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_cff')
-#process.GlobalTag.globaltag = 'START36_V10::All'
-process.GlobalTag.globaltag = cms.string('START36_V10::All')
+process.GlobalTag.globaltag = cms.string('START38_V12::All')
+#process.GlobalTag.globaltag = cms.string('GR10_P_V10::All')
 
 # Global geometry
 #process.load("Configuration.StandardSequences.Geometry_cff")
@@ -48,10 +48,11 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source("PoolSource",
 
 # RECO
+fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/relval/CMSSW_3_8_4/RelValH130GGgluonfusion/GEN-SIM-RECO/START38_V12-v1/0023/323AE381-76C2-DF11-B165-003048678AE4.root')
 #fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/relval/CMSSW_3_6_2/RelValQCD_Pt_80_120/GEN-SIM-RECO/START36_V10-v1/0002/046737B5-0571-DF11-843E-00261894391D.root')
 #fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/relval/CMSSW_3_6_2/RelValZMM/GEN-SIM-RECO/START36_V10-v1/0002/16F4C9D1-1B71-DF11-B488-0018F3D095FE.root')
 #fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/data/Run2010A/EG/RECO/v4/000/144/114/C2497931-2CB4-DF11-A92C-003048F1183E.root')
-fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/data/Run2010A/EG/RECO/v4/000/143/192/40927555-35AB-DF11-B264-0030487C7E18.root')
+#fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/data/Run2010A/EG/RECO/v4/000/143/192/40927555-35AB-DF11-B264-0030487C7E18.root')
 #fileNames = cms.untracked.vstring(
 #'rfio:/castor/cern.ch/cms/store/data/Run2010A/EG/RECO/v4/000/144/114/C2497931-2CB4-DF11-A92C-003048F1183E.root'
 #,'rfio:/castor/cern.ch/cms/store/data/Run2010A/EG/RECO/v4/000/143/192/40927555-35AB-DF11-B264-0030487C7E18.root'
