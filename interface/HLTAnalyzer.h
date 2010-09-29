@@ -35,6 +35,8 @@ class HLTAnalyzer
       void printSummary();
       void copySummary(TRootRun* runInfos);
       
+      std::string tableName() const { return tableName_; }
+      
       unsigned int  nHLTPaths() const { return hltNames_.size(); }
       
       unsigned int  nEvents() const { return nEvents_; }
@@ -56,6 +58,7 @@ class HLTAnalyzer
       
       int verbosity_;
       
+      std::string tableName_;                // Name of the HLT menu
       edm::InputTag triggerResultsTag_;      // Input tag for TriggerResults
       edm::TriggerNames triggerNames_;       // TriggerNames class
       
@@ -64,7 +67,7 @@ class HLTAnalyzer
       unsigned int  nAccept_;                // # of accepted events
       unsigned int  nErrors_;                // # where at least one HLT had error
       
-      std::vector<unsigned int> hltWasRun_;  // # where HLT[i] was run
+      std::vector<unsigned int> hltWasRun_;  // # of events where HLT[i] was run
       std::vector<unsigned int> hltL1s_;     // # of events after L1 seed
       std::vector<unsigned int> hltPre_;     // # of events after HLT prescale
       std::vector<unsigned int> hltAccept_;  // # of events accepted by HLT[i]
