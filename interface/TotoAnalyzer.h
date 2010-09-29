@@ -102,6 +102,7 @@ class TotoAnalyzer : public edm::EDAnalyzer
       std::string dataType_ ;
       double datasetXsection_;
       std::string datasetDesciption_;
+      std::string poolFileName_;
       bool doLHCInfo_;
       bool doL1_;
       bool doHLT_;
@@ -132,7 +133,7 @@ class TotoAnalyzer : public edm::EDAnalyzer
       ConversionLikelihoodCalculator* conversionLikelihoodCalculator_;
       
       int nTotEvt_;
-      TRootRun* runInfos_;
+      TRootRun* rootRun_;
       TRootBeamStatus* beamStatus_;
       TRootEvent* rootEvent_;
       L1TriggerAnalyzer* l1TriggerAnalyzer_;
