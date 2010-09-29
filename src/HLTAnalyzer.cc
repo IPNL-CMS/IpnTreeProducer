@@ -4,6 +4,7 @@ using namespace std;
 
 HLTAnalyzer::HLTAnalyzer(const edm::ParameterSet& producersNames, int verbosity) :
 verbosity_(verbosity)
+,tableName_("noname")
 ,triggerNames_()
 ,nEvents_(0)
 ,nWasRun_(0)
@@ -103,6 +104,7 @@ bool HLTAnalyzer::init(const edm::Run & iRun, const edm::EventSetup & iSetup)
          //hltConfig_.dump("Datasets");
          //hltConfig_.dump("PrescaleTable");
          
+         tableName_=hltConfig_.tableName();
          nEvents_=0;
          nWasRun_=0;
          nAccept_=0;
@@ -139,6 +141,8 @@ bool HLTAnalyzer::init(const edm::Run & iRun, const edm::EventSetup & iSetup)
    }
    else
    {
+      std::cout << "  ##### ERROR in  HLTAnalyzer::init => HLT menu not initialized #####" << std::endl;
+      tableName_="not initialized";
       nEvents_=0;
       nWasRun_=0;
       nAccept_=0;
@@ -235,6 +239,7 @@ void HLTAnalyzer::printSummary()
    
    cout << dec << endl;
    cout << "HLTAnalyzer-Summary " << "---------- Event  Summary ------------\n";
+   cout << "HLTAnalyzer-Summary Table name:  " << tableName_ << endl;
    cout << "HLTAnalyzer-Summary"
    << " Events total = " << nEvents_
    << " wasrun = " << nWasRun_
@@ -279,6 +284,7 @@ void HLTAnalyzer::copySummary(TRootRun* runInfos)
 {
    if(verbosity_>4) cout << "   Copying HLT Summary table in TRootRun" << endl;
    
+   runInfos->setHltTableName(tableName_) ;
    runInfos->setNHLTEvents(nEvents_) ;
    runInfos->setNHLTWasRun(nWasRun_) ;
    runInfos->setNHLTAccept(nAccept_) ;
@@ -286,6 +292,8 @@ void HLTAnalyzer::copySummary(TRootRun* runInfos)
    
    runInfos->setHLTWasRun(hltWasRun_) ;
    runInfos->setHLTAccept(hltAccept_) ;
+   runInfos->setHLTL1s(hltL1s_) ;
+   runInfos->setHLTPre(hltPre_) ;
    runInfos->setHLTErrors(hltErrors_) ;
    runInfos->setHLTNames(hltNames_) ;
    
