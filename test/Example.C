@@ -43,16 +43,24 @@ int main(int argc, char*argv[])
 
 	//gSystem->Load("../src/libToto.so");
 	
-	
-	TChain *runChain = new TChain("eventTree");
+   TFile* outputFile = new TFile("histos.root", "RECREATE");
+
+   // Get branches from runTree
+   
+   TChain *runChain = new TChain("runTree");
 	runChain->Add("Test.root");
 	
-	TChain *eventChain = new TChain("eventTree");
+   TBranch* runBranch = 0;
+   TRootRun* run = 0;
+   runChain->SetBranchAddress("runInfos", &run, &runBranch);
+   runChain->SetBranchStatus("runInfos", 1);
+
+   
+   // Get branches from eventTree
+   
+   TChain *eventChain = new TChain("eventTree");
 	eventChain->Add("Test.root");
 	
-	TFile* outputFile = new TFile("histos.root", "RECREATE");
-
-	// Get all branches
 	TBranch* eventBranch = 0;
 	TRootEvent* event = 0;
 	eventChain->SetBranchAddress("Event", &event, &eventBranch);
@@ -115,18 +123,18 @@ int main(int argc, char*argv[])
 	
 	TBranch* muonsBranch = 0;
 	TClonesArray* muons = new TClonesArray("TRootMuon", 0);
-	eventChain->SetBranchAddress("Muons", &muons, &muonsBranch);
-	eventChain->SetBranchStatus("Muons", 1);
+	eventChain->SetBranchAddress("muons", &muons, &muonsBranch);
+	eventChain->SetBranchStatus("muons", 1);
 	
 	TBranch* electronsBranch = 0;
 	TClonesArray* electrons = new TClonesArray("TRootElectron", 0);
-	eventChain->SetBranchAddress("Electrons", &electrons, &electronsBranch);
-	eventChain->SetBranchStatus("Electrons", 1);
+	eventChain->SetBranchAddress("gsfElectrons", &electrons, &electronsBranch);
+	eventChain->SetBranchStatus("gsfElectrons", 1);
 	
 	TBranch* photonsBranch = 0;
 	TClonesArray* photons = new TClonesArray("TRootPhoton", 0);
-	eventChain->SetBranchAddress("Photons", &photons, &photonsBranch);
-	eventChain->SetBranchStatus("Photons", 1);
+	eventChain->SetBranchAddress("photons", &photons, &photonsBranch);
+	eventChain->SetBranchStatus("photons", 1);
 	
 	TBranch* clustersBranch = 0;
 	TClonesArray* clusters = new TClonesArray("TRootCluster", 0);
@@ -145,8 +153,8 @@ int main(int argc, char*argv[])
 	
 	TBranch* metBranch = 0;
 	TClonesArray* met = new TClonesArray("TRootMET", 0);
-	eventChain->SetBranchAddress("MET", &met, &metBranch);
-	eventChain->SetBranchStatus("MET", 1);
+	eventChain->SetBranchAddress("met", &met, &metBranch);
+	eventChain->SetBranchStatus("met", 1);
 	
 	TBranch* bardakBranch = 0;
 	TRootBardak* bardak = 0;
@@ -157,21 +165,49 @@ int main(int argc, char*argv[])
 	if (genParticlesBranch ==0) std::cout << "genParticlesBranch is absent" << std::endl;
 	
 	
-	unsigned int nTotEvents = (int)eventChain->GetEntries();
-	//unsigned int nTotEvents = 10;
+	//unsigned int nTotEvents = (int)eventChain->GetEntries();
+	unsigned int nTotEvents = 0;
 
+   cout << "nEvents=" << eventChain->GetEntries() << endl;
+   cout << "nRuns=" << runChain->GetEntries() << endl;
+   for(unsigned int irun=0; irun<runChain->GetEntries(); irun++)
+   {
+      runChain->GetEvent(irun);
+      std::cout << std::endl << std::endl << "####### TotoAnalyzer - New Run " << run->runNumber() << " #######" << std::endl;
+      std::cout << std::endl <<  "PoolSource: " << run->poolSourceName() << std::endl;
+      run->printHLTSummary();
+   }
+
+   
 	for(unsigned int ievt=0; ievt<nTotEvents; ievt++)
 	{
 		eventChain->GetEvent(ievt);
-		if( (ievt<=10)  || (ievt%10==0 && ievt<=100)  || (ievt%100==0 && ievt<=1000)   || (ievt%1000==0 && ievt>1000)  )
-		{
+      //if( (ievt<=10)  || (ievt%10==0 && ievt<=100)  || (ievt%100==0 && ievt<=1000)   || (ievt%1000==0 && ievt>1000)  )
+      if( ievt<=100 )
+         {
 			//std::cout <<"Analyzing "<< ievt << "th event: " << std::endl;
 			std::cout << std::endl << std::endl << "####### TotoAnalyzer - ";  event->Print(); std::cout  << " #######" << std::endl;
          event->printHltAcceptNames();
          cout << endl << "   => passGlobalHLT=" << event->passGlobalHLT() << endl;
-         cout << "   => HLT_Ele15_SW_L1R decision="<< event->hltAccept("HLT_Ele15_SW_L1R") << endl;
-         
+         cout << "   => HLT_Photon30_Cleaned_L1R decision="<< event->hltAccept("HLT_Photon30_Cleaned_L1R") << endl;
 		}
+      
+      /*
+      TRootPhoton* myphoton;
+      for (int iphoton=0; iphoton< photons->GetEntriesFast(); iphoton++)
+      {
+         myphoton = (TRootPhoton*) photons->At(iphoton);
+         cout << endl << "[" << iphoton << "] ";  myphoton->Print(); cout << endl;
+         TRootSuperCluster* mysc = myphoton->superCluster();
+         cout << endl << "   "; mysc->Print(); cout << endl << endl;
+         //TRootCluster* mybc = mysc->seedBasicCluster();
+         for (int ihit=0; ihit< mysc->nRecHits(); ihit++)
+         {
+            TRootEcalRecHit* hit = mysc->hitAt(ihit);
+            cout << "      [" << ihit << "] "; hit->Print(); cout << "  chi2=" << hit->chi2() << "  severity=" << hit->severity() << "  outOfTimeEnergy=" << hit->outOfTimeEnergy() << "  outOfTimeChi2=" << hit->outOfTimeChi2() <<endl;
+         }
+      }
+         */
 	}
 }
 
