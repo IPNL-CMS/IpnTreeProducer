@@ -79,33 +79,43 @@ void TRootRun::printHLTSummary()
 	
 	cout << dec << endl;
 	cout << "HLTAnalyzer-Summary " << "---------- Event  Summary ------------\n";
-	cout << "HLTAnalyzer-Summary"
+   cout << "HLTAnalyzer-Summary Table name:  " << hltTableName_ << endl;
+   cout << "HLTAnalyzer-Summary"
 	<< " Events total = " << nHLTEvents_
 	<< " wasrun = " << nHLTWasRun_
 	<< " passed = " << nHLTAccept_
 	<< " errors = " << nHLTErrors_
 	<< "\n";
 	
-	cout << endl;
-	cout << "HLTAnalyzer-Summary " << "---------- HLTrig Summary ------------\n";
-	cout << "HLTAnalyzer-Summary "
-	<< right << setw(10) << "HLT  Bit#" << " "
-	<< right << setw(10) << "WasRun" << " "
-	<< right << setw(10) << "Passed" << " "
-	<< right << setw(10) << "Errors" << " "
-	<< "Name" << "\n";
-	
-	for (unsigned int i=0; i!=n; ++i)
-	{
-		cout << "HLTAnalyzer-Summary "
-		<< right << setw(10) << i << " "
-		<< right << setw(10) << hltWasRun_[i] << " "
-		<< right << setw(10) << hltAccept_[i] << " "
-		<< right << setw(10) << hltErrors_[i] << " "
-		<< hltNames_[i] << "\n";
-	}
-	
-	cout << endl;
-	cout << "HLTAnalyzer-Summary end!" << endl;
-	cout << endl;
+   cout << endl;
+   cout << "HLTAnalyzer-Summary " << "---------- HLTrig Summary ------------\n";
+   cout << "HLTAnalyzer-Summary "
+   << right << setw(7) << "HLT #" << " "
+   << right << setw(7) << "WasRun" << " "
+   << right << setw(7) << "L1S" << " "
+   << right << setw(7) << "Pre" << " "
+   << right << setw(7) << "HLT" << " "
+   << right << setw(9) << "%L1sPre" << " "
+   << right << setw(7) << "Errors" << " "
+   << "Name" << endl;
+   
+   for (unsigned int i=0; i!=n; ++i)
+   {
+      cout << "HLTAnalyzer-Summary "
+      << right << setw(7) << i << " "
+      << right << setw(7) << hltWasRun_[i] << " "
+      << right << setw(7) << hltL1s_[i] << " "
+      << right << setw(7) << hltPre_[i] << " "
+      << right << setw(7) << hltAccept_[i] << " "
+      << right << setw(9) << fixed << setprecision(5)
+      << static_cast<float>(100*hltAccept_[i])/static_cast<float>(max(hltPre_[i],1u)) << " "
+      << right << setw(7) << hltErrors_[i] << " "
+      << hltNames_[i] << endl;
+   }
+   
+   cout << endl;
+   cout << "HLTAnalyzer-Summary end!" << endl;
+   cout << endl;
+
+   return;
 }
