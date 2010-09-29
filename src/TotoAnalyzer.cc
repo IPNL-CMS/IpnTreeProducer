@@ -22,7 +22,7 @@ TotoAnalyzer::TotoAnalyzer(const edm::ParameterSet& iConfig)
    else { std::cout << "TotoAnalyzer::TotoAnalyzer...   dataType is unknown...  exiting..." << std::endl; exit(1); }
    std::cout << std::endl << "Producers used:" << std::endl << "==============" << std::endl << std::endl << producersNames_ << std::endl;
    
-   runInfos_ = 0;
+   rootRun_ = 0;
    rootEvent_ = 0;
    l1TriggerAnalyzer_ = 0;
    hltAnalyzer_ = 0;
@@ -65,7 +65,6 @@ TotoAnalyzer::~TotoAnalyzer()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void TotoAnalyzer::beginJob()
 {
-   
    // Load Config parameters
    verbosity_ = myConfig_.getUntrackedParameter<int>("verbosity", 0);
    allowMissingCollection_ = producersNames_.getUntrackedParameter<bool>("allowMissingCollection", false);
@@ -106,11 +105,9 @@ void TotoAnalyzer::beginJob()
    rootFile_ = new TFile(rootFileName_.c_str(), "recreate");
    rootFile_->cd();
    
-   runInfos_ = new TRootRun();
+   rootRun_ = NULL;
    runTree_ = new TTree("runTree", "Global Run Infos");
-   runTree_->Branch ("runInfos", "TRootRun", &runInfos_);
-   runInfos_->setXsection(datasetXsection_);
-   runInfos_->setDescription(datasetDesciption_);
+   runTree_->Branch ("runInfos", "TRootRun", &rootRun_);
    
    beamStatus_ = NULL;
    
@@ -311,36 +308,14 @@ void TotoAnalyzer::beginJob()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void TotoAnalyzer::endJob()
 {
-   // Trigger Summary Tables
-   if(doL1_)
-   {
-      l1TriggerAnalyzer_ ->copySummary(runInfos_);
-      if(verbosity_>0)
-      {
-         std::cout << "L1 Trigger Summary Tables" << std::endl;
-         l1TriggerAnalyzer_->printSummary();
-      }
-   }
-   
-   if(doHLT_)
-   {
-      hltAnalyzer_ ->copySummary(runInfos_);
-      if(verbosity_>0)
-      {
-         std::cout << "HLT Summary Tables" << std::endl;
-         hltAnalyzer_->printSummary();
-      }
-   }
-   
-   runTree_->Fill();
    
    std::cout << "Total number of events: " << nTotEvt_ << std::endl;
    std::cout << "Closing rootfile " << rootFile_->GetName() << std::endl;
-   rootFile_->Write();
-   
+   rootFile_->Write(); 
    rootFile_->Close();
    
    if(doPhotonConversion_) delete conversionLikelihoodCalculator_;
+   if(doL1_) delete l1TriggerAnalyzer_;
    if(doHLT_) delete hltAnalyzer_;
 }
 
@@ -352,7 +327,13 @@ void TotoAnalyzer::endJob()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void TotoAnalyzer::beginRun(edm::Run const& iRun, edm::EventSetup const& iSetup)
 {
-   if(verbosity_>0) std::cout << std::endl << std::endl << "####### TotoAnalyzer - START NEW RUN #######" << std::endl;
+   if(verbosity_>0) std::cout << std::endl << std::endl << "####### TotoAnalyzer - START NEW RUN " << iRun.run() << "#######" << std::endl;
+   rootRun_ = new TRootRun();
+   rootRun_->setXsection(datasetXsection_);
+   rootRun_->setDescription(datasetDesciption_);
+   rootRun_->setRunNumber(iRun.run());
+   rootRun_->setPoolSourceName(poolFileName_);
+   
    if(doLHCInfo_)
    {
       if (! beamStatus_) beamStatus_ = new TRootBeamStatus();
@@ -395,15 +376,31 @@ void TotoAnalyzer::beginRun(edm::Run const& iRun, edm::EventSetup const& iSetup)
 void TotoAnalyzer::endRun(edm::Run const& iRun, edm::EventSetup const& iSetup)
 {
    if(verbosity_>0) std::cout << std::endl << std::endl << "####### TotoAnalyzer - END OF RUN #######" << std::endl;
+   
+   // Trigger Summary Tables
+   if(doL1_)
+   {
+      l1TriggerAnalyzer_ ->copySummary(rootRun_);
+      if(verbosity_>0)
+      {
+         std::cout << "L1 Trigger Summary Tables" << std::endl;
+         l1TriggerAnalyzer_->printSummary();
+      }
+   }
+   
    if(doHLT_)
    {
-      //hltAnalyzer_ ->copySummary(runInfos_);
+      hltAnalyzer_ ->copySummary(rootRun_);
       if(verbosity_>0)
       {
          std::cout << "HLT Summary Tables" << std::endl;
          hltAnalyzer_->printSummary();
       }
    }
+   
+   runTree_->Fill();
+   delete rootRun_;
+   
 }
 
 
@@ -459,7 +456,7 @@ void TotoAnalyzer::endLuminosityBlock(edm::LuminosityBlock const& iLumi, edm::Ev
 void TotoAnalyzer::respondToOpenInputFile(edm::FileBlock const& fileBlock)
 {
    if(verbosity_>0) std::cout << std::endl << std::endl << "####### TotoAnalyzer is opening new file: " << fileBlock.fileName() << std::endl << std::endl;
-   
+   poolFileName_ = fileBlock.fileName();
 }
 
 
