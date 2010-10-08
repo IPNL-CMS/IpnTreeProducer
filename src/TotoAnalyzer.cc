@@ -491,6 +491,7 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
    // Global Event Infos
    if (iEvent.isRealData()) doMC_ = false;
    rootEvent_ = new TRootEvent();
+   rootEvent_->setRun(rootRun_);
    rootEvent_->setNb(nTotEvt_);
    rootEvent_->setEventId(iEvent.id().event());
    rootEvent_->setRunId(iEvent.id().run());
@@ -872,6 +873,7 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
    rootEvent_->setTotoAnaProcessingTime(endProcessingTime-startProcessingTime);
    
    if(verbosity_>1) std::cout << std::endl << "Filling rootuple..." << std::endl;
+   
    eventTree_->Fill();
    delete rootEvent_;
    if(verbosity_>1) std::cout << std::endl << "Start deleting objects..." << std::endl;

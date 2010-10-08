@@ -21,6 +21,8 @@
 
 using namespace std;
 
+class TRootRun;
+
 class TRootEvent : public TObject
 {
    
@@ -60,6 +62,7 @@ class TRootEvent : public TObject
       ,eventScale_(-1.)
       ,ptHat_(-1.)
       ,weight_(-1.)
+      ,run_(0)
       {;}
       
       ~TRootEvent() {;}
@@ -213,6 +216,8 @@ class TRootEvent : public TObject
       // Event weight
       Float_t weight() const { return weight_; }
       
+      // Associated TRootRun stocked in runTree
+      TRootRun* run() const { return (TRootRun*) run_.GetObject(); }
       
       
       void setNb(UInt_t nb) { nb_ = nb; }
@@ -275,6 +280,9 @@ class TRootEvent : public TObject
       void setPtHat(Float_t ptHat) { ptHat_=ptHat; }
       void setWeight(Float_t weight) { weight_=weight; }
       
+      void setRun(TObject* run) { run_=run; }
+      
+      
       friend std::ostream& operator<< (std::ostream& stream, const TRootEvent& event) {
          stream << "Run " << event.runId() <<" Event "<< event.eventId() <<"  Luminosity block "<< event.luminosityBlock()
          <<"  Sequential Nb "<< event.nb() <<"  orbitNumber "<< event.orbitNumber() <<"  bunchCrossing "<< event.bunchCrossing()
@@ -336,7 +344,9 @@ class TRootEvent : public TObject
       Float_t ptHat_;
       Float_t weight_;
       
-      ClassDef (TRootEvent,8);
+      TRef run_;  // reference to the TRootRun
+      
+      ClassDef (TRootEvent,9);
       
 };
 
