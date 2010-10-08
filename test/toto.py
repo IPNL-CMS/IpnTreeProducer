@@ -22,8 +22,8 @@ process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 
 # Needed for GlobalPositionRcd
 process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_cff')
-#process.GlobalTag.globaltag = cms.string('START38_V12::All')
-process.GlobalTag.globaltag = cms.string('GR10_P_V10::All')
+#process.GlobalTag.globaltag = cms.string('START36_V10::All')
+process.GlobalTag.globaltag = cms.string('GR10_P_V7::All')
 
 # Global geometry
 #process.load("Configuration.StandardSequences.Geometry_cff")
