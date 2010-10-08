@@ -17,7 +17,7 @@
 
 #include "../interface/TRootJet.h"
 
-#include "RecoJets/JetAlgorithms/interface/JetIDHelper.h"
+#include "RecoJets/JetProducers/interface/JetIDHelper.h"
 
 #include "TClonesArray.h"
 
