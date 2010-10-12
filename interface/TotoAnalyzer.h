@@ -53,6 +53,7 @@
 #include "../interface/TRootSignalEvent.h"
 #include "../interface/TRootParticle.h"
 #include "../interface/TRootMCParticle.h"
+#include "../interface/TRootHLTObject.h"
 #include "../interface/TRootBeamSpot.h"
 #include "../interface/TRootVertex.h"
 #include "../interface/TRootTrack.h"
@@ -106,6 +107,7 @@ class TotoAnalyzer : public edm::EDAnalyzer
       bool doLHCInfo_;
       bool doL1_;
       bool doHLT_;
+      bool doHLTObject_;
       bool doMC_;
       bool doJetMC_;
       bool doMETMC_;
@@ -138,6 +140,7 @@ class TotoAnalyzer : public edm::EDAnalyzer
       TRootEvent* rootEvent_;
       L1TriggerAnalyzer* l1TriggerAnalyzer_;
       HLTAnalyzer* hltAnalyzer_;
+      TClonesArray* rootHLTObjects_;
       TClonesArray* rootMCParticles_;
       TClonesArray* rootGenJets_;
       TClonesArray* rootGenMETs_;

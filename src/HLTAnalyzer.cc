@@ -20,14 +20,16 @@ verbosity_(verbosity)
 ,posPre_(0)
 ,hltConfig_()
 {
+   dataType_ = producersNames.getUntrackedParameter<string>("dataType","unknown");
    triggerResultsTag_ = producersNames.getParameter<edm::InputTag> ("hltProducer");
+   triggerEventsTag_ = producersNames.getParameter<edm::InputTag> ("hltEvent");
    allowMissingCollection_ = producersNames.getUntrackedParameter<bool>("allowMissingCollection", false);
 }
 
 
 bool HLTAnalyzer::init(const edm::Run & iRun, const edm::EventSetup & iSetup)
 {
-
+   
    bool changed (true);
    
    if (hltConfig_.init(iRun,iSetup,triggerResultsTag_.process(),changed))
@@ -94,8 +96,8 @@ bool HLTAnalyzer::init(const edm::Run & iRun, const edm::EventSetup & iSetup)
                cout << "       " << iElement << " " << datasetContents_[idataset][iElement] << endl;
             }
          }
-            
-            
+         
+         
          //hltConfig_.dump("TriggerSeeds");
          //hltConfig_.dump("Modules");
          //hltConfig_.dump("StreamNames");
@@ -221,12 +223,79 @@ bool HLTAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup & iSet
       {
          if (index> posL1s_[i]) hltL1s_[i]++;
          if (index> posPre_[i]) hltPre_[i]++;
-      }      
+      }
    }
    
    rootEvent->setHltAcceptNames(hltAcceptNames);
    rootEvent->setTrigHLT(hltDecision);
    rootEvent->setPrescaleHLT(prescaleHLT);
+   
+   return true;
+}
+
+
+bool HLTAnalyzer::keepTriggerObjects(const edm::Event& iEvent, TClonesArray* rootHLTObjects)
+{
+   if( dataType_=="PAT" )
+   {
+      edm::Handle< pat::TriggerEvent > trigEvt;
+      int nObject = 0;
+      
+      try
+      {
+         iEvent.getByLabel( triggerEventsTag_,trigEvt );
+      }
+      catch (cms::Exception& exception)
+      {
+         if ( !allowMissingCollection_ )
+         {
+            cout << "  ##### ERROR in HLTAnalyzer::keepTriggerObjects => No TriggerEvents #####"<<endl;
+            throw exception;
+         }
+         cout << "   Pat HLT event not found!" << endl;
+         return false;
+      }
+      
+      /// get trigger path, ... from trigger event
+      const pat::TriggerPathCollection * PatTrigPath = trigEvt->paths();
+      
+      if(verbosity_>4){cout<<"boucle sur les "<<PatTrigPath->size()<<" trigger path de l'evt"<<endl;}
+      
+      /// Loop over Trigger path
+      for(unsigned int path_iter =0 ; path_iter<PatTrigPath->size() ; path_iter++)
+      {
+         if(verbosity_>4)
+         {
+            cout<<endl<<"path numero : "<<path_iter<<endl;
+            cout<<"nom : "<<(PatTrigPath->at(path_iter)).name().data()<<endl;
+         }
+         
+         /// Get trigger filter from a specific trigger path
+         pat::TriggerFilterRefVector filter_ref = trigEvt->pathFilters((PatTrigPath->at(path_iter)).name().data());
+         
+         if(verbosity_>4){cout<<"Boucle sur les filter_ref"<<endl;}
+         
+         /// Loop over "filter_ref" sub-collection
+         for(pat::TriggerFilterRefVectorIterator iFilter = filter_ref.begin() ; iFilter!=filter_ref.end() ; ++iFilter )
+         {
+            if(verbosity_>4){cout<<"filter : "<<(*iFilter)->label()<<endl;}
+            
+            /// Get trigger object from a specific trigger filter
+            pat::TriggerObjectRefVector object_fil = trigEvt->filterObjects((*iFilter)->label());
+            
+            /// Loop over "object_fil" sub-sub-collection
+            for(pat::TriggerObjectRefVectorIterator iObject=object_fil.begin() ; iObject!=object_fil.end() ; ++iObject)
+            {
+               if(verbosity_>4){cout<<"objet : "<<(*iObject)->collection().data()<<endl;}
+               nObject++;
+               TRootHLTObject trigger_obj("test_path","test_filter","test_algo",(*iObject)->px(),(*iObject)->py(),(*iObject)->pz(),(*iObject)->energy(),(*iObject)->vx(),(*iObject)->vy(),(*iObject)->vz(),(*iObject)->pdgId(),(*iObject)->charge());
+               trigger_obj.setHLTPath((PatTrigPath->at(path_iter)).name().data());
+               trigger_obj.setHLTFilter((*iFilter)->label().data());
+               new( (*rootHLTObjects)[nObject-1] ) TRootHLTObject(trigger_obj);
+            }
+         }
+      }
+   }
    
    return true;
 }

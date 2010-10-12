@@ -4,6 +4,7 @@
 #include "../interface/TRootEvent.h"
 #include "../interface/TRootParticle.h"
 #include "../interface/TRootMCParticle.h"
+#include "../interface/TRootHLTObject.h"
 #include "../interface/TRootBeamSpot.h"
 #include "../interface/TRootVertex.h"
 #include "../interface/TRootTrack.h"
@@ -25,6 +26,7 @@
 #include "../interface/TRootEvent.h"
 #include "../interface/TRootParticle.h"
 #include "../interface/TRootMCParticle.h"
+#include "../interface/TRootHLTObject.h"
 #include "../interface/TRootBeamSpot.h"
 #include "../interface/TRootVertex.h"
 #include "../interface/TRootTrack.h"
@@ -53,6 +55,7 @@
 #pragma link C++ class TRootEvent;
 #pragma link C++ class TRootParticle;
 #pragma link C++ class TRootMCParticle;
+#pragma link C++ class TRootHLTObject;
 #pragma link C++ class TRootBeamSpot;
 #pragma link C++ class TRootVertex;
 #pragma link C++ class TRootTrack;

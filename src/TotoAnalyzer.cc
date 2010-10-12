@@ -26,6 +26,7 @@ TotoAnalyzer::TotoAnalyzer(const edm::ParameterSet& iConfig)
    rootEvent_ = 0;
    l1TriggerAnalyzer_ = 0;
    hltAnalyzer_ = 0;
+   rootHLTObjects_ = 0;
    rootMCParticles_ = 0;
    rootGenJets_ = 0;
    rootGenMETs_ = 0;
@@ -74,6 +75,7 @@ void TotoAnalyzer::beginJob()
    doLHCInfo_ = myConfig_.getUntrackedParameter<bool>("doLHCInfo",false);
    doL1_ = myConfig_.getUntrackedParameter<bool>("doL1",false);
    doHLT_ = myConfig_.getUntrackedParameter<bool>("doHLT",false);
+   doHLTObject_ = myConfig_.getUntrackedParameter<bool>("doHLTObject",false);
    doMC_ = myConfig_.getUntrackedParameter<bool>("doMC",false);
    doJetMC_ = myConfig_.getUntrackedParameter<bool>("doJetMC",false);
    doMETMC_ = myConfig_.getUntrackedParameter<bool>("doMETMC",false);
@@ -123,6 +125,12 @@ void TotoAnalyzer::beginJob()
    if(doHLT_)
    {
       hltAnalyzer_ = new HLTAnalyzer(producersNames_, verbosity_);
+      if(doHLTObject_)
+      {
+         if(verbosity_>0) std::cout << "HLT objects will be added to rootuple" << std::endl;
+         rootHLTObjects_ = new TClonesArray("TRootHLTObject", 1000);
+         eventTree_->Branch ("HLTObjects", "TClonesArray", &rootHLTObjects_);
+      }
    }
    
    if(doMC_)
@@ -546,6 +554,7 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
    {
       if(verbosity_>1) std::cout << std::endl << "Get HLT Results..." << std::endl;
       hltAnalyzer_->process(iEvent, iSetup, rootEvent_);
+      if(doHLTObject_) hltAnalyzer_->keepTriggerObjects(iEvent, rootHLTObjects_);
    }
    
    
@@ -877,6 +886,7 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
    eventTree_->Fill();
    delete rootEvent_;
    if(verbosity_>1) std::cout << std::endl << "Start deleting objects..." << std::endl;
+   if(doHLT_ && doHLTObject_) (*rootHLTObjects_).Delete();
    if(doMC_) (*rootMCParticles_).Delete();
    if(doJetMC_) (*rootGenJets_).Delete();
    if(doMETMC_) (*rootGenMETs_).Delete();
