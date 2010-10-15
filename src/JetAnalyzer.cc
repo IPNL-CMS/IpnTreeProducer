@@ -188,6 +188,10 @@ bool JetAnalyzer::process(const edm::Event& iEvent, TClonesArray* rootJets)
 				localJet.setJetType(2);
 				localJet.setEcalEnergyFraction(pfJet->chargedEmEnergyFraction() + pfJet->neutralEmEnergyFraction());
 				localJet.setHcalEnergyFraction(pfJet->chargedHadronEnergyFraction() + pfJet->neutralHadronEnergyFraction());
+				localJet.setCHF(pfJet->chargedHadronEnergyFraction());
+				localJet.setNHF(pfJet->neutralHadronEnergyFraction());
+				localJet.setCEF(pfJet->chargedEmEnergyFraction());
+				localJet.setNEF(pfJet->neutralEmEnergyFraction());
 				if(pfJet->energy() != 0) localJet.setChargedEnergyFraction( (pfJet->chargedEmEnergy() + pfJet->chargedHadronEnergy() + pfJet->chargedMuEnergy() ) / pfJet->energy());
 				localJet.setChargedMultiplicity((int)pfJet->chargedMultiplicity()) ;
 				//std::vector <const reco::PFCandidate*> getPFConstituents () const;
@@ -348,6 +352,10 @@ bool JetAnalyzer::process(const edm::Event& iEvent, TClonesArray* rootJets)
 				if(patJet->energy() != 0) localJet.setChargedEnergyFraction( (patJet->chargedEmEnergy() + patJet->chargedHadronEnergy() + patJet->chargedMuEnergy() ) / patJet->energy());
 				localJet.setChargedMultiplicity((int)patJet->chargedMultiplicity()) ;
 				//std::vector <const reco::PFCandidate*> getPFConstituents () const;
+				localJet.setCHF(patJet->chargedHadronEnergyFraction());
+				localJet.setNHF(patJet->neutralHadronEnergyFraction());
+				localJet.setCEF(patJet->chargedEmEnergyFraction());
+				localJet.setNEF(patJet->neutralEmEnergyFraction());
 			}
 			
 			// Matched genParticle

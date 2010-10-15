@@ -26,6 +26,10 @@ class TRootJet : public TRootParticle
       ,dR05EnergyFraction_(-9999.)
       ,ecalEnergyFraction_(-9999.)
       ,hcalEnergyFraction_(-9999.)
+      ,CHF_(-9999.)
+      ,NHF_(-9999.)
+      ,CEF_(-9999.)
+      ,NEF_(-9999.)
       ,chargedEnergyFraction_(-9999.)
       ,chargedBroadness_(-9999.)
       ,chargedBroadnessDR01_(-9999.)
@@ -88,6 +92,10 @@ class TRootJet : public TRootParticle
       ,dR05EnergyFraction_(jet.dR05EnergyFraction_)
       ,ecalEnergyFraction_(jet.ecalEnergyFraction_)
       ,hcalEnergyFraction_(jet.hcalEnergyFraction_)
+      ,CHF_(jet.CHF_)
+      ,NHF_(jet.NHF_)
+      ,CEF_(jet.CEF_)
+      ,NEF_(jet.NEF_)
       ,chargedEnergyFraction_(jet.chargedEnergyFraction_)
       ,chargedBroadness_(jet.chargedBroadness_)
       ,chargedBroadnessDR01_(jet.chargedBroadnessDR01_)
@@ -150,6 +158,10 @@ class TRootJet : public TRootParticle
       ,dR05EnergyFraction_(-9999.)
       ,ecalEnergyFraction_(-9999.)
       ,hcalEnergyFraction_(-9999.)
+      ,CHF_(-9999.)
+      ,NHF_(-9999.)
+      ,CEF_(-9999.)
+      ,NEF_(-9999.)
       ,chargedEnergyFraction_(-9999.)
       ,chargedBroadness_(-9999.)
       ,chargedBroadnessDR01_(-9999.)
@@ -212,6 +224,10 @@ class TRootJet : public TRootParticle
       ,dR05EnergyFraction_(-9999.)
       ,ecalEnergyFraction_(-9999.)
       ,hcalEnergyFraction_(-9999.)
+      ,CHF_(-9999.)
+      ,NHF_(-9999.)
+      ,CEF_(-9999.)
+      ,NEF_(-9999.)
       ,chargedEnergyFraction_(-9999.)
       ,chargedBroadness_(-9999.)
       ,chargedBroadnessDR01_(-9999.)
@@ -336,6 +352,10 @@ class TRootJet : public TRootParticle
       ,dR05EnergyFraction_(-9999.)
       ,ecalEnergyFraction_(-9999.)
       ,hcalEnergyFraction_(-9999.)
+      ,CHF_(-9999.)
+      ,NHF_(-9999.)
+      ,CEF_(-9999.)
+      ,NEF_(-9999.)
       ,chargedEnergyFraction_(-9999.)
       ,chargedBroadness_(-9999.)
       ,chargedBroadnessDR01_(-9999.)
@@ -398,6 +418,10 @@ class TRootJet : public TRootParticle
       ,dR05EnergyFraction_(-9999.)
       ,ecalEnergyFraction_(-9999.)
       ,hcalEnergyFraction_(-9999.)
+      ,CHF_(-9999.)
+      ,NHF_(-9999.)
+      ,CEF_(-9999.)
+      ,NEF_(-9999.)
       ,chargedEnergyFraction_(-9999.)
       ,chargedBroadness_(-9999.)
       ,chargedBroadnessDR01_(-9999.)
@@ -461,6 +485,10 @@ class TRootJet : public TRootParticle
       Float_t dR05EnergyFraction() const { return dR05EnergyFraction_; }
       Float_t ecalEnergyFraction() const { return ecalEnergyFraction_; }
       Float_t hcalEnergyFraction() const { return hcalEnergyFraction_; }
+      Float_t CHF() const { return CHF_; }
+      Float_t NHF() const { return NHF_; }
+      Float_t CEF() const { return CEF_; }
+      Float_t NEF() const { return NEF_; }
       Float_t chargedEnergyFraction() const { return chargedEnergyFraction_; }
       Float_t chargedBroadness() const { return chargedBroadness_; }
       Float_t chargedBroadnessDR01() const { return chargedBroadnessDR01_; }
@@ -530,6 +558,10 @@ class TRootJet : public TRootParticle
       void setDR05EnergyFraction(Float_t dR05EnergyFraction) { dR05EnergyFraction_ = dR05EnergyFraction; }
       void setEcalEnergyFraction(Float_t ecalEnergyFraction) { ecalEnergyFraction_ = ecalEnergyFraction; }
       void setHcalEnergyFraction(Float_t hcalEnergyFraction) { hcalEnergyFraction_ = hcalEnergyFraction; }
+      void setCHF(Float_t CHF) { CHF_ = CHF; }
+      void setNHF(Float_t NHF) { NHF_ = NHF; }
+      void setCEF(Float_t CEF) { CEF_ = CEF; }
+      void setNEF(Float_t NEF) { NEF_ = NEF; }
       void setChargedEnergyFraction(Float_t chargedEnergyFraction) { chargedEnergyFraction_ = chargedEnergyFraction; }
       void setChargedBroadness(Float_t chargedBroadness) { chargedBroadness_ = chargedBroadness; }
       void setChargedBroadnessDR01(Float_t chargedBroadnessDR01) { chargedBroadnessDR01_ = chargedBroadnessDR01; }
@@ -606,6 +638,10 @@ class TRootJet : public TRootParticle
      Float_t dR05EnergyFraction_;        // Fraction of the jet energy in a DeltaR=0.1 cone
      Float_t ecalEnergyFraction_;        // ECAL Energy Fraction
      Float_t hcalEnergyFraction_;        // HCAL Energy Fraction
+     Float_t CHF_;        // charged hadronic Fraction
+     Float_t NHF_;        // neutral hadronic Fraction
+     Float_t CEF_;        // charged em Fraction
+     Float_t NEF_;        // neutral em Fraction
      Float_t chargedEnergyFraction_;     // Charged Energy Fraction - Only available for reco::PFJet
 
 
