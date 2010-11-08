@@ -80,6 +80,7 @@ bool MCAnalyzer::pdfInfo(const edm::Event& iEvent, TRootEvent* rootEvent)
       return false;
    }
    
+   rootEvent->setProcessID( genEvent->signalProcessID() );
    if ( genEvent->binningValues().size()>0 ) rootEvent->setPtHat( genEvent->binningValues()[0] );
    if ( genEvent->weights().size()>0 ) rootEvent->setWeight( genEvent->weight() );
    rootEvent->setEventScale( genEvent->qScale() );
