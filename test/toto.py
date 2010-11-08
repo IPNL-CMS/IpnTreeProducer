@@ -23,13 +23,15 @@ process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 # Needed for GlobalPositionRcd
 process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_cff')
 #process.GlobalTag.globaltag = cms.string('START38_V12::All')
-process.GlobalTag.globaltag = cms.string('GR10_P_V10::All')
+process.GlobalTag.globaltag = cms.string('GR10_P_V11::All')
+#process.GlobalTag.globaltag = cms.string('GR_R_38X_V14::All')
 
 # Global geometry
 #process.load("Configuration.StandardSequences.Geometry_cff")
 #process.load('Configuration/StandardSequences/MagneticField_38T_cff')
 process.load('Configuration/StandardSequences/GeometryExtended_cff')
 process.load('Configuration/StandardSequences/MagneticField_AutoFromDBCurrent_cff')
+#process.load('Configuration.StandardSequences.GeometryDB_cff')
 
 # Transient Track Builder
 process.load("TrackingTools.TransientTrack.TransientTrackBuilder_cfi")
@@ -55,7 +57,8 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source("PoolSource",
 
 # RECO
-#fileNames = cms.untracked.vstring('file:fourmuonevent.root')
+fileNames = cms.untracked.vstring('file:/gridgroup/cms/lethuill/data/CMSSW_3_8_5__RelValZEE__GEN-SIM-RECO__START38_V12-v1__0040__42805A98-E6D2-DF11-9FDE-001A92971B82.root')
+#fileNames = cms.untracked.vstring('/store/data/Run2010B/Electron/RAW-RECO/v2/000/147/114/AAB9337B-0ED0-DF11-9B73-0030486790B0.root')
 #fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/relval/CMSSW_3_8_4/RelValH130GGgluonfusion/GEN-SIM-RECO/START38_V12-v1/0023/323AE381-76C2-DF11-B165-003048678AE4.root')
 #fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/relval/CMSSW_3_6_2/RelValQCD_Pt_80_120/GEN-SIM-RECO/START36_V10-v1/0002/046737B5-0571-DF11-843E-00261894391D.root')
 #fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/relval/CMSSW_3_6_2/RelValZMM/GEN-SIM-RECO/START36_V10-v1/0002/16F4C9D1-1B71-DF11-B488-0018F3D095FE.root')
@@ -65,17 +68,17 @@ process.source = cms.Source("PoolSource",
 #fileNames = cms.untracked.vstring('file:142971_329_305903194__144011_343_501712664__144112_788_923626104__RECO.root')
 #fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/data/Run2010A/EG/RECO/v4/000/144/114/C2497931-2CB4-DF11-A92C-003048F1183E.root')
 #fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/data/Run2010A/EG/RECO/v4/000/143/192/40927555-35AB-DF11-B264-0030487C7E18.root')
-fileNames = cms.untracked.vstring(
-'rfio:/castor/cern.ch/cms/store/data/Run2010A/EG/RECO/v4/000/144/114/C2497931-2CB4-DF11-A92C-003048F1183E.root'
-,'rfio:/castor/cern.ch/cms/store/data/Run2010A/EG/RECO/v4/000/143/192/40927555-35AB-DF11-B264-0030487C7E18.root'
-)
+#fileNames = cms.untracked.vstring(
+#'rfio:/castor/cern.ch/cms/store/data/Run2010A/EG/RECO/v4/000/144/114/C2497931-2CB4-DF11-A92C-003048F1183E.root'
+#,'rfio:/castor/cern.ch/cms/store/data/Run2010A/EG/RECO/v4/000/143/192/40927555-35AB-DF11-B264-0030487C7E18.root'
+#)
 #fileNames = cms.untracked.vstring('file:/scratch/perries/TTBAR_RECO_Spring10.root')
 #fileNames = cms.untracked.vstring('/store/user/sperries/TTbarJets-madgraph/TTbarJets-madgraph_Spring10_PAT361p4/70e9499e8ed44653b27a37e9de88fd85/PATLyon_9_1.root')
 #  fileNames = cms.untracked.vstring(
 #   'file:/sps/cms/morgan/data/CMSSW_3_1_2__RelValH130GGgluonfusion__GEN-SIM-RECO__STARTUP31X_V2-v1__0007__104E25AC-CC78-DE11-AE55-001D09F2447F.root'
 #   ,'file:/sps/cms/morgan/data/CMSSW_3_1_2__RelValH130GGgluonfusion__GEN-SIM-RECO__STARTUP31X_V2-v1__0007__748489A8-CC78-DE11-991C-000423D99896.root'
 #   )
-,skipEvents=cms.untracked.uint32(26015)
+#,skipEvents=cms.untracked.uint32(26015)
 #,firstRun = cms.untracked.uint32(144114),
 #,firstLumi   = cms.untracked.uintt32(5),
 #,firstEvent = cms.untracked.uint32(135841750)
@@ -109,9 +112,9 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       doLHCInfo = cms.untracked.bool(True),
       doL1 = cms.untracked.bool(True),
       doHLT = cms.untracked.bool(True),
-      doHLTObject = cms.untracked.bool(True),
-      doMC = cms.untracked.bool(False),
-      doPDFInfo = cms.untracked.bool(False),
+      doHLTObject = cms.untracked.bool(False),
+      doMC = cms.untracked.bool(True),
+      doPDFInfo = cms.untracked.bool(True),
       doSignalMuMuGamma = cms.untracked.bool(False),  # not tested in 2.X.X or 3.X.X
       doSignalTopTop = cms.untracked.bool(False),
 #     signalGenerator = cms.untracked.string('PYTHIA'),
@@ -130,7 +133,7 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
 
       doBeamSpot = cms.untracked.bool(True),
       doPrimaryVertex = cms.untracked.bool(True),
-      doZeePrimaryVertex = cms.untracked.bool(False),
+      doZeePrimaryVertex = cms.untracked.bool(True),
       doTrack = cms.untracked.bool(True),
       doJet = cms.untracked.bool(True),
       doMuon = cms.untracked.bool(True),
@@ -188,32 +191,32 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       verbose = cms.untracked.bool(False),
       algorithm = cms.string('AdaptiveVertexFitter'),
       useBeamConstraint = cms.bool(True),
-
+      beamSpotLabel = cms.InputTag("offlineBeamSpot"),
+      minNdof  = cms.double(2.0),
+      TrackLabel = cms.InputTag("generalTracks"), # label of tracks to be used
+                       
       PVSelParameters = cms.PSet(
-         maxDistanceToBeam = cms.double(0.05), ## 200 / 500 microns if useBeamConstraint = true / false
-         minVertexFitProb = cms.double(0.01) ## 1% vertex fit probability
+         maxDistanceToBeam = cms.double(2), ## (in cm) 200 / 500 microns if useBeamConstraint = true / false
+         #minVertexFitProb = cms.double(0.01) ## 1% vertex fit probability
       ),
 
       TkFilterParameters = cms.PSet(
-         maxNormalizedChi2 = cms.double(5.0),
-         minSiliconHits = cms.int32(7), ## hits > 7
-         maxD0Significance = cms.double(10.0), ## keep most primary tracks
-         minPt = cms.double(0.0), ## better for softish events
-         minPixelHits = cms.int32(1) ## hits > 2
+         maxNormalizedChi2 = cms.double(20.0),
+         minSiliconLayersWithHits = cms.int32(5), # >= 5
+         minPixelLayersWithHits = cms.int32(2),   # >= 2
+         maxD0Significance = cms.double(100.0),     # keep most primary tracks
+         minPt = cms.double(0.0),                 # better for softish events
+         trackQuality = cms.string("any")
       ),
 
-      VtxFinderParameters = cms.PSet(
-      ptCut = cms.double(0.0),
-      vtxFitProbCut = cms.double(0.01), ## 1% vertex fit probability
-      trackCompatibilityToSVcut = cms.double(0.01), ## 1%
-      trackCompatibilityToPVcut = cms.double(0.05), ## 5%
-      maxNbOfVertices = cms.int32(0) ## search all vertices in each cluster
-      ),
-
+      # clustering
       TkClusParameters = cms.PSet(
-         zSeparation = cms.double(0.1) ## 1 mm max separation betw. clusters
-      ),
-
+         algorithm   = cms.string('gap'),
+         TkGapClusParameters = cms.PSet(
+            zSeparation = cms.double(0.2) ## 2 mm max separation betw. clusters
+         )
+      )
+      
    ),
 
    producersNamesRECO = cms.PSet(
@@ -243,7 +246,8 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       caloTowerCollection = cms.InputTag("towerMaker"),
       hbheRecHitProducer = cms.InputTag("hbhereco"),
       hoRecHitProducer = cms.InputTag("horeco"),
-      hfRecHitProducer = cms.InputTag("hfreco")
+      hfRecHitProducer = cms.InputTag("hfreco"),
+      electronProducerForZeeVertex = cms.InputTag("gsfElectrons")
    ),
 
    producersNamesPAT = cms.PSet(
@@ -283,6 +287,22 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
 ##    TriggerResultsTag = cms.InputTag("TriggerResults","","HLT")
 ##)
 
+process.primaryVertexFilter = cms.EDFilter("VertexSelector",
+   src = cms.InputTag("offlinePrimaryVertices"),
+   cut = cms.string("!isFake && ndof > 4 && abs(z) <= 15 && position.Rho <= 2"), # tracksSize() > 3 for the older cut
+   filter = cms.bool(True),   # otherwise it won't filter the events, just produce an empty vertex collection.
+)
+
+process.noscraping = cms.EDFilter("FilterOutScraping",
+  applyfilter = cms.untracked.bool(True),
+  debugOn = cms.untracked.bool(False),
+  numtrack = cms.untracked.uint32(10),
+  thresh = cms.untracked.double(0.25)
+)
+
+process.load('HLTrigger.special.hltPhysicsDeclared_cfi')
+process.hltPhysicsDeclared.L1GtReadoutRecordTag = 'gtDigis'
+
 
 # TotoAna standalone
 process.p = cms.Path(process.totoana)
@@ -294,3 +314,5 @@ process.p = cms.Path(process.totoana)
 # Pi0disc + TotoAna
 #process.p = cms.Path(process.preshowerClusterShape*process.piZeroDiscriminators*process.totoana)
 
+# PrimaryVertexFilter + noscraping + hltPhysicsDeclared + TotoAna
+#process.p = cms.Path(process.primaryVertexFilter+process.noscraping+process.hltPhysicsDeclared+process.totoana)
