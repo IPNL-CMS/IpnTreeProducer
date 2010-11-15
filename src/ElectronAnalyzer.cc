@@ -6,9 +6,9 @@ using namespace edm;
 
 ElectronAnalyzer::ElectronAnalyzer(const edm::InputTag& electronProducer, const edm::ParameterSet& producersNames, const edm::ParameterSet& myConfig, int verbosity):LeptonAnalyzer(producersNames, myConfig, verbosity)
 {
-  useMC_ = myConfig.getUntrackedParameter<bool>("doElectronMC");
-  electronProducer_ = electronProducer;
-  barrelEcalRecHitCollection_ = producersNames.getParameter<edm::InputTag>("barrelEcalRecHitCollection");
+   useMC_ = myConfig.getUntrackedParameter<bool>("doElectronMC");
+   electronProducer_ = electronProducer;
+   barrelEcalRecHitCollection_ = producersNames.getParameter<edm::InputTag>("barrelEcalRecHitCollection");
 }
 
 ElectronAnalyzer::~ElectronAnalyzer()
@@ -79,7 +79,7 @@ bool ElectronAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeam
    edm::Handle < EcalRecHitCollection > ebRecHitsHandle;
    iEvent.getByLabel(barrelEcalRecHitCollection_, ebRecHitsHandle );
    const    EcalRecHitCollection *myRecHits = ebRecHitsHandle.product();
-
+   
    if( dataType_=="PAT" )
    {
       try
@@ -108,15 +108,15 @@ bool ElectronAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeam
       if( dataType_=="PAT" ) electron = (const reco::GsfElectron*) ( & ((*patElectrons)[j]) );
       
       TRootElectron localElectron(
-      electron->px()
-      ,electron->py()
-      ,electron->pz()
-      ,electron->energy()
-      ,electron->vx()
-      ,electron->vy()
-      ,electron->vz()
-      ,electron->pdgId()
-      ,electron->charge()
+         electron->px()
+         ,electron->py()
+         ,electron->pz()
+         ,electron->energy()
+         ,electron->vx()
+         ,electron->vy()
+         ,electron->vz()
+         ,electron->pdgId()
+         ,electron->charge()
       );
       
       // Variables from reco::GsfElectron
@@ -128,6 +128,10 @@ bool ElectronAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeam
       if ( electron->trackMomentumAtVtx().Mag2()>0 ) localElectron.setTrackMomentum(sqrt(electron->trackMomentumAtVtx().Mag2()));
       localElectron.setTrackMomentumError(electron->trackMomentumError());
       localElectron.setTrackMissedInnerLayers(electron->gsfTrack()->trackerExpectedHitsInner().numberOfHits());
+      // FIXME - conversion rejection for 3_9_X
+      //localElectron.setDistConvPartner(electron->convDist());
+      //localElectron.setDcotConvPartner(electron->convDcot());
+      //localElectron.setRadiusConv(electron->convRadius());
       localElectron.setHadOverEm(electron->hadronicOverEm());
       localElectron.setDeltaEtaIn(electron->deltaEtaSuperClusterTrackAtVtx());
       localElectron.setDeltaPhiIn(electron->deltaPhiSuperClusterTrackAtVtx());
@@ -142,6 +146,9 @@ bool ElectronAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeam
       localElectron.setDr03EcalRecHitSumEt(electron->dr03EcalRecHitSumEt());
       localElectron.setDr03HcalDepth1TowerSumEt(electron->dr03HcalDepth1TowerSumEt());
       localElectron.setDr03HcalDepth2TowerSumEt(electron->dr03HcalDepth2TowerSumEt());
+      
+      localElectron.setSigmaEtaEta(electron->sigmaEtaEta());
+      localElectron.setSigmaIetaIeta(electron->sigmaIetaIeta());
       
       // Variables from reco::GsfTrack
       reco::GsfTrackRef gsfTrack = electron->gsfTrack();
@@ -162,18 +169,18 @@ bool ElectronAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeam
             localElectron.setD0( -1.*(gsfTrack->dxy()) );
             localElectron.setDsz( gsfTrack->dsz() );
          }
-
+         
          // Get the distance to the beamline corresponding to dB for pat::electrons
          if(doBeamSpot_)
          {
-             const reco::TrackBase::Point point( rootBeamSpot->x(), rootBeamSpot->y(), rootBeamSpot->z() );
-             localElectron.setDB( -1.*(gsfTrack->dxy(point)) );
+            const reco::TrackBase::Point point( rootBeamSpot->x(), rootBeamSpot->y(), rootBeamSpot->z() );
+            localElectron.setDB( -1.*(gsfTrack->dxy(point)) );
          }
          else
          {
-             localElectron.setDB( -1.*(gsfTrack->dxy()) );
+            localElectron.setDB( -1.*(gsfTrack->dxy()) );
          }
-                  
+         
          // FIXME - Add Vertex error quadratically
          localElectron.setD0Error(gsfTrack->d0Error());
          localElectron.setDszError(gsfTrack->dszError());
@@ -201,9 +208,9 @@ bool ElectronAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeam
          localElectron.setSuperClusterRawEnergy(superCluster->rawEnergy());
          localElectron.setPreshowerEnergy(superCluster->preshowerEnergy());
          localElectron.setCaloPosition(
-         superCluster->position().X()
-         ,superCluster->position().Y()
-         ,superCluster->position().Z()
+            superCluster->position().X()
+            ,superCluster->position().Y()
+            ,superCluster->position().Z()
          );
          
          // FIXME - associator supercluster <-> electron
@@ -275,61 +282,62 @@ bool ElectronAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeam
          if ((patElectron->pfCandidateRef()).isNonnull()) electronType="PFElectron";
          
          // Isolation
-	 localElectron.setTrackIso( patElectron->trackIso() );  //corresponds to dr03TkSumPt
+         localElectron.setTrackIso( patElectron->trackIso() );  //corresponds to dr03TkSumPt
          localElectron.setEcalIso( patElectron->ecalIso() );  //corresponds to dr03EcalRecHitSumEt
          localElectron.setHcalIso( patElectron->hcalIso() );  //corresponds to dr03HcalTowerSumEt
-	 //	 if(patElectron->ecalDrivenSeed() && fabs(patElectron->superCluster()->eta())<1.4442){
-	 if(fabs(patElectron->superCluster()->eta())<1.4442){
-	   const reco::CaloClusterPtr    seed =    patElectron->superCluster()->seed(); // seed cluster                                 
-	   const   DetId seedId = seed->seed();
-	   EcalSeverityLevelAlgo severity;
-	   localElectron.setSwissCross(severity.swissCross(seedId, *myRecHits)); 
-	 }
-
-
-
-
-         // Electron ID (updated for 2.2.X)
-         // Only Cut Based ID available by default (4 sequential cuts on H/E, DeltaEta, DeltaPhi, SigmaEtaEta)
-         // "Robust" ids (eidRobustLoose, eidRobustTight, eidRobustHighEnergy) corresponds to fixed threshold
-         // eidLoose and eidTight corresponds to the catagory based identification (E/p, fBrem)
-         if ( patElectron->isElectronIDAvailable("eidRobustLoose") ) localElectron.setIDCutBasedFixedThresholdLoose(int(patElectron->electronID("eidRobustLoose")));
-         if ( patElectron->isElectronIDAvailable("eidRobustTight") ) localElectron.setIDCutBasedFixedThresholdTight(int(patElectron->electronID("eidRobustTight")));
-         if ( patElectron->isElectronIDAvailable("eidRobustHighEnergy") ) localElectron.setIDCutBasedFixedThresholdHighEnergy(int(patElectron->electronID("eidRobustHighEnergy")));
-         if ( patElectron->isElectronIDAvailable("eidLoose") ) localElectron.setIDCutBasedCategorizedLoose(int(patElectron->electronID("eidLoose")));
-         if ( patElectron->isElectronIDAvailable("eidTight") ) localElectron.setIDCutBasedCategorizedTight(int(patElectron->electronID("eidTight")));
-         if ( patElectron->isElectronIDAvailable("likelihood") ) localElectron.setIDLikelihood(patElectron->electronID("likelihood"));
-         if ( patElectron->isElectronIDAvailable("neuralnet") ) localElectron.setIDNeuralNet(patElectron->electronID("neuralnet"));
-         // VBTF ele-ID 361patchX
-	 if( patElectron->isElectronIDAvailable("simpleEleId70cIso")) localElectron.setIDCutBasedsimpleEleId70cIso(patElectron->electronID("simpleEleId70cIso")); 
-	 if( patElectron->isElectronIDAvailable("simpleEleId95cIso")) localElectron.setIDCutBasedsimpleEleId95cIso(patElectron->electronID("simpleEleId95cIso")); 
-	 if( patElectron->isElectronIDAvailable("simpleEleId70relIso")) localElectron.setIDCutBasedsimpleEleId70relIso(patElectron->electronID("simpleEleId70relIso")); 
-	 if( patElectron->isElectronIDAvailable("simpleEleId95relIso")) localElectron.setIDCutBasedsimpleEleId95relIso(patElectron->electronID("simpleEleId95relIso")); 
-
-         if (electronType=="PFElectron")
-         {
-            localElectron.setPFParticleIso(patElectron->particleIso());
-            localElectron.setPFChargedHadronIso(patElectron->chargedHadronIso());
-            localElectron.setPFNeutralHadronIso(patElectron->neutralHadronIso());
-            localElectron.setPFPhotonIso(patElectron->photonIso());
-         }
-         
-         // Matched genParticle
-         if(useMC_)
-         {
-            // MC truth associator index
-            if ((patElectron->genParticleRef()).isNonnull()) {
-               localElectron.setGenParticleIndex((patElectron->genParticleRef()).index());
-            } else {
-               localElectron.setGenParticleIndex(-1);
+         //    if(patElectron->ecalDrivenSeed() && fabs(patElectron->superCluster()->eta())<1.4442){
+            if(fabs(patElectron->superCluster()->eta())<1.4442){
+               const reco::CaloClusterPtr    seed =    patElectron->superCluster()->seed(); // seed cluster
+               const   DetId seedId = seed->seed();
+               EcalSeverityLevelAlgo severity;
+               localElectron.setSwissCross(severity.swissCross(seedId, *myRecHits));
             }
+            
+            
+            
+            
+            // Electron ID (updated for 2.2.X)
+            // Only Cut Based ID available by default (4 sequential cuts on H/E, DeltaEta, DeltaPhi, SigmaEtaEta)
+            // "Robust" ids (eidRobustLoose, eidRobustTight, eidRobustHighEnergy) corresponds to fixed threshold
+            // eidLoose and eidTight corresponds to the catagory based identification (E/p, fBrem)
+            if ( patElectron->isElectronIDAvailable("eidRobustLoose") ) localElectron.setIDCutBasedFixedThresholdLoose(int(patElectron->electronID("eidRobustLoose")));
+            if ( patElectron->isElectronIDAvailable("eidRobustTight") ) localElectron.setIDCutBasedFixedThresholdTight(int(patElectron->electronID("eidRobustTight")));
+            if ( patElectron->isElectronIDAvailable("eidRobustHighEnergy") ) localElectron.setIDCutBasedFixedThresholdHighEnergy(int(patElectron->electronID("eidRobustHighEnergy")));
+            if ( patElectron->isElectronIDAvailable("eidLoose") ) localElectron.setIDCutBasedCategorizedLoose(int(patElectron->electronID("eidLoose")));
+            if ( patElectron->isElectronIDAvailable("eidTight") ) localElectron.setIDCutBasedCategorizedTight(int(patElectron->electronID("eidTight")));
+            if ( patElectron->isElectronIDAvailable("likelihood") ) localElectron.setIDLikelihood(patElectron->electronID("likelihood"));
+            if ( patElectron->isElectronIDAvailable("neuralnet") ) localElectron.setIDNeuralNet(patElectron->electronID("neuralnet"));
+            // VBTF ele-ID 361patchX
+            if( patElectron->isElectronIDAvailable("simpleEleId70cIso")) localElectron.setIDCutBasedsimpleEleId70cIso(patElectron->electronID("simpleEleId70cIso"));
+            if( patElectron->isElectronIDAvailable("simpleEleId95cIso")) localElectron.setIDCutBasedsimpleEleId95cIso(patElectron->electronID("simpleEleId95cIso"));
+            if( patElectron->isElectronIDAvailable("simpleEleId70relIso")) localElectron.setIDCutBasedsimpleEleId70relIso(patElectron->electronID("simpleEleId70relIso"));
+            if( patElectron->isElectronIDAvailable("simpleEleId95relIso")) localElectron.setIDCutBasedsimpleEleId95relIso(patElectron->electronID("simpleEleId95relIso"));
+            
+            if (electronType=="PFElectron")
+            {
+               localElectron.setPFParticleIso(patElectron->particleIso());
+               localElectron.setPFChargedHadronIso(patElectron->chargedHadronIso());
+               localElectron.setPFNeutralHadronIso(patElectron->neutralHadronIso());
+               localElectron.setPFPhotonIso(patElectron->photonIso());
+            }
+            
+            // Matched genParticle
+            if(useMC_)
+            {
+               // MC truth associator index
+               if ((patElectron->genParticleRef()).isNonnull()) {
+                  localElectron.setGenParticleIndex((patElectron->genParticleRef()).index());
+               } else {
+                  localElectron.setGenParticleIndex(-1);
+               }
+            }
+            
          }
          
+         new( (*rootElectrons)[j] ) TRootElectron(localElectron);
+         if(verbosity_>2) cout << "   ["<< setw(3) << j << "] " << localElectron << endl;
       }
       
-      new( (*rootElectrons)[j] ) TRootElectron(localElectron);
-      if(verbosity_>2) cout << "   ["<< setw(3) << j << "] " << localElectron << endl;
+      return true;
    }
    
-   return true;
-}
