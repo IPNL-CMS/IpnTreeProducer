@@ -38,6 +38,14 @@ class TRootPhoton : public TRootParticle
       ,covEtaEta_(-9999.)
       ,covEtaPhi_(-9999.)
       ,covPhiPhi_(-9999.)
+      ,etaLAT_(-9999.)
+      ,phiLAT_(-9999.)
+      ,lat_(-9999.)
+      ,zernike20_(-9999.)
+      ,zernike42_(-9999.)
+      ,secondMomentMaj_(-9999.)
+      ,secondMomentMin_(-9999.)
+      ,secondMomentAlpha_(-9999.)
       ,convNTracks_(-1)
       ,convEoverP_(-1.)
       ,convMass_(-1.)
@@ -101,6 +109,14 @@ class TRootPhoton : public TRootParticle
       ,covEtaEta_(photon.covEtaEta_)
       ,covEtaPhi_(photon.covEtaPhi_)
       ,covPhiPhi_(photon.covPhiPhi_)
+      ,etaLAT_(photon.etaLAT_)
+      ,phiLAT_(photon.phiLAT_)
+      ,lat_(photon.lat_)
+      ,zernike20_(photon.zernike20_)
+      ,zernike42_(photon.zernike42_)
+      ,secondMomentMaj_(photon.secondMomentMaj_)
+      ,secondMomentMin_(photon.secondMomentMin_)
+      ,secondMomentAlpha_(photon.secondMomentAlpha_)
       ,convNTracks_(photon.convNTracks_)
       ,convEoverP_(photon.convEoverP_)
       ,convMass_(photon.convMass_)
@@ -164,6 +180,14 @@ class TRootPhoton : public TRootParticle
       ,covEtaEta_(-9999.)
       ,covEtaPhi_(-9999.)
       ,covPhiPhi_(-9999.)
+      ,etaLAT_(-9999.)
+      ,phiLAT_(-9999.)
+      ,lat_(-9999.)
+      ,zernike20_(-9999.)
+      ,zernike42_(-9999.)
+      ,secondMomentMaj_(-9999.)
+      ,secondMomentMin_(-9999.)
+      ,secondMomentAlpha_(-9999.)
       ,convNTracks_(-1)
       ,convEoverP_(-1.)
       ,convMass_(-1.)
@@ -227,6 +251,14 @@ class TRootPhoton : public TRootParticle
       ,covEtaEta_(-9999.)
       ,covEtaPhi_(-9999.)
       ,covPhiPhi_(-9999.)
+      ,etaLAT_(-9999.)
+      ,phiLAT_(-9999.)
+      ,lat_(-9999.)
+      ,zernike20_(-9999.)
+      ,zernike42_(-9999.)
+      ,secondMomentMaj_(-9999.)
+      ,secondMomentMin_(-9999.)
+      ,secondMomentAlpha_(-9999.)
       ,convNTracks_(-1)
       ,convEoverP_(-1.)
       ,convMass_(-1.)
@@ -290,6 +322,14 @@ class TRootPhoton : public TRootParticle
       ,covEtaEta_(-9999.)
       ,covEtaPhi_(-9999.)
       ,covPhiPhi_(-9999.)
+      ,etaLAT_(-9999.)
+      ,phiLAT_(-9999.)
+      ,lat_(-9999.)
+      ,zernike20_(-9999.)
+      ,zernike42_(-9999.)
+      ,secondMomentMaj_(-9999.)
+      ,secondMomentMin_(-9999.)
+      ,secondMomentAlpha_(-9999.)
       ,convNTracks_(-1)
       ,convEoverP_(-1.)
       ,convMass_(-1.)
@@ -353,6 +393,14 @@ class TRootPhoton : public TRootParticle
       ,covEtaEta_(-9999.)
       ,covEtaPhi_(-9999.)
       ,covPhiPhi_(-9999.)
+      ,etaLAT_(-9999.)
+      ,phiLAT_(-9999.)
+      ,lat_(-9999.)
+      ,zernike20_(-9999.)
+      ,zernike42_(-9999.)
+      ,secondMomentMaj_(-9999.)
+      ,secondMomentMin_(-9999.)
+      ,secondMomentAlpha_(-9999.)
       ,convNTracks_(-1)
       ,convEoverP_(-1.)
       ,convMass_(-1.)
@@ -416,6 +464,14 @@ class TRootPhoton : public TRootParticle
       ,covEtaEta_(-9999.)
       ,covEtaPhi_(-9999.)
       ,covPhiPhi_(-9999.)
+      ,etaLAT_(-9999.)
+      ,phiLAT_(-9999.)
+      ,lat_(-9999.)
+      ,zernike20_(-9999.)
+      ,zernike42_(-9999.)
+      ,secondMomentMaj_(-9999.)
+      ,secondMomentMin_(-9999.)
+      ,secondMomentAlpha_(-9999.)
       ,convNTracks_(-1)
       ,convEoverP_(-1.)
       ,convMass_(-1.)
@@ -556,6 +612,14 @@ class TRootPhoton : public TRootParticle
       Float_t covEtaEta() const { return covEtaEta_ ;}
       Float_t covEtaPhi() const { return covEtaPhi_ ;}
       Float_t covPhiPhi() const { return covPhiPhi_ ;}
+      Float_t etaLAT() const {return etaLAT_ ;}
+      Float_t phiLAT() const {return phiLAT_ ;}
+      Float_t lat() const {return lat_ ;}
+      Float_t zernike20() const {return zernike20_ ;}
+      Float_t zernike42() const {return zernike42_ ;}
+      Float_t secondMomentMaj() const {return secondMomentMaj_ ;}
+      Float_t secondMomentMin() const {return secondMomentMin_ ;}
+      Float_t secondMomentAlpha() const {return secondMomentAlpha_ ;}
       Float_t r19() const { return ( e3x3_ == 0. ? -1. : eMax_/e3x3_ ); }  // ratio of Emax/E(3x3)
       // FIXME - Check definition of r9... include preshowerEnergy as in SimplePhotonAnalyzer.cc ?
       Float_t r9() const { return ( superClusterRawEnergy_ == 0. ? -1. : e3x3_/superClusterRawEnergy_ ); } // ratio of E(3x3)/ESC
@@ -642,6 +706,14 @@ class TRootPhoton : public TRootParticle
       void setCovEtaEta(Float_t covEtaEta) { covEtaEta_ = covEtaEta; }
       void setCovEtaPhi(Float_t covEtaPhi) { covEtaPhi_ = covEtaPhi; }
       void setCovPhiPhi(Float_t covPhiPhi) { covPhiPhi_ = covPhiPhi; }
+      void setEtaLAT(Float_t etaLAT) { etaLAT_= etaLAT;}
+      void setPhiLAT(Float_t phiLAT) { phiLAT_= phiLAT;}
+      void setLAT(Float_t lat) { lat_= lat;}
+      void setZernike20(Float_t zernike20) { zernike20_= zernike20;}
+      void setZernike42(Float_t zernike42) { zernike42_= zernike42;}
+      void setSecondMomentMaj(Float_t secondMomentMaj) { secondMomentMaj_= secondMomentMaj;}
+      void setSecondMomentMin(Float_t secondMomentMin) { secondMomentMin_= secondMomentMin;}
+      void setSecondMomentAlpha(Float_t secondMomentAlpha) { secondMomentAlpha_= secondMomentAlpha;}
       
       // Set photon conversions infos
       void setConvNTracks(Int_t convNTracks) { convNTracks_=convNTracks; }
@@ -759,20 +831,22 @@ class TRootPhoton : public TRootParticle
          << "  vertex=("<< this->vx() <<","<< this->vy() <<","<< this->vz() << ")"
          << "  caloPosition=(" << this->caloPosition().X() << "," << this->caloPosition().Y() << "," << this->caloPosition().Z() << ")" << endl
          << "            algo=" << this->clusterAlgo() << " hasPxlSeed=" << this-> hasPixelSeed() <<"  H/E=" << this->hoe() <<"  Pi0=" << this->pi0nn()
-         <<"  nBC=" << this->nbClusters() << " scRawEnergy=" << this->scRawEnergy() << " preshEnergy=" << this->preshowerEnergy() << endl
-         <<"            E2x2=" << this->e2x2() <<" E3x3=" << this->e3x3() <<" E5x5=" << this->e5x5() <<" Emax=" << this->eMax()
-         <<" E2nd=" << this->e2nd() <<" R19=" << this->r19() <<" R9=" << this->r9() << endl
-         <<"            sigmaEtaEta=" << this->sigmaEtaEta() <<" sigmaIetaIeta=" << this->sigmaIetaIeta()
-         <<" cEtaEta=" << this->covEtaEta() <<" cEtaPhi=" << this->covEtaPhi() <<" cPhiPhi=" << this->covPhiPhi() << endl
+         << "  nBC=" << this->nbClusters() << " scRawEnergy=" << this->scRawEnergy() << " preshEnergy=" << this->preshowerEnergy() << endl
+         << "            E2x2=" << this->e2x2() <<" E3x3=" << this->e3x3() <<" E5x5=" << this->e5x5() <<" Emax=" << this->eMax()
+         << " E2nd=" << this->e2nd() <<" R19=" << this->r19() <<" R9=" << this->r9() << endl
+         << "            sigmaEtaEta=" << this->sigmaEtaEta() <<" sigmaIetaIeta=" << this->sigmaIetaIeta()
+         << " cEtaEta=" << this->covEtaEta() <<" cEtaPhi=" << this->covEtaPhi() <<" cPhiPhi=" << this->covPhiPhi() << endl
+         << "            etaLAT=" << this->etaLAT() <<" phiLAT=" << this->phiLAT() <<" LAT=" << this->lat() <<" zernike20=" << this->zernike20() <<" zernike42=" << this->zernike42() << endl
+         << "            2nd MomentMaj=" << this->secondMomentMaj() <<" 2nd MomentMin=" << this->secondMomentMin() <<" 2nd Moment alpha=" << this->secondMomentAlpha() << endl
          << "            isoPerso  BC="<< this->isolationPersoBasicClusters() << " DoubleConeBC=" << this->isolationPersoBasicClustersDoubleCone()
          << " hcal=" << this->isolationPersoHcalRecHit() << " track=" << this->isolationPersoTracksSolidCone() << " ntracks=" << this->isolationPersoNTracksSolidCone() << endl
          << "            dR03 isoPhotonID  ecal="<< this->dR03IsolationEcalRecHit() << " hcal=" << this->dR03IsolationHcalRecHit() << " track-hollow=" << this->dR03IsolationHollowTrkCone()
          << " ntracks-hollow=" << this->dR03IsolationNTracksHollowCone() << " track-solid=" << this->dR03IsolationSolidTrkCone() << " ntracks-solid=" << this->dR03IsolationNTracksSolidCone() << endl
          << "            dR04 isoPhotonID  ecal="<< this->dR04IsolationEcalRecHit() << " hcal=" << this->dR04IsolationHcalRecHit() << " track-hollow=" << this->dR04IsolationHollowTrkCone()
          << " ntracks-hollow=" << this->dR04IsolationNTracksHollowCone() << " track-solid=" << this->dR04IsolationSolidTrkCone() << " ntracks-solid=" << this->dR04IsolationNTracksSolidCone() << endl
-         <<"            isLooseEMPhoton=" << this->isLooseEMPhoton()  << " isLoosePhoton=" << this->isLoosePhoton()  << " isTightPhoton=" << this->isTightPhoton()
-         <<"  isEBPho=" << this->isEBPho() << " isEEPho=" << this->isEEPho()  << " isEBGap=" << this->isEBGap()
-         <<"  isEEGap=" << this->isEEGap() << " isEBEEGap=" << this->isEBEEGap()  << " isAlsoElectron=" << this->isAlsoElectron()  <<"  nTracksConv=" << this->convNTracks();
+         << "            isLooseEMPhoton=" << this->isLooseEMPhoton()  << " isLoosePhoton=" << this->isLoosePhoton()  << " isTightPhoton=" << this->isTightPhoton()
+         << "  isEBPho=" << this->isEBPho() << " isEEPho=" << this->isEEPho()  << " isEBGap=" << this->isEBGap()
+         << "  isEEGap=" << this->isEEGap() << " isEBEEGap=" << this->isEBEEGap()  << " isAlsoElectron=" << this->isAlsoElectron()  <<"  nTracksConv=" << this->convNTracks();
          if (this->convNTracks()>1)
             std::cout << endl << "            Conversion: E/p=" << this->convEoverP() << " Mass=" << this->convMass() << " cotan(Theta)=" << this->convCotanTheta() << " Likely=" << this->convLikely()
             << " (vx,vy,vz)=(" << this->convVertex().X() << ","<< this->convVertex().Y() << ","<< this->convVertex().Z() << ")";
@@ -809,6 +883,14 @@ class TRootPhoton : public TRootParticle
       Float_t covEtaEta_;             // Covariance (Eta,Eta) of xtals composing the photon seed BasicCluster (weighted by their energy) calculated by lazytools
       Float_t covEtaPhi_;             // Covariance (Eta,Phi) of xtals composing the photon seed BasicCluster (weighted by their energy) calculated by lazytools
       Float_t covPhiPhi_;             // Covariance (Phi,Phi) of xtals composing the photon seed BasicCluster (weighted by their energy) calculated by lazytools
+      Float_t etaLAT_ ;               // lateral monent in Eta
+      Float_t phiLAT_ ;               // lateral monent in Phi
+      Float_t lat_ ;                  // lateral monent
+      Float_t zernike20_ ;            // zernike monent
+      Float_t zernike42_ ;            // zernike monent
+      Float_t secondMomentMaj_ ;      // cluster second moments with respect to principal axes - Major
+      Float_t secondMomentMin_ ;      // cluster second moments with respect to principal axes - Minor
+      Float_t secondMomentAlpha_ ;    // angle between Maj and phi:
       
       // Photon conversions
       // Variables from reco::Conversion
@@ -869,7 +951,7 @@ class TRootPhoton : public TRootParticle
       // not working in 2.2.X
       Float_t pi0nn_;          // neural network output of gamma/pi0 discriminator  (0=pi0-like  1=photon-like)
       
-      ClassDef (TRootPhoton,10);
+      ClassDef (TRootPhoton,11);
       
 };
 

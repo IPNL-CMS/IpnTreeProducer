@@ -9,6 +9,8 @@ PhotonAnalyzer::PhotonAnalyzer(const edm::InputTag& photonProducer, const edm::P
 {
    dataType_ = producersNames.getUntrackedParameter<string>("dataType","unknown");
    photonProducer_ = photonProducer;
+   reducedBarrelEcalRecHitCollection_ = producersNames.getParameter<edm::InputTag>("reducedBarrelEcalRecHitCollection");
+   reducedEndcapEcalRecHitCollection_ = producersNames.getParameter<edm::InputTag>("reducedEndcapEcalRecHitCollection");
    doPhotonConversion_ = myConfig.getUntrackedParameter<bool>("doPhotonConversion", false);
    doVertexCorrection_ = myConfig.getUntrackedParameter<bool>("doPhotonVertexCorrection", false);
    useMC_ = myConfig.getUntrackedParameter<bool>("doMuonMC", false);
@@ -25,6 +27,10 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
 {
    
    unsigned int nPhotons=0;
+
+   bool doRecHits = true;
+   const EcalRecHitCollection *reducedEBRecHits = 0;
+   const EcalRecHitCollection *reducedEERecHits = 0;
    
    bool doPhotonID = true;
    edm::Handle< reco::PhotonCollection > recoPhotons;
@@ -48,6 +54,26 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
          }
          if(verbosity_>1) cout <<  "   ===> No reco::Photon collection, skip photons info" << endl;
          return false;
+      }
+      
+      try
+      {
+         edm::Handle < EcalRecHitCollection > redEBRecHits;
+         edm::Handle < EcalRecHitCollection > redEERecHits;
+         iEvent.getByLabel(reducedBarrelEcalRecHitCollection_, redEBRecHits );
+         reducedEBRecHits = redEBRecHits.product();
+         iEvent.getByLabel(reducedEndcapEcalRecHitCollection_, redEERecHits ) ;
+         reducedEERecHits = redEERecHits.product();
+      }
+      catch (cms::Exception& exception)
+      {
+         if ( !allowMissingCollection_ )
+         {
+            if(verbosity_>1) cout << endl << "  ##### ERROR IN  PhotonAnalyzer::process => reduced EcalRecHitCollections are missing #####" << endl;
+            throw exception;
+         }
+         if(verbosity_>1) cout << endl << "   ===> No reduced EcalRecHitCollections, skip photon rechits infos" << endl;
+         doRecHits = false;
       }
       
       try
@@ -139,15 +165,15 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
       if( dataType_=="PAT" ) photon = (const reco::Photon*) ( & ((*patPhotons)[j]) );
       
       TRootPhoton localPhoton(
-      photon->px()
-      ,photon->py()
-      ,photon->pz()
-      ,photon->energy()
-      ,photon->vx()
-      ,photon->vy()
-      ,photon->vz()
-      ,photon->pdgId()
-      ,photon->charge()
+         photon->px()
+         ,photon->py()
+         ,photon->pz()
+         ,photon->energy()
+         ,photon->vx()
+         ,photon->vy()
+         ,photon->vz()
+         ,photon->pdgId()
+         ,photon->charge()
       );
       
       // TODO - Nicolas
@@ -203,6 +229,20 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
             localPhoton.setCovEtaEta( (lazyTools->covariances(*seedCaloCluster)).at(0) );
             localPhoton.setCovEtaPhi( (lazyTools->covariances(*seedCaloCluster)).at(1) );
             localPhoton.setCovPhiPhi( (lazyTools->covariances(*seedCaloCluster)).at(2) );
+            localPhoton.setEtaLAT((lazyTools->lat(*seedCaloCluster)).at(0));
+            localPhoton.setPhiLAT((lazyTools->lat(*seedCaloCluster)).at(1));
+            localPhoton.setLAT((lazyTools->lat(*seedCaloCluster)).at(2));
+            localPhoton.setZernike20(lazyTools->zernike20(*seedCaloCluster));
+            localPhoton.setZernike42(lazyTools->zernike42(*seedCaloCluster));
+         }
+         
+         // FIXME - 2nd Moments implemented in EB only 
+         if( fabs( seedCaloCluster->eta() ) < 1.479 )
+         {
+            Cluster2ndMoments moments =  EcalClusterTools::cluster2ndMoments( *seedCaloCluster, *reducedEBRecHits, 0.8, 4.7, true);
+            localPhoton.setSecondMomentMaj(moments.sMaj);
+            localPhoton.setSecondMomentMin(moments.sMin);
+            localPhoton.setSecondMomentAlpha(moments.alpha);
          }
       }
       
@@ -311,21 +351,21 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
       // Photon isolation calculated by PhotonID
       // now embeded in reco::Photon
       localPhoton.setDR03Isolation(
-      photon->ecalRecHitSumEtConeDR03()
-      ,photon->hcalTowerSumEtConeDR03()
-      ,photon->trkSumPtSolidConeDR03()
-      ,photon->trkSumPtHollowConeDR03()
-      ,photon->nTrkSolidConeDR03()
-      ,photon->nTrkHollowConeDR03()
+         photon->ecalRecHitSumEtConeDR03()
+         ,photon->hcalTowerSumEtConeDR03()
+         ,photon->trkSumPtSolidConeDR03()
+         ,photon->trkSumPtHollowConeDR03()
+         ,photon->nTrkSolidConeDR03()
+         ,photon->nTrkHollowConeDR03()
       );
       
       localPhoton.setDR04Isolation(
-      photon->ecalRecHitSumEtConeDR04()
-      ,photon->hcalTowerSumEtConeDR04()
-      ,photon->trkSumPtSolidConeDR04()
-      ,photon->trkSumPtHollowConeDR04()
-      ,photon->nTrkSolidConeDR04()
-      ,photon->nTrkHollowConeDR04()
+         photon->ecalRecHitSumEtConeDR04()
+         ,photon->hcalTowerSumEtConeDR04()
+         ,photon->trkSumPtSolidConeDR04()
+         ,photon->trkSumPtHollowConeDR04()
+         ,photon->nTrkSolidConeDR04()
+         ,photon->nTrkHollowConeDR04()
       );
       
       
@@ -343,27 +383,27 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
             Bool_t looseID = (*loosePhotonIdMap)[photonRef];
             Bool_t tightID = (*tightPhotonIdMap)[photonRef];
             localPhoton.setBitsID(
-            looseEMID
-            ,looseID
-            ,tightID
-            ,photon->isEB()
-            ,photon->isEE()
-            ,photon->isEBGap()
-            ,photon->isEEGap()
-            ,photon->isEBEEGap()
+               looseEMID
+               ,looseID
+               ,tightID
+               ,photon->isEB()
+               ,photon->isEE()
+               ,photon->isEBGap()
+               ,photon->isEEGap()
+               ,photon->isEBEEGap()
             );
          }
          
          /*
-         if(verbosity_>4) std::cout << "seed E5x5=" << lazyTools->e5x5( *seedCaloCluster )
-         //<< " pi0NN=" << pi0nn
-         << " photonID->isolationEcalRecHit()=" << photonID->isolationEcalRecHit()
-         << " photonID->r9()=" << photonID->r9()
-         << " e3x3 / SC->energy()=" << ( lazyTools->e3x3( *seedCaloCluster ) / photon->superCluster()->energy() )
-         << " e3x3 / SC->rawEnergy()=" << ( lazyTools->e3x3( *seedCaloCluster ) / photon->superCluster()->rawEnergy() )
-         << " sc->pos=" << photon->superCluster()->position().X() << " , " <<  photon->superCluster()->position().Y() << " , " << photon->superCluster()->position().Z()
-         << " photon->caloPos=" << photon->caloPosition().X() << " , " <<  photon->caloPosition().Y() << " , " << photon->caloPosition().Z()             << std::endl;
-         */
+          *         if(verbosity_>4) std::cout << "seed E5x5=" << lazyTools->e5x5( *seedCaloCluster )
+          *         //<< " pi0NN=" << pi0nn
+          *         << " photonID->isolationEcalRecHit()=" << photonID->isolationEcalRecHit()
+          *         << " photonID->r9()=" << photonID->r9()
+          *         << " e3x3 / SC->energy()=" << ( lazyTools->e3x3( *seedCaloCluster ) / photon->superCluster()->energy() )
+          *         << " e3x3 / SC->rawEnergy()=" << ( lazyTools->e3x3( *seedCaloCluster ) / photon->superCluster()->rawEnergy() )
+          *         << " sc->pos=" << photon->superCluster()->position().X() << " , " <<  photon->superCluster()->position().Y() << " , " << photon->superCluster()->position().Z()
+          *         << " photon->caloPos=" << photon->caloPosition().X() << " , " <<  photon->caloPosition().Y() << " , " << photon->caloPosition().Z()             << std::endl;
+          */
       }
       
       
@@ -381,14 +421,14 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
          if (patPhoton->isPhotonIDAvailable("PhotonCutBasedIDLoose")) looseID = patPhoton->photonID("PhotonCutBasedIDLoose");
          if (patPhoton->isPhotonIDAvailable("PhotonCutBasedIDTight")) tightID = patPhoton->photonID("PhotonCutBasedIDTight");
          localPhoton.setBitsID(
-         looseEMID
-         ,looseID
-         ,tightID
-         ,patPhoton->isEB()
-         ,patPhoton->isEE()
-         ,patPhoton->isEBGap()
-         ,patPhoton->isEEGap()
-         ,patPhoton->isEBEEGap()
+            looseEMID
+            ,looseID
+            ,tightID
+            ,patPhoton->isEB()
+            ,patPhoton->isEE()
+            ,patPhoton->isEBGap()
+            ,patPhoton->isEEGap()
+            ,patPhoton->isEBEEGap()
          );
          
          if(useMC_)

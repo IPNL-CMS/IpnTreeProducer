@@ -64,6 +64,8 @@ class PhotonAnalyzer
       int iconvtrack_;
       std::string dataType_ ;
       edm::InputTag photonProducer_;
+      edm::InputTag reducedBarrelEcalRecHitCollection_;
+      edm::InputTag reducedEndcapEcalRecHitCollection_;
       bool doPhotonConversion_;
       bool doVertexCorrection_;
       bool useMC_;
