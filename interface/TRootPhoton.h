@@ -883,11 +883,11 @@ class TRootPhoton : public TRootParticle
       Float_t covEtaEta_;             // Covariance (Eta,Eta) of xtals composing the photon seed BasicCluster (weighted by their energy) calculated by lazytools
       Float_t covEtaPhi_;             // Covariance (Eta,Phi) of xtals composing the photon seed BasicCluster (weighted by their energy) calculated by lazytools
       Float_t covPhiPhi_;             // Covariance (Phi,Phi) of xtals composing the photon seed BasicCluster (weighted by their energy) calculated by lazytools
-      Float_t etaLAT_ ;               // lateral monent in Eta
-      Float_t phiLAT_ ;               // lateral monent in Phi
-      Float_t lat_ ;                  // lateral monent
-      Float_t zernike20_ ;            // zernike monent
-      Float_t zernike42_ ;            // zernike monent
+      Float_t etaLAT_ ;               // lateral moment in Eta
+      Float_t phiLAT_ ;               // lateral moment in Phi
+      Float_t lat_ ;                  // lateral moment
+      Float_t zernike20_ ;            // zernike moment
+      Float_t zernike42_ ;            // zernike moment
       Float_t secondMomentMaj_ ;      // cluster second moments with respect to principal axes - Major
       Float_t secondMomentMin_ ;      // cluster second moments with respect to principal axes - Minor
       Float_t secondMomentAlpha_ ;    // angle between Maj and phi:
