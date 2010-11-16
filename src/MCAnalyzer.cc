@@ -191,7 +191,7 @@ bool MCAnalyzer::processMCParticle(const edm::Event& iEvent, TClonesArray* rootM
          iPartSel++;
          iOtherStableParticleSel++;
       }
-         
+      
       // add information on primary unstable particles: keep quarks, taus, Z, W, Higgs and susy particles, with status 3
       if ( doUnstablePartsMC_ && (abs(p.pdgId()) < 7 || (abs(p.pdgId()) > 10 && abs(p.pdgId()) < 17 )  ||
          (abs(p.pdgId()) > 20 && abs(p.pdgId()) < 38) || (abs(p.pdgId()) > 1000000 && abs(p.pdgId()) < 3000000) )
@@ -257,15 +257,15 @@ bool MCAnalyzer::processGenJets(const edm::Event& iEvent, TClonesArray* rootGenJ
       const reco::GenJet & jet = (*genJets)[ j ];
       // FIXME - Do we prefer TRootJet instead of TRootParticle ?
       TRootParticle localGenJet(
-      jet.px()
-      ,jet.py()
-      ,jet.pz()
-      ,jet.energy()
-      ,jet.vx()
-      ,jet.vy()
-      ,jet.vz()
-      ,jet.pdgId()
-      ,jet.charge()
+         jet.px()
+         ,jet.py()
+         ,jet.pz()
+         ,jet.energy()
+         ,jet.vx()
+         ,jet.vy()
+         ,jet.vz()
+         ,jet.pdgId()
+         ,jet.charge()
       );
       
       iGenJet++;
@@ -309,15 +309,15 @@ bool MCAnalyzer::processGenMETs(const edm::Event& iEvent, TClonesArray* rootGenM
       const reco::GenMET & met = (*genMETs)[ j ];
       // FIXME - Do we prefer TRootMET instead of TRootParticle ?
       TRootParticle localGenMET(
-      met.px()
-      ,met.py()
-      ,met.pz()
-      ,met.energy()
-      ,met.vx()
-      ,met.vy()
-      ,met.vz()
-      ,met.pdgId()
-      ,met.charge()
+         met.px()
+         ,met.py()
+         ,met.pz()
+         ,met.energy()
+         ,met.vx()
+         ,met.vy()
+         ,met.vz()
+         ,met.pdgId()
+         ,met.charge()
       );
       
       new( (*rootGenMETs)[j] ) TRootParticle(localGenMET);
@@ -376,7 +376,7 @@ bool MCAnalyzer::processConvertedPhoton(const edm::Event& iEvent, TClonesArray* 
       {
          lorentzElectrons.push_back( TLorentzVector( (*mcEle).fourMomentum().px(), (*mcEle).fourMomentum().py(), (*mcEle).fourMomentum().pz(), (*mcEle).fourMomentum().e() ) );
       }
-      
+
       if (verbosity_>4)
          cout << "   ConvertedMCPhoton (Et,eta,phi)=("
          << (*mcPho).fourMomentum().et() << ","
@@ -388,30 +388,30 @@ bool MCAnalyzer::processConvertedPhoton(const edm::Event& iEvent, TClonesArray* 
          << (*mcPho).vertex().z() << ")"
          << " nTracks=" <<  mcElectrons.size()
          << endl;
-      
+        
       TRootMCPhoton localMCPhoton(
-      TLorentzVector(
-      (*mcPho).fourMomentum().px(),
-                     (*mcPho).fourMomentum().py(),
-                     (*mcPho).fourMomentum().pz(),
-                     (*mcPho).fourMomentum().e()
-                     ),
-                                  TVector3(
-                                  (*mcPho).primaryVertex().x(),
-                                           (*mcPho).primaryVertex().y(),
-                                           (*mcPho).primaryVertex().z()
-                                           ),
-                                  TVector3(
-                                  (*mcPho).vertex().x(),
-                                           (*mcPho).vertex().y(),
-                                           (*mcPho).vertex().z()
-                                           ),
-                                  lorentzElectrons, 22, 0
-                                  );
-                                  
-                                  new( (*rootMCPhotons)[iphot] ) TRootMCPhoton(localMCPhoton);
-                                  if(verbosity_>2) cout << "   ["<< setw(3) << iphot << "] " << localMCPhoton << endl;
-                                  iphot++;
+         TLorentzVector(
+            (*mcPho).fourMomentum().px(),
+                        (*mcPho).fourMomentum().py(),
+                        (*mcPho).fourMomentum().pz(),
+                        (*mcPho).fourMomentum().e()
+         ),
+         TVector3(
+            (*mcPho).primaryVertex().x(),
+                  (*mcPho).primaryVertex().y(),
+                  (*mcPho).primaryVertex().z()
+         ),
+         TVector3(
+            (*mcPho).vertex().x(),
+                  (*mcPho).vertex().y(),
+                  (*mcPho).vertex().z()
+         ),
+         lorentzElectrons, 22, 0
+      );
+      
+      new( (*rootMCPhotons)[iphot] ) TRootMCPhoton(localMCPhoton);
+      if(verbosity_>2) cout << "   ["<< setw(3) << iphot << "] " << localMCPhoton << endl;
+                                          iphot++;
    }
    
    delete thePhotonMCTruthFinder_;
@@ -534,22 +534,21 @@ bool MCAnalyzer::processMuMuGammaEvent(const edm::Event& iEvent, TRootSignalEven
                      const reco::Candidate* partondaugh = zgrandmoth->daughter( ipartondaugh );
                      if ( partondaugh->pdgId() == 22 && partondaugh->status() == 1 ) // ISR photon
                         //if ( partondaugh->pdgId() == 21 && partondaugh->status() == 2 ) // ISR gluon
-                        {
-                           rootSignalEvent->addISR( new TRootParticle(partondaugh->px(), partondaugh->py(), partondaugh->pz(), partondaugh->energy(), partondaugh->vx(), partondaugh->vy(), partondaugh->vz(), 22, 0.) );
-                           if(verbosity_>2) cout << "      ----> ISR photon   pt=" << partondaugh->pt() << " eta=" << partondaugh->eta() << " phi=" << partondaugh->phi() << endl;
-                        }
+                     {
+                        rootSignalEvent->addISR( new TRootParticle(partondaugh->px(), partondaugh->py(), partondaugh->pz(), partondaugh->energy(), partondaugh->vx(), partondaugh->vy(), partondaugh->vz(), 22, 0.) );
+                        if(verbosity_>2) cout << "      ----> ISR photon   pt=" << partondaugh->pt() << " eta=" << partondaugh->eta() << " phi=" << partondaugh->phi() << endl;
+                     }
                   }
                }
             }
          } // temp Z0
       } // genParticles loop
    } // signalGenerator = "PYTHIA"
-   
-   
+
    // Find Z->mumu(gamma) + ISR photons
    if (signalGenerator_=="COMPHEP" || signalGenerator_=="ALPGEN")
    {
-      
+
       if(verbosity_>1) cout << endl << "      Looking for Z->mumu(gamma) in " << signalGenerator_ << " MC info" << endl;
       for(unsigned int j=0; j<genParticles->size(); ++j )
       {
@@ -581,7 +580,7 @@ bool MCAnalyzer::processMuMuGammaEvent(const edm::Event& iEvent, TRootSignalEven
                            }
                         }
                      }
-                     
+
                      if ( daug->pdgId() == -13 && daug->status() == 3 ) // temp daughter mu+
                      {
                         for(unsigned int imudaug = 0; imudaug < daug->numberOfDaughters(); ++imudaug )
@@ -599,7 +598,7 @@ bool MCAnalyzer::processMuMuGammaEvent(const edm::Event& iEvent, TRootSignalEven
                            }
                         }
                      }
-                     
+
                      if ( daug->pdgId() == 22 && daug->status() == 3 ) // temp ISR photon
                      {
                         for(unsigned int iphotdaug = 0; iphotdaug < daug->numberOfDaughters(); ++iphotdaug )
@@ -618,7 +617,113 @@ bool MCAnalyzer::processMuMuGammaEvent(const edm::Event& iEvent, TRootSignalEven
          }
       } // genParticles loop
    } // signalGenerator = "COMPHEP" || "ALPGEN"
-   
+                                       
+   // Find Z->mumu(gamma) + ISR photons
+   if (signalGenerator_=="POWHEG")
+   {
+      if(verbosity_>1) cout << endl << "\tLooking for Z->mumu(gamma) in POWHEG MC info" << endl;
+      for(unsigned int j=0; j<genParticles->size(); ++j )
+      {
+         const reco::Candidate &p = (*genParticles)[ j ];
+         // Z0
+         if ( p.pdgId() == 23 && p.status() == 3 ) // temp Z0
+         {
+            if(verbosity_>5) cout << endl << "\t\tFound a Z0 of status 3, studying its daughters" << endl;
+            for(unsigned int izdaug = 0; izdaug < p.numberOfDaughters(); ++izdaug )
+            {
+               const reco::Candidate* zdaug = p.daughter( izdaug );
+               // ** status 3 muon
+               if ( zdaug->pdgId() == 13 && zdaug->status() == 3 ) // temp mu-
+               {// Found a muon
+                  if(verbosity_>5) cout << "\t\t\tFound a mu- of status 3" << endl;
+                  bool theFinalMuonHasBeenFound = false;
+                  unsigned int nbOfLevels = 0;
+                  const reco::Candidate* finalMuonCandidate = p.daughter( izdaug ); // Initialize with muon of status 3
+                  while( ! theFinalMuonHasBeenFound )
+                  {
+                     bool thereIsAHiddenLevel = false;
+                     const reco::Candidate* temp = finalMuonCandidate->daughter( 0 );
+                     const reco::Candidate* temp2 = finalMuonCandidate->daughter( 0 );
+                     for( unsigned int iter = 0; iter < finalMuonCandidate->numberOfDaughters(); ++iter )
+                     {
+                        temp = finalMuonCandidate->daughter( iter );
+                        if ( temp->pdgId() == 13 && temp->status() == 1 ) // final mu-
+                        {
+                           if(verbosity_>5) cout << "found the final muon! There was " << nbOfLevels << " levels of status 2 muons" << endl;
+                           theFinalMuonHasBeenFound = true;
+                           rootSignalEvent->addMuminus( new TRootParticle(temp->px(), temp->py(), temp->pz(), temp->energy(), temp->vx(), temp->vy(), temp->vz(), 13, -1.) );
+                           if(verbosity_>2) cout << "\t\t\t\tfinal mu-  pt=" << temp->pt() << " eta=" << temp->eta() << " phi=" << temp->phi() << endl;
+                        }
+                        if ( temp->pdgId() == 13 && temp->status() == 2 ) // temp mu
+                        {
+                           thereIsAHiddenLevel = true;
+                           temp2 = temp; // Save the current level 2 muon to temp2, since we need to look the other daughters for FSR photons, we cannot break the loop
+                        }
+                        if( temp->pdgId() == 22 && temp->status() == 1 ) // FSR photon from final mu-
+                        {
+                           rootSignalEvent->addFSR( new TRootParticle(temp->px(), temp->py(), temp->pz(), temp->energy(), temp->vx(), temp->vy(), temp->vz(), 22, 0.) );
+                           if(verbosity_>2) cout << "\t\t\tFSR photon from final mu-  pt=" << temp->pt() << " eta=" << temp->eta() << " phi=" << temp->phi() << endl;
+                        }
+                     }
+                     if( thereIsAHiddenLevel )
+                     {
+                        nbOfLevels++;
+                        finalMuonCandidate = temp2;
+                     }
+                  } // end of while( ! theFinalMuonHasBeenFound )
+               }
+
+               if ( zdaug->pdgId() == -13 && zdaug->status() == 3 ) // temp mu+
+               {// Found a antimuon
+                  if(verbosity_>5) cout << "\t\t\tFound a mu+ of status 3" << endl;
+                  bool theFinalAntimuonHasBeenFound = false;
+                  unsigned int nbOfLevels = 0;
+                  const reco::Candidate* finalMuonCandidate = p.daughter( izdaug ); // Initialize with antimuon of status 3
+                  while( ! theFinalAntimuonHasBeenFound )
+                  {
+                     bool thereIsAHiddenLevel = false;
+                     const reco::Candidate* temp = finalMuonCandidate->daughter( 0 );
+                     const reco::Candidate* temp2 = finalMuonCandidate->daughter( 0 );
+                     for( unsigned int iter = 0; iter < finalMuonCandidate->numberOfDaughters(); ++iter )
+                     {
+                        temp = finalMuonCandidate->daughter( iter );
+                        if ( temp->pdgId() == -13 && temp->status() == 1 ) // final mu+
+                        {
+                           if(verbosity_>5) cout << "found the final antimuon! There was " << nbOfLevels << " levels of status 2 antimuons" << endl;
+                           theFinalAntimuonHasBeenFound = true;
+                           rootSignalEvent->addMuplus( new TRootParticle(temp->px(), temp->py(), temp->pz(), temp->energy(), temp->vx(), temp->vy(), temp->vz(), -13, -1.) );
+                           if(verbosity_>2) cout << "\t\t\t\tfinal mu+  pt=" << temp->pt() << " eta=" << temp->eta() << " phi=" << temp->phi() << endl;
+                        }
+                        if ( temp->pdgId() == -13 && temp->status() == 2 ) // temp mu
+                        {
+                           thereIsAHiddenLevel = true;
+                           temp2 = temp; // Save the current level 2 antimuon to temp2, since we need to look the other daughters for FSR photons, we cannot break the loop
+                        }
+                        if( temp->pdgId() == 22 && temp->status() == 1 ) // FSR photon from final mu+
+                        {
+                           rootSignalEvent->addFSR( new TRootParticle(temp->px(), temp->py(), temp->pz(), temp->energy(), temp->vx(), temp->vy(), temp->vz(), 22, 0.) );
+                           if(verbosity_>2) cout << "\t\t\tFSR photon from final mu+  pt=" << temp->pt() << " eta=" << temp->eta() << " phi=" << temp->phi() << endl;
+                        }
+                     }
+                     if( thereIsAHiddenLevel )
+                     {
+                        nbOfLevels++;
+                        finalMuonCandidate = temp2;
+                     }
+                  }// end of while( ! theFinalAntimuonHasBeenFound )
+               }
+
+               if ( zdaug->pdgId() == 23 && zdaug->status() == 2 ) // final Z0
+               {
+                  if(verbosity_>5) cout << endl << "        Found the final Z0 of status 2" << endl;
+                  rootSignalEvent->addBosonZ( new TRootParticle(zdaug->px(), zdaug->py(), zdaug->pz(), zdaug->energy(), zdaug->vx(), zdaug->vy(), zdaug->vz(), 23, 0.) );
+                  if(verbosity_>2) cout << "       ----> Z0  pt=" << zdaug->pt() << " eta=" << zdaug->eta() << " phi=" << zdaug->phi() << endl;
+               }
+            } // temp Z0 daughters loop
+         } // temp Z0
+      } // genParticles loop
+   } // signalGenerator = "POWHEG"
+
    return true;
 }
 
@@ -644,7 +749,7 @@ bool MCAnalyzer::processTopTopEvent(const edm::Event& iEvent, TClonesArray* root
       if(verbosity_>1) cout <<  "   ===> No genJets, skip MC infos for ttbar signal" << endl;
       return false;
    }
-   
+
    edm::Handle<GenParticleCollection> genPart;
    try
    {
@@ -662,7 +767,7 @@ bool MCAnalyzer::processTopTopEvent(const edm::Event& iEvent, TClonesArray* root
       if(verbosity_>1) cout <<  "   ===> No genParticles, skip MC infos for ttbar signal" << endl;
       return false;
    }
-   
+
    int iEntry = 0;
    int top = 0;
    std::vector<Float_t> topPx;
@@ -696,7 +801,7 @@ bool MCAnalyzer::processTopTopEvent(const edm::Event& iEvent, TClonesArray* root
    Int_t decayType = 0;
    Int_t hiGenJetCount10 = 0;
    Int_t hiGenJetCount50 = 0;
-   
+
    if (genJets.isValid())
    {
       if(genJets->size() > 1)
@@ -711,7 +816,7 @@ bool MCAnalyzer::processTopTopEvent(const edm::Event& iEvent, TClonesArray* root
          }
       }
    }
-   
+
    for(size_t q = 0; q < genPart->size(); q++)
    {
       const Candidate & p = (*genPart)[q];
@@ -846,14 +951,14 @@ bool MCAnalyzer::processTopTopEvent(const edm::Event& iEvent, TClonesArray* root
          } else if (topnb[top1] == 0 && topnb[top2] == 0) {
             decayType = decayType + 40; //top1 -> W + q, top2 -> W + q' (q and q' not b)
          }
-         
+
       }
       if (topnW[top1] == 0 && topnW[top2] == 0) decayType = 80; // no W at all
-         
+
          TLorentzVector TTbarmom(topPx[top1]+topPx[top2],topPy[top1]+topPy[top2],topPz[top1]+topPz[top2],topEnergy[top1]+topEnergy[top2]);
       new( (*rootMCTopTop)[iEntry] ) TRootTopTop(TTbarmom,topIndexInList[top1],topIndexInList[top2],topMother[top1],topMother[top2],decayType,hiGenJetCount10,hiGenJetCount50);
       iEntry++;
    }
-   
+
    return true;
 }
