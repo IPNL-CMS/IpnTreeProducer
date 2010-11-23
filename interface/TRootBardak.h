@@ -30,7 +30,11 @@ class TRootBardak : public TObject
 		,d0SigEle2_(-1.)
 		,normChi2Ele1_(-1.)
 		,normChi2Ele2_(-1.)
-		{;}
+      , indexTRootTrackOfElectron1_(-1)
+      , indexTRootTrackOfElectron2_(-1)
+      , indexOfAllTracksVertexContainingElectron1_(-1)
+      , indexOfAllTracksVertexContainingElectron2_(-1)
+      {;}
 		
 		~TRootBardak() {;}
 		
@@ -44,6 +48,10 @@ class TRootBardak : public TObject
 		Float_t d0SigEle2() const { return d0SigEle2_; }
 		Float_t normChi2Ele1() const { return normChi2Ele1_; }
 		Float_t normChi2Ele2() const { return normChi2Ele2_; }
+		Int_t indexTRootTrackOfElectron1() const { return indexTRootTrackOfElectron1_; }
+		Int_t indexTRootTrackOfElectron2() const { return indexTRootTrackOfElectron2_; }
+		Int_t IndexOfTRootVertexContainingElectron1() const { return indexOfAllTracksVertexContainingElectron1_; }
+		Int_t IndexOfTRootVertexContainingElectron2() const { return indexOfAllTracksVertexContainingElectron2_; }
 		
 		void setEle1(const TRootTrack &tk, Int_t nSiHits, Int_t nPxlHits, Float_t d0Sig, Float_t normChi2)
 		{
@@ -62,6 +70,11 @@ class TRootBardak : public TObject
 			d0SigEle2_ = d0Sig;
 			normChi2Ele2_ = normChi2;
 		}
+      
+      void setIndexTRootTrackOfElectron1(Int_t indexTRootTrackOfElectron1) { indexTRootTrackOfElectron1_ = indexTRootTrackOfElectron1; }
+      void setIndexTRootTrackOfElectron2(Int_t indexTRootTrackOfElectron2) { indexTRootTrackOfElectron2_ = indexTRootTrackOfElectron2; }
+      void setIndexOfTRootVertexContainingElectron1(Int_t indexOfAllTracksVertexContainingElectron1) { indexOfAllTracksVertexContainingElectron1_ = indexOfAllTracksVertexContainingElectron1; }
+      void setIndexOfTRootVertexContainingElectron2(Int_t indexOfAllTracksVertexContainingElectron2) { indexOfAllTracksVertexContainingElectron2_ = indexOfAllTracksVertexContainingElectron2; }
 		
 		friend std::ostream& operator<< (std::ostream& stream, const TRootBardak& bardak) {
 			stream << " TRootBardak - nSiHitsEle1="<< bardak.nSiHitsEle1();
@@ -80,8 +93,12 @@ class TRootBardak : public TObject
 		Float_t d0SigEle2_;
 		Float_t normChi2Ele1_;
 		Float_t normChi2Ele2_;
-		
-		ClassDef (TRootBardak,1);
+      Int_t indexTRootTrackOfElectron1_;
+      Int_t indexTRootTrackOfElectron2_;
+      Int_t indexOfAllTracksVertexContainingElectron1_;
+      Int_t indexOfAllTracksVertexContainingElectron2_;
+      
+		ClassDef (TRootBardak,2);
 		
 };
 

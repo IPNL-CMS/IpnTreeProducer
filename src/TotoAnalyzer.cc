@@ -580,6 +580,16 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
    }
    
    
+   // Tracks (must be called before vertex reconstruction to perform tracks-vertex association)
+   if(doTrack_)
+   {
+      if(verbosity_>1) std::cout << std::endl << "Analysing tracks collection..." << std::endl;
+      TrackAnalyzer* myTrackAnalyzer = new TrackAnalyzer(producersNames_, verbosity_);
+      myTrackAnalyzer->process(iEvent, rootTracks_);
+      delete myTrackAnalyzer;
+   }
+   
+   
    // Get Primary Vertices and Beam Spot
    if(doPrimaryVertex_)
    {
@@ -597,18 +607,8 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
    {
       if(verbosity_>1) std::cout << std::endl << "Reconstruct Zee Primary Vertices with and without electron pair..." << std::endl;
       ZeeVertexAnalyzer* myZeeVertexAnalyzer = new ZeeVertexAnalyzer(myConfig_, producersNames_, verbosity_);
-      myZeeVertexAnalyzer->getVertices(iEvent, iSetup, rootZeeVertices_, rootBardak_);
+      myZeeVertexAnalyzer->getVertices(iEvent, iSetup, rootZeeVertices_, rootTracks_, rootBardak_);
       delete myZeeVertexAnalyzer;
-   }
-   
-   
-   // Tracks
-   if(doTrack_)
-   {
-      if(verbosity_>1) std::cout << std::endl << "Analysing tracks collection..." << std::endl;
-      TrackAnalyzer* myTrackAnalyzer = new TrackAnalyzer(producersNames_, verbosity_);
-      myTrackAnalyzer->process(iEvent, rootTracks_);
-      delete myTrackAnalyzer;
    }
    
    

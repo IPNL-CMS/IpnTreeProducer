@@ -32,7 +32,7 @@ class ZeeVertexAnalyzer
 		ZeeVertexAnalyzer(const edm::ParameterSet& iConfig, const edm::ParameterSet& producersNames, int verbosity);
 		~ZeeVertexAnalyzer();
 		void setVerbosity(int verbosity) {verbosity_ = verbosity; };
-		bool getVertices(const edm::Event& iEvent, const edm::EventSetup& iSetup, TClonesArray* rootVertices, TRootBardak* rootBardak);
+      bool getVertices(const edm::Event& iEvent, const edm::EventSetup& iSetup, TClonesArray* rootVertices, TClonesArray* rootTracks, TRootBardak* rootBardak);
 		
 	private:
 		int verbosity_;

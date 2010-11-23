@@ -19,7 +19,7 @@ ZeeVertexAnalyzer::~ZeeVertexAnalyzer()
 }
 
 
-bool ZeeVertexAnalyzer::getVertices(const edm::Event& iEvent, const edm::EventSetup& iSetup, TClonesArray* rootVertices, TRootBardak* rootBardak)
+bool ZeeVertexAnalyzer::getVertices(const edm::Event& iEvent, const edm::EventSetup& iSetup, TClonesArray* rootVertices, TClonesArray* rootTracks, TRootBardak* rootBardak)
 {
    using namespace edm;
    int iRootVertex = 0;
@@ -88,6 +88,21 @@ bool ZeeVertexAnalyzer::getVertices(const edm::Event& iEvent, const edm::EventSe
    }
    
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   //    Index all TRootTracks
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   TRootTrack* tk;
+   std::map<Double_t, Int_t> mapPxOfTracks;
+   for (int itk=0; itk<rootTracks->GetEntriesFast(); itk++)
+   {
+      tk = (TRootTrack*) rootTracks->At(itk);
+      mapPxOfTracks[tk->Px()]=itk;
+   }
+   int indexTRootTrackOfElectron1 = mapPxOfTracks.find( tk1->px() )->second;
+   int indexTRootTrackOfElectron2 = mapPxOfTracks.find( tk2->px() )->second;
+   rootBardak->setIndexTRootTrackOfElectron1(indexTRootTrackOfElectron1);
+   rootBardak->setIndexTRootTrackOfElectron2(indexTRootTrackOfElectron2);
+   
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    //    Private Primary Vertex reconstruction with all CTF tracks
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    
@@ -119,6 +134,8 @@ bool ZeeVertexAnalyzer::getVertices(const edm::Event& iEvent, const edm::EventSe
    
    if(verbosity_>4) std::cout  << std::endl << "   Private Primary Vertex reconstruction with all tracks - Number of vertices = " << zeeVertices.size() << std::endl;
    
+   int indexOfAllTracksVertexContainingElectron1 =-1;
+   int indexOfAllTracksVertexContainingElectron2 =-1;
    for (unsigned int j=0; j<zeeVertices.size(); j++)
    {
       reco::Vertex* vertex = & (zeeVertices.at(j));
@@ -132,9 +149,17 @@ bool ZeeVertexAnalyzer::getVertices(const edm::Event& iEvent, const edm::EventSe
       Float_t scalarSumPt = 0.;
       Float_t vectorSumPt = 0.;
       math::XYZVector vectorSum(0.,0.,0.);
+      std::vector<Int_t> tracksIndices;
+      std::vector<TRef> tracks;
       
       for( std::vector< reco::TrackBaseRef >::const_iterator it = vertex->tracks_begin(); it != vertex->tracks_end(); it++)
       {
+         int index = mapPxOfTracks.find( (**it).px() )->second;
+         TRootTrack* tk = (TRootTrack*) rootTracks->At(index);
+         tracksIndices.push_back(index);
+         tracks.push_back(tk);
+         if( (**it).px() == tk1->px() ) indexOfAllTracksVertexContainingElectron1=iRootVertex;
+         if( (**it).px() == tk2->px() ) indexOfAllTracksVertexContainingElectron2=iRootVertex;
          scalarSumPt += (**it).pt();
          vectorSum += (**it).momentum();
          if( (**it).pt()>higherPt ) higherPt=(**it).pt();
@@ -161,11 +186,15 @@ bool ZeeVertexAnalyzer::getVertices(const edm::Event& iEvent, const edm::EventSe
       localVertex.setHigherTrackPt( higherPt );
       localVertex.setScalarSumPt( scalarSumPt );
       localVertex.setVectorSumPt( vectorSumPt );
+      localVertex.setTracksIndices( tracksIndices );
+      localVertex.setTracks( tracks );
       
       new( (*rootVertices)[iRootVertex] ) TRootVertex(localVertex);
       if(verbosity_>2) cout << "   ["<< setw(3) << iRootVertex << "] " << localVertex << endl;
       iRootVertex++;
    }
+   rootBardak->setIndexOfTRootVertexContainingElectron1(indexOfAllTracksVertexContainingElectron1);
+   rootBardak->setIndexOfTRootVertexContainingElectron2(indexOfAllTracksVertexContainingElectron2);
    
    
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -306,9 +335,15 @@ bool ZeeVertexAnalyzer::getVertices(const edm::Event& iEvent, const edm::EventSe
       Float_t scalarSumPt = 0.;
       Float_t vectorSumPt = 0.;
       math::XYZVector vectorSum(0.,0.,0.);
+      std::vector<Int_t> tracksIndices;
+      std::vector<TRef> tracks;
       
       for( std::vector< reco::TrackBaseRef >::const_iterator it = vertex->tracks_begin(); it != vertex->tracks_end(); it++)
       {
+         int index = mapPxOfTracks.find( (**it).px() )->second;
+         TRootTrack* tk = (TRootTrack*) rootTracks->At(index);
+         tracksIndices.push_back(index);
+         tracks.push_back(tk);
          scalarSumPt += (**it).pt();
          vectorSum += (**it).momentum();
          if( (**it).pt()>higherPt ) higherPt=(**it).pt();
@@ -335,6 +370,8 @@ bool ZeeVertexAnalyzer::getVertices(const edm::Event& iEvent, const edm::EventSe
       localVertex.setHigherTrackPt( higherPt );
       localVertex.setScalarSumPt( scalarSumPt );
       localVertex.setVectorSumPt( vectorSumPt );
+      localVertex.setTracksIndices( tracksIndices );
+      localVertex.setTracks( tracks );
       
       new( (*rootVertices)[iRootVertex] ) TRootVertex(localVertex);
       if(verbosity_>2) cout << "   ["<< setw(3) << iRootVertex << "] " << localVertex << endl;
@@ -370,9 +407,15 @@ bool ZeeVertexAnalyzer::getVertices(const edm::Event& iEvent, const edm::EventSe
       Float_t scalarSumPt = 0.;
       Float_t vectorSumPt = 0.;
       math::XYZVector vectorSum(0.,0.,0.);
+      std::vector<Int_t> tracksIndices;
+      std::vector<TRef> tracks;
       
       for( std::vector< reco::TrackBaseRef >::const_iterator it = vertex->tracks_begin(); it != vertex->tracks_end(); it++)
       {
+         int index = mapPxOfTracks.find( (**it).px() )->second;
+         TRootTrack* tk = (TRootTrack*) rootTracks->At(index);
+         tracksIndices.push_back(index);
+         tracks.push_back(tk);
          scalarSumPt += (**it).pt();
          vectorSum += (**it).momentum();
          if( (**it).pt()>higherPt ) higherPt=(**it).pt();
@@ -399,6 +442,8 @@ bool ZeeVertexAnalyzer::getVertices(const edm::Event& iEvent, const edm::EventSe
       localVertex.setHigherTrackPt( higherPt );
       localVertex.setScalarSumPt( scalarSumPt );
       localVertex.setVectorSumPt( vectorSumPt );
+      localVertex.setTracksIndices( tracksIndices );
+      localVertex.setTracks( tracks );
       
       new( (*rootVertices)[iRootVertex] ) TRootVertex(localVertex);
       if(verbosity_>2) cout << "   ["<< setw(3) << iRootVertex << "] " << localVertex << endl;
