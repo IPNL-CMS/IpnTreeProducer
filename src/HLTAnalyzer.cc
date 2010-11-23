@@ -85,18 +85,22 @@ bool HLTAnalyzer::init(const edm::Run & iRun, const edm::EventSetup & iSetup)
             }
          }
          
-         const std::vector<std::string>& datasetNames_ = hltConfig_.datasetNames();
-         const std::vector<std::vector<std::string> >& datasetContents_ = hltConfig_.datasetContents();
-         const unsigned int nDatasets(datasetNames_.size());
-         cout << endl << endl << "HLTAnalyzer-Init ------------------------- Datasets content ----------------------------------\n";
-         for (unsigned int idataset=0; idataset!=nDatasets; ++idataset) {
-            const unsigned int nElements(datasetContents_[idataset].size());
-            cout << "  Dataset[" << idataset << "]  " << datasetNames_[idataset] << " " << nElements << endl;
-            for (unsigned int iElement=0; iElement!=nElements; ++iElement) {
-               cout << "       " << iElement << " " << datasetContents_[idataset][iElement] << endl;
+         if(verbosity_>4)
+         {
+            const std::vector<std::string>& datasetNames_ = hltConfig_.datasetNames();
+            const std::vector<std::vector<std::string> >& datasetContents_ = hltConfig_.datasetContents();
+            const unsigned int nDatasets(datasetNames_.size());
+            cout << endl << endl << "HLTAnalyzer-Init ------------------------- Datasets content ----------------------------------\n";
+            for (unsigned int idataset=0; idataset!=nDatasets; ++idataset)
+            {
+               const unsigned int nElements(datasetContents_[idataset].size());
+               cout << "  Dataset[" << idataset << "]  " << datasetNames_[idataset] << " " << nElements << endl;
+               for (unsigned int iElement=0; iElement!=nElements; ++iElement)
+               {
+                  cout << "       " << iElement << " " << datasetContents_[idataset][iElement] << endl;
+               }
             }
          }
-         
          
          //hltConfig_.dump("TriggerSeeds");
          //hltConfig_.dump("Modules");
