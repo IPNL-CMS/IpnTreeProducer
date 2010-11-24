@@ -46,6 +46,8 @@ class TRootJet : public TRootParticle
       ,btag_soft_mu_(-9999.)
       ,btag_soft_mu_pt_(-9999.)
       ,btag_soft_mu_ip_(-9999.)    
+      ,btag_SSVHE_(-9999.)
+      ,btag_SSVHP_(-9999.)
       ,L0Correction_(-9999.)
       ,L1Correction_(-9999.)
       ,L2Correction_(-9999.)
@@ -112,6 +114,8 @@ class TRootJet : public TRootParticle
       ,btag_soft_mu_(jet.btag_soft_mu_)
       ,btag_soft_mu_pt_(jet.btag_soft_mu_pt_)
       ,btag_soft_mu_ip_(jet.btag_soft_mu_ip_)
+      ,btag_SSVHE_(jet.btag_SSVHE_)
+      ,btag_SSVHP_(jet.btag_SSVHP_)
       ,L0Correction_(jet.L0Correction_)
       ,L1Correction_(jet.L1Correction_)
       ,L2Correction_(jet.L2Correction_)
@@ -178,6 +182,8 @@ class TRootJet : public TRootParticle
       ,btag_soft_mu_(-9999.)
       ,btag_soft_mu_pt_(-9999.)
       ,btag_soft_mu_ip_(-9999.)
+      ,btag_SSVHE_(-9999.)
+      ,btag_SSVHP_(-9999.)
       ,L0Correction_(-9999.)
       ,L1Correction_(-9999.)
       ,L2Correction_(-9999.)
@@ -244,6 +250,8 @@ class TRootJet : public TRootParticle
       ,btag_soft_mu_(-9999.)
       ,btag_soft_mu_pt_(-9999.)
       ,btag_soft_mu_ip_(-9999.)
+      ,btag_SSVHE_(-9999.)
+      ,btag_SSVHP_(-9999.)
       ,L0Correction_(-9999.)
       ,L1Correction_(-9999.)
       ,L2Correction_(-9999.)
@@ -306,6 +314,8 @@ class TRootJet : public TRootParticle
       ,btag_soft_mu_(-9999.)
       ,btag_soft_mu_pt_(-9999.)
       ,btag_soft_mu_ip_(-9999.)
+      ,btag_SSVHE_(-9999.)
+      ,btag_SSVHP_(-9999.)
       ,L0Correction_(-9999.)
       ,L1Correction_(-9999.)
       ,L2Correction_(-9999.)
@@ -372,6 +382,8 @@ class TRootJet : public TRootParticle
       ,btag_soft_mu_(-9999.)
       ,btag_soft_mu_pt_(-9999.)
       ,btag_soft_mu_ip_(-9999.)
+      ,btag_SSVHE_(-9999.)
+      ,btag_SSVHP_(-9999.)
       ,L0Correction_(-9999.)
       ,L1Correction_(-9999.)
       ,L2Correction_(-9999.)
@@ -438,6 +450,8 @@ class TRootJet : public TRootParticle
       ,btag_soft_mu_(-9999.)
       ,btag_soft_mu_pt_(-9999.)
       ,btag_soft_mu_ip_(-9999.)
+      ,btag_SSVHE_(-9999.)
+      ,btag_SSVHP_(-9999.)
       ,L0Correction_(-9999.)
       ,L1Correction_(-9999.)
       ,L2Correction_(-9999.)
@@ -505,7 +519,9 @@ class TRootJet : public TRootParticle
       Float_t btag_soft_mu() const { return btag_soft_mu_; }
       Float_t btag_soft_mu_pt() const { return btag_soft_mu_pt_; }
       Float_t btag_soft_mu_ip() const { return btag_soft_mu_ip_; }
-		
+      Float_t btag_SSVHE() const {return btag_SSVHE_; }      
+      Float_t btag_SSVHP() const {return btag_SSVHP_; }      
+
       Float_t L0Correction() const { return L0Correction_; }
       Float_t L1Correction() const { return L1Correction_; }
       Float_t L2Correction() const { return L2Correction_; }
@@ -578,7 +594,9 @@ class TRootJet : public TRootParticle
       void setBtag_soft_mu(Float_t btag_soft_mu) { btag_soft_mu_ = btag_soft_mu; }
       void setBtag_soft_mu_pt(Float_t btag_soft_mu_pt) { btag_soft_mu_pt_ = btag_soft_mu_pt; }
       void setBtag_soft_mu_ip(Float_t btag_soft_mu_ip) { btag_soft_mu_ip_ = btag_soft_mu_ip; }
-		
+      void setBtag_SSVHE(Float_t btag_SSVHE) { btag_SSVHE_ = btag_SSVHE; }
+      void setBtag_SSVHP(Float_t btag_SSVHP) { btag_SSVHP_ = btag_SSVHP; }
+            
       void setL0Correction(Float_t L0Correction) { L0Correction_ = L0Correction; }
       void setL1Correction(Float_t L1Correction) { L1Correction_ = L1Correction; }
       void setL2Correction(Float_t L2Correction) { L2Correction_ = L2Correction; }
@@ -661,6 +679,8 @@ class TRootJet : public TRootParticle
      Float_t btag_soft_mu_;
      Float_t btag_soft_mu_pt_;
      Float_t btag_soft_mu_ip_;
+     Float_t btag_SSVHE_; 
+     Float_t btag_SSVHP_; 
 	  
      Float_t L0Correction_;               // correction factor for L0 level
      Float_t L1Correction_;		  // correction factor for L1 level
@@ -696,7 +716,7 @@ class TRootJet : public TRootParticle
 
      Bool_t isTopJet_;                   // Is parton matched to the jet a decay product of the top quark ?
 
-     ClassDef (TRootJet,4);
+     ClassDef (TRootJet,5);
      };
 
      #endif
