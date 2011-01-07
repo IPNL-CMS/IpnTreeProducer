@@ -209,10 +209,6 @@ bool JetAnalyzer::process(const edm::Event& iEvent, TClonesArray* rootJets)
 			localJet.setBtag_trackCountingHighEff(patJet->bDiscriminator("trackCountingHighEffBJetTags"));
 			localJet.setBtag_trackCountingHighPur(patJet->bDiscriminator("trackCountingHighPurBJetTags"));
 			localJet.setBtag_jetProbability(patJet->bDiscriminator("jetProbabilityBJetTags"));
-         localJet.setBtag_SSVHE(patJet->bDiscriminator("simpleSecondaryVertexHighEffBJetTags"));
-         localJet.setBtag_SSVHP(patJet->bDiscriminator("simpleSecondaryVertexHighPurBJetTags"));
-         // Note by stephane 17/11/2010 - jetBProbabilityBJetTags, combinedSecondaryVertexBJetTags, combinedSecondaryVertexMVABJetTags, 
-         // are still missing - to be added later (no enough time now !)
 
 			//cout << "softElectronBJetTags " << patJet->bDiscriminator("softBBJetTags") << endl;
 			//cout << "softMuonBJetTags " << patJet->bDiscriminator("softMuonBJetTags") << endl;
@@ -256,28 +252,26 @@ bool JetAnalyzer::process(const edm::Event& iEvent, TClonesArray* rootJets)
 			localJet.setFHPD(patJet->jetID().fHPD);
 			localJet.setFRBX(patJet->jetID().fRBX);
 						
-			//localJet.setL0Correction(patJet->corrFactor("raw",""));
-			//localJet.setL1Correction(patJet->jecFactor("L1Offset",""));
-			localJet.setL2Correction(patJet->jecFactor("L2Relative","none"));
-			localJet.setL3Correction(patJet->jecFactor("L3Absolute","none"));
+			localJet.setL0Correction(patJet->corrFactor("raw",""));
+			localJet.setL1Correction(patJet->corrFactor("off",""));
+			localJet.setL2Correction(patJet->corrFactor("rel",""));
+			localJet.setL3Correction(patJet->corrFactor("abs",""));
+			localJet.setL4Correction(patJet->corrFactor("emf",""));
 			
-			// No JEC for level >= L4 in 386
-			//localJet.setL4Correction(patJet->jecFactor("L4EMF","none"));
+			localJet.setL5gCorrection(patJet->corrFactor("had","glu"));
+			localJet.setL5udsCorrection(patJet->corrFactor("had","uds"));
+			localJet.setL5cCorrection(patJet->corrFactor("had","c"));
+			localJet.setL5bCorrection(patJet->corrFactor("had","b"));
 			
-			//localJet.setL5gCorrection(patJet->jecFactor("L5Flavor","gluon"));
-			//localJet.setL5udsCorrection(patJet->jecFactor("L5Flavor","uds"));
-			//localJet.setL5cCorrection(patJet->jecFactor("L5Flavor","charm"));
-			//localJet.setL5bCorrection(patJet->jecFactor("L5Flavor","bottom"));
+			localJet.setL6gCorrection(patJet->corrFactor("ue","glu"));
+			localJet.setL6udsCorrection(patJet->corrFactor("ue","uds"));
+			localJet.setL6cCorrection(patJet->corrFactor("ue","c"));
+			localJet.setL6bCorrection(patJet->corrFactor("ue","b"));
 			
-			//localJet.setL6gCorrection(patJet->corrFactor("ue","glu"));
-			//localJet.setL6udsCorrection(patJet->corrFactor("ue","uds"));
-			//localJet.setL6cCorrection(patJet->corrFactor("ue","c"));
-			//localJet.setL6bCorrection(patJet->corrFactor("ue","b"));
-			
-			//localJet.setL7gCorrection(patJet->jecFactor("L7Parton","gluon"));
-			//localJet.setL7udsCorrection(patJet->jecFactor("L7Parton","uds"));
-			//localJet.setL7cCorrection(patJet->jecFactor("L7Parton","charm"));
-			//localJet.setL7bCorrection(patJet->jecFactor("L7Parton","bottom"));
+			localJet.setL7gCorrection(patJet->corrFactor("part","glu"));
+			localJet.setL7udsCorrection(patJet->corrFactor("part","uds"));
+			localJet.setL7cCorrection(patJet->corrFactor("part","c"));
+			localJet.setL7bCorrection(patJet->corrFactor("part","b"));
 			
 			/*
 			const std::vector<std::string> mylabels = patJet->corrFactorSetLabels();

@@ -69,7 +69,7 @@ public:
    ,trackIso_(-9999)
    ,ecalIso_(-9999)
    ,hcalIso_(-9999)
-   //,swissCross_(-9999)
+   ,swissCross_(-9999)
    ,pfParticleIso_(-9999)
    ,pfChargedHadronIso_(-9999)
    ,pfNeutralHadronIso_(-9999)
@@ -143,7 +143,7 @@ public:
    ,trackIso_(electron.trackIso_)
    ,ecalIso_(electron.ecalIso_)
    ,hcalIso_(electron.hcalIso_)
-   //,swissCross_(electron.swissCross_)
+   ,swissCross_(electron.swissCross_)
    ,pfParticleIso_(electron.pfParticleIso_)
    ,pfChargedHadronIso_(electron.pfChargedHadronIso_)
    ,pfNeutralHadronIso_(electron.pfNeutralHadronIso_)
@@ -217,7 +217,7 @@ public:
    ,trackIso_(-9999)
    ,ecalIso_(-9999)
    ,hcalIso_(-9999)
-   //,swissCross_(-9999)
+   ,swissCross_(-9999)
    ,pfParticleIso_(-9999)
    ,pfChargedHadronIso_(-9999)
    ,pfNeutralHadronIso_(-9999)
@@ -291,7 +291,7 @@ public:
    ,trackIso_(-9999)
    ,ecalIso_(-9999)
    ,hcalIso_(-9999)
-   //,swissCross_(-9999)
+   ,swissCross_(-9999)
    ,pfParticleIso_(-9999)
    ,pfChargedHadronIso_(-9999)
    ,pfNeutralHadronIso_(-9999)
@@ -361,7 +361,7 @@ public:
    ,trackIso_(-9999)
    ,ecalIso_(-9999)
    ,hcalIso_(-9999)
-   //,swissCross_(-9999)
+   ,swissCross_(-9999)
    ,pfParticleIso_(-9999)
    ,pfChargedHadronIso_(-9999)
    ,pfNeutralHadronIso_(-9999)
@@ -435,7 +435,7 @@ public:
    ,trackIso_(-9999)
    ,ecalIso_(-9999)
    ,hcalIso_(-9999)
-   //,swissCross_(-9999)
+   ,swissCross_(-9999)
    ,pfParticleIso_(-9999)
    ,pfChargedHadronIso_(-9999)
    ,pfNeutralHadronIso_(-9999)
@@ -509,7 +509,7 @@ public:
    ,trackIso_(-9999)
    ,ecalIso_(-9999)
    ,hcalIso_(-9999)
-   //,swissCross_(-9999)
+   ,swissCross_(-9999)
    ,pfParticleIso_(-9999)
    ,pfChargedHadronIso_(-9999)
    ,pfNeutralHadronIso_(-9999)
@@ -662,7 +662,7 @@ public:
    Float_t trackIso() const {return trackIso_;}
    Float_t ecalIso() const {return ecalIso_;}
    Float_t hcalIso() const {return hcalIso_;}
-   //Double_t swissCross() const {return swissCross_;}
+   Double_t swissCross() const {return swissCross_;}
    
    Float_t pfParticleIso() const {return pfParticleIso_;}
    Float_t pfChargedHadronIso() const {return pfChargedHadronIso_;}
@@ -754,7 +754,7 @@ public:
    void setTrackIso(Float_t trackIso) { trackIso_ = trackIso; }
    void setEcalIso(Float_t ecalIso) { ecalIso_ = ecalIso; }
    void setHcalIso(Float_t hcalIso) { hcalIso_ = hcalIso; }
-   //void setSwissCross(Double_t swissCross) { swissCross_ = swissCross; }
+   void setSwissCross(Double_t swissCross) { swissCross_ = swissCross; }
    
    void setPFParticleIso(Float_t iso) { pfParticleIso_=iso; }
    void setPFChargedHadronIso(Float_t iso) { pfChargedHadronIso_=iso; }
@@ -796,8 +796,7 @@ public:
       << " R19=" << this->r19() <<" R9=" << this->r9() << endl
       <<"            fbrem=" << this->fbrem() << "  H/E=" << this->hadOverEm() <<"  deltaEtaIn=" << this->deltaEtaIn() <<"  deltaPhiIn=" << this->deltaPhiIn() <<"  deltaEtaOut=" << this->deltaEtaOut() <<"  deltaPhiOut=" << this->deltaPhiOut() <<"  E/p in=" << this->energySuperClusterOverPin() <<"  E/p out=" << this->energySeedClusterOverPout() << endl
       << "            reco iso03  ecal="<< this->dr03EcalRecHitSumEt() << " hcal1=" << this->dr03HcalDepth1TowerSumEt() << " hcal2=" << this->dr03HcalDepth2TowerSumEt() << " tracker=" << this->dr03TkSumPt() << endl
-      //<< "            pat iso (no isodeposit) ecal="<< this->trackIso()<<" hcal="<<this->hcalIso()<< " swissCross= " << this->swissCross()<< " tracker="<<this->trackIso()<<endl
-      << "            pat iso (no isodeposit) ecal="<< this->trackIso()<<" hcal="<<this->hcalIso()<< " tracker="<<this->trackIso()<<endl
+      << "            pat iso (no isodeposit) ecal="<< this->trackIso()<<" hcal="<<this->hcalIso()<< " swissCross= " << this->swissCross()<< " tracker="<<this->trackIso()<<endl
       << "            PF Isolation : particleIso=" << this->pfParticleIso_ << "  chargedHadronIso=" << this->pfChargedHadronIso_ << "  NeutralHadronIso=" << this->pfNeutralHadronIso_ << endl
       <<"            ID:  Fixed-Threshold(Loose,Tight,HighEnergy)=(" << this->idCutBasedFixedThresholdLoose() << "," << this->idCutBasedFixedThresholdTight()  << "," << this->idCutBasedFixedThresholdHighEnergy() << ")"
       <<"  Categorized(Loose,Tight)=(" << this->idCutBasedCategorizedLoose() << "," << this->idCutBasedCategorizedTight()  << ")"
@@ -932,7 +931,7 @@ public:
       Float_t trackIso_; // returns the value of the summed track pt in a cone of deltaR<0.4
       Float_t ecalIso_; // returns the value of the summed Et of all recHits in the ecal in a cone of deltaR<0.4
       Float_t hcalIso_; // returns the value of the summed Et of all recHits in the hcal in a cone of deltaR<0.4
-      //Double_t swissCross_; // returns the value of swiss cross for spikes rejection
+      Double_t swissCross_; // returns the value of swiss cross for spikes rejection
       
       
       // Added by Stephane 23/04/2010 -- pat Isolation for PFlow muons
@@ -965,7 +964,7 @@ public:
       //Float_t sigmaPhiPhi_;
       
       
-      ClassDef (TRootElectron,10);
+      ClassDef (TRootElectron,9);
       
    };
    
