@@ -19,6 +19,7 @@
 #include "../interface/TRootEvent.h"
 #include "../interface/TRootBeamSpot.h"
 #include "../interface/TRootVertex.h"
+#include "../interface/TRootTrack.h"
 
 #include "TClonesArray.h"
 
@@ -32,7 +33,7 @@ class VertexAnalyzer
       ~VertexAnalyzer();
       void setVerbosity(int verbosity) {verbosity_ = verbosity; };
       bool getBeamSpot(const edm::Event& iEvent, TRootBeamSpot* rootBeamSpot);
-      bool getVertices(const edm::Event& iEvent, TClonesArray* rootVertices);
+      bool getVertices(const edm::Event& iEvent, TClonesArray* rootVertices, TClonesArray* rootTracks);
       void selectPrimary(TRootEvent* rootEvent, TClonesArray* rootVertices);
 
    private:

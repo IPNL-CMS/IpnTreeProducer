@@ -596,7 +596,7 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
       if(verbosity_>1) std::cout << std::endl << "Analysing beam spot and primary vertices collection..." << std::endl;
       VertexAnalyzer* myVertexAnalyzer = new VertexAnalyzer(producersNames_, verbosity_);
       if(doBeamSpot_) myVertexAnalyzer->getBeamSpot(iEvent, rootBeamSpot_);
-      myVertexAnalyzer->getVertices(iEvent, rootVertices_);
+      myVertexAnalyzer->getVertices(iEvent, rootVertices_, rootTracks_);
       myVertexAnalyzer->selectPrimary(rootEvent_, rootVertices_);
       delete myVertexAnalyzer;
    }
@@ -609,6 +609,19 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
       ZeeVertexAnalyzer* myZeeVertexAnalyzer = new ZeeVertexAnalyzer(myConfig_, producersNames_, verbosity_);
       myZeeVertexAnalyzer->getVertices(iEvent, iSetup, rootZeeVertices_, rootTracks_, rootBardak_);
       delete myZeeVertexAnalyzer;
+   }
+   
+   
+   // Print tracks (after vertex analyzer to display track-vertex association)
+   if(doTrack_ && verbosity_>2)
+   {
+      TRootTrack* tk;
+      for (int itk=0; itk<rootTracks_->GetEntriesFast(); itk++)
+      {
+         tk = (TRootTrack*) rootTracks_->At(itk);
+         std::cout << "   ["<< setw(3) << itk << "] ";
+         tk->Print();
+      }
    }
    
    

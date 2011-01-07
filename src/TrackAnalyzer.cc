@@ -59,7 +59,7 @@ bool TrackAnalyzer::process(const edm::Event& iEvent, TClonesArray* rootTracks)
       );
 
       new( (*rootTracks)[j] ) TRootTrack(localTrack);
-      if(verbosity_>2) std::cout << "   ["<< setw(3) << j << "] " << localTrack << std::endl;
+      //if(verbosity_>2) std::cout << "   ["<< setw(3) << j << "] " << localTrack << std::endl;
    }
 
    return true;
