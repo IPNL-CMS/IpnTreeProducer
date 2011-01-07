@@ -5,6 +5,7 @@
 #include <string>
 #include <iostream>
 #include <map>
+#include <cassert>
 
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 

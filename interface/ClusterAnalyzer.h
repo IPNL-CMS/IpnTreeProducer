@@ -6,8 +6,8 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include "boost/lambda/lambda.hpp"
-#include "boost/iterator/counting_iterator.hpp"
+//#include "boost/lambda/lambda.hpp"
+//#include "boost/iterator/counting_iterator.hpp"
 
 // user include files
 #include "FWCore/Framework/interface/Event.h"

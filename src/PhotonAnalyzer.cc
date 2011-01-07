@@ -318,8 +318,8 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
             {
                if ( conversions[best_iconv]->nTracks()>0 )
                {
-                  std::vector<reco::TrackRef> tracks = conversions[best_iconv]->tracks();
-                  reco::TrackRef tk1 = tracks.at(0);
+                  std::vector<edm::RefToBase<reco::Track> > tracks = conversions[best_iconv]->tracks();
+                  edm::RefToBase<reco::Track> tk1 = tracks.at(0);
                   const reco::HitPattern& hit1 = tk1->hitPattern();
                   new( (*conversionTracks)[iconvtrack_] ) TRootTrack( tk1->px(), tk1->py(), tk1->pz(), tk1->p(), tk1->vx(), tk1->vy(), tk1->vz(), 0, tk1->charge()
                   ,hit1.pixelLayersWithMeasurement(), hit1.stripLayersWithMeasurement(), tk1->chi2(), tk1->d0(), tk1->d0Error(), tk1->dz(), tk1->dzError() );
@@ -329,7 +329,7 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
                   
                   if ( conversions[best_iconv]->nTracks()>1 )
                   {
-                     reco::TrackRef tk2 = tracks.at(1);
+                     edm::RefToBase<reco::Track> tk2 = tracks.at(1);
                      const reco::HitPattern& hit2 = tk2->hitPattern();
                      new( (*conversionTracks)[iconvtrack_] ) TRootTrack( tk2->px(), tk2->py(), tk2->pz(), tk2->p(), tk2->vx(), tk2->vy(), tk2->vz(), 0, tk2->charge()
                      ,hit2.pixelLayersWithMeasurement(), hit2.stripLayersWithMeasurement(), tk2->chi2(), tk2->d0(), tk2->d0Error(), tk2->dz(), tk2->dzError() );

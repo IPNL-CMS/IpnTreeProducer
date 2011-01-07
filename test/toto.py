@@ -22,9 +22,8 @@ process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 
 # Needed for GlobalPositionRcd
 process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_cff')
-#process.GlobalTag.globaltag = cms.string('START38_V12::All')
-process.GlobalTag.globaltag = cms.string('GR10_P_V11::All')
-#process.GlobalTag.globaltag = cms.string('GR_R_38X_V14::All')
+process.GlobalTag.globaltag = cms.string('START39_V8::All')
+#process.GlobalTag.globaltag = cms.string('GR_R_39X_V5::All')
 
 # Global geometry
 #process.load("Configuration.StandardSequences.Geometry_cff")
@@ -47,7 +46,7 @@ process.load("TrackingTools.TransientTrack.TransientTrackBuilder_cfi")
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(30)
+    input = cms.untracked.int32(-1)
 )
 
 #process.maxLuminosityBlocks = cms.untracked.PSet(
@@ -57,7 +56,10 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source("PoolSource",
 
 # RECO
-fileNames = cms.untracked.vstring('file:/gridgroup/cms/lethuill/data/CMSSW_3_8_5__RelValZEE__GEN-SIM-RECO__START38_V12-v1__0040__42805A98-E6D2-DF11-9FDE-001A92971B82.root')
+fileNames = cms.untracked.vstring('file:/gridgroup/cms/lethuill/data/CMSSW_3_9_7__RelValH130GGgluonfusion__GEN-SIM-RECO__START39_V8-v1__0047__205E03D0-8C0D-E011-AB8E-001A92971B74.root')
+#fileNames = cms.untracked.vstring('file:/gridgroup/cms/lethuill/data/CMSSW_3_9_7__RelValZEE__GEN-SIM-RECO__START39_V8-v1__004__04901143-820D-E011-BEB9-001A92971BA0.root')
+#fileNames = cms.untracked.vstring('file:/gridgroup/cms/lethuill/data/CMSSW_3_9_7__RelValZMM__GEN-SIM-RECO__START39_V8-v1__0047__3A2794B2-770D-E011-8DD1-002618943864.root')
+#fileNames = cms.untracked.vstring('file:/gridgroup/cms/lethuill/data/CMSSW_3_8_5__RelValZEE__GEN-SIM-RECO__START38_V12-v1__0040__42805A98-E6D2-DF11-9FDE-001A92971B82.root')
 #fileNames = cms.untracked.vstring('/store/data/Run2010B/Electron/RAW-RECO/v2/000/147/114/AAB9337B-0ED0-DF11-9B73-0030486790B0.root')
 #fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/relval/CMSSW_3_8_4/RelValH130GGgluonfusion/GEN-SIM-RECO/START38_V12-v1/0023/323AE381-76C2-DF11-B165-003048678AE4.root')
 #fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/relval/CMSSW_3_6_2/RelValQCD_Pt_80_120/GEN-SIM-RECO/START36_V10-v1/0002/046737B5-0571-DF11-843E-00261894391D.root')
@@ -99,7 +101,7 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       #     3 = Liste objets de haut niveau (electrons, muons, photons...)
       #     4 = Liste tous les objets (haut niveau, clusters....)
       #     5 = Debug
-      verbosity = cms.untracked.int32(4),
+      verbosity = cms.untracked.int32(1),
 
       # name of output root file
       RootFileName = cms.untracked.string('Test.root'),
@@ -133,7 +135,7 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
 
       doBeamSpot = cms.untracked.bool(True),
       doPrimaryVertex = cms.untracked.bool(True),
-      doZeePrimaryVertex = cms.untracked.bool(True),
+      doZeePrimaryVertex = cms.untracked.bool(False),
       doTrack = cms.untracked.bool(True),
       doJet = cms.untracked.bool(True),
       doMuon = cms.untracked.bool(True),
