@@ -13,6 +13,7 @@
 #include "../interface/TRootPhoton.h"
 #include "../interface/TRootMCPhoton.h"
 #include "../interface/TRootElectron.h"
+#include "../interface/TRootTau.h"
 #include "../interface/TRootSignalEvent.h"
 #include "../interface/TRootCluster.h"
 #include "../interface/TRootSuperCluster.h"
@@ -35,6 +36,7 @@
 #include "../interface/TRootPhoton.h"
 #include "../interface/TRootMCPhoton.h"
 #include "../interface/TRootElectron.h"
+#include "../interface/TRootTau.h"
 #include "../interface/TRootSignalEvent.h"
 #include "../interface/TRootCluster.h"
 #include "../interface/TRootSuperCluster.h"
@@ -64,6 +66,7 @@
 #pragma link C++ class TRootPhoton;
 #pragma link C++ class TRootMCPhoton;
 #pragma link C++ class TRootElectron;
+#pragma link C++ class TRootTau;
 #pragma link C++ class TRootSignalEvent;
 #pragma link C++ class TRootCluster;
 #pragma link C++ class TRootSuperCluster;

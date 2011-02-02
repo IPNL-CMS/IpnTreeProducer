@@ -40,6 +40,7 @@ TotoAnalyzer::TotoAnalyzer(const edm::ParameterSet& iConfig)
    nJetsArrays_ = 0;
    nMuonsArrays_ = 0;
    nElectronsArrays_ = 0;
+   nTausArrays_ = 0;
    nPhotonsArrays_ = 0;
    rootBasicClusters_ = 0;
    rootSuperClusters_ = 0;
@@ -91,6 +92,7 @@ void TotoAnalyzer::beginJob()
    doJet_ = myConfig_.getUntrackedParameter<bool>("doJet",false);
    doMuon_ = myConfig_.getUntrackedParameter<bool>("doMuon",false);
    doElectron_ = myConfig_.getUntrackedParameter<bool>("doElectron",false);
+   doTau_ = myConfig_.getUntrackedParameter<bool>("doTau",false);
    doPhoton_ = myConfig_.getUntrackedParameter<bool>("doPhoton",false);
    doCluster_ = myConfig_.getUntrackedParameter<bool>("doCluster",false);
    keepAllEcalRecHits_ = myConfig_.getUntrackedParameter<bool>("keepAllEcalRecHits",false);
@@ -241,6 +243,20 @@ void TotoAnalyzer::beginJob()
          edm::InputTag electronProducer = electronProducers.at(i);
          rootElectronsArrays_[i] = new TClonesArray("TRootElectron", 1000);
          eventTree_->Branch (electronProducer.label().data(), "TClonesArray", &(rootElectronsArrays_[i]));
+      }
+   }
+
+   if(doTau_)
+   {
+      if(verbosity_>0) std::cout << "Taus info will be added to rootuple" << std::endl;
+      vtag tauProducers = producersNames_.getParameter<vtag>("tauProducer");
+      nTausArrays_ = tauProducers.size();
+      rootTausArrays_ = new TClonesArray*[nTausArrays_];
+      for(unsigned int i=0; i<nTausArrays_; ++i)
+      {
+         edm::InputTag tauProducer = tauProducers.at(i);
+         rootTausArrays_[i] = new TClonesArray("TRootTau", 1000);
+         eventTree_->Branch (tauProducer.label().data(), "TClonesArray", &(rootTausArrays_[i]));
       }
    }
    
@@ -703,6 +719,20 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
       }
    }
    
+   // Taus
+   if(doTau_)
+   {
+      if(verbosity_>1) std::cout << std::endl << "Analysing taus collection..." << std::endl;
+      vtag tauProducers = producersNames_.getParameter<vtag>("tauProducer");
+      for(unsigned int i=0; i<tauProducers.size(); ++i)
+      {
+         const edm::InputTag tauProducer = tauProducers.at(i);
+         TauAnalyzer* myTauAnalyzer = new TauAnalyzer(tauProducer, producersNames_, myConfig_, verbosity_);
+         if(doPrimaryVertex_) myTauAnalyzer->initIPCalculator(iEvent, iSetup, rootEvent_, rootBeamSpot_);
+         myTauAnalyzer->process(iEvent,rootBeamSpot_, rootTausArrays_[i]);
+         delete myTauAnalyzer;
+      }
+   }
    
    // Photons
    if(doPhoton_)
@@ -913,6 +943,7 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
    for(unsigned int i=0; i<nJetsArrays_; ++i) (*(rootJetsArrays_[i])).Delete();
    for(unsigned int i=0; i<nMuonsArrays_; ++i) (*(rootMuonsArrays_[i])).Delete();
    for(unsigned int i=0; i<nElectronsArrays_; ++i) (*(rootElectronsArrays_[i])).Delete();
+   for(unsigned int i=0; i<nTausArrays_; ++i) (*(rootTausArrays_[i])).Delete();
    for(unsigned int i=0; i<nPhotonsArrays_; ++i) (*(rootPhotonsArrays_[i])).Delete();
    if(doCluster_) (*rootBasicClusters_).Delete();
    if(doCluster_) (*rootSuperClusters_).Delete();

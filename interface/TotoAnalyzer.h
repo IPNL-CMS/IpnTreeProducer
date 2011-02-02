@@ -36,6 +36,7 @@
 #include "../interface/JetAnalyzer.h"
 #include "../interface/MuonAnalyzer.h"
 #include "../interface/ElectronAnalyzer.h"
+#include "../interface/TauAnalyzer.h"
 #include "../interface/PhotonAnalyzer.h"
 #include "../interface/ClusterAnalyzer.h"
 #include "../interface/SuperClusterAnalyzer.h"
@@ -60,6 +61,7 @@
 #include "../interface/TRootJet.h"
 #include "../interface/TRootMuon.h"
 #include "../interface/TRootElectron.h"
+#include "../interface/TRootTau.h"
 #include "../interface/TRootPhoton.h"
 #include "../interface/TRootCluster.h"
 #include "../interface/TRootSuperCluster.h"
@@ -123,6 +125,7 @@ class TotoAnalyzer : public edm::EDAnalyzer
       bool doJet_;
       bool doMuon_;
       bool doElectron_;
+      bool doTau_;
       bool doPhoton_;
       bool doCluster_;
       bool keepAllEcalRecHits_;
@@ -157,6 +160,8 @@ class TotoAnalyzer : public edm::EDAnalyzer
       TClonesArray** rootMuonsArrays_;
       unsigned int nElectronsArrays_;
       TClonesArray** rootElectronsArrays_;
+      unsigned int nTausArrays_;
+      TClonesArray** rootTausArrays_;
       unsigned int nPhotonsArrays_;
       TClonesArray** rootPhotonsArrays_;
       TClonesArray* rootBasicClusters_;
