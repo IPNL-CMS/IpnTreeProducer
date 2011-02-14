@@ -88,6 +88,8 @@ bool MuonAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeamSpot
       localMuon.setCaloEnergy(
       muon->calEnergy().em * sintheta
       ,muon->calEnergy().emS9 * sintheta
+      ,muon->calEnergy().emS25 * sintheta
+      ,muon->calEnergy().emMax * sintheta
       ,muon->calEnergy().had * sintheta
       ,muon->calEnergy().hadS9 * sintheta
       ,muon->calEnergy().ho * sintheta
@@ -211,6 +213,15 @@ bool MuonAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeamSpot
          // Some specific methods requiring  RECO / AOD format
          // Do association to genParticle ?
          // Add InnerTrack, OuterTrack, GlobalTrack infos ?
+ 
+      	 // Track in tracker + muon detector
+      	 reco::TrackRef globalTK = muon->globalTrack();
+      	 if ( globalTK.isNonnull() )
+      	 {
+				 		 localMuon.setNumberOfValidGlobalHits(globalTK->hitPattern().numberOfValidMuonHits());
+         		 localMuon.setNormalizedGlobalChi2(globalTK->normalizedChi2());
+
+      	 }
       }
       
       if( dataType_=="PAT" )

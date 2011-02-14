@@ -16,6 +16,8 @@ class TRootMuon : public TRootParticle
       ,numberOfMatches_(-1)
       ,et_em_(-9999.)
       ,et_emS9_(-9999.)
+      ,et_emS25_(-9999.)
+      ,et_emMax_(-9999.)
       ,et_had_(-9999.)
       ,et_hadS9_(-9999.)
       ,et_ho_(-9999.)
@@ -46,6 +48,7 @@ class TRootMuon : public TRootParticle
       ,direction_(-9999)
       ,algo_(-9999)
       ,id_(-9999)
+      ,numberOfValidGlobalHits_(-1)
       ,numberOfValidPixelHits_(-1)
       ,numberOfValidTrackerHits_(-1)
       ,pixelLayersWithMeasurement_(-1)
@@ -56,6 +59,7 @@ class TRootMuon : public TRootParticle
       ,dszError_(-9999.)
       ,dB_(-9999.)
       ,normalizedChi2_(-9999.)
+      ,normalizedGlobalChi2_(-9999.)
       ,ptError_(-9999.)
       ,etaError_(-9999.)
       ,phiError_(-9999.)
@@ -73,6 +77,8 @@ class TRootMuon : public TRootParticle
       ,numberOfMatches_(muon.numberOfMatches_)
       ,et_em_(muon.et_em_)
       ,et_emS9_(muon.et_emS9_)
+      ,et_emS25_(muon.et_emS25_)
+      ,et_emMax_(muon.et_emMax_)
       ,et_had_(muon.et_had_)
       ,et_hadS9_(muon.et_hadS9_)
       ,et_ho_(muon.et_ho_)
@@ -103,6 +109,7 @@ class TRootMuon : public TRootParticle
       ,direction_(muon.direction_)
       ,algo_(muon.algo_)
       ,id_(muon.id_)
+      ,numberOfValidGlobalHits_(muon.numberOfValidGlobalHits_)
       ,numberOfValidPixelHits_(muon.numberOfValidPixelHits_)
       ,numberOfValidTrackerHits_(muon.numberOfValidTrackerHits_)
       ,pixelLayersWithMeasurement_(muon.pixelLayersWithMeasurement_)
@@ -113,6 +120,7 @@ class TRootMuon : public TRootParticle
       ,dszError_(muon.dszError_)
       ,dB_(muon.dB_)
       ,normalizedChi2_(muon.normalizedChi2_)
+      ,normalizedGlobalChi2_(muon.normalizedGlobalChi2_)
       ,ptError_(muon.ptError_)
       ,etaError_(muon.etaError_)
       ,phiError_(muon.phiError_)
@@ -130,6 +138,8 @@ class TRootMuon : public TRootParticle
       ,numberOfMatches_(-1)
       ,et_em_(-9999.)
       ,et_emS9_(-9999.)
+      ,et_emS25_(-9999.)
+      ,et_emMax_(-9999.)
       ,et_had_(-9999.)
       ,et_hadS9_(-9999.)
       ,et_ho_(-9999.)
@@ -160,6 +170,7 @@ class TRootMuon : public TRootParticle
       ,direction_(-9999)
       ,algo_(-9999)
       ,id_(-9999)
+      ,numberOfValidGlobalHits_(-1)
       ,numberOfValidPixelHits_(-1)
       ,numberOfValidTrackerHits_(-1)
       ,pixelLayersWithMeasurement_(-1)
@@ -170,6 +181,7 @@ class TRootMuon : public TRootParticle
       ,dszError_(-9999.)
       ,dB_(-9999.)
       ,normalizedChi2_(-9999.)
+      ,normalizedGlobalChi2_(-9999.)
       ,ptError_(-9999.)
       ,etaError_(-9999.)
       ,phiError_(-9999.)
@@ -187,6 +199,8 @@ class TRootMuon : public TRootParticle
       ,numberOfMatches_(-1)
       ,et_em_(-9999.)
       ,et_emS9_(-9999.)
+      ,et_emS25_(-9999.)
+      ,et_emMax_(-9999.)
       ,et_had_(-9999.)
       ,et_hadS9_(-9999.)
       ,et_ho_(-9999.)
@@ -217,6 +231,7 @@ class TRootMuon : public TRootParticle
       ,direction_(-9999)
       ,algo_(-9999)
       ,id_(-9999)
+      ,numberOfValidGlobalHits_(-1)
       ,numberOfValidPixelHits_(-1)
       ,numberOfValidTrackerHits_(-1)
       ,pixelLayersWithMeasurement_(-1)
@@ -227,6 +242,7 @@ class TRootMuon : public TRootParticle
       ,dszError_(-9999.)
       ,dB_(-9999.)
       ,normalizedChi2_(-9999.)
+      ,normalizedGlobalChi2_(-9999.)
       ,ptError_(-9999.)
       ,etaError_(-9999.)
       ,phiError_(-9999.)
@@ -244,6 +260,8 @@ class TRootMuon : public TRootParticle
       ,numberOfMatches_(-1)
       ,et_em_(-9999.)
       ,et_emS9_(-9999.)
+      ,et_emS25_(-9999.)
+      ,et_emMax_(-9999.)
       ,et_had_(-9999.)
       ,et_hadS9_(-9999.)
       ,et_ho_(-9999.)
@@ -274,6 +292,7 @@ class TRootMuon : public TRootParticle
       ,direction_(-9999)
       ,algo_(-9999)
       ,id_(-9999)
+      ,numberOfValidGlobalHits_(-1)
       ,numberOfValidPixelHits_(-1)
       ,numberOfValidTrackerHits_(-1)
       ,pixelLayersWithMeasurement_(-1)
@@ -284,6 +303,7 @@ class TRootMuon : public TRootParticle
       ,dszError_(-9999.)
       ,dB_(-9999.)
       ,normalizedChi2_(-9999.)
+      ,normalizedGlobalChi2_(-9999.)
       ,ptError_(-9999.)
       ,etaError_(-9999.)
       ,phiError_(-9999.)
@@ -301,6 +321,8 @@ class TRootMuon : public TRootParticle
       ,numberOfMatches_(-1)
       ,et_em_(-9999.)
       ,et_emS9_(-9999.)
+      ,et_emS25_(-9999.)
+      ,et_emMax_(-9999.)
       ,et_had_(-9999.)
       ,et_hadS9_(-9999.)
       ,et_ho_(-9999.)
@@ -331,6 +353,7 @@ class TRootMuon : public TRootParticle
       ,direction_(-9999)
       ,algo_(-9999)
       ,id_(-9999)
+      ,numberOfValidGlobalHits_(-1)
       ,numberOfValidPixelHits_(-1)
       ,numberOfValidTrackerHits_(-1)
       ,pixelLayersWithMeasurement_(-1)
@@ -341,6 +364,7 @@ class TRootMuon : public TRootParticle
       ,dszError_(-9999.)
       ,dB_(-9999.)
       ,normalizedChi2_(-9999.)
+      ,normalizedGlobalChi2_(-9999.)
       ,ptError_(-9999.)
       ,etaError_(-9999.)
       ,phiError_(-9999.)
@@ -358,6 +382,8 @@ class TRootMuon : public TRootParticle
       ,numberOfMatches_(-1)
       ,et_em_(-9999.)
       ,et_emS9_(-9999.)
+      ,et_emS25_(-9999.)
+      ,et_emMax_(-9999.)
       ,et_had_(-9999.)
       ,et_hadS9_(-9999.)
       ,et_ho_(-9999.)
@@ -388,6 +414,7 @@ class TRootMuon : public TRootParticle
       ,direction_(-9999)
       ,algo_(-9999)
       ,id_(-9999)
+      ,numberOfValidGlobalHits_(-1)
       ,numberOfValidPixelHits_(-1)
       ,numberOfValidTrackerHits_(-1)
       ,pixelLayersWithMeasurement_(-1)
@@ -398,6 +425,7 @@ class TRootMuon : public TRootParticle
       ,dszError_(-9999.)
       ,dB_(-9999.)
       ,normalizedChi2_(-9999.)
+      ,normalizedGlobalChi2_(-9999.)
       ,ptError_(-9999.)
       ,etaError_(-9999.)
       ,phiError_(-9999.)
@@ -416,6 +444,8 @@ class TRootMuon : public TRootParticle
       Int_t numberOfMatches() const { return numberOfMatches_;}
       Float_t et_em() const { return et_em_;}
       Float_t et_emS9() const { return et_emS9_;}
+      Float_t et_emS25() const { return et_emS25_;}
+      Float_t et_emMax() const { return et_emMax_;}
       Float_t et_had() const { return et_had_;}
       Float_t et_hadS9() const { return et_hadS9_;}
       Float_t et_ho() const { return et_ho_;}
@@ -466,6 +496,7 @@ class TRootMuon : public TRootParticle
       Bool_t idTM2DCompatibilityLoose() const { return id_ & 32; }
       Bool_t idTM2DCompatibilityTight() const { return id_ & 64; }
       
+      Int_t numberOfValidGlobalHits() const { return numberOfValidGlobalHits_; }
       Int_t numberOfValidPixelHits() const { return numberOfValidPixelHits_; }
       Int_t numberOfValidTrackerHits() const { return numberOfValidTrackerHits_; }
       Int_t pixelLayersWithMeasurement() const { return pixelLayersWithMeasurement_; }
@@ -476,6 +507,7 @@ class TRootMuon : public TRootParticle
       Float_t dszError() const { return dszError_ ;}
       Float_t dB() const { return dB_ ;}
       Float_t normalizedChi2() const { return normalizedChi2_ ;}
+      Float_t normalizedGlobalChi2() const { return normalizedGlobalChi2_ ;}
       Float_t ptError() const { return ptError_ ;}
       Float_t etaError() const { return etaError_ ;}
       Float_t phiError() const { return phiError_ ;}
@@ -494,10 +526,12 @@ class TRootMuon : public TRootParticle
       
       void setNumberOfChambers(Int_t numberOfChambers) { numberOfChambers_ = numberOfChambers; }
       void setNumberOfMatches(Int_t numberOfMatches) { numberOfMatches_ = numberOfMatches; }
-      void setCaloEnergy(Float_t et_em, Float_t et_emS9, Float_t et_had, Float_t et_hadS9, Float_t et_ho, Float_t et_hoS9, Float_t caloCompatibility)
+      void setCaloEnergy(Float_t et_em, Float_t et_emS9, Float_t et_emS25, Float_t et_emMax, Float_t et_had, Float_t et_hadS9, Float_t et_ho, Float_t et_hoS9, Float_t caloCompatibility)
       {
          et_em_ = et_em;
          et_emS9_ = et_emS9;
+         et_emS25_ = et_emS25;
+         et_emMax_ = et_emMax;
          et_had_ = et_had;
          et_hadS9_ = et_hadS9;
          et_ho_ = et_ho;
@@ -555,6 +589,7 @@ class TRootMuon : public TRootParticle
       )
       { id_ = trackerMuonArbitrated*1 + allArbitrated*2 + globalMuonPromptTight*4 + tmLastStationLoose*8 + tmLastStationTight*16 + tm2DCompatibilityLoose*32 + tm2DCompatibilityTight*64; }
       
+      void setNumberOfValidGlobalHits(Int_t numberOfValidGlobalHits) { numberOfValidGlobalHits_ = numberOfValidGlobalHits; }
       void setNumberOfValidPixelHits(Int_t numberOfValidPixelHits) { numberOfValidPixelHits_ = numberOfValidPixelHits; }
       void setNumberOfValidTrackerHits(Int_t numberOfValidTrackerHits) { numberOfValidTrackerHits_ = numberOfValidTrackerHits; }
       void setPixelLayersWithMeasurement(Int_t pixelLayersWithMeasurement) { pixelLayersWithMeasurement_ = pixelLayersWithMeasurement; }
@@ -565,6 +600,7 @@ class TRootMuon : public TRootParticle
       void setDszError(Float_t dszError) { dszError_ = dszError; }
       void setDB(Float_t dB) { dB_ = dB; }
       void setNormalizedChi2(Float_t normalizedChi2) { normalizedChi2_ = normalizedChi2; }
+      void setNormalizedGlobalChi2(Float_t normalizedGlobalChi2) { normalizedGlobalChi2_ = normalizedGlobalChi2; }
       void setPtError(Float_t ptError) { ptError_ = ptError; }
       void setEtaError(Float_t etaError) { etaError_ = etaError; }
       void setPhiError(Float_t phiError) { phiError_ = phiError; }
@@ -591,7 +627,7 @@ class TRootMuon : public TRootParticle
          << "  ID=(" << this->idTrackerMuonArbitrated() << ","  << this->idAllArbitrated() << ","  << this->idGlobalMuonPromptTight() << ","  << this->idTMLastStationLoose()
          << ","  << this->idTMLastStationTight() << ","  << this->idTM2DCompatibilityLoose() << ","  << this->idTM2DCompatibilityTight() << ")" << "  Direction=" << this->direction_
          << "  caloCompatibility="<<  this->caloCompatibility_ << "  validity(energy,matches,isolation)=(" << this->energyValid_ <<","<< this->matchesValid_ <<","<< this->isolationValid_ << ")" << endl
-         << "            Et_em=" << this->et_em_ << " Et_emS9=" << this->et_emS9_ << "  Et_had=" << this->et_had_ << " Et_hadS9=" << this->et_hadS9_ << "  Et_ho=" << this->et_ho_ << "  Et_hoS9=" << this->et_hoS9_ << endl
+         << "            Et_em=" << this->et_em_ << " Et_emS9=" << this->et_emS9_ << " Et_emS25=" << this->et_emS25_ << " Et_emMax=" << this->et_emMax_ << "  Et_had=" << this->et_had_ << " Et_hadS9=" << this->et_hadS9_ << "  Et_ho=" << this->et_ho_ << "  Et_hoS9=" << this->et_hoS9_ << endl
          << "            isolation cone 0.3: Et_em=" << this->isoR03_emEt_ << "  Et_had=" << this->isoR03_hadEt_ <<"  Et_ho=" << this->isoR03_hoEt_  << "  nTracks=" << this->isoR03_nTracks_ <<"  nJets=" << this->isoR03_nJets_ << endl
          << "            isolation cone 0.5: Et_em=" << this->isoR05_emEt_ << "  Et_had=" << this->isoR05_hadEt_ <<"  Et_ho=" << this->isoR05_hoEt_  << "  nTracks=" << this->isoR05_nTracks_ <<"  nJets=" << this->isoR05_nJets_ << endl
          << "            pat default isolation: Et_em=" << this->ecalIso_ << "  Et_had=" << this->hcalIso_ << "  Pt_trk=" << this->trackIso_ << endl
@@ -607,6 +643,8 @@ class TRootMuon : public TRootParticle
       Int_t numberOfMatches_;       // number of chambers with matched segments
       Float_t et_em_;             // energy deposited in crossed ECAL crystals
       Float_t et_emS9_;           // energy deposited in 3x3 ECAL crystal matrix around crossed crystal
+      Float_t et_emS25_;           // energy deposited in 5x5 ECAL crystal matrix around crossed crystal
+      Float_t et_emMax_;           // maximal energy of ECAL crystal in the 5x5 shape
       Float_t et_had_;            // energy deposited in crossed HCAL tower (RecHits)
       Float_t et_hadS9_;          // energy deposited in 3x3 HCAL tower matrix around crossed tower (RecHits)
       Float_t et_ho_;             // energy deposited in crossed HO tower (RecHits)
@@ -676,6 +714,7 @@ class TRootMuon : public TRootParticle
       This is usually true for Tracker tracks.
       - When the track has infinite or extremely high momentum */
       
+      Int_t numberOfValidGlobalHits_;     // Number of valid muon hits matched to the global fit
       Int_t numberOfValidPixelHits_;     // Number of valid pixel hits
       Int_t numberOfValidTrackerHits_;   // Number of valid tracker hits (pixel+strip) - More than 1 hit per layer (even mono) is possible due to modules overlap
       Int_t pixelLayersWithMeasurement_; // Number of pixel layers with at least one valid hit
@@ -687,6 +726,7 @@ class TRootMuon : public TRootParticle
       Float_t dszError_;           // error on dsz_
       Float_t dB_;                 // distance to beamline
       Float_t normalizedChi2_;     // chi-squared divided by n.d.o.f. of track fit
+      Float_t normalizedGlobalChi2_;     // chi-squared divided by n.d.o.f. of global fit
       
       Float_t ptError_;            // needed ?  ptError()
       Float_t etaError_;           // needed ?  etaError()
