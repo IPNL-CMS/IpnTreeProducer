@@ -120,10 +120,9 @@ bool ElectronAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeam
       if ( electron->trackMomentumAtVtx().Mag2()>0 ) localElectron.setTrackMomentum(sqrt(electron->trackMomentumAtVtx().Mag2()));
       localElectron.setTrackMomentumError(electron->trackMomentumError());
       localElectron.setTrackMissedInnerLayers(electron->gsfTrack()->trackerExpectedHitsInner().numberOfHits());
-      // FIXME - conversion rejection for 3_9_X
-      //localElectron.setDistConvPartner(electron->convDist());
-      //localElectron.setDcotConvPartner(electron->convDcot());
-      //localElectron.setRadiusConv(electron->convRadius());
+      localElectron.setDistConvPartner(electron->convDist());
+      localElectron.setDcotConvPartner(electron->convDcot());
+      localElectron.setRadiusConv(electron->convRadius());
       localElectron.setHadOverEm(electron->hadronicOverEm());
       localElectron.setDeltaEtaIn(electron->deltaEtaSuperClusterTrackAtVtx());
       localElectron.setDeltaPhiIn(electron->deltaPhiSuperClusterTrackAtVtx());
