@@ -92,7 +92,7 @@ bool MuonAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeamSpot
       ,muon->calEnergy().emMax * sintheta
       ,muon->calEnergy().had * sintheta
       ,muon->calEnergy().hadS9 * sintheta
-      ,muon->calEnergy().ho * sinthetasetNumberOfValidGlobalHits
+      ,muon->calEnergy().ho * sintheta
       ,muon->calEnergy().hoS9 * sintheta
       ,muon->caloCompatibility()
       );
@@ -113,7 +113,7 @@ bool MuonAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeamSpot
       ,muon->isolationR05().sumPt
       ,muon->isolationR05().nTracks
       ,muon->isolationR05().nJets
-      );setNumberOfValidGlobalHits
+      );
       
       localMuon.setValidity(
       muon->isEnergyValid()
@@ -141,7 +141,6 @@ bool MuonAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeamSpot
       );
       
       // Variables from reco::Track
-      setNumberOfValidGlobalHits
       // Track in muon detector only
       reco::TrackRef outerTK = muon->outerTrack();
       if ( outerTK.isNonnull() )
