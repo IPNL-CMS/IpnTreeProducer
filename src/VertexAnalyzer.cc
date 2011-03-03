@@ -96,10 +96,13 @@ bool VertexAnalyzer::getVertices(const edm::Event& iEvent, TClonesArray* rootVer
    // Index all TRootTracks
    TRootTrack* tk;
    std::map<Double_t, Int_t> mapPxOfTracks;
-   for (int itk=0; itk<rootTracks->GetEntriesFast(); itk++)
-   {
-      tk = (TRootTrack*) rootTracks->At(itk);
-      mapPxOfTracks[tk->Px()]=itk;
+
+   if ( rootTracks != 0 ) {
+     for (int itk=0; itk<rootTracks->GetEntriesFast(); itk++)
+       {
+	 tk = (TRootTrack*) rootTracks->At(itk);
+	 mapPxOfTracks[tk->Px()]=itk;
+       }
    }
 
    // Loop over reco::Vertex
@@ -135,8 +138,10 @@ bool VertexAnalyzer::getVertices(const edm::Event& iEvent, TClonesArray* rootVer
       for( std::vector< reco::TrackBaseRef >::const_iterator it = vertex->tracks_begin(); it != vertex->tracks_end(); it++)
       {
          int index = mapPxOfTracks.find( (**it).px() )->second;
-         TRootTrack* tk = (TRootTrack*) rootTracks->At(index);
-         tracksIndices.push_back(index);
+	 if ( rootTracks != 0 ) {
+	   TRootTrack* tk = (TRootTrack*) rootTracks->At(index);
+	   tracksIndices.push_back(index);
+	 }
          tracks.push_back(tk);
          scalarSumPt += (**it).pt();
          vectorSum += (**it).momentum();
