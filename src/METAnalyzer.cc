@@ -195,6 +195,7 @@ bool METAnalyzer::process(const edm::Event& iEvent, TClonesArray* rootMET)
             ,recoMET->CaloMETPhiInpHF()
             ,recoMET->CaloMETPhiInmHF()
             );
+	    localMET.setSumEt(recoMET->sumEt());
             
          }
          
@@ -223,6 +224,7 @@ bool METAnalyzer::process(const edm::Event& iEvent, TClonesArray* rootMET)
                recoPFMET->Type7EtFraction(),
                recoPFMET->Type7Et()
             );
+	    localMET.setSumEt(recoPFMET->sumEt());
          }
       }
       
@@ -277,6 +279,8 @@ bool METAnalyzer::process(const edm::Event& iEvent, TClonesArray* rootMET)
          localMET.setUncorrectedPtJES(patMET->uncorrectedPt(pat::MET::uncorrJES));
          localMET.setUncorrectedPtMUON(patMET->uncorrectedPt(pat::MET::uncorrMUON));
          
+	 localMET.setSumEt(patMET->sumEt());
+
          if(useMC_)
          {
             // MC truth associator index
@@ -290,6 +294,7 @@ bool METAnalyzer::process(const edm::Event& iEvent, TClonesArray* rootMET)
       
       new( (*rootMET)[j] ) TRootMET(localMET);
       if(verbosity_>2) cout << "   ["<< setw(3) << j << "] " << localMET << endl;
+
    }
    
    return true;

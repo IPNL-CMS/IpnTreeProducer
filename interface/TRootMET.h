@@ -59,6 +59,7 @@ class TRootMET : public TRootParticle
       ,type6Et_(0.)
       ,type7EtFraction_(0.)
       ,type7Et_(0.)
+      ,sumEt_(0.)
       {;}
       
       TRootMET(const TRootMET& met) :
@@ -110,6 +111,7 @@ class TRootMET : public TRootParticle
       ,type6Et_(met.type6Et_)
       ,type7EtFraction_(met.type7EtFraction_)
       ,type7Et_(met.type7Et_)
+      ,sumEt_(met.sumEt_)
       {;}
       
       TRootMET(Double_t px, Double_t py, Double_t pz, Double_t e) :
@@ -161,6 +163,7 @@ class TRootMET : public TRootParticle
       ,type6Et_(0.)
       ,type7EtFraction_(0.)
       ,type7Et_(0.)
+      ,sumEt_(0.)
       {;}
       
       TRootMET(Double_t px, Double_t py, Double_t pz, Double_t e, Double_t vtx_x, Double_t vtx_y, Double_t vtx_z) :
@@ -212,6 +215,7 @@ class TRootMET : public TRootParticle
       ,type6Et_(0.)
       ,type7EtFraction_(0.)
       ,type7Et_(0.)
+      ,sumEt_(0.)
       {;}
       
       TRootMET(Double_t px, Double_t py, Double_t pz, Double_t e, Double_t vtx_x, Double_t vtx_y, Double_t vtx_z, Int_t type, Float_t charge) :
@@ -263,6 +267,7 @@ class TRootMET : public TRootParticle
       ,type6Et_(0.)
       ,type7EtFraction_(0.)
       ,type7Et_(0.)
+      ,sumEt_(0.)
       {;}
       
       TRootMET(const TLorentzVector &momentum) :
@@ -314,6 +319,7 @@ class TRootMET : public TRootParticle
       ,type6Et_(0.)
       ,type7EtFraction_(0.)
       ,type7Et_(0.)
+      ,sumEt_(0.)
       {;}
       
       TRootMET(const TLorentzVector &momentum, const TVector3 &vertex, Int_t type, Float_t charge) :
@@ -365,6 +371,7 @@ class TRootMET : public TRootParticle
       ,type6Et_(0.)
       ,type7EtFraction_(0.)
       ,type7Et_(0.)
+      ,sumEt_(0.)
       {;}
       
       ~TRootMET() {;}
@@ -414,8 +421,9 @@ class TRootMET : public TRootParticle
       Float_t muonEt() const {return muonEt_; }
       Float_t type6EtFraction() {return type6EtFraction_; }
       Float_t type6Et() {return type6Et_; }
-      Float_t type7EtFraction() {return type6EtFraction_; }
-      Float_t type7Et() {return type6Et_; }
+      Float_t type7EtFraction() {return type7EtFraction_; }
+      Float_t type7Et() {return type7Et_; }
+      Float_t sumEt() const {return sumEt_; }
       //TObject* genMET() const { return genMET_.GetObject(); }
       virtual TString typeName() const { return "TRootMET"; }
       
@@ -546,9 +554,10 @@ class TRootMET : public TRootParticle
          type7Et_         = type7Et;
       }
 
+      void setSumEt(Float_t sumEt) { sumEt_ = sumEt; }
       
        friend std::ostream& operator<< (std::ostream& stream, const TRootMET& met) {
-          stream << "TRootMET  (Pt,Px,Py, Phi)=("<< met.Pt() <<","<< met.Px() <<","<< met.Py()  <<","<< met.Phi() << ")"
+	 stream << "TRootMET  (Pt,Px,Py,Phi,SumEt)=("<< met.Pt() <<","<< met.Px() <<","<< met.Py()  <<","<< met.Phi() << "," << met.sumEt() << ")"
           << "  hadEt in (HO,HB,HF,HE)=("<< met.hadEtInHO() <<","<< met.hadEtInHB() <<","<< met.hadEtInHF() <<","<< met.hadEtInHE() << ")"
           << "  emEt in (EB,EF,HF)=("<< met.emEtInEB() <<","<< met.emEtInEE() <<","<< met.emEtInHF() << ")";
           return stream;
@@ -605,8 +614,10 @@ class TRootMET : public TRootParticle
       Float_t type6Et_;
       Float_t type7EtFraction_;
       Float_t type7Et_;
+
+      Float_t sumEt_;
       
-      ClassDef (TRootMET,2);
+      ClassDef (TRootMET,3);
       
 };
 
