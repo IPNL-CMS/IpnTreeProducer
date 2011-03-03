@@ -209,8 +209,8 @@ bool JetAnalyzer::process(const edm::Event& iEvent, TClonesArray* rootJets)
 			localJet.setBtag_trackCountingHighEff(patJet->bDiscriminator("trackCountingHighEffBJetTags"));
 			localJet.setBtag_trackCountingHighPur(patJet->bDiscriminator("trackCountingHighPurBJetTags"));
 			localJet.setBtag_jetProbability(patJet->bDiscriminator("jetProbabilityBJetTags"));
-         localJet.setBtag_SSVHE(patJet->bDiscriminator("simpleSecondaryVertexHighEffBJetTags"));
-         localJet.setBtag_SSVHP(patJet->bDiscriminator("simpleSecondaryVertexHighPurBJetTags"));
+			localJet.setBtag_SSVHE(patJet->bDiscriminator("simpleSecondaryVertexHighEffBJetTags"));
+			localJet.setBtag_SSVHP(patJet->bDiscriminator("simpleSecondaryVertexHighPurBJetTags"));
          // Note by stephane 17/11/2010 - jetBProbabilityBJetTags, combinedSecondaryVertexBJetTags, combinedSecondaryVertexMVABJetTags, 
          // are still missing - to be added later (no enough time now !)
 
@@ -255,12 +255,30 @@ bool JetAnalyzer::process(const edm::Event& iEvent, TClonesArray* rootJets)
 			localJet.setRestrictedEMF(patJet->jetID().restrictedEMF);
 			localJet.setFHPD(patJet->jetID().fHPD);
 			localJet.setFRBX(patJet->jetID().fRBX);
-						
-			//localJet.setL0Correction(patJet->corrFactor("raw",""));
-			//localJet.setL1Correction(patJet->jecFactor("L1Offset",""));
-			localJet.setL2Correction(patJet->jecFactor("L2Relative","none"));
-			localJet.setL3Correction(patJet->jecFactor("L3Absolute","none"));
 			
+
+			std::cout << " currentJECSet()   = " << patJet->currentJECSet()   << std::endl;
+			std::cout << " currentJECLevel() = " << patJet->currentJECLevel() << std::endl;
+
+			const std::vector<std::string> jecSets = patJet->availableJECSets();
+			std::cout << "=========================================" << std::endl;
+			std::cout << " available JEC sets:                     " << std::endl;
+			for ( unsigned int k=0; k<jecSets.size(); ++k) {
+			  std::cout << jecSets[k] << endl;
+			  const std::vector<std::string> jecLevels = patJet->availableJECLevels(jecSets[k]);
+			  for ( unsigned int l=0; l<jecLevels.size(); ++l) {
+			    std::cout << jecLevels[l] << endl;
+			    
+			    if ( strcmp(jecLevels[l].c_str(),"Uncorrected") == 0 ) localJet.setL0Correction(patJet->jecFactor("Uncorrected","none"));
+			    if ( strcmp(jecLevels[l].c_str(),"L1Offset")    == 0 ) localJet.setL1Correction(patJet->jecFactor("L1Offset","none"));
+			    if ( strcmp(jecLevels[l].c_str(),"L2Relative")  == 0 ) localJet.setL2Correction(patJet->jecFactor("L2Relative","none"));
+			    if ( strcmp(jecLevels[l].c_str(),"L3Absolute")  == 0 ) localJet.setL3Correction(patJet->jecFactor("L3Absolute","none"));
+			    // Temporary fix : put L2L3Residual correction on L4Correction
+			    if ( strcmp(jecLevels[l].c_str(),"L2L3Residual")== 0 ) localJet.setL4Correction(patJet->jecFactor("L2L3Residual","none"));
+			  }
+
+			}
+
 			// No JEC for level >= L4 in 386
 			//localJet.setL4Correction(patJet->jecFactor("L4EMF","none"));
 			
