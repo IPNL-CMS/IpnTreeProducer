@@ -57,6 +57,7 @@ class TRootMuon : public TRootParticle
       ,d0Error_(-9999.)
       ,dsz_(-9999.)
       ,dszError_(-9999.)
+      ,GlobaldB_(-9999.)
       ,dB_(-9999.)
       ,normalizedChi2_(-9999.)
       ,normalizedGlobalChi2_(-9999.)
@@ -118,6 +119,7 @@ class TRootMuon : public TRootParticle
       ,d0Error_(muon.d0Error_)
       ,dsz_(muon.dsz_)
       ,dszError_(muon.dszError_)
+      ,GlobaldB_(muon.GlobaldB_)
       ,dB_(muon.dB_)
       ,normalizedChi2_(muon.normalizedChi2_)
       ,normalizedGlobalChi2_(muon.normalizedGlobalChi2_)
@@ -179,6 +181,7 @@ class TRootMuon : public TRootParticle
       ,d0Error_(-9999.)
       ,dsz_(-9999.)
       ,dszError_(-9999.)
+      ,GlobaldB_(-9999.)
       ,dB_(-9999.)
       ,normalizedChi2_(-9999.)
       ,normalizedGlobalChi2_(-9999.)
@@ -240,6 +243,7 @@ class TRootMuon : public TRootParticle
       ,d0Error_(-9999.)
       ,dsz_(-9999.)
       ,dszError_(-9999.)
+      ,GlobaldB_(-9999.)
       ,dB_(-9999.)
       ,normalizedChi2_(-9999.)
       ,normalizedGlobalChi2_(-9999.)
@@ -301,6 +305,7 @@ class TRootMuon : public TRootParticle
       ,d0Error_(-9999.)
       ,dsz_(-9999.)
       ,dszError_(-9999.)
+      ,GlobaldB_(-9999.)
       ,dB_(-9999.)
       ,normalizedChi2_(-9999.)
       ,normalizedGlobalChi2_(-9999.)
@@ -362,6 +367,7 @@ class TRootMuon : public TRootParticle
       ,d0Error_(-9999.)
       ,dsz_(-9999.)
       ,dszError_(-9999.)
+      ,GlobaldB_(-9999.)
       ,dB_(-9999.)
       ,normalizedChi2_(-9999.)
       ,normalizedGlobalChi2_(-9999.)
@@ -423,6 +429,7 @@ class TRootMuon : public TRootParticle
       ,d0Error_(-9999.)
       ,dsz_(-9999.)
       ,dszError_(-9999.)
+      ,GlobaldB_(-9999.)
       ,dB_(-9999.)
       ,normalizedChi2_(-9999.)
       ,normalizedGlobalChi2_(-9999.)
@@ -505,6 +512,7 @@ class TRootMuon : public TRootParticle
       Float_t d0Error() const { return d0Error_ ;}
       Float_t dsz() const { return dsz_ ;}
       Float_t dszError() const { return dszError_ ;}
+      Float_t GlobaldB() const { return GlobaldB_ ;}
       Float_t dB() const { return dB_ ;}
       Float_t normalizedChi2() const { return normalizedChi2_ ;}
       Float_t normalizedGlobalChi2() const { return normalizedGlobalChi2_ ;}
@@ -598,6 +606,7 @@ class TRootMuon : public TRootParticle
       void setD0Error(Float_t d0Error) { d0Error_ = d0Error; }
       void setDsz(Float_t dsz) { dsz_ = dsz; }
       void setDszError(Float_t dszError) { dszError_ = dszError; }
+      void setGlobalDB(Float_t GlobaldB) { GlobaldB_ = GlobaldB; }
       void setDB(Float_t dB) { dB_ = dB; }
       void setNormalizedChi2(Float_t normalizedChi2) { normalizedChi2_ = normalizedChi2; }
       void setNormalizedGlobalChi2(Float_t normalizedGlobalChi2) { normalizedGlobalChi2_ = normalizedGlobalChi2; }
@@ -632,7 +641,7 @@ class TRootMuon : public TRootParticle
          << "            isolation cone 0.5: Et_em=" << this->isoR05_emEt_ << "  Et_had=" << this->isoR05_hadEt_ <<"  Et_ho=" << this->isoR05_hoEt_  << "  nTracks=" << this->isoR05_nTracks_ <<"  nJets=" << this->isoR05_nJets_ << endl
          << "            pat default isolation: Et_em=" << this->ecalIso_ << "  Et_had=" << this->hcalIso_ << "  Pt_trk=" << this->trackIso_ << endl
          << "            PF Isolation : particleIso=" << this->pfParticleIso_ << "  chargedHadronIso=" << this->pfChargedHadronIso_ << "  NeutralHadronIso=" << this->pfNeutralHadronIso_ << endl
-         << "            d0=" << this->d0_ << " +- " << this->d0Error_ << "  dsz=" << this->dsz_ << " +- " << this->dszError_ << "  dB=" << this->dB_ << "   IP 3D Significance=" << this->ip3DSignificance_;
+         << "            d0=" << this->d0_ << " +- " << this->d0Error_ << "  dsz=" << this->dsz_ << " +- " << this->dszError_ << "  dB=" << this->dB_ << "  GlobaldB=" << this->GlobaldB_ << "   IP 3D Significance=" << this->ip3DSignificance_;
       };
       
       
@@ -724,6 +733,7 @@ class TRootMuon : public TRootParticle
       Float_t d0Error_;            // error on d0_
       Float_t dsz_;                // dsz parameter
       Float_t dszError_;           // error on dsz_
+      Float_t GlobaldB_;                 // distance of Global track to beamline
       Float_t dB_;                 // distance to beamline
       Float_t normalizedChi2_;     // chi-squared divided by n.d.o.f. of track fit
       Float_t normalizedGlobalChi2_;     // chi-squared divided by n.d.o.f. of global fit
