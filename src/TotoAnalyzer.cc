@@ -84,6 +84,7 @@ void TotoAnalyzer::beginJob()
    doSignalMuMuGamma_ = myConfig_.getUntrackedParameter<bool>("doSignalMuMuGamma",false);
    doSignalTopTop_ = myConfig_.getUntrackedParameter<bool>("doSignalTopTop",false);
    doPhotonConversionMC_ = myConfig_.getUntrackedParameter<bool>("doPhotonConversionMC",false);
+   doElectronsMCTruth_ = myConfig_.getUntrackedParameter<bool>("doElectronMCTruth",false);
    drawMCTree_ = myConfig_.getUntrackedParameter<bool>("drawMCTree",false);
    doBeamSpot_ = myConfig_.getUntrackedParameter<bool>("doBeamSpot",false);
    doPrimaryVertex_ = myConfig_.getUntrackedParameter<bool>("doPrimaryVertex",false);
@@ -174,6 +175,13 @@ void TotoAnalyzer::beginJob()
       if(verbosity_>0) std::cout << "Converted MC Photons info will be added to rootuple" << std::endl;
       rootMCPhotons_ = new TClonesArray("TRootMCPhoton", 1000);
       eventTree_->Branch ("MCPhotons", "TClonesArray", &rootMCPhotons_);
+   }
+   
+   if (doElectronsMCTruth_)
+   {
+      if(verbosity_>0) std::cout << "MC truth info for electron for electrons will be added to rootupe" << std::endl;
+      rootMCElectrons_ = new TClonesArray("TRootMCElectron", 1000);
+      eventTree_->Branch ("MCElectrons","TClonesArray", &rootMCElectrons_);
    }
    
    if(doBeamSpot_)
@@ -570,7 +578,7 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
    {
       if(verbosity_>1) std::cout << std::endl << "Get HLT Results..." << std::endl;
       hltAnalyzer_->process(iEvent, iSetup, rootEvent_);
-      if(doHLTObject_) hltAnalyzer_->keepTriggerObjects(iEvent, rootHLTObjects_);
+      if(doHLTObject_) hltAnalyzer_->keepTriggerObjects(iEvent, producersNames_, rootHLTObjects_);
    }
    
    
@@ -592,6 +600,7 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
       }
       if (doSignalTopTop_) myMCAnalyzer->processTopTopEvent(iEvent, rootMCTopTop_);
       if (doPhotonConversionMC_) myMCAnalyzer->processConvertedPhoton(iEvent, rootMCPhotons_);
+      if (doElectronsMCTruth_) myMCAnalyzer->processMCElectron(iEvent, rootMCElectrons_);
       delete myMCAnalyzer;
    }
    
@@ -819,6 +828,7 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
       Float_t hcalRecHitIsolation;
       Float_t isoTracks;
       Int_t isoNTracks;
+      Int_t isoNNiceTracks;
       TRootPhoton* localPhoton;
       
       for(unsigned int i=0; i<nPhotonsArrays_; ++i)
@@ -842,6 +852,9 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
             if(doTrack_) isoTracks = myPhotonIsolator->trackerIsolation(localPhoton, rootTracks_, isoNTracks);
             
             localPhoton->setIsolationPerso(ecalIslandIsolation, ecalDoubleConeIsolation, hcalRecHitIsolation, isoTracks, isoNTracks);
+            isoNNiceTracks = myPhotonIsolator->nNiceTracks(iEvent, iSetup, producersNames_, localPhoton);
+            localPhoton->setDR04IsolationNNiceTracks(isoNNiceTracks);
+            
             if(verbosity_>4) { std::cout << "   After isolation - ["<< setw(3) << iphoton << "] "; localPhoton->Print(); std::cout << std::endl; }
          }
          delete myPhotonIsolator;
