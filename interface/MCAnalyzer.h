@@ -24,6 +24,7 @@
 #include "SimDataFormats/Vertex/interface/SimVertex.h"
 #include "SimDataFormats/Vertex/interface/SimVertexContainer.h"
 #include "RecoEgamma/EgammaMCTools/interface/PhotonMCTruthFinder.h"
+#include "RecoEgamma/EgammaMCTools/interface/ElectronMCTruthFinder.h"
 #include "RecoEgamma/EgammaMCTools/interface/PhotonMCTruth.h"
 #include "RecoEgamma/EgammaMCTools/interface/ElectronMCTruth.h"
 //#include "DataFormats/EgammaCandidates/interface/ConvertedPhoton.h"
@@ -35,6 +36,7 @@
 #include "../interface/TRootParticle.h"
 #include "../interface/TRootMCParticle.h"
 #include "../interface/TRootMCPhoton.h"
+#include "../interface/TRootMCElectron.h"
 #include "../interface/TRootJet.h"
 
 #include "TClonesArray.h"
@@ -55,6 +57,7 @@ class MCAnalyzer
       bool processConvertedPhoton(const edm::Event& iEvent, TClonesArray* rootMCPhotons);
       bool processMuMuGammaEvent(const edm::Event& iEvent, TRootSignalEvent* rootSignalEvent);
       bool processTopTopEvent(const edm::Event& iEvent, TClonesArray* rootMCTopTop);
+      bool processMCElectron(const edm::Event&, TClonesArray* rootMCElectron);
 
    private:
 

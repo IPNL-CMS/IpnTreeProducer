@@ -54,6 +54,7 @@
 #include "../interface/TRootSignalEvent.h"
 #include "../interface/TRootParticle.h"
 #include "../interface/TRootMCParticle.h"
+#include "../interface/TRootMCElectron.h"
 #include "../interface/TRootHLTObject.h"
 #include "../interface/TRootBeamSpot.h"
 #include "../interface/TRootVertex.h"
@@ -117,6 +118,7 @@ class TotoAnalyzer : public edm::EDAnalyzer
       bool doSignalMuMuGamma_;
       bool doSignalTopTop_;
       bool doPhotonConversionMC_;
+      bool doElectronsMCTruth_;
       bool drawMCTree_;
       bool doBeamSpot_;
       bool doPrimaryVertex_;
@@ -150,6 +152,7 @@ class TotoAnalyzer : public edm::EDAnalyzer
       TRootSignalEvent* rootMuMuGammaEvent_;
       TClonesArray* rootMCTopTop_;
       TClonesArray* rootMCPhotons_;
+      TClonesArray* rootMCElectrons_;
       TRootBeamSpot* rootBeamSpot_;
       TClonesArray* rootVertices_;
       TClonesArray* rootZeeVertices_;

@@ -419,6 +419,70 @@ bool MCAnalyzer::processConvertedPhoton(const edm::Event& iEvent, TClonesArray* 
 }
 
 
+bool MCAnalyzer::processMCElectron(const edm::Event& iEvent, TClonesArray* rootMCElectron)
+{
+	
+	// Get MC infos (sim tracks and vertices) on converted photons
+	if(verbosity_>1) std::cout  << std::endl << "   MCAnalyzer::ProcessMonteCarloElectron... Looking for MC truth " << std::endl;
+	
+	std::vector<SimTrack> theSimTracks;
+	std::vector<SimVertex> theSimVertices;
+        std::cout << "on va regarder la MC truth ! ! " << std::endl;	
+	try
+	{
+		edm::Handle<SimTrackContainer> SimTk;
+		edm::Handle<SimVertexContainer> SimVtx;
+		iEvent.getByLabel("g4SimHits",SimTk);
+		iEvent.getByLabel("g4SimHits",SimVtx);
+		theSimTracks.insert(theSimTracks.end(),SimTk->begin(),SimTk->end());
+		theSimVertices.insert(theSimVertices.end(),SimVtx->begin(),SimVtx->end());
+	}
+	catch (cms::Exception& exception)
+	{
+		if ( !allowMissingCollection_ )
+		{
+			cout << "  ##### ERROR IN  MCAnalyzer::processConvertedPhoton => No g4SimHits #####"<<endl;
+			throw exception;
+		}
+		if(verbosity_>1) cout <<  "   ===> No g4SimHits, skip MC info on converted photons" << endl;
+		return false;
+	}
+	ElectronMCTruthFinder* theElectronMCTruthFinder_ = new ElectronMCTruthFinder();
+	std::vector<ElectronMCTruth> mcElectrons = theElectronMCTruthFinder_->find (theSimTracks,  theSimVertices);
+	//if(verbosity_>1) std::cout << "   MCAnalyzer::ProcessMonteCarloElectrons mcElectrons size " <<  mcElectrons.size() << std::endl;
+	unsigned int ielect=0;	
+	for( std::vector<ElectronMCTruth>::const_iterator mcEl = mcElectrons.begin(); mcEl !=mcElectrons.end() ; mcEl++)
+	{
+				TRootMCElectron theMCElectron(
+											  (*mcEl).fourMomentum().px(),
+											  (*mcEl).fourMomentum().py(),
+											  (*mcEl).fourMomentum().pz(),
+											  (*mcEl).fourMomentum().e(),
+											  (*mcEl).primaryVertex().x(),
+											  (*mcEl).primaryVertex().y(),
+											  (*mcEl).primaryVertex().z());
+				 std:vector<TVector3> AllBremVtx;
+				 std::vector<CLHEP::Hep3Vector> lesBremVtx = (*mcEl).bremVertices();
+				 for (unsigned j = 0 ; j < lesBremVtx.size() ; j++){
+					TVector3 OneBremVtx(lesBremVtx[j].x(),lesBremVtx[j].y(),lesBremVtx[j].z());
+					AllBremVtx.push_back(OneBremVtx);
+				}
+				theMCElectron.setBremPosition(AllBremVtx);
+				std::vector<TLorentzVector> AllBremMomentum;
+				std::vector<CLHEP::HepLorentzVector> lesBremMomentum = (*mcEl).bremMomentum();
+				for (unsigned j = 0 ; j < lesBremMomentum.size() ; j++){
+					TLorentzVector OneBremMomentum(lesBremMomentum[j].x(),lesBremMomentum[j].y(),lesBremMomentum[j].z(),lesBremMomentum[j].t());
+					AllBremMomentum.push_back(OneBremMomentum);
+				}
+			    theMCElectron.setBremMomentum(AllBremMomentum);
+			    theMCElectron.setEnergyLoss((*mcEl).eloss());
+			    cout << "ielect = " << ielect << endl;
+	         	    new( (*rootMCElectron)[ielect] ) TRootMCElectron(theMCElectron);
+			    ielect++;
+	}
+	delete theElectronMCTruthFinder_;
+	return true;
+}
 
 bool MCAnalyzer::processMuMuGammaEvent(const edm::Event& iEvent, TRootSignalEvent* rootSignalEvent)
 {

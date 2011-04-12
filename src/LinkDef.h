@@ -12,6 +12,7 @@
 #include "../interface/TRootMuon.h"
 #include "../interface/TRootPhoton.h"
 #include "../interface/TRootMCPhoton.h"
+#include "../interface/TRootMCElectron.h"
 #include "../interface/TRootElectron.h"
 #include "../interface/TRootTau.h"
 #include "../interface/TRootSignalEvent.h"
@@ -27,6 +28,7 @@
 #include "../interface/TRootEvent.h"
 #include "../interface/TRootParticle.h"
 #include "../interface/TRootMCParticle.h"
+#include "../interface/TRootMCElectron.h"
 #include "../interface/TRootHLTObject.h"
 #include "../interface/TRootBeamSpot.h"
 #include "../interface/TRootVertex.h"
@@ -65,6 +67,7 @@
 #pragma link C++ class TRootMuon;
 #pragma link C++ class TRootPhoton;
 #pragma link C++ class TRootMCPhoton;
+#pragma link C++ class TRootMCElectron;
 #pragma link C++ class TRootElectron;
 #pragma link C++ class TRootTau;
 #pragma link C++ class TRootSignalEvent;
