@@ -124,6 +124,7 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
 #     signalGenerator = cms.untracked.string('ALPGEN'),
       signalGenerator = cms.untracked.string('MADGRAPH'),
       doPhotonConversionMC = cms.untracked.bool(True),
+      doElectronMCTruth = cms.untracked.bool(False),
 
       doPhotonMC = cms.untracked.bool(True),
       doElectronMC = cms.untracked.bool(True),
@@ -190,6 +191,12 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       trackerIsolation_DRmax = cms.double(0.3),                               # size of the DR cone around photon - pt of tracks in this cone are added
       trackerIsolation_pt_threshold = cms.double(0.0),                        # pt threshold for tracks added in DR cone
       trackerIsolation_pixelLayers_threshold = cms.int32(0),                  # minimum number of pixel layers with measurement required for tracks to be added in DR cone isolation
+      trackerNiceTracksIsolationLIP = cms.double(0.2),                        # longitudianal impact parameter of the track (value in RECO = 0.2)
+      trackerNiceTracksIsolationD0 = cms.double(0.1),                         # cut on the transverse impact of the track
+      trackerNiceTracksIsolationTrackThreshold = cms.double(0.0),             # cut on the transverse energy of the track
+      trackerNiceTracksIsolationdROuterRadius = cms.double(0.4),
+      trackerNiceTracksIsolationdRInnerRadius = cms.double(0.04),
+      trackerNiceTracksIsolationTrackEtaSlice = cms.double(0.015),
 
       # Parametrization of the Primary Vertex re-Reconstruction (used for Zee events)
       verbose = cms.untracked.bool(False),
@@ -252,7 +259,8 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       hbheRecHitProducer = cms.InputTag("hbhereco"),
       hoRecHitProducer = cms.InputTag("horeco"),
       hfRecHitProducer = cms.InputTag("hfreco"),
-      electronProducerForZeeVertex = cms.InputTag("gsfElectrons")
+      electronProducerForZeeVertex = cms.InputTag("gsfElectrons"),
+      HLTfilterToSave = cms.vstring("hltL1NonIsoHLTNonIsoDoublePhotonEt17HEFilter")
    ),
 
    producersNamesPAT = cms.PSet(
