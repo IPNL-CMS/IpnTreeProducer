@@ -94,17 +94,17 @@ bool VertexAnalyzer::getVertices(const edm::Event& iEvent, TClonesArray* rootVer
    }
    
    // Index all TRootTracks
-   TRootTrack* tk;
    std::map<Double_t, Int_t> mapPxOfTracks;
-
-   if ( rootTracks != 0 ) {
-     for (int itk=0; itk<rootTracks->GetEntriesFast(); itk++)
-       {
-	 tk = (TRootTrack*) rootTracks->At(itk);
-	 mapPxOfTracks[tk->Px()]=itk;
-       }
+   
+   if ( rootTracks != 0 )
+   {
+      for (int itk=0; itk<rootTracks->GetEntriesFast(); itk++)
+      {
+         TRootTrack* tk = (TRootTrack*) rootTracks->At(itk);
+         mapPxOfTracks[tk->Px()]=itk;
+      }
    }
-
+   
    // Loop over reco::Vertex
    int iRootVertex = 0;
    for (unsigned int j=0; j<recoVertices->size(); j++)
@@ -137,18 +137,19 @@ bool VertexAnalyzer::getVertices(const edm::Event& iEvent, TClonesArray* rootVer
       
       for( std::vector< reco::TrackBaseRef >::const_iterator it = vertex->tracks_begin(); it != vertex->tracks_end(); it++)
       {
-         int index = mapPxOfTracks.find( (**it).px() )->second;
-	 if ( rootTracks != 0 ) {
-	   TRootTrack* tk = (TRootTrack*) rootTracks->At(index);
-	   tracksIndices.push_back(index);
-	 }
-         tracks.push_back(tk);
+         if ( rootTracks != 0 )
+         {
+            int index = mapPxOfTracks.find( (**it).px() )->second;
+            TRootTrack* tk = (TRootTrack*) rootTracks->At(index);
+            tracksIndices.push_back(index);
+            tracks.push_back(tk);
+            tk->setPrimaryVertexIndex(j);
+            tk->setPrimaryVertex(rootVertex);
+         }
          scalarSumPt += (**it).pt();
          vectorSum += (**it).momentum();
          if( (**it).pt()>higherPt ) higherPt=(**it).pt();
          ntracks++;
-         tk->setPrimaryVertexIndex(j);
-         tk->setPrimaryVertex(rootVertex);
       }
       vectorSumPt = sqrt(vectorSum.Perp2());
       
@@ -165,8 +166,8 @@ bool VertexAnalyzer::getVertices(const edm::Event& iEvent, TClonesArray* rootVer
       rootVertex->setHigherTrackPt( higherPt );
       rootVertex->setScalarSumPt( scalarSumPt );
       rootVertex->setVectorSumPt( vectorSumPt );
-      rootVertex->setTracksIndices( tracksIndices );
-      rootVertex->setTracks( tracks );
+      if ( rootTracks != 0 ) rootVertex->setTracksIndices( tracksIndices );
+      if ( rootTracks != 0 ) rootVertex->setTracks( tracks );
       
       if(verbosity_>2) cout << "   ["<< setw(3) << iRootVertex << "] " << *rootVertex << endl;
       iRootVertex++;
