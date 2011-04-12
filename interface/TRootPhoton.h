@@ -848,7 +848,7 @@ public:
          << "            etaLAT=" << this->etaLAT() <<" phiLAT=" << this->phiLAT() <<" LAT=" << this->lat() <<" zernike20=" << this->zernike20() <<" zernike42=" << this->zernike42() << endl
          << "            2nd MomentMaj=" << this->secondMomentMaj() <<" 2nd MomentMin=" << this->secondMomentMin() <<" 2nd Moment alpha=" << this->secondMomentAlpha() << endl
          << "            isoPerso  BC="<< this->isolationPersoBasicClusters() << " DoubleConeBC=" << this->isolationPersoBasicClustersDoubleCone()
-         << " hcal=" << this->isolationPersoHcalRecHit() << " track=" << this->isolationPersoTracksSolidCone() << " ntracks=" << this->isolationPersoNTracksSolidCone() << endl
+         << " hcal=" << this->isolationPersoHcalRecHit() << " track=" << this->isolationPersoTracksSolidCone() << " ntracks=" << this->isolationPersoNTracksSolidCone()  << " nNiceTracks=" << this->dR04IsolationNNiceTracks() << endl
          << "            dR03 isoPhotonID  ecal="<< this->dR03IsolationEcalRecHit() << " hcal=" << this->dR03IsolationHcalRecHit() << " track-hollow=" << this->dR03IsolationHollowTrkCone()
          << " ntracks-hollow=" << this->dR03IsolationNTracksHollowCone() << " track-solid=" << this->dR03IsolationSolidTrkCone() << " ntracks-solid=" << this->dR03IsolationNTracksSolidCone() << endl
          << "            dR04 isoPhotonID  ecal="<< this->dR04IsolationEcalRecHit() << " hcal=" << this->dR04IsolationHcalRecHit() << " track-hollow=" << this->dR04IsolationHollowTrkCone()
