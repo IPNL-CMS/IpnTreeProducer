@@ -1,6 +1,5 @@
 #include "../interface/MCAnalyzer.h"
 
-using namespace std;
 using namespace reco;
 using namespace edm;
 
@@ -49,7 +48,7 @@ MCAnalyzer::~MCAnalyzer()
 
 void MCAnalyzer::drawMCTree(const edm::Event& iEvent, const edm::EventSetup& iSetup, const edm::ParameterSet& config, const edm::ParameterSet& producersNames)
 {
-   cout << endl << " ----- ParticleTreeDrawer -----" << endl;
+   std::cout << std::endl << " ----- ParticleTreeDrawer -----" << std::endl;
    ParticleTreeDrawer* ptd = new ParticleTreeDrawer(config, producersNames);
    ptd->analyze( iEvent, iSetup );
    delete ptd;
@@ -65,7 +64,7 @@ bool MCAnalyzer::pdfInfo(const edm::Event& iEvent, TRootEvent* rootEvent)
       iEvent.getByLabel("generator", genEvent);
       if(! genEvent.isValid())
       {
-         if(verbosity_>1) cout <<  "   ===> No Valid GenEventInfoProduct, skip PDF Infos" << endl;
+         if(verbosity_>1) std::cout <<  "   ===> No Valid GenEventInfoProduct, skip PDF Infos" << std::endl;
          return false;
       }
    }
@@ -73,10 +72,10 @@ bool MCAnalyzer::pdfInfo(const edm::Event& iEvent, TRootEvent* rootEvent)
    {
       if ( !allowMissingCollection_ )
       {
-         cout << "  ##### ERROR IN  MCAnalyzer::pdfInfo => No GenEventInfoProduct #####"<<endl;
+         std::cout << "  ##### ERROR IN  MCAnalyzer::pdfInfo => No GenEventInfoProduct #####"<<std::endl;
          throw exception;
       }
-      if(verbosity_>1) cout <<  "   ===> No GenEventInfoProduct, skip PDF Infos" << endl;
+      if(verbosity_>1) std::cout <<  "   ===> No GenEventInfoProduct, skip PDF Infos" << std::endl;
       return false;
    }
    
@@ -89,9 +88,9 @@ bool MCAnalyzer::pdfInfo(const edm::Event& iEvent, TRootEvent* rootEvent)
    {
       if (verbosity_>1)
       {
-         cout << "   First incoming parton:  flavour=" << genEvent->pdf()->id.first << " x1 = " << genEvent->pdf()->x.first << " xPDF1 = " << genEvent->pdf()->xPDF.first << endl;
-         cout << "   Second incoming parton:  flavour=" << genEvent->pdf()->id.second << " x2 = " << genEvent->pdf()->x.second << " xPDF2 = " << genEvent->pdf()->xPDF.second << endl;
-         cout << "   PDF Scale = " << genEvent->pdf()->scalePDF << endl;
+         std::cout << "   First incoming parton:  flavour=" << genEvent->pdf()->id.first << " x1 = " << genEvent->pdf()->x.first << " xPDF1 = " << genEvent->pdf()->xPDF.first << std::endl;
+         std::cout << "   Second incoming parton:  flavour=" << genEvent->pdf()->id.second << " x2 = " << genEvent->pdf()->x.second << " xPDF2 = " << genEvent->pdf()->xPDF.second << std::endl;
+         std::cout << "   PDF Scale = " << genEvent->pdf()->scalePDF << std::endl;
       }
       rootEvent->setIdParton1(genEvent->pdf()->id.first);
       rootEvent->setXParton1(genEvent->pdf()->x.first);
@@ -110,7 +109,7 @@ bool MCAnalyzer::pdfInfo(const edm::Event& iEvent, TRootEvent* rootEvent)
 bool MCAnalyzer::processMCParticle(const edm::Event& iEvent, TClonesArray* rootMCParticles)
 {
    // Fill TCloneArrays with preselected MC Electrons, Muons and Photons, and with the primary decaying particles
-   if(verbosity_>1) cout << endl << "   Process MC Particles..." << endl;
+   if(verbosity_>1) std::cout << std::endl << "   Process MC Particles..." << std::endl;
    
    int iPhoton=0; int iElectron=0; int iMuon=0; int iOtherStableParticle=0; int iUnstableParticle=0;
    int iPartSel=0; int iPhotonSel=0; int iElectronSel=0; int iMuonSel=0; int iOtherStableParticleSel=0;
@@ -120,16 +119,16 @@ bool MCAnalyzer::processMCParticle(const edm::Event& iEvent, TClonesArray* rootM
    {
       iEvent.getByLabel( genParticlesProducer_, genParticles );
       int nGenParticles = genParticles->size();
-      if(verbosity_>1) std::cout << endl << "   Number of genParticles = " << nGenParticles << "   Label: " << genParticlesProducer_.label() << "   Instance: " << genParticlesProducer_.instance() << std::endl;
+      if(verbosity_>1) std::cout << std::endl << "   Number of genParticles = " << nGenParticles << "   Label: " << genParticlesProducer_.label() << "   Instance: " << genParticlesProducer_.instance() << std::endl;
    }
    catch (cms::Exception& exception)
    {
       if ( !allowMissingCollection_ )
       {
-         cout << "  ##### ERROR IN  MCAnalyzer::processMCParticle => No genParticles #####"<<endl;
+         std::cout << "  ##### ERROR IN  MCAnalyzer::processMCParticle => No genParticles #####"<<std::endl;
          throw exception;
       }
-      if(verbosity_>1) cout <<  "   ===> No genParticles, skip MC Particles processing" << endl;
+      if(verbosity_>1) std::cout <<  "   ===> No genParticles, skip MC Particles processing" << std::endl;
       return false;
    }
    
@@ -156,7 +155,7 @@ bool MCAnalyzer::processMCParticle(const edm::Event& iEvent, TClonesArray* rootM
          iPhoton++;
          if ( abs(p.eta()>photonMC_etaMax_) || p.pt()<photonMC_ptMin_ ) continue;
          new( (*rootMCParticles)[iPartSel] ) TRootMCParticle( p.px(), p.py(), p.pz(), p.energy(), p.vx(), p.vy(), p.vz(), p.pdgId(), p.charge(), p.status(), p.numberOfDaughters(), motherID, grannyID, oldgrannyId, 0, 0, 0, 0, j );
-         if(verbosity_>2) cout << "   ["<< setw(3) << iPartSel << "] MC Photon  " << (const TRootMCParticle&)(*rootMCParticles->At(iPartSel)) << endl;
+         if(verbosity_>2) std::cout << "   ["<< setw(3) << iPartSel << "] MC Photon  " << (const TRootMCParticle&)(*rootMCParticles->At(iPartSel)) << std::endl;
          iPartSel++;
          iPhotonSel++;
       }
@@ -166,7 +165,7 @@ bool MCAnalyzer::processMCParticle(const edm::Event& iEvent, TClonesArray* rootM
          iElectron++;
          if ( abs(p.eta()>electronMC_etaMax_) || p.pt()<electronMC_ptMin_ ) continue;
          new( (*rootMCParticles)[iPartSel] ) TRootMCParticle( p.px(), p.py(), p.pz(), p.energy(), p.vx(), p.vy(), p.vz(), p.pdgId(), p.charge(), p.status(), p.numberOfDaughters(), motherID, grannyID, oldgrannyId, 0, 0, 0, 0, j );
-         if(verbosity_>2) cout << "   ["<< setw(3) << iPartSel << "] MC Electron  " << (const TRootMCParticle&)(*rootMCParticles->At(iPartSel)) << endl;
+         if(verbosity_>2) std::cout << "   ["<< setw(3) << iPartSel << "] MC Electron  " << (const TRootMCParticle&)(*rootMCParticles->At(iPartSel)) << std::endl;
          iPartSel++;
          iElectronSel++;
       }
@@ -176,7 +175,7 @@ bool MCAnalyzer::processMCParticle(const edm::Event& iEvent, TClonesArray* rootM
          iMuon++;
          if ( abs(p.eta()>muonMC_etaMax_) || p.pt()<muonMC_ptMin_ ) continue;
          new( (*rootMCParticles)[iPartSel] ) TRootMCParticle( p.px(), p.py(), p.pz(), p.energy(), p.vx(), p.vy(), p.vz(), p.pdgId(), p.charge(), p.status(), p.numberOfDaughters(), motherID, grannyID, oldgrannyId, 0, 0, 0, 0, j );
-         if(verbosity_>2) cout << "   ["<< setw(3) << iPartSel << "] MC Muon  " << (const TRootMCParticle&)(*rootMCParticles->At(iPartSel)) << endl;
+         if(verbosity_>2) std::cout << "   ["<< setw(3) << iPartSel << "] MC Muon  " << (const TRootMCParticle&)(*rootMCParticles->At(iPartSel)) << std::endl;
          iPartSel++;
          iMuonSel++;
       }
@@ -187,7 +186,7 @@ bool MCAnalyzer::processMCParticle(const edm::Event& iEvent, TClonesArray* rootM
          iOtherStableParticle++;
          if ( abs(p.eta()>otherStablePartMC_etaMax_) || p.pt()<otherStablePartMC_ptMin_ ) continue;
          new( (*rootMCParticles)[iPartSel] ) TRootMCParticle( p.px(), p.py(), p.pz(), p.energy(), p.vx(), p.vy(), p.vz(), p.pdgId(), p.charge(), p.status(), p.numberOfDaughters(), motherID, grannyID, oldgrannyId, 0, 0, 0, 0, j );
-         if(verbosity_>2) cout << "   ["<< setw(3) << iPartSel << "] other MC stable particles  " << (const TRootMCParticle&)(*rootMCParticles->At(iPartSel)) << endl;
+         if(verbosity_>2) std::cout << "   ["<< setw(3) << iPartSel << "] other MC stable particles  " << (const TRootMCParticle&)(*rootMCParticles->At(iPartSel)) << std::endl;
          iPartSel++;
          iOtherStableParticleSel++;
       }
@@ -208,7 +207,7 @@ bool MCAnalyzer::processMCParticle(const edm::Event& iEvent, TClonesArray* rootM
          if (p.numberOfDaughters() > 3) daug3Id = p.daughter( 3 )->pdgId();
          
          new( (*rootMCParticles)[iPartSel] ) TRootMCParticle( p.px(), p.py(), p.pz(), p.energy(), p.vx(), p.vy(),p.vz(), p.pdgId(), p.charge(), p.status(), p.numberOfDaughters(), motherID, grannyID, oldgrannyId, daug0Id, daug1Id, daug2Id, daug3Id, j );
-         if(verbosity_>2) cout << "   ["<< setw(3) << iPartSel << "] unstable particle  " << (const TRootMCParticle&)(*rootMCParticles->At(iPartSel)) << endl;
+         if(verbosity_>2) std::cout << "   ["<< setw(3) << iPartSel << "] unstable particle  " << (const TRootMCParticle&)(*rootMCParticles->At(iPartSel)) << std::endl;
          iPartSel++;
          
       }
@@ -217,12 +216,12 @@ bool MCAnalyzer::processMCParticle(const edm::Event& iEvent, TClonesArray* rootM
    
    if(verbosity_>1)
    {
-      cout << endl;
-      cout << "   Number of MC photons = " << iPhoton << ", preselected = " << iPhotonSel << endl;
-      cout << "   Number of MC electrons = " << iElectron << ", preselected = " << iElectronSel << endl;
-      cout << "   Number of MC muons = " << iMuon << ", preselected = " << iMuonSel << endl;
-      cout << "   Number of other MC stable particles = " << iOtherStableParticle << ", preselected = " << iOtherStableParticleSel << endl;
-      cout << "   Number of primary unstable particles dumped in the ntuple = " << iUnstableParticle << endl;
+      std::cout << std::endl;
+      std::cout << "   Number of MC photons = " << iPhoton << ", preselected = " << iPhotonSel << std::endl;
+      std::cout << "   Number of MC electrons = " << iElectron << ", preselected = " << iElectronSel << std::endl;
+      std::cout << "   Number of MC muons = " << iMuon << ", preselected = " << iMuonSel << std::endl;
+      std::cout << "   Number of other MC stable particles = " << iOtherStableParticle << ", preselected = " << iOtherStableParticleSel << std::endl;
+      std::cout << "   Number of primary unstable particles dumped in the ntuple = " << iUnstableParticle << std::endl;
    }
    
    return true;
@@ -237,16 +236,16 @@ bool MCAnalyzer::processGenJets(const edm::Event& iEvent, TClonesArray* rootGenJ
    {
       iEvent.getByLabel(genJetsProducer_, genJets);
       int nGenJets = genJets->size();
-      if(verbosity_>1) std::cout << endl << "   Number of genJets = " << nGenJets << "   Label: " << genJetsProducer_.label() << "   Instance: " << genJetsProducer_.instance() << std::endl;
+      if(verbosity_>1) std::cout << std::endl << "   Number of genJets = " << nGenJets << "   Label: " << genJetsProducer_.label() << "   Instance: " << genJetsProducer_.instance() << std::endl;
    }
    catch (cms::Exception& exception)
    {
       if ( !allowMissingCollection_ )
       {
-         cout << "  ##### ERROR IN  MCAnalyzer::processGenJets => No genJets #####"<<endl;
+         std::cout << "  ##### ERROR IN  MCAnalyzer::processGenJets => No genJets #####"<<std::endl;
          throw exception;
       }
-      if(verbosity_>1) cout <<  "   ===> No genJets, skip MC Jets processing" << endl;
+      if(verbosity_>1) std::cout <<  "   ===> No genJets, skip MC Jets processing" << std::endl;
       return false;
    }
    
@@ -272,12 +271,12 @@ bool MCAnalyzer::processGenJets(const edm::Event& iEvent, TClonesArray* rootGenJ
       if ( abs(jet.eta()>jetMC_etaMax_) || jet.pt()<jetMC_ptMin_ ) continue;
       
       new( (*rootGenJets)[j] ) TRootParticle(localGenJet);
-      if(verbosity_>2) cout << "   ["<< setw(3) << j << "] GenJet - Charge=" << setw(2) << jet.charge() << " (Et,eta,phi)=("<< setw(10) << localGenJet.Et() <<","<< setw(10) << localGenJet.Eta() <<","<< setw(10) << localGenJet.Phi() << ")"
-         << " vertex(x,y,z)=("<< localGenJet.vx() <<","<< localGenJet.vy() <<","<< localGenJet.vz() << ")" <<endl;
+      if(verbosity_>2) std::cout << "   ["<< setw(3) << j << "] GenJet - Charge=" << setw(2) << jet.charge() << " (Et,eta,phi)=("<< setw(10) << localGenJet.Et() <<","<< setw(10) << localGenJet.Eta() <<","<< setw(10) << localGenJet.Phi() << ")"
+         << " vertex(x,y,z)=("<< localGenJet.vx() <<","<< localGenJet.vy() <<","<< localGenJet.vz() << ")" <<std::endl;
       iGenJetSel++;
    }
    
-   if(verbosity_>1) cout << endl << "   Number of GenJets = " << iGenJet << ", preselected = " << iGenJetSel << endl;
+   if(verbosity_>1) std::cout << std::endl << "   Number of GenJets = " << iGenJet << ", preselected = " << iGenJetSel << std::endl;
    
    return true;
 }
@@ -291,16 +290,16 @@ bool MCAnalyzer::processGenMETs(const edm::Event& iEvent, TClonesArray* rootGenM
    {
       iEvent.getByLabel(genMETsProducer_, genMETs);
       int nGenMETs = genMETs->size();
-      if(verbosity_>1) std::cout << endl << "   Number of genMETs = " << nGenMETs << "   Label: " << genMETsProducer_.label() << "   Instance: " << genMETsProducer_.instance() << std::endl;
+      if(verbosity_>1) std::cout << std::endl << "   Number of genMETs = " << nGenMETs << "   Label: " << genMETsProducer_.label() << "   Instance: " << genMETsProducer_.instance() << std::endl;
    }
    catch (cms::Exception& exception)
    {
       if ( !allowMissingCollection_ )
       {
-         cout << "  ##### ERROR IN  MCAnalyzer::processGenMETs => No genMETs #####"<<endl;
+         std::cout << "  ##### ERROR IN  MCAnalyzer::processGenMETs => No genMETs #####"<<std::endl;
          throw exception;
       }
-      if(verbosity_>1) cout <<  "   ===> No genMETs, skip MC MET processing" << endl;
+      if(verbosity_>1) std::cout <<  "   ===> No genMETs, skip MC MET processing" << std::endl;
       return false;
    }
    
@@ -321,7 +320,7 @@ bool MCAnalyzer::processGenMETs(const edm::Event& iEvent, TClonesArray* rootGenM
       );
       
       new( (*rootGenMETs)[j] ) TRootParticle(localGenMET);
-      if(verbosity_>2) cout << "   ["<< setw(3) << j << "] GenMET  (Pt,Px,Py,Phi)=(  "<< localGenMET.Pt() <<",  "<< localGenMET.Px() <<",  "<< localGenMET.Py()  <<",  "<< localGenMET.Phi() << ")" << endl;
+      if(verbosity_>2) std::cout << "   ["<< setw(3) << j << "] GenMET  (Pt,Px,Py,Phi)=(  "<< localGenMET.Pt() <<",  "<< localGenMET.Px() <<",  "<< localGenMET.Py()  <<",  "<< localGenMET.Phi() << ")" << std::endl;
    }
    
    return true;
@@ -351,10 +350,10 @@ bool MCAnalyzer::processConvertedPhoton(const edm::Event& iEvent, TClonesArray* 
    {
       if ( !allowMissingCollection_ )
       {
-         cout << "  ##### ERROR IN  MCAnalyzer::processConvertedPhoton => No g4SimHits #####"<<endl;
+         std::cout << "  ##### ERROR IN  MCAnalyzer::processConvertedPhoton => No g4SimHits #####"<<std::endl;
          throw exception;
       }
-      if(verbosity_>1) cout <<  "   ===> No g4SimHits, skip MC info on converted photons" << endl;
+      if(verbosity_>1) std::cout <<  "   ===> No g4SimHits, skip MC info on converted photons" << std::endl;
       return false;
    }
    
@@ -378,7 +377,7 @@ bool MCAnalyzer::processConvertedPhoton(const edm::Event& iEvent, TClonesArray* 
       }
 
       if (verbosity_>4)
-         cout << "   ConvertedMCPhoton (Et,eta,phi)=("
+         std::cout << "   ConvertedMCPhoton (Et,eta,phi)=("
          << (*mcPho).fourMomentum().et() << ","
          << (*mcPho).fourMomentum().eta() << ","
          << (*mcPho).fourMomentum().phi() << ")"
@@ -387,7 +386,7 @@ bool MCAnalyzer::processConvertedPhoton(const edm::Event& iEvent, TClonesArray* 
          << (*mcPho).vertex().y() << ","
          << (*mcPho).vertex().z() << ")"
          << " nTracks=" <<  mcElectrons.size()
-         << endl;
+         << std::endl;
         
       TRootMCPhoton localMCPhoton(
          TLorentzVector(
@@ -410,7 +409,7 @@ bool MCAnalyzer::processConvertedPhoton(const edm::Event& iEvent, TClonesArray* 
       );
       
       new( (*rootMCPhotons)[iphot] ) TRootMCPhoton(localMCPhoton);
-      if(verbosity_>2) cout << "   ["<< setw(3) << iphot << "] " << localMCPhoton << endl;
+      if(verbosity_>2) std::cout << "   ["<< setw(3) << iphot << "] " << localMCPhoton << std::endl;
       iphot++;
    }
    
@@ -440,10 +439,10 @@ bool MCAnalyzer::processMCElectron(const edm::Event& iEvent, TClonesArray* rootM
    {
       if ( !allowMissingCollection_ )
       {
-         cout << "  ##### ERROR IN  MCAnalyzer::processConvertedPhoton => No g4SimHits #####"<<endl;
+         std::cout << "  ##### ERROR IN  MCAnalyzer::processConvertedPhoton => No g4SimHits #####"<<std::endl;
          throw exception;
       }
-      if(verbosity_>1) cout <<  "   ===> No g4SimHits, skip MC info on converted photons" << endl;
+      if(verbosity_>1) std::cout <<  "   ===> No g4SimHits, skip MC info on converted photons" << std::endl;
       return false;
    }
    ElectronMCTruthFinder* theElectronMCTruthFinder_ = new ElectronMCTruthFinder();
@@ -461,24 +460,24 @@ bool MCAnalyzer::processMCElectron(const edm::Event& iEvent, TClonesArray* rootM
          (*mcEl).primaryVertex().y(),
          (*mcEl).primaryVertex().z()
       );
-      std:vector<TVector3> AllBremVtx;
+      std::vector<TVector3> allBremVtx;
       std::vector<CLHEP::Hep3Vector> lesBremVtx = (*mcEl).bremVertices();
       for (unsigned j = 0 ; j < lesBremVtx.size() ; j++)
       {
-         TVector3 OneBremVtx(lesBremVtx[j].x(),lesBremVtx[j].y(),lesBremVtx[j].z());
-         AllBremVtx.push_back(OneBremVtx);
+         TVector3 oneBremVtx(lesBremVtx[j].x(),lesBremVtx[j].y(),lesBremVtx[j].z());
+         allBremVtx.push_back(oneBremVtx);
       }
-      theMCElectron.setBremPosition(AllBremVtx);
-      std::vector<TLorentzVector> AllBremMomentum;
+      theMCElectron.setBremPosition(allBremVtx);
+      std::vector<TLorentzVector> allBremMomentum;
       std::vector<CLHEP::HepLorentzVector> lesBremMomentum = (*mcEl).bremMomentum();
       for (unsigned j = 0 ; j < lesBremMomentum.size() ; j++)
       {
-         TLorentzVector OneBremMomentum(lesBremMomentum[j].x(),lesBremMomentum[j].y(),lesBremMomentum[j].z(),lesBremMomentum[j].t());
-         AllBremMomentum.push_back(OneBremMomentum);
+         TLorentzVector oneBremMomentum(lesBremMomentum[j].x(),lesBremMomentum[j].y(),lesBremMomentum[j].z(),lesBremMomentum[j].t());
+         allBremMomentum.push_back(oneBremMomentum);
       }
-      theMCElectron.setBremMomentum(AllBremMomentum);
+      theMCElectron.setBremMomentum(allBremMomentum);
       theMCElectron.setEnergyLoss((*mcEl).eloss());
-      cout << "ielect = " << ielect << endl;
+      std::cout << "ielect = " << ielect << std::endl;
       new( (*rootMCElectron)[ielect] ) TRootMCElectron(theMCElectron);
       ielect++;
    }
@@ -495,16 +494,16 @@ bool MCAnalyzer::processMuMuGammaEvent(const edm::Event& iEvent, TRootSignalEven
    {
       iEvent.getByLabel( genParticlesProducer_, genParticles );
       int nGenParticles = genParticles->size();
-      if(verbosity_>5) std::cout << endl << "   Number of genParticles = " << nGenParticles << "   Label: " << genParticlesProducer_.label() << "   Instance: " << genParticlesProducer_.instance() << std::endl;
+      if(verbosity_>5) std::cout << std::endl << "   Number of genParticles = " << nGenParticles << "   Label: " << genParticlesProducer_.label() << "   Instance: " << genParticlesProducer_.instance() << std::endl;
    }
    catch (cms::Exception& exception)
    {
       if ( !allowMissingCollection_ )
       {
-         cout << "  ##### ERROR IN  MCAnalyzer::processMuMuGammaEvent => No genParticles #####"<<endl;
+         std::cout << "  ##### ERROR IN  MCAnalyzer::processMuMuGammaEvent => No genParticles #####"<<std::endl;
          throw exception;
       }
-      if(verbosity_>1) cout <<  "   ===> No genParticles, skip MC infos for Z->mu mu gamma signal" << endl;
+      if(verbosity_>1) std::cout <<  "   ===> No genParticles, skip MC infos for Z->mu mu gamma signal" << std::endl;
       return false;
    }
    
@@ -512,7 +511,7 @@ bool MCAnalyzer::processMuMuGammaEvent(const edm::Event& iEvent, TRootSignalEven
    if (signalGenerator_=="PYTHIA")
    {
       
-      if(verbosity_>1) cout << endl << "      Looking for Z->mumu(gamma) in PYTHIA MC info" << endl;
+      if(verbosity_>1) std::cout << std::endl << "      Looking for Z->mumu(gamma) in PYTHIA MC info" << std::endl;
       for(unsigned int j=0; j<genParticles->size(); ++j )
       {
          const reco::Candidate &p = (*genParticles)[ j ];
@@ -531,12 +530,12 @@ bool MCAnalyzer::processMuMuGammaEvent(const edm::Event& iEvent, TRootSignalEven
                      if ( mudaug->pdgId() == 13 && mudaug->status() == 1 ) // final mu-
                      {
                         rootSignalEvent->addMuminus( new TRootParticle(mudaug->px(), mudaug->py(), mudaug->pz(), mudaug->energy(), mudaug->vx(), mudaug->vy(), mudaug->vz(), 13, -1.) );
-                        if(verbosity_>2) cout << "      ----> final mu-   pt=" << mudaug->pt() << " eta=" << mudaug->eta() << " phi=" << mudaug->phi() << endl;
+                        if(verbosity_>2) std::cout << "      ----> final mu-   pt=" << mudaug->pt() << " eta=" << mudaug->eta() << " phi=" << mudaug->phi() << std::endl;
                      }
                      if ( mudaug->pdgId() == 22 && mudaug->status() == 1 ) // FSR photon from final mu-
                      {
                         rootSignalEvent->addFSR( new TRootParticle(mudaug->px(), mudaug->py(), mudaug->pz(), mudaug->energy(), mudaug->vx(), mudaug->vy(), mudaug->vz(), 22, 0.) );
-                        if(verbosity_>2) cout << "      ----> FSR photon from final mu-   pt=" << mudaug->pt() << " eta=" << mudaug->eta() << " phi=" << mudaug->phi() << endl;
+                        if(verbosity_>2) std::cout << "      ----> FSR photon from final mu-   pt=" << mudaug->pt() << " eta=" << mudaug->eta() << " phi=" << mudaug->phi() << std::endl;
                      }
                   }
                }
@@ -549,12 +548,12 @@ bool MCAnalyzer::processMuMuGammaEvent(const edm::Event& iEvent, TRootSignalEven
                      if ( mudaug->pdgId() == -13 && mudaug->status() == 1 ) // final mu+
                      {
                         rootSignalEvent->addMuplus( new TRootParticle(mudaug->px(), mudaug->py(), mudaug->pz(), mudaug->energy(), mudaug->vx(), mudaug->vy(), mudaug->vz(), 13, 1.) );
-                        if(verbosity_>2) cout << "      ----> final mu+   pt=" << mudaug->pt() << " eta=" << mudaug->eta() << " phi=" << mudaug->phi() << endl;
+                        if(verbosity_>2) std::cout << "      ----> final mu+   pt=" << mudaug->pt() << " eta=" << mudaug->eta() << " phi=" << mudaug->phi() << std::endl;
                      }
                      if ( mudaug->pdgId() == 22 && mudaug->status() == 1 ) // FSR photon from final mu+
                      {
                         rootSignalEvent->addFSR( new TRootParticle(mudaug->px(), mudaug->py(), mudaug->pz(), mudaug->energy(), mudaug->vx(), mudaug->vy(), mudaug->vz(), 22, 0.) );
-                        if(verbosity_>2) cout << "      ----> FSR photon from final mu+   pt=" << mudaug->pt() << " eta=" << mudaug->eta() << " phi=" << mudaug->phi() << endl;
+                        if(verbosity_>2) std::cout << "      ----> FSR photon from final mu+   pt=" << mudaug->pt() << " eta=" << mudaug->eta() << " phi=" << mudaug->phi() << std::endl;
                      }
                   }
                }
@@ -562,7 +561,7 @@ bool MCAnalyzer::processMuMuGammaEvent(const edm::Event& iEvent, TRootSignalEven
                if ( zdaug->pdgId() == 23 && zdaug->status() == 2 ) // final Z0
                {
                   rootSignalEvent->addBosonZ( new TRootParticle(zdaug->px(), zdaug->py(), zdaug->pz(), zdaug->energy(), zdaug->vx(), zdaug->vy(), zdaug->vz(), 23, 0.) );
-                  if(verbosity_>2) cout << "      ----> Z0   pt=" << zdaug->pt() << " eta=" << zdaug->eta() << " phi=" << zdaug->phi() << endl;
+                  if(verbosity_>2) std::cout << "      ----> Z0   pt=" << zdaug->pt() << " eta=" << zdaug->eta() << " phi=" << zdaug->phi() << std::endl;
                }
                
             } // temp Z0 daughters loop
@@ -581,7 +580,7 @@ bool MCAnalyzer::processMuMuGammaEvent(const edm::Event& iEvent, TRootSignalEven
                      if ( daudaugh->pdgId() == 22 && daudaugh->status() == 1 ) // "Z0" ISR photon
                      {
                         rootSignalEvent->addISR( new TRootParticle(daudaugh->px(), daudaugh->py(), daudaugh->pz(), daudaugh->energy(), daudaugh->vx(), daudaugh->vy(), daudaugh->vz(), 22, 0.) );
-                        if(verbosity_>2) cout << "      ----> (\"Z0\") ISR photon   pt=" << daudaugh->pt() << " eta=" << daudaugh->eta() << " phi=" << daudaugh->phi() << endl;
+                        if(verbosity_>2) std::cout << "      ----> (\"Z0\") ISR photon   pt=" << daudaugh->pt() << " eta=" << daudaugh->eta() << " phi=" << daudaugh->phi() << std::endl;
                      }
                   }
                }
@@ -602,7 +601,7 @@ bool MCAnalyzer::processMuMuGammaEvent(const edm::Event& iEvent, TRootSignalEven
                         //if ( partondaugh->pdgId() == 21 && partondaugh->status() == 2 ) // ISR gluon
                      {
                         rootSignalEvent->addISR( new TRootParticle(partondaugh->px(), partondaugh->py(), partondaugh->pz(), partondaugh->energy(), partondaugh->vx(), partondaugh->vy(), partondaugh->vz(), 22, 0.) );
-                        if(verbosity_>2) cout << "      ----> ISR photon   pt=" << partondaugh->pt() << " eta=" << partondaugh->eta() << " phi=" << partondaugh->phi() << endl;
+                        if(verbosity_>2) std::cout << "      ----> ISR photon   pt=" << partondaugh->pt() << " eta=" << partondaugh->eta() << " phi=" << partondaugh->phi() << std::endl;
                      }
                   }
                }
@@ -615,7 +614,7 @@ bool MCAnalyzer::processMuMuGammaEvent(const edm::Event& iEvent, TRootSignalEven
    if (signalGenerator_=="COMPHEP" || signalGenerator_=="ALPGEN")
    {
 
-      if(verbosity_>1) cout << endl << "      Looking for Z->mumu(gamma) in " << signalGenerator_ << " MC info" << endl;
+      if(verbosity_>1) std::cout << std::endl << "      Looking for Z->mumu(gamma) in " << signalGenerator_ << " MC info" << std::endl;
       for(unsigned int j=0; j<genParticles->size(); ++j )
       {
          const reco::Candidate &p = (*genParticles)[ j ];
@@ -637,12 +636,12 @@ bool MCAnalyzer::processMuMuGammaEvent(const edm::Event& iEvent, TRootSignalEven
                            if ( daudaug->pdgId() == 13 && daudaug->status() == 1 ) // final daughter mu-
                            {
                               rootSignalEvent->addMuminus( new TRootParticle(daudaug->px(), daudaug->py(), daudaug->pz(), daudaug->energy(), daudaug->vx(), daudaug->vy(), daudaug->vz(), 13, -1.) );
-                              if(verbosity_>2) cout << "      ----> final mu-   pt=" << daudaug->pt() << " eta=" << daudaug->eta() << " phi=" << daudaug->phi() << endl;
+                              if(verbosity_>2) std::cout << "      ----> final mu-   pt=" << daudaug->pt() << " eta=" << daudaug->eta() << " phi=" << daudaug->phi() << std::endl;
                            }
                            if ( daudaug->pdgId() == 22 && daudaug->status() == 1 ) // FSR photon from final mu-
                            {
                               rootSignalEvent->addFSR( new TRootParticle(daudaug->px(), daudaug->py(), daudaug->pz(), daudaug->energy(), daudaug->vx(), daudaug->vy(), daudaug->vz(), 13, -1.) );
-                              if(verbosity_>2) cout << "      ----> FSR photon from final mu-  pt=" << daudaug->pt() << " eta=" << daudaug->eta() << " phi=" << daudaug->phi() << endl;
+                              if(verbosity_>2) std::cout << "      ----> FSR photon from final mu-  pt=" << daudaug->pt() << " eta=" << daudaug->eta() << " phi=" << daudaug->phi() << std::endl;
                            }
                         }
                      }
@@ -655,12 +654,12 @@ bool MCAnalyzer::processMuMuGammaEvent(const edm::Event& iEvent, TRootSignalEven
                            if ( daudaug->pdgId() == -13 && daudaug->status() == 1 ) // final daughter mu-+
                            {
                               rootSignalEvent->addMuplus( new TRootParticle(daudaug->px(), daudaug->py(), daudaug->pz(), daudaug->energy(), daudaug->vx(), daudaug->vy(), daudaug->vz(), 13, -1.) );
-                              if(verbosity_>2) cout << "      ----> final mu+   pt=" << daudaug->pt() << " eta=" << daudaug->eta() << " phi=" << daudaug->phi() << endl;
+                              if(verbosity_>2) std::cout << "      ----> final mu+   pt=" << daudaug->pt() << " eta=" << daudaug->eta() << " phi=" << daudaug->phi() << std::endl;
                            }
                            if ( daudaug->pdgId() == 22 && daudaug->status() == 1 ) // FSR photon from final mu+
                            {
                               rootSignalEvent->addFSR( new TRootParticle(daudaug->px(), daudaug->py(), daudaug->pz(), daudaug->energy(), daudaug->vx(), daudaug->vy(), daudaug->vz(), 13, -1.) );
-                              if(verbosity_>2) cout << "      ----> FSR photon from final mu+  pt=" << daudaug->pt() << " eta=" << daudaug->eta() << " phi=" << daudaug->phi() << endl;
+                              if(verbosity_>2) std::cout << "      ----> FSR photon from final mu+  pt=" << daudaug->pt() << " eta=" << daudaug->eta() << " phi=" << daudaug->phi() << std::endl;
                            }
                         }
                      }
@@ -673,7 +672,7 @@ bool MCAnalyzer::processMuMuGammaEvent(const edm::Event& iEvent, TRootSignalEven
                            if ( daudaug->pdgId() == 22 && daudaug->status() == 1 ) // final ISR photon
                            {
                               rootSignalEvent->addISR( new TRootParticle(daudaug->px(), daudaug->py(), daudaug->pz(), daudaug->energy(), daudaug->vx(), daudaug->vy(), daudaug->vz(), 13, -1.) );
-                              if(verbosity_>2) cout << "      ----> ISR photon   pt=" << daudaug->pt() << " eta=" << daudaug->eta() << " phi=" << daudaug->phi() << endl;
+                              if(verbosity_>2) std::cout << "      ----> ISR photon   pt=" << daudaug->pt() << " eta=" << daudaug->eta() << " phi=" << daudaug->phi() << std::endl;
                            }
                         }
                      }
@@ -687,21 +686,21 @@ bool MCAnalyzer::processMuMuGammaEvent(const edm::Event& iEvent, TRootSignalEven
    // Find Z->mumu(gamma) + ISR photons
    if (signalGenerator_=="POWHEG")
    {
-      if(verbosity_>1) cout << endl << "\tLooking for Z->mumu(gamma) in POWHEG MC info" << endl;
+      if(verbosity_>1) std::cout << std::endl << "\tLooking for Z->mumu(gamma) in POWHEG MC info" << std::endl;
       for(unsigned int j=0; j<genParticles->size(); ++j )
       {
          const reco::Candidate &p = (*genParticles)[ j ];
          // Z0
          if ( p.pdgId() == 23 && p.status() == 3 ) // temp Z0
          {
-            if(verbosity_>5) cout << endl << "\t\tFound a Z0 of status 3, studying its daughters" << endl;
+            if(verbosity_>5) std::cout << std::endl << "\t\tFound a Z0 of status 3, studying its daughters" << std::endl;
             for(unsigned int izdaug = 0; izdaug < p.numberOfDaughters(); ++izdaug )
             {
                const reco::Candidate* zdaug = p.daughter( izdaug );
                // ** status 3 muon
                if ( zdaug->pdgId() == 13 && zdaug->status() == 3 ) // temp mu-
                {// Found a muon
-                  if(verbosity_>5) cout << "\t\t\tFound a mu- of status 3" << endl;
+                  if(verbosity_>5) std::cout << "\t\t\tFound a mu- of status 3" << std::endl;
                   bool theFinalMuonHasBeenFound = false;
                   unsigned int nbOfLevels = 0;
                   const reco::Candidate* finalMuonCandidate = p.daughter( izdaug ); // Initialize with muon of status 3
@@ -715,10 +714,10 @@ bool MCAnalyzer::processMuMuGammaEvent(const edm::Event& iEvent, TRootSignalEven
                         temp = finalMuonCandidate->daughter( iter );
                         if ( temp->pdgId() == 13 && temp->status() == 1 ) // final mu-
                         {
-                           if(verbosity_>5) cout << "found the final muon! There was " << nbOfLevels << " levels of status 2 muons" << endl;
+                           if(verbosity_>5) std::cout << "found the final muon! There was " << nbOfLevels << " levels of status 2 muons" << std::endl;
                            theFinalMuonHasBeenFound = true;
                            rootSignalEvent->addMuminus( new TRootParticle(temp->px(), temp->py(), temp->pz(), temp->energy(), temp->vx(), temp->vy(), temp->vz(), 13, -1.) );
-                           if(verbosity_>2) cout << "\t\t\t\tfinal mu-  pt=" << temp->pt() << " eta=" << temp->eta() << " phi=" << temp->phi() << endl;
+                           if(verbosity_>2) std::cout << "\t\t\t\tfinal mu-  pt=" << temp->pt() << " eta=" << temp->eta() << " phi=" << temp->phi() << std::endl;
                         }
                         if ( temp->pdgId() == 13 && temp->status() == 2 ) // temp mu
                         {
@@ -728,7 +727,7 @@ bool MCAnalyzer::processMuMuGammaEvent(const edm::Event& iEvent, TRootSignalEven
                         if( temp->pdgId() == 22 && temp->status() == 1 ) // FSR photon from final mu-
                         {
                            rootSignalEvent->addFSR( new TRootParticle(temp->px(), temp->py(), temp->pz(), temp->energy(), temp->vx(), temp->vy(), temp->vz(), 22, 0.) );
-                           if(verbosity_>2) cout << "\t\t\tFSR photon from final mu-  pt=" << temp->pt() << " eta=" << temp->eta() << " phi=" << temp->phi() << endl;
+                           if(verbosity_>2) std::cout << "\t\t\tFSR photon from final mu-  pt=" << temp->pt() << " eta=" << temp->eta() << " phi=" << temp->phi() << std::endl;
                         }
                      }
                      if( thereIsAHiddenLevel )
@@ -741,7 +740,7 @@ bool MCAnalyzer::processMuMuGammaEvent(const edm::Event& iEvent, TRootSignalEven
 
                if ( zdaug->pdgId() == -13 && zdaug->status() == 3 ) // temp mu+
                {// Found a antimuon
-                  if(verbosity_>5) cout << "\t\t\tFound a mu+ of status 3" << endl;
+                  if(verbosity_>5) std::cout << "\t\t\tFound a mu+ of status 3" << std::endl;
                   bool theFinalAntimuonHasBeenFound = false;
                   unsigned int nbOfLevels = 0;
                   const reco::Candidate* finalMuonCandidate = p.daughter( izdaug ); // Initialize with antimuon of status 3
@@ -755,10 +754,10 @@ bool MCAnalyzer::processMuMuGammaEvent(const edm::Event& iEvent, TRootSignalEven
                         temp = finalMuonCandidate->daughter( iter );
                         if ( temp->pdgId() == -13 && temp->status() == 1 ) // final mu+
                         {
-                           if(verbosity_>5) cout << "found the final antimuon! There was " << nbOfLevels << " levels of status 2 antimuons" << endl;
+                           if(verbosity_>5) std::cout << "found the final antimuon! There was " << nbOfLevels << " levels of status 2 antimuons" << std::endl;
                            theFinalAntimuonHasBeenFound = true;
                            rootSignalEvent->addMuplus( new TRootParticle(temp->px(), temp->py(), temp->pz(), temp->energy(), temp->vx(), temp->vy(), temp->vz(), -13, -1.) );
-                           if(verbosity_>2) cout << "\t\t\t\tfinal mu+  pt=" << temp->pt() << " eta=" << temp->eta() << " phi=" << temp->phi() << endl;
+                           if(verbosity_>2) std::cout << "\t\t\t\tfinal mu+  pt=" << temp->pt() << " eta=" << temp->eta() << " phi=" << temp->phi() << std::endl;
                         }
                         if ( temp->pdgId() == -13 && temp->status() == 2 ) // temp mu
                         {
@@ -768,7 +767,7 @@ bool MCAnalyzer::processMuMuGammaEvent(const edm::Event& iEvent, TRootSignalEven
                         if( temp->pdgId() == 22 && temp->status() == 1 ) // FSR photon from final mu+
                         {
                            rootSignalEvent->addFSR( new TRootParticle(temp->px(), temp->py(), temp->pz(), temp->energy(), temp->vx(), temp->vy(), temp->vz(), 22, 0.) );
-                           if(verbosity_>2) cout << "\t\t\tFSR photon from final mu+  pt=" << temp->pt() << " eta=" << temp->eta() << " phi=" << temp->phi() << endl;
+                           if(verbosity_>2) std::cout << "\t\t\tFSR photon from final mu+  pt=" << temp->pt() << " eta=" << temp->eta() << " phi=" << temp->phi() << std::endl;
                         }
                      }
                      if( thereIsAHiddenLevel )
@@ -781,9 +780,9 @@ bool MCAnalyzer::processMuMuGammaEvent(const edm::Event& iEvent, TRootSignalEven
 
                if ( zdaug->pdgId() == 23 && zdaug->status() == 2 ) // final Z0
                {
-                  if(verbosity_>5) cout << endl << "        Found the final Z0 of status 2" << endl;
+                  if(verbosity_>5) std::cout << std::endl << "        Found the final Z0 of status 2" << std::endl;
                   rootSignalEvent->addBosonZ( new TRootParticle(zdaug->px(), zdaug->py(), zdaug->pz(), zdaug->energy(), zdaug->vx(), zdaug->vy(), zdaug->vz(), 23, 0.) );
-                  if(verbosity_>2) cout << "       ----> Z0  pt=" << zdaug->pt() << " eta=" << zdaug->eta() << " phi=" << zdaug->phi() << endl;
+                  if(verbosity_>2) std::cout << "       ----> Z0  pt=" << zdaug->pt() << " eta=" << zdaug->eta() << " phi=" << zdaug->phi() << std::endl;
                }
             } // temp Z0 daughters loop
          } // temp Z0
@@ -803,16 +802,16 @@ bool MCAnalyzer::processTopTopEvent(const edm::Event& iEvent, TClonesArray* root
    {
       iEvent.getByLabel(genJetsProducer_, genJets);
       int nGenJets = genJets->size();
-      if(verbosity_>5) std::cout << endl << "   Number of genJets = " << nGenJets << "   Label: " << genJetsProducer_.label() << "   Instance: " << genJetsProducer_.instance() << std::endl;
+      if(verbosity_>5) std::cout << std::endl << "   Number of genJets = " << nGenJets << "   Label: " << genJetsProducer_.label() << "   Instance: " << genJetsProducer_.instance() << std::endl;
    }
    catch (cms::Exception& exception)
    {
       if ( !allowMissingCollection_ )
       {
-         cout << "  ##### ERROR IN  MCAnalyzer::processTopTopEvent => No genJets #####"<<endl;
+         std::cout << "  ##### ERROR IN  MCAnalyzer::processTopTopEvent => No genJets #####"<<std::endl;
          throw exception;
       }
-      if(verbosity_>1) cout <<  "   ===> No genJets, skip MC infos for ttbar signal" << endl;
+      if(verbosity_>1) std::cout <<  "   ===> No genJets, skip MC infos for ttbar signal" << std::endl;
       return false;
    }
 
@@ -821,16 +820,16 @@ bool MCAnalyzer::processTopTopEvent(const edm::Event& iEvent, TClonesArray* root
    {
       iEvent.getByLabel(genParticlesProducer_,genPart);
       int nGenParticles = genPart->size();
-      if(verbosity_>5) std::cout << endl << "   Number of genParticles = " << nGenParticles << "   Label: " << genParticlesProducer_.label() << "   Instance: " << genParticlesProducer_.instance() << std::endl;
+      if(verbosity_>5) std::cout << std::endl << "   Number of genParticles = " << nGenParticles << "   Label: " << genParticlesProducer_.label() << "   Instance: " << genParticlesProducer_.instance() << std::endl;
    }
    catch (cms::Exception& exception)
    {
       if ( !allowMissingCollection_ )
       {
-         cout << "  ##### ERROR IN  MCAnalyzer::processTopTopEvent => No genParticles #####"<<endl;
+         std::cout << "  ##### ERROR IN  MCAnalyzer::processTopTopEvent => No genParticles #####"<<std::endl;
          throw exception;
       }
-      if(verbosity_>1) cout <<  "   ===> No genParticles, skip MC infos for ttbar signal" << endl;
+      if(verbosity_>1) std::cout <<  "   ===> No genParticles, skip MC infos for ttbar signal" << std::endl;
       return false;
    }
 
@@ -900,18 +899,18 @@ bool MCAnalyzer::processTopTopEvent(const edm::Event& iEvent, TClonesArray* root
          int nW = 0; int nE = 0; int nMu = 0; int nTau = 0; int nb = 0; int nQQ = 0;
          // distinguish between cases where daughters are 2 or 3 in order to patch a misbehaviour of MadGraph:
          // sometimes the W does not show up in the daughters list
-         if(verbosity_>2) cout << "Top N daughters: " << p.numberOfDaughters() << endl;
+         if(verbosity_>2) std::cout << "Top N daughters: " << p.numberOfDaughters() << std::endl;
          if (p.numberOfDaughters() >= 2)
          {
             const reco::Candidate* daug0 = p.daughter( 0 );
             const reco::Candidate* daug1 = p.daughter( 1 );
-            if(verbosity_>2) cout << "Top daughters: " << daug0->pdgId() << " " << daug1->pdgId() << endl;
+            if(verbosity_>2) std::cout << "Top daughters: " << daug0->pdgId() << " " << daug1->pdgId() << std::endl;
             if(abs(daug0->pdgId()) == 24)
             {
                //explicitely look for top -> W + quark and W to leptons or W to qqbar
                WNDau.push_back(daug0->numberOfDaughters());
                nW = 1;
-               if(verbosity_>2) cout << "W0 daughters: " << (daug0->daughter(0))->pdgId() << " " << (daug0->daughter(1))->pdgId() << endl;
+               if(verbosity_>2) std::cout << "W0 daughters: " << (daug0->daughter(0))->pdgId() << " " << (daug0->daughter(1))->pdgId() << std::endl;
                if (abs((daug0->daughter(0))->pdgId()) == 11 || abs((daug0->daughter(1))->pdgId()) == 11) nE = 1;
                if (abs((daug0->daughter(0))->pdgId()) == 13 || abs((daug0->daughter(1))->pdgId()) == 13) nMu = 1;
                if (abs((daug0->daughter(0))->pdgId()) == 15 || abs((daug0->daughter(1))->pdgId()) == 15) nTau = 1;
@@ -921,7 +920,7 @@ bool MCAnalyzer::processTopTopEvent(const edm::Event& iEvent, TClonesArray* root
             {
                WNDau.push_back(daug1->numberOfDaughters());
                nW = 1;
-               if(verbosity_>2) cout << "W1 daughters: " << (daug1->daughter(0))->pdgId() << " " << (daug1->daughter(1))->pdgId() << endl;
+               if(verbosity_>2) std::cout << "W1 daughters: " << (daug1->daughter(0))->pdgId() << " " << (daug1->daughter(1))->pdgId() << std::endl;
                if (abs((daug1->daughter(0))->pdgId()) == 11 || abs((daug1->daughter(1))->pdgId()) == 11) nE = 1;
                if (abs((daug1->daughter(0))->pdgId()) == 13 || abs((daug1->daughter(1))->pdgId()) == 13) nMu = 1;
                if (abs((daug1->daughter(0))->pdgId()) == 15 || abs((daug1->daughter(1))->pdgId()) == 15) nTau = 1;
@@ -936,7 +935,7 @@ bool MCAnalyzer::processTopTopEvent(const edm::Event& iEvent, TClonesArray* root
          topnb.push_back(nb);
          topnQQ.push_back(nQQ);
          topIndexInList.push_back(q);
-         if(verbosity_>2) cout << "top chain " << nW << " " << nE << " " << nMu << " " << nTau << " " << nb << " " << nQQ << " " << endl;
+         if(verbosity_>2) std::cout << "top chain " << nW << " " << nE << " " << nMu << " " << nTau << " " << nb << " " << nQQ << " " << std::endl;
       }
       else
       {

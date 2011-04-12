@@ -357,7 +357,7 @@ Int_t PhotonIsolator::nNiceTracks(const edm::Event& iEvent, const edm::EventSetu
       
       // check if the extrapolation of the track is in the cone
       math::XYZPoint ipt;
-      bool gotImp = PhotonIsolator::getTrackImpactPosition(&(*trItr), trackerGeom, magField, ipt);
+      if ( ! PhotonIsolator::getTrackImpactPosition(&(*trItr), trackerGeom, magField, ipt) ) continue;
       math::XYZVector tmpTrackMomentumAtVtx = (*trItr).momentum () ;
       double drMatch = deltaR(ipt.Phi(), photon->Phi(),ipt.Eta(), photon->Eta());
       if (!( (drMatch<trackerNiceTracksIsolationdROuterRadius_))) continue;
