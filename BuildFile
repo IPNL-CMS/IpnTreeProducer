@@ -41,6 +41,7 @@
 <use name=Geometry/CommonDetUnit>
 <use name=Geometry/CaloTopology>
 <use name=RecoCaloTools/MetaCollections>
+<use name=TrackingTools/MaterialEffects>
 <use name=root>
 <flags LDFLAGS="-lTMVA">
 <flags EDM_PLUGIN=1>
