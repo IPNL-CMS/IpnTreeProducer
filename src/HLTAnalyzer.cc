@@ -238,7 +238,7 @@ bool HLTAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup & iSet
 }
 
 
-bool HLTAnalyzer::keepTriggerObjects(const edm::Event& iEvent, TClonesArray* rootHLTObjects)
+bool HLTAnalyzer::keepTriggerObjects(const edm::Event& iEvent, const edm::ParameterSet& producersNames, TClonesArray* rootHLTObjects)
 {
    if( dataType_=="PAT" )
    {
@@ -300,7 +300,42 @@ bool HLTAnalyzer::keepTriggerObjects(const edm::Event& iEvent, TClonesArray* roo
          }
       }
    }
-   
+   else if( dataType_=="RECO" ) {
+        int nObject = 0;
+	std::vector<std::string> filterList = producersNames.getParameter<std::vector<std::string> >("HLTfilterToSave");
+	std::cout << "taille = " << filterList.size() << std::endl;
+	edm::Handle<trigger::TriggerEvent> trEv;
+	iEvent.getByLabel("hltTriggerSummaryAOD" ,trEv);
+	const trigger::TriggerObjectCollection& TOCol(trEv->getObjects());
+	trigger::Keys KEYS;
+	string label;
+	const trigger::size_type nFilt(trEv->sizeFilters());
+	for (unsigned int i = 0 ; i < filterList.size() ; i ++){
+		int pathFound = 0;
+		for (trigger::size_type iFilt=0; iFilt!=nFilt; iFilt++){
+			label = trEv->filterTag(iFilt).label();
+		        if (label==filterList[i]){
+				pathFound = 1;
+	           		KEYS=trEv->filterKeys(iFilt);
+				break;
+		         }
+		}
+		if (pathFound == 0) continue;
+		trigger::size_type nReg=KEYS.size();
+		for (trigger::size_type iReg=0; iReg<nReg; iReg++){
+			const trigger::TriggerObject& TObj(TOCol[KEYS[iReg]]);
+               		nObject++;
+//			cout << "on a trouve " << label << "px " << TObj.px() << " py " << TObj.py() << " pz " << TObj.pz() << endl;
+               		TRootHLTObject trigger_obj("test_path","test_filter","test_algo",TObj.px(),TObj.py(),TObj.pz(),TObj.energy(),TObj.particle().vx(),TObj.particle().vy(),TObj.particle().vz(),TObj.particle().pdgId(),TObj.particle().charge());
+               		trigger_obj.setHLTFilter(label);
+               		new( (*rootHLTObjects)[nObject-1] ) TRootHLTObject(trigger_obj);
+				
+		}
+	}
+			
+
+
+   }
    return true;
 }
 
