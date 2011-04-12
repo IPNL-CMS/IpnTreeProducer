@@ -1,14 +1,14 @@
 #include "../interface/METAnalyzer.h"
 
 /*
-* Modification by Stephane -- 22/04/2010
-* - add support for pfMet
-* - pfMET specific variables are not stored (like NeutralEMEt(), ...
-* - when runnning on RECO, only MET 4-vector is calculated
-* - when running on PAT with PF only MET 4-vector is stored
-*   see DataFormats/METReco/interface/PFMET.h
-* This class should be reviewed more seriously
-*/
+ * Modification by Stephane -- 22/04/2010
+ * - add support for pfMet
+ * - pfMET specific variables are not stored (like NeutralEMEt(), ...
+ * - when runnning on RECO, only MET 4-vector is calculated
+ * - when running on PAT with PF only MET 4-vector is stored
+ *   see DataFormats/METReco/interface/PFMET.h
+ * This class should be reviewed more seriously
+ */
 
 using namespace std;
 using namespace reco;
@@ -46,7 +46,7 @@ bool METAnalyzer::process(const edm::Event& iEvent, TClonesArray* rootMET)
       || metProducer_.label()== "metOptHO"
       || metProducer_.label()== "metOptNoHF"
       || metProducer_.label()== "metOptNoHFHO"
-      ) metType="CALO";
+   ) metType="CALO";
    
    if ( metProducer_.label()== "pfMet" ) metType="PF";
    
@@ -156,13 +156,13 @@ bool METAnalyzer::process(const edm::Event& iEvent, TClonesArray* rootMET)
       }
       
       TRootMET localMET(
-      met->px()
-      ,met->py()
-      ,met->pz()
-      ,met->energy()
-      ,met->vx()
-      ,met->vy()
-      ,met->vz()
+         met->px()
+         ,met->py()
+         ,met->pz()
+         ,met->energy()
+         ,met->vx()
+         ,met->vy()
+         ,met->vz()
       );
       
       // filling infos
@@ -176,26 +176,26 @@ bool METAnalyzer::process(const edm::Event& iEvent, TClonesArray* rootMET)
          if (metType=="CALO")
          {
             localMET.setCaloMETFraction(
-            recoMET->maxEtInEmTowers()
-            ,recoMET->maxEtInHadTowers()
-            ,recoMET->hadEtInHO()
-            ,recoMET->hadEtInHB()
-            ,recoMET->hadEtInHF()
-            ,recoMET->hadEtInHE()
-            ,recoMET->emEtInEB()
-            ,recoMET->emEtInEE()
-            ,recoMET->emEtInHF()
-            ,recoMET->etFractionHadronic()
-            ,recoMET->emEtFraction()
-            ,recoMET->metSignificance()
-            ,recoMET->CaloMETInpHF()
-            ,recoMET->CaloMETInmHF()
-            ,recoMET->CaloSETInpHF()
-            ,recoMET->CaloSETInmHF()
-            ,recoMET->CaloMETPhiInpHF()
-            ,recoMET->CaloMETPhiInmHF()
+               recoMET->maxEtInEmTowers()
+               ,recoMET->maxEtInHadTowers()
+               ,recoMET->hadEtInHO()
+               ,recoMET->hadEtInHB()
+               ,recoMET->hadEtInHF()
+               ,recoMET->hadEtInHE()
+               ,recoMET->emEtInEB()
+               ,recoMET->emEtInEE()
+               ,recoMET->emEtInHF()
+               ,recoMET->etFractionHadronic()
+               ,recoMET->emEtFraction()
+               ,recoMET->metSignificance()
+               ,recoMET->CaloMETInpHF()
+               ,recoMET->CaloMETInmHF()
+               ,recoMET->CaloSETInpHF()
+               ,recoMET->CaloSETInmHF()
+               ,recoMET->CaloMETPhiInpHF()
+               ,recoMET->CaloMETPhiInmHF()
             );
-	    localMET.setSumEt(recoMET->sumEt());
+            localMET.setSumEt(recoMET->sumEt());
             
          }
          
@@ -224,7 +224,7 @@ bool METAnalyzer::process(const edm::Event& iEvent, TClonesArray* rootMET)
                recoPFMET->Type7EtFraction(),
                recoPFMET->Type7Et()
             );
-	    localMET.setSumEt(recoPFMET->sumEt());
+            localMET.setSumEt(recoPFMET->sumEt());
          }
       }
       
@@ -279,8 +279,8 @@ bool METAnalyzer::process(const edm::Event& iEvent, TClonesArray* rootMET)
          localMET.setUncorrectedPtJES(patMET->uncorrectedPt(pat::MET::uncorrJES));
          localMET.setUncorrectedPtMUON(patMET->uncorrectedPt(pat::MET::uncorrMUON));
          
-	 localMET.setSumEt(patMET->sumEt());
-
+         localMET.setSumEt(patMET->sumEt());
+         
          if(useMC_)
          {
             // MC truth associator index
@@ -294,7 +294,7 @@ bool METAnalyzer::process(const edm::Event& iEvent, TClonesArray* rootMET)
       
       new( (*rootMET)[j] ) TRootMET(localMET);
       if(verbosity_>2) cout << "   ["<< setw(3) << j << "] " << localMET << endl;
-
+      
    }
    
    return true;
