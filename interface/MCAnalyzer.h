@@ -44,50 +44,50 @@
 
 class MCAnalyzer
 {
-
-   public:
-      MCAnalyzer(const edm::ParameterSet& config, const edm::ParameterSet& producersNames);
-      ~MCAnalyzer();
-      void setVerbosity(int verbosity) {verbosity_ = verbosity; };
-      void drawMCTree(const edm::Event& iEvent, const edm::EventSetup& iSetup, const edm::ParameterSet& config, const edm::ParameterSet& producersNames);
-      bool pdfInfo(const edm::Event& iEvent, TRootEvent* rootEvent);
-      bool processMCParticle(const edm::Event& iEvent, TClonesArray* rootMCParticles);
-      bool processGenJets(const edm::Event& iEvent, TClonesArray* rootGenJets);
-      bool processGenMETs(const edm::Event& iEvent, TClonesArray* rootGenMETs);
-      bool processConvertedPhoton(const edm::Event& iEvent, TClonesArray* rootMCPhotons);
-      bool processMuMuGammaEvent(const edm::Event& iEvent, TRootSignalEvent* rootSignalEvent);
-      bool processTopTopEvent(const edm::Event& iEvent, TClonesArray* rootMCTopTop);
-      bool processMCElectron(const edm::Event&, TClonesArray* rootMCElectron);
-
-   private:
-
-      int verbosity_;
-
-      bool doPhotonMC_;
-      double photonMC_etaMax_;
-      double photonMC_ptMin_;
-      bool doElectronMC_;
-      double electronMC_etaMax_;
-      double electronMC_ptMin_;
-      bool doMuonMC_;
-      double muonMC_etaMax_;
-      double muonMC_ptMin_;
-      bool doOtherStablePartsMC_;
-      double otherStablePartMC_etaMax_;
-      double otherStablePartMC_ptMin_;
-      bool doJetMC_;
-      double jetMC_etaMax_;
-      double jetMC_ptMin_;
-      bool doMETMC_;
-      bool doUnstablePartsMC_;
-
-      std::string signalGenerator_;
-      edm::InputTag genParticlesProducer_;
-      edm::InputTag genJetsProducer_;
-      edm::InputTag genMETsProducer_;
-
-      bool allowMissingCollection_;
-
+   
+public:
+   MCAnalyzer(const edm::ParameterSet& config, const edm::ParameterSet& producersNames);
+   ~MCAnalyzer();
+   void setVerbosity(int verbosity) {verbosity_ = verbosity; };
+   void drawMCTree(const edm::Event& iEvent, const edm::EventSetup& iSetup, const edm::ParameterSet& config, const edm::ParameterSet& producersNames);
+   bool pdfInfo(const edm::Event& iEvent, TRootEvent* rootEvent);
+   bool processMCParticle(const edm::Event& iEvent, TClonesArray* rootMCParticles);
+   bool processGenJets(const edm::Event& iEvent, TClonesArray* rootGenJets);
+   bool processGenMETs(const edm::Event& iEvent, TClonesArray* rootGenMETs);
+   bool processConvertedPhoton(const edm::Event& iEvent, TClonesArray* rootMCPhotons);
+   bool processMuMuGammaEvent(const edm::Event& iEvent, TRootSignalEvent* rootSignalEvent);
+   bool processTopTopEvent(const edm::Event& iEvent, TClonesArray* rootMCTopTop);
+   bool processMCElectron(const edm::Event&, TClonesArray* rootMCElectron);
+   
+private:
+   
+   int verbosity_;
+   
+   bool doPhotonMC_;
+   double photonMC_etaMax_;
+   double photonMC_ptMin_;
+   bool doElectronMC_;
+   double electronMC_etaMax_;
+   double electronMC_ptMin_;
+   bool doMuonMC_;
+   double muonMC_etaMax_;
+   double muonMC_ptMin_;
+   bool doOtherStablePartsMC_;
+   double otherStablePartMC_etaMax_;
+   double otherStablePartMC_ptMin_;
+   bool doJetMC_;
+   double jetMC_etaMax_;
+   double jetMC_ptMin_;
+   bool doMETMC_;
+   bool doUnstablePartsMC_;
+   
+   std::string signalGenerator_;
+   edm::InputTag genParticlesProducer_;
+   edm::InputTag genJetsProducer_;
+   edm::InputTag genMETsProducer_;
+   
+   bool allowMissingCollection_;
+   
 };
 
 #endif

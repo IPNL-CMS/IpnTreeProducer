@@ -78,103 +78,103 @@
 class TotoAnalyzer : public edm::EDAnalyzer
 {
    
-   public:
-      explicit TotoAnalyzer(const edm::ParameterSet&);
-      ~TotoAnalyzer();
-      
-   private:
-      virtual void analyze(const edm::Event&, const edm::EventSetup&);
-      virtual void beginJob() ;
-      virtual void endJob() ;
-      virtual void beginRun(edm::Run const&, edm::EventSetup const&);
-      virtual void endRun(edm::Run const&, edm::EventSetup const&);
-      virtual void beginLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&);
-      virtual void endLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&);
-      virtual void respondToOpenInputFile(edm::FileBlock const& fb);
-      virtual void respondToCloseInputFile(edm::FileBlock const& fb);
-      
-      edm::ParameterSet myConfig_;
-      edm::ParameterSet producersNames_;
-      
-      time_t startTime_;
-      int verbosity_;
-      bool allowMissingCollection_;
-      std::string rootFileName_ ;
-      TFile* rootFile_ ;
-      TTree* eventTree_;
-      TTree* runTree_;
-      std::string dataType_ ;
-      double datasetXsection_;
-      std::string datasetDesciption_;
-      std::string poolFileName_;
-      bool doLHCInfo_;
-      bool doL1_;
-      bool doHLT_;
-      bool doHLTObject_;
-      bool doMC_;
-      bool doJetMC_;
-      bool doMETMC_;
-      bool doPDFInfo_;
-      bool doSignalMuMuGamma_;
-      bool doSignalTopTop_;
-      bool doPhotonConversionMC_;
-      bool doElectronsMCTruth_;
-      bool drawMCTree_;
-      bool doBeamSpot_;
-      bool doPrimaryVertex_;
-      bool doZeePrimaryVertex_;
-      bool doTrack_;
-      bool doJet_;
-      bool doMuon_;
-      bool doElectron_;
-      bool doTau_;
-      bool doPhoton_;
-      bool doCluster_;
-      bool keepAllEcalRecHits_;
-      bool keepClusterizedEcalRecHits_;
-      bool doPhotonConversion_;
-      bool doPhotonIsolation_;
-      bool doMET_;
-      bool doBardak_;
-      
-      ConversionLikelihoodCalculator* conversionLikelihoodCalculator_;
-      
-      int nTotEvt_;
-      TRootRun* rootRun_;
-      TRootBeamStatus* beamStatus_;
-      TRootEvent* rootEvent_;
-      L1TriggerAnalyzer* l1TriggerAnalyzer_;
-      HLTAnalyzer* hltAnalyzer_;
-      TClonesArray* rootHLTObjects_;
-      TClonesArray* rootMCParticles_;
-      TClonesArray* rootGenJets_;
-      TClonesArray* rootGenMETs_;
-      TRootSignalEvent* rootMuMuGammaEvent_;
-      TClonesArray* rootMCTopTop_;
-      TClonesArray* rootMCPhotons_;
-      TClonesArray* rootMCElectrons_;
-      TRootBeamSpot* rootBeamSpot_;
-      TClonesArray* rootVertices_;
-      TClonesArray* rootZeeVertices_;
-      TClonesArray* rootTracks_;
-      unsigned int nJetsArrays_;
-      TClonesArray** rootJetsArrays_;
-      unsigned int nMuonsArrays_;
-      TClonesArray** rootMuonsArrays_;
-      unsigned int nElectronsArrays_;
-      TClonesArray** rootElectronsArrays_;
-      unsigned int nTausArrays_;
-      TClonesArray** rootTausArrays_;
-      unsigned int nPhotonsArrays_;
-      TClonesArray** rootPhotonsArrays_;
-      TClonesArray* rootBasicClusters_;
-      TClonesArray* rootSuperClusters_;
-      TClonesArray* rootEcalRecHits_;
-      TClonesArray* rootConversionTracks_;
-      unsigned int nMETsArrays_;
-      TClonesArray** rootMETsArrays_;
-      TRootBardak* rootBardak_;
-      
+public:
+   explicit TotoAnalyzer(const edm::ParameterSet&);
+   ~TotoAnalyzer();
+   
+private:
+   virtual void analyze(const edm::Event&, const edm::EventSetup&);
+   virtual void beginJob() ;
+   virtual void endJob() ;
+   virtual void beginRun(edm::Run const&, edm::EventSetup const&);
+   virtual void endRun(edm::Run const&, edm::EventSetup const&);
+   virtual void beginLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&);
+   virtual void endLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&);
+   virtual void respondToOpenInputFile(edm::FileBlock const& fb);
+   virtual void respondToCloseInputFile(edm::FileBlock const& fb);
+   
+   edm::ParameterSet myConfig_;
+   edm::ParameterSet producersNames_;
+   
+   time_t startTime_;
+   int verbosity_;
+   bool allowMissingCollection_;
+   std::string rootFileName_ ;
+   TFile* rootFile_ ;
+   TTree* eventTree_;
+   TTree* runTree_;
+   std::string dataType_ ;
+   double datasetXsection_;
+   std::string datasetDesciption_;
+   std::string poolFileName_;
+   bool doLHCInfo_;
+   bool doL1_;
+   bool doHLT_;
+   bool doHLTObject_;
+   bool doMC_;
+   bool doJetMC_;
+   bool doMETMC_;
+   bool doPDFInfo_;
+   bool doSignalMuMuGamma_;
+   bool doSignalTopTop_;
+   bool doPhotonConversionMC_;
+   bool doElectronsMCTruth_;
+   bool drawMCTree_;
+   bool doBeamSpot_;
+   bool doPrimaryVertex_;
+   bool doZeePrimaryVertex_;
+   bool doTrack_;
+   bool doJet_;
+   bool doMuon_;
+   bool doElectron_;
+   bool doTau_;
+   bool doPhoton_;
+   bool doCluster_;
+   bool keepAllEcalRecHits_;
+   bool keepClusterizedEcalRecHits_;
+   bool doPhotonConversion_;
+   bool doPhotonIsolation_;
+   bool doMET_;
+   bool doBardak_;
+   
+   ConversionLikelihoodCalculator* conversionLikelihoodCalculator_;
+   
+   int nTotEvt_;
+   TRootRun* rootRun_;
+   TRootBeamStatus* beamStatus_;
+   TRootEvent* rootEvent_;
+   L1TriggerAnalyzer* l1TriggerAnalyzer_;
+   HLTAnalyzer* hltAnalyzer_;
+   TClonesArray* rootHLTObjects_;
+   TClonesArray* rootMCParticles_;
+   TClonesArray* rootGenJets_;
+   TClonesArray* rootGenMETs_;
+   TRootSignalEvent* rootMuMuGammaEvent_;
+   TClonesArray* rootMCTopTop_;
+   TClonesArray* rootMCPhotons_;
+   TClonesArray* rootMCElectrons_;
+   TRootBeamSpot* rootBeamSpot_;
+   TClonesArray* rootVertices_;
+   TClonesArray* rootZeeVertices_;
+   TClonesArray* rootTracks_;
+   unsigned int nJetsArrays_;
+   TClonesArray** rootJetsArrays_;
+   unsigned int nMuonsArrays_;
+   TClonesArray** rootMuonsArrays_;
+   unsigned int nElectronsArrays_;
+   TClonesArray** rootElectronsArrays_;
+   unsigned int nTausArrays_;
+   TClonesArray** rootTausArrays_;
+   unsigned int nPhotonsArrays_;
+   TClonesArray** rootPhotonsArrays_;
+   TClonesArray* rootBasicClusters_;
+   TClonesArray* rootSuperClusters_;
+   TClonesArray* rootEcalRecHits_;
+   TClonesArray* rootConversionTracks_;
+   unsigned int nMETsArrays_;
+   TClonesArray** rootMETsArrays_;
+   TRootBardak* rootBardak_;
+   
 };
 
 #endif
