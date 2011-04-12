@@ -16,7 +16,14 @@ PhotonIsolator::PhotonIsolator(edm::ParameterSet * config, edm::ParameterSet * p
    hcalRecHitIsolation_HitEt_threshold_ = (*config_).getParameter<double>("hcalRecHitIsolation_HitEt_threshold");
    trackerIsolation_DRmax_ = (*config_).getParameter<double>("trackerIsolation_DRmax");
    trackerIsolation_pt_threshold_ = (*config_).getParameter<double>("trackerIsolation_pt_threshold");
+   trackerNiceTracksIsolationD0_ = (*config_).getParameter<double>("trackerNiceTracksIsolationD0");
    trackerIsolation_pixelLayers_threshold_ = (*config_).getParameter<int>("trackerIsolation_pixelLayers_threshold");
+   trackerNiceTracksIsolationLIP_ = (*config_).getParameter<double>("trackerNiceTracksIsolationLIP");
+   trackerNiceTracksIsolationTrackThreshold_ = (*config_).getParameter<double>("trackerNiceTracksIsolationTrackThreshold");
+   trackerNiceTracksIsolationdROuterRadius_ = (*config_).getParameter<double>("trackerNiceTracksIsolationdROuterRadius");
+   trackerNiceTracksIsolationdRInnerRadius_ = (*config_).getParameter<double>("trackerNiceTracksIsolationdRInnerRadius");
+   trackerNiceTracksIsolationTrackEtaSlice_ = (*config_).getParameter<double>("trackerNiceTracksIsolationTrackEtaSlice");
+
    allowMissingCollection_ = (*producersNames_).getUntrackedParameter<bool>("allowMissingCollection", false);
 }
 
@@ -292,3 +299,111 @@ Double_t PhotonIsolator::trackerIsolation(TRootPhoton* photon, TClonesArray* tra
    }
    return sumPt;
 }
+
+
+Int_t PhotonIsolator::nNiceTracks(const edm::Event& iEvent, const edm::EventSetup& iSetup, const edm::ParameterSet& producersNames, TRootPhoton* photon)
+{
+   edm::ESHandle<TrackerGeometry> trackerGeomHandle;
+   edm::ESHandle<MagneticField> magFieldHandle;
+   iSetup.get<TrackerDigiGeometryRecord>().get( trackerGeomHandle );
+   iSetup.get<IdealMagneticFieldRecord>().get( magFieldHandle );
+   const TrackerGeometry* trackerGeom = trackerGeomHandle.product();
+   const MagneticField* magField = magFieldHandle.product();
+   
+   trackProducer_ = producersNames.getParameter<edm::InputTag>("trackProducer");
+   edm::Handle<reco::TrackCollection> recoTracks;
+   try
+   {
+      iEvent.getByLabel(trackProducer_, recoTracks);
+      int nTracks = recoTracks->size();
+      if(verbosity_>1) std::cout << "   Number of tracks = " << nTracks << "   Label: " << trackProducer_.label() << "   Instance: " << trackProducer_.instance() << std::endl;
+   }
+   catch (cms::Exception& exception)
+   {
+      if ( !allowMissingCollection_ )
+      {
+         cout << "  ##### ERROR IN  TrackAnalyzer::process => Track collection is missing #####"<<endl;
+         throw exception;
+      }
+      if(verbosity_>1) cout <<  "   ===> No Track collection, skip track info" << endl;
+      return false;
+   }
+   
+   reco::BeamSpot vertexBeamSpot;
+   beamSpotProducer_ = producersNames.getParameter<edm::InputTag>("beamSpotProducer");
+   edm::Handle<reco::BeamSpot> recoBeamSpotHandle;
+   iEvent.getByLabel(beamSpotProducer_,recoBeamSpotHandle);
+   vertexBeamSpot = *recoBeamSpotHandle;
+   math::XYZPoint theBeamSpot(vertexBeamSpot.x0(),vertexBeamSpot.y0(),vertexBeamSpot.z0());
+   int nNiceTracks = 0;
+   
+   //loop over tracks
+   for(reco::TrackCollection::const_iterator trItr = recoTracks->begin(); trItr != recoTracks->end(); ++trItr)
+   {
+      // check if the track has a pixel seed
+      bool isFirstPixelHit = trItr->hitPattern().hasValidHitInFirstPixelBarrel();
+      if (isFirstPixelHit == false) continue;
+      
+      // first check if the track pass the dzCut
+      double dzCut = fabs( (*trItr).vz() - photon->vz() );
+      if (dzCut > trackerNiceTracksIsolationLIP_) continue;
+      
+      // check if the pt of the track is higher than the threshold
+      double this_pt  = (*trItr).pt();
+      if (this_pt < trackerNiceTracksIsolationTrackThreshold_ ) continue;
+      
+      // only consider tracks from the main vertex
+      if (fabs( (*trItr).dxy(theBeamSpot) ) > trackerNiceTracksIsolationD0_ ) continue;
+      
+      // check if the extrapolation of the track is in the cone
+      math::XYZPoint ipt;
+      bool gotImp = PhotonIsolator::getTrackImpactPosition(&(*trItr), trackerGeom, magField, ipt);
+      math::XYZVector tmpTrackMomentumAtVtx = (*trItr).momentum () ;
+      double drMatch = deltaR(ipt.Phi(), photon->Phi(),ipt.Eta(), photon->Eta());
+      if (!( (drMatch<trackerNiceTracksIsolationdROuterRadius_))) continue;
+      
+      double dr = deltaR(photon->Phi(),tmpTrackMomentumAtVtx.Phi(),photon->Eta(),tmpTrackMomentumAtVtx.Eta());
+      double deta = (*trItr).eta() - photon->Eta() ;
+      if ( (dr<trackerNiceTracksIsolationdROuterRadius_)&&(dr>=trackerNiceTracksIsolationdRInnerRadius_)&&(fabs(deta)>trackerNiceTracksIsolationTrackEtaSlice_))
+      {
+         nNiceTracks++;
+      }
+   }
+   return nNiceTracks;
+}
+
+
+bool PhotonIsolator::getTrackImpactPosition(const reco::Track* tk_ref, const TrackerGeometry* trackerGeom, const MagneticField* magField, math::XYZPoint& ew) const
+{
+  PropagatorWithMaterial propag( alongMomentum, 0.000511, magField );
+  TrajectoryStateTransform transformer;
+  ReferenceCountingPointer<Surface> ecalWall( new  BoundCylinder( GlobalPoint(0.,0.,0.), TkRotation<float>(), SimpleCylinderBounds( 129, 129, -320.5, 320.5 ) ) );
+  const float epsilon = 0.001;
+  Surface::RotationType rot; // unit rotation matrix
+  const float barrelRadius = 129.f;
+  const float barrelHalfLength = 270.9f;
+  const float endcapRadius = 171.1f;
+  const float endcapZ = 320.5f;
+  ReferenceCountingPointer<BoundCylinder> theBarrel_(new BoundCylinder( Surface::PositionType(0,0,0), rot,SimpleCylinderBounds( barrelRadius-epsilon, barrelRadius+epsilon, -barrelHalfLength, barrelHalfLength)));
+  ReferenceCountingPointer<BoundDisk> theNegativeEtaEndcap_( new BoundDisk( Surface::PositionType( 0, 0, -endcapZ), rot, SimpleDiskBounds( 0, endcapRadius, -epsilon, epsilon)));
+  ReferenceCountingPointer<BoundDisk> thePositiveEtaEndcap_( new BoundDisk( Surface::PositionType( 0, 0, endcapZ), rot, SimpleDiskBounds( 0, endcapRadius, -epsilon, epsilon)));
+
+  const TrajectoryStateOnSurface myTSOS = transformer.outerStateOnSurface(*tk_ref, *trackerGeom, magField);
+  TrajectoryStateOnSurface  stateAtECAL;
+  stateAtECAL = propag.propagate(myTSOS, *theBarrel_);
+  if (!stateAtECAL.isValid() || ( stateAtECAL.isValid() && fabs(stateAtECAL.globalPosition().eta() ) >1.479 )  )
+  {
+    //endcap propagator
+    if (myTSOS.globalPosition().eta() > 0.) stateAtECAL = propag.propagate(myTSOS, *thePositiveEtaEndcap_);
+    else stateAtECAL = propag.propagate(myTSOS, *theNegativeEtaEndcap_);
+  }
+  
+  if (stateAtECAL.isValid())
+  {
+    ew = stateAtECAL.globalPosition();
+    return true;
+  }
+  else
+    return false;
+}
+
