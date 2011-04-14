@@ -23,7 +23,7 @@ PhotonAnalyzer::~PhotonAnalyzer()
 }
 
 
-bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iSetup, TRootEvent* rootEvent, TClonesArray* rootPhotons, TClonesArray* conversionTracks, ConversionLikelihoodCalculator* convLikelihoodCalculator, EcalClusterLazyTools* lazyTools)
+bool PhotonAnalyzer::process(const edm::Event& iEvent, TRootEvent* rootEvent, TClonesArray* rootPhotons, TClonesArray* conversionTracks, EcalClusterLazyTools* lazyTools)
 {
    
    unsigned int nPhotons=0;
@@ -275,10 +275,10 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
                << "  inv_mass=" << conversions[iconv]->pairInvariantMass()
                << "  E/p=" << conversions[iconv]->EoverP()
                << "  cotanTheta=" << conversions[iconv]->pairCotThetaSeparation()
-               << "  likely=" << convLikelihoodCalculator->calculateLikelihood(conversions[iconv], iSetup)
+               << "  likely=" << conversions[iconv]->MVAout()
                << endl;
                
-               likely = convLikelihoodCalculator->calculateLikelihood(conversions[iconv], iSetup);
+               likely = conversions[iconv]->MVAout();
                if ( likely>best_likely )
                {
                   best_iconv_likely = iconv;
@@ -301,14 +301,14 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
             if(verbosity_>4) cout
                << "   ===> TRootPhoton[" << j << "] associated to Conversion[" << best_iconv
                << "] with E/p="  << conversions[best_iconv]->EoverP()
-               << "  likely=" << convLikelihoodCalculator->calculateLikelihood(conversions[best_iconv], iSetup)
+               << "  likely=" << conversions[best_iconv]->MVAout()
                << endl;
             
             localPhoton.setConvNTracks( conversions[best_iconv]->nTracks() );
             localPhoton.setConvEoverP( conversions[best_iconv]->EoverP() );
             localPhoton.setConvMass( conversions[best_iconv]->pairInvariantMass() );
             localPhoton.setConvCotanTheta( conversions[best_iconv]->pairCotThetaSeparation() );
-            localPhoton.setConvLikely( convLikelihoodCalculator->calculateLikelihood(conversions[best_iconv], iSetup) );
+            localPhoton.setConvLikely( conversions[best_iconv]->MVAout() );
             localPhoton.setConvVertex( conversions[best_iconv]->conversionVertex().x(), conversions[best_iconv]->conversionVertex().y(), conversions[best_iconv]->conversionVertex().z() );
             std::vector<math::XYZPoint>  impactVector = conversions[best_iconv]->ecalImpactPosition();
             if ( impactVector.size()>0 ) localPhoton.setConvEcalImpactPosition1( impactVector.at(0).x(), impactVector.at(0).y(), impactVector.at(0).z() );

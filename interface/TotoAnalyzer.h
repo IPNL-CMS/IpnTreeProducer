@@ -24,7 +24,6 @@
 #include "DataFormats/Common/interface/TriggerResults.h"
 
 #include "RecoEcal/EgammaCoreTools/interface/EcalClusterLazyTools.h"
-#include "RecoEgamma/EgammaTools/interface/ConversionLikelihoodCalculator.h"
 
 #include "../interface/L1TriggerAnalyzer.h"
 #include "../interface/HLTAnalyzer.h"
@@ -136,8 +135,6 @@ private:
    bool doPhotonIsolation_;
    bool doMET_;
    bool doBardak_;
-   
-   ConversionLikelihoodCalculator* conversionLikelihoodCalculator_;
    
    int nTotEvt_;
    TRootRun* rootRun_;

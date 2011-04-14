@@ -303,11 +303,6 @@ void TotoAnalyzer::beginJob()
       if(verbosity_>0) std::cout << "Conversion Tracks info will be added to rootuple" << std::endl;
       rootConversionTracks_ = new TClonesArray("TRootTrack", 1000);
       eventTree_->Branch ("ConversionTracks", "TClonesArray", &rootConversionTracks_);
-      
-      conversionLikelihoodCalculator_ = new ConversionLikelihoodCalculator();
-      //std::string weightsString =  myConfig_.getUntrackedParameter<string>("conversionLikelihoodWeightsFile","RecoEgamma/EgammaTools/data/TMVAnalysis_Likelihood.weights.txt");
-      //edm::FileInPath weightsFile(weightsString.c_str() );
-      //conversionLikelihoodCalculator_->setWeightsFile(weightsFile.fullPath().c_str());
    }
    
    if(doMET_)
@@ -346,7 +341,6 @@ void TotoAnalyzer::endJob()
    rootFile_->Write(); 
    rootFile_->Close();
    
-   if(doPhotonConversion_) delete conversionLikelihoodCalculator_;
    if(doL1_) delete l1TriggerAnalyzer_;
    if(doHLT_) delete hltAnalyzer_;
 }
@@ -752,7 +746,7 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
       {
          const edm::InputTag photonProducer = photonProducers.at(i);
          PhotonAnalyzer* myPhotonAnalyzer = new PhotonAnalyzer(photonProducer, producersNames_, myConfig_, verbosity_);
-         myPhotonAnalyzer->process(iEvent, iSetup, rootEvent_, rootPhotonsArrays_[i], rootConversionTracks_, conversionLikelihoodCalculator_, lazyTools);
+         myPhotonAnalyzer->process(iEvent, rootEvent_, rootPhotonsArrays_[i], rootConversionTracks_, lazyTools);
          delete myPhotonAnalyzer;
       }
    }

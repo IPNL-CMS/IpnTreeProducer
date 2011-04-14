@@ -31,7 +31,6 @@
 #include "RecoEcal/EgammaCoreTools/interface/EcalClusterLazyTools.h"
 #include "DataFormats/EgammaCandidates/interface/ConversionFwd.h"
 #include "DataFormats/EgammaCandidates/interface/Conversion.h"
-#include "RecoEgamma/EgammaTools/interface/ConversionLikelihoodCalculator.h"
 
 //#include "DataFormats/EgammaCandidates/interface/PhotonID.h"
 //#include "DataFormats/EgammaCandidates/interface/PhotonIDFwd.h"
@@ -57,7 +56,7 @@ class PhotonAnalyzer
       PhotonAnalyzer(const edm::InputTag& jetProducer, const edm::ParameterSet& producersNames, const edm::ParameterSet& myConfig, int verbosity);
       ~PhotonAnalyzer();
       void setVerbosity(int verbosity) {verbosity_ = verbosity; };
-      bool process(const edm::Event& iEvent, const edm::EventSetup& iSetup, TRootEvent* rootEvent, TClonesArray* rootPhotons, TClonesArray* conversionTracks, ConversionLikelihoodCalculator* convLikelihoodCalculator, EcalClusterLazyTools* lazyTools);
+      bool process(const edm::Event& iEvent, TRootEvent* rootEvent, TClonesArray* rootPhotons, TClonesArray* conversionTracks, EcalClusterLazyTools* lazyTools);
       
    private:
       int verbosity_;
