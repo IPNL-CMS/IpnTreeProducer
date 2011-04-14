@@ -22,8 +22,8 @@ process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 
 # Needed for GlobalPositionRcd
 process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_cff')
-process.GlobalTag.globaltag = cms.string('START39_V8::All')
-#process.GlobalTag.globaltag = cms.string('GR_R_39X_V5::All')
+process.GlobalTag.globaltag = cms.string('START311_V2::All')
+#process.GlobalTag.globaltag = cms.string('GR_P_V17::All')
 
 # Global geometry
 #process.load("Configuration.StandardSequences.Geometry_cff")
@@ -56,7 +56,8 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source("PoolSource",
 
 # RECO
-fileNames = cms.untracked.vstring('file:/gridgroup/cms/lethuill/data/CMSSW_3_9_7__RelValH130GGgluonfusion__GEN-SIM-RECO__START39_V8-v1__0047__205E03D0-8C0D-E011-AB8E-001A92971B74.root')
+fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/relval/CMSSW_4_1_4/RelValH130GGgluonfusion/GEN-SIM-RECO/START311_V2-v1/0013/6AFD2C37-8D60-E011-83C4-001A92971B1A.root')
+#fileNames = cms.untracked.vstring('file:/gridgroup/cms/lethuill/data/CMSSW_3_9_7__RelValH130GGgluonfusion__GEN-SIM-RECO__START39_V8-v1__0047__205E03D0-8C0D-E011-AB8E-001A92971B74.root')
 #fileNames = cms.untracked.vstring('file:/gridgroup/cms/lethuill/data/CMSSW_3_9_7__RelValZEE__GEN-SIM-RECO__START39_V8-v1__004__04901143-820D-E011-BEB9-001A92971BA0.root')
 #fileNames = cms.untracked.vstring('file:/gridgroup/cms/lethuill/data/CMSSW_3_9_7__RelValZMM__GEN-SIM-RECO__START39_V8-v1__0047__3A2794B2-770D-E011-8DD1-002618943864.root')
 #fileNames = cms.untracked.vstring('file:/gridgroup/cms/lethuill/data/CMSSW_3_8_5__RelValZEE__GEN-SIM-RECO__START38_V12-v1__0040__42805A98-E6D2-DF11-9FDE-001A92971B82.root')
@@ -153,7 +154,6 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       doPhotonVertexCorrection = cms.untracked.bool(False),
       doPhotonIsolation = cms.untracked.bool(True),
       doPhotonConversion = cms.untracked.bool(True),
-      conversionLikelihoodWeightsFile = cms.untracked.string('RecoEgamma/EgammaTools/data/TMVAnalysis_Likelihood.weights.txt'),
 
       # Draw MC particle tree
       drawMCTree = cms.untracked.bool(False),
@@ -205,7 +205,7 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       beamSpotLabel = cms.InputTag("offlineBeamSpot"),
       minNdof  = cms.double(2.0),
       TrackLabel = cms.InputTag("generalTracks"), # label of tracks to be used
-                       
+      
       PVSelParameters = cms.PSet(
          maxDistanceToBeam = cms.double(2), ## (in cm) 200 / 500 microns if useBeamConstraint = true / false
          #minVertexFitProb = cms.double(0.01) ## 1% vertex fit probability
