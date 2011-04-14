@@ -95,7 +95,7 @@ public:
    std::vector<Bool_t> technicalL1Accept() const { return technicalL1Accept_; }
    Bool_t physicsL1Accept(unsigned int i) const
    {
-      if (0<=i && i<physicsL1Accept_.size())
+      if (i<physicsL1Accept_.size())
       {
          return physicsL1Accept_.at(i);
       }
@@ -107,7 +107,7 @@ public:
    }
    Bool_t technicalL1Accept(unsigned int i) const
    {
-      if (0<=i && i<technicalL1Accept_.size())
+      if (i<technicalL1Accept_.size())
       {
          return technicalL1Accept_.at(i);
       }
@@ -135,7 +135,7 @@ public:
    std::vector<Bool_t> trigHLT() const { return trigHLT_; }
    Bool_t trigHLT(unsigned int i) const
    {
-      if (0<=i && i<trigHLT_.size())
+      if (i<trigHLT_.size())
       {
          return trigHLT_.at(i);
       }
@@ -149,7 +149,7 @@ public:
    std::vector<UInt_t> prescaleHLT() const { return prescaleHLT_; }
    UInt_t prescaleHLT(unsigned int i) const
    {
-      if (0<=i && i<prescaleHLT_.size())
+      if (i<prescaleHLT_.size())
       {
          return prescaleHLT_.at(i);
       }
