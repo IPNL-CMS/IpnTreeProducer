@@ -38,7 +38,7 @@ class ClusterAnalyzer
       ClusterAnalyzer(const edm::ParameterSet& config, const edm::ParameterSet& producersNames, int verbosity);
       ~ClusterAnalyzer();
       void setVerbosity(int verbosity) {verbosity_ = verbosity; };
-      bool process(const edm::Event& iEvent, const edm::EventSetup& iSetup, TRootEvent* rootEvent, EcalClusterLazyTools* lazyTools,  TClonesArray* rootClusters, const string moduleLabel, const string instanceName, const int clusterType);
+      bool process(const edm::Event& iEvent, const edm::EventSetup& iSetup, TRootEvent* rootEvent, EcalClusterLazyTools* lazyTools,  TClonesArray* rootClusters, const edm::InputTag& basicClusterProducer, const int clusterType);
       
    private:
       int verbosity_;

@@ -44,7 +44,7 @@ class SuperClusterAnalyzer
       SuperClusterAnalyzer(const edm::ParameterSet& producersNames, int verbosity);
       ~SuperClusterAnalyzer();
       void setVerbosity(int verbosity) {verbosity_ = verbosity; };
-      bool process(const edm::Event& iEvent, const edm::EventSetup& iSetup, TRootEvent* rootEvent, TClonesArray* rootSuperClusters, const string moduleLabel, const string instanceName, const int clusterType);
+      bool process(const edm::Event& iEvent, const edm::EventSetup& iSetup, TRootEvent* rootEvent, TClonesArray* rootSuperClusters, const edm::InputTag& superClusterProducer, const int clusterType);
       float getESRatio(reco::CaloClusterPtr& seed, const edm::Event& iEvent, const edm::EventSetup& iSetup);
       
    private:

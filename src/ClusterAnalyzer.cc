@@ -22,7 +22,7 @@ ClusterAnalyzer::~ClusterAnalyzer()
 }
 
 
-bool ClusterAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iSetup, TRootEvent* rootEvent, EcalClusterLazyTools* lazyTools, TClonesArray* rootClusters, const string moduleLabel, const string instanceName, const int clusterType)
+bool ClusterAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iSetup, TRootEvent* rootEvent, EcalClusterLazyTools* lazyTools, TClonesArray* rootClusters, const edm::InputTag& basicClusterProducer, const int clusterType)
 {
    
    // get Ecal rechits
@@ -55,7 +55,7 @@ bool ClusterAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& i
    const reco::BasicClusterCollection *basicClusters = 0;
    try
    {
-      iEvent.getByLabel(moduleLabel, instanceName, basicClustersHandle);
+      iEvent.getByLabel(basicClusterProducer, basicClustersHandle);
       nBasicClusters = basicClustersHandle->size();
       basicClusters = basicClustersHandle.product();
    }
@@ -63,15 +63,15 @@ bool ClusterAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& i
    {
       if ( !allowMissingCollection_ )
       {
-         if(verbosity_>1) cout << endl << "  ##### ERROR IN  ClusterAnalyzer::process => reco::BasicCluster collection is missing for Producer: " << moduleLabel << " : " << instanceName << " #####" << endl;
+         if(verbosity_>1) cout << endl << "  ##### ERROR IN  ClusterAnalyzer::process => reco::BasicCluster collection is missing for Producer: " << basicClusterProducer << " #####" << endl;
          throw exception;
       }
-      if(verbosity_>1) cout << endl << "   ===> No reco::BasicCluster collection for Producer: " << moduleLabel << " : " << instanceName << " , skip basic clusters info" << endl;
+      if(verbosity_>1) cout << endl << "   ===> No reco::BasicCluster collection for Producer: " << basicClusterProducer << " , skip basic clusters info" << endl;
       return false;
    }
    
    
-   if(verbosity_>1) cout << endl << "   Producer: " << moduleLabel << " : " << instanceName << " - Number of BasicClusters (type " << clusterType << ") = " << nBasicClusters << std::endl;
+   if(verbosity_>1) cout << endl << "   Producer: " << basicClusterProducer << " - Number of BasicClusters (type " << clusterType << ") = " << nBasicClusters << std::endl;
    
    Int_t iClusType=0;
    

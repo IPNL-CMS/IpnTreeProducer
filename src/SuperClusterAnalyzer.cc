@@ -23,7 +23,7 @@ SuperClusterAnalyzer::~SuperClusterAnalyzer()
 }
 
 
-bool SuperClusterAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iSetup, TRootEvent* rootEvent, TClonesArray* rootSuperClusters, const string moduleLabel, const string instanceName, const int clusterType)
+bool SuperClusterAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iSetup, TRootEvent* rootEvent, TClonesArray* rootSuperClusters, const edm::InputTag& superClusterProducer, const int clusterType)
 {
    
    // TODO - Use supercluster encapsulated in pat::Photon if patEncapsulation_ = true
@@ -33,7 +33,7 @@ bool SuperClusterAnalyzer::process(const edm::Event& iEvent, const edm::EventSet
    try
    {
       edm::Handle<reco::SuperClusterCollection> superClustersHandle;
-      iEvent.getByLabel(moduleLabel, instanceName, superClustersHandle);
+      iEvent.getByLabel(superClusterProducer, superClustersHandle);
       superClusters = superClustersHandle.product();
       nSuperClusters = superClusters->size();
    }
@@ -41,10 +41,10 @@ bool SuperClusterAnalyzer::process(const edm::Event& iEvent, const edm::EventSet
    {
       if ( !allowMissingCollection_ )
       {
-         cout << "  ##### ERROR IN  SuperClusterAnalyzer::process => reco::SuperCluster collection is missing #####"<<endl;
+         cout << "  ##### ERROR IN  SuperClusterAnalyzer::process => reco::SuperCluster collection is missing Producer: " << superClusterProducer << " #####" << endl;
          throw exception;
       }
-      if(verbosity_>1) cout <<  "   ===> No reco::SuperCluster collection, skip superclusters info" << endl;
+      if(verbosity_>1) cout << endl << "   ===> No reco::SuperCluster collection for Producer: " << superClusterProducer << " , skip superclusters info" << endl;
       return false;
    }
    
@@ -68,7 +68,7 @@ bool SuperClusterAnalyzer::process(const edm::Event& iEvent, const edm::EventSet
    }
    
    
-   if(verbosity_>1) cout << endl << "   Producer: " << moduleLabel << " : " << instanceName << " - Number of SuperClusters (type " << clusterType << ") = " << nSuperClusters << std::endl;
+   if(verbosity_>1) cout << endl << "   Producer: " << superClusterProducer << " - Number of SuperClusters (type " << clusterType << ") = " << nSuperClusters << std::endl;
    
    Int_t iClusType=0;
    
@@ -147,9 +147,28 @@ float SuperClusterAnalyzer::getESRatio(reco::CaloClusterPtr& seed, const edm::Ev
    
    // Get ES rechits
    edm::Handle<EcalRecHitCollection> PreshowerRecHits;
-   iEvent.getByLabel(InputTag("ecalPreshowerRecHit","EcalRecHitsES"), PreshowerRecHits);
-   if( PreshowerRecHits.isValid() ) EcalRecHitCollection preshowerHits(*PreshowerRecHits);
    
+   try
+   {
+      iEvent.getByLabel(InputTag("ecalPreshowerRecHit","EcalRecHitsES"), PreshowerRecHits);
+      if(! PreshowerRecHits.isValid() )
+      {
+         if(verbosity_>1) cout << endl << "  ##### ERROR IN  SuperClusterAnalyzer::getESRatio ===> No valid ecalPreshowerRecHit collection, skip rechits infos" << endl;
+         return -1.;
+      }
+   }
+   catch (cms::Exception& exception)
+   {
+      if ( !allowMissingCollection_ )
+      {
+         if(verbosity_>1) cout << endl << "  ##### ERROR IN  SuperClusterAnalyzer::getESRatio => ecalPreshowerRecHit is missing #####" << endl;
+         throw exception;
+      }
+      if(verbosity_>1) cout << endl << "   ===> No ecalPreshowerRecHit, skip ES Ratio calculation" << endl;
+      return -1.;
+   }
+   
+   EcalRecHitCollection preshowerHits(*PreshowerRecHits);
    Float_t esratio=-1.;
    
    //reco::CaloCluster cluster = (*seed);
