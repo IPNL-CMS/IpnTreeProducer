@@ -46,7 +46,7 @@ process.load("TrackingTools.TransientTrack.TransientTrackBuilder_cfi")
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1)
+    input = cms.untracked.int32(10)
 )
 
 #process.maxLuminosityBlocks = cms.untracked.PSet(
@@ -55,8 +55,10 @@ process.maxEvents = cms.untracked.PSet(
 
 process.source = cms.Source("PoolSource",
 
+# AOD
+fileNames = cms.untracked.vstring('file:/tmp/lethuill/Spring11__GluGluToHToGG_M-120_7TeV-powheg-pythia6__AODSIM__PU_S1_START311_V1G1-v1__0007__B0D666AF-D550-E011-ACA1-003048D45FD2.root')
+#fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/user/l/lethuill/data/AOD/Spring11__GluGluToHToGG_M-120_7TeV-powheg-pythia6__AODSIM__PU_S1_START311_V1G1-v1__0007__B0D666AF-D550-E011-ACA1-003048D45FD2.root')
 # RECO
-fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/relval/CMSSW_4_1_4/RelValH130GGgluonfusion/GEN-SIM-RECO/START311_V2-v1/0013/6AFD2C37-8D60-E011-83C4-001A92971B1A.root')
 #fileNames = cms.untracked.vstring('file:/gridgroup/cms/lethuill/data/CMSSW_3_9_7__RelValH130GGgluonfusion__GEN-SIM-RECO__START39_V8-v1__0047__205E03D0-8C0D-E011-AB8E-001A92971B74.root')
 #fileNames = cms.untracked.vstring('file:/gridgroup/cms/lethuill/data/CMSSW_3_9_7__RelValZEE__GEN-SIM-RECO__START39_V8-v1__004__04901143-820D-E011-BEB9-001A92971BA0.root')
 #fileNames = cms.untracked.vstring('file:/gridgroup/cms/lethuill/data/CMSSW_3_9_7__RelValZMM__GEN-SIM-RECO__START39_V8-v1__0047__3A2794B2-770D-E011-8DD1-002618943864.root')
@@ -177,10 +179,14 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       jetMC_ptMin = cms.double(0.0),
 
       # Photon isolation
-      basicClustersIsolation_BarrelBC_type = cms.int32(210),                  # Type of Clusters used for isolation in barrel (see TRootCluster.h for type definition)
-      basicClustersIsolation_EndcapBC_type = cms.int32(320),                  # Type of Clusters used for isolation in endcap (see TRootCluster.h for type definition)
+      basicClustersIsolation_BarrelSC_type = cms.int32(211),                  # Type of SuperClusters used for isolation in barrel (see TRootCluster.h for type definition)
+      basicClustersIsolation_EndcapSC_type = cms.int32(322),                  # Type of SuperClusters used for isolation in endcap (see TRootCluster.h for type definition)
+      basicClustersIsolation_BarrelBC_type = cms.int32(210),                  # Type of Basic Clusters used for isolation in barrel (see TRootCluster.h for type definition)
+      basicClustersIsolation_EndcapBC_type = cms.int32(320),                  # Type of Basic Clusters used for isolation in endcap (see TRootCluster.h for type definition)
       basicClustersIsolation_DRmax = cms.double(0.3),                         # size of the DR cone around photon - Et of BC in this cone are added
       basicClustersIsolation_ClusterEt_threshold = cms.double(0.0),           # Et threshold for BC added in DR cone
+      basicClustersDoubleConeIsolation_BarrelSC_type = cms.int32(211),        # Type of SuperClusters used for isolation in barrel (see TRootCluster.h for type definition)
+      basicClustersDoubleConeIsolation_EndcapSC_type = cms.int32(322),        # Type of SuperClusters used for isolation in endcap (see TRootCluster.h for type definition)
       basicClustersDoubleConeIsolation_BarrelBC_type = cms.int32(210),        # Type of Clusters used for isolation in barrel (see TRootCluster.h for type definition)
       basicClustersDoubleConeIsolation_EndcapBC_type = cms.int32(320),        # Type of Clusters used for isolation in endcap (see TRootCluster.h for type definition)
       basicClustersDoubleConeIsolation_DRmin = cms.double(0.05),              # size of the inner DR cone around photon - BC in this cone are rejected
@@ -191,6 +197,7 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       trackerIsolation_DRmax = cms.double(0.3),                               # size of the DR cone around photon - pt of tracks in this cone are added
       trackerIsolation_pt_threshold = cms.double(0.0),                        # pt threshold for tracks added in DR cone
       trackerIsolation_pixelLayers_threshold = cms.int32(0),                  # minimum number of pixel layers with measurement required for tracks to be added in DR cone isolation
+      doNiceTracksIsolation = cms.untracked.bool(False),                      # Nice tracks need reco::TrackExtra (not available in AOD)   
       trackerNiceTracksIsolationLIP = cms.double(0.2),                        # longitudianal impact parameter of the track (value in RECO = 0.2)
       trackerNiceTracksIsolationD0 = cms.double(0.1),                         # cut on the transverse impact of the track
       trackerNiceTracksIsolationTrackThreshold = cms.double(0.0),             # cut on the transverse energy of the track
@@ -234,7 +241,7 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       dataType = cms.untracked.string("RECO"),
       allowMissingCollection = cms.untracked.bool(True),
       l1Producer = cms.InputTag("gtDigis"),
-      hltProducer = cms.InputTag("TriggerResults","","HLT"),
+      hltProducer = cms.InputTag("TriggerResults","","REDIGI311X"),
       hltEvent = cms.InputTag("patTriggerEvent","","HLT"),
       genParticlesProducer = cms.InputTag("genParticles"),
       genJetsProducer = cms.InputTag("antikt5GenJets"),
@@ -244,12 +251,32 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       trackProducer = cms.InputTag("generalTracks"),
       jetProducer = cms.VInputTag(
          cms.InputTag("ak5CaloJets"),
-         cms.InputTag("kt4PFJets"),
+         cms.InputTag("kt4PFJets")
          ),
       muonProducer = cms.VInputTag(cms.InputTag("muons")),
       electronProducer = cms.VInputTag(cms.InputTag("gsfElectrons")),
       tauProducer = cms.VInputTag(),
       photonProducer = cms.VInputTag(cms.InputTag("photons")),
+      basicClusterProducerIndex = cms.vint32(210, 320),
+      basicClusterProducer = cms.VInputTag(
+         cms.InputTag("hybridSuperClusters","hybridBarrelBasicClusters"),
+         cms.InputTag("multi5x5BasicClusters", "multi5x5EndcapBasicClusters")
+      ),
+      # RECO SC Collections
+      #superClusterProducerIndex = cms.vint32(210, 211, 320, 323, 322),
+      #superClusterProducer = cms.VInputTag(
+         #cms.InputTag("hybridSuperClusters",""),
+         #cms.InputTag("correctedHybridSuperClusters",""),
+         #cms.InputTag("multi5x5SuperClusters","multi5x5EndcapSuperClusters"),
+         #cms.InputTag("multi5x5SuperClustersWithPreshower",""),
+         #cms.InputTag("correctedMulti5x5SuperClustersWithPreshower","")
+      #),
+      # AOD SC Collections
+      superClusterProducerIndex = cms.vint32(211, 322),
+      superClusterProducer = cms.VInputTag(
+         cms.InputTag("correctedHybridSuperClusters",""),
+         cms.InputTag("correctedMulti5x5SuperClustersWithPreshower","")
+      ),
       metProducer = cms.VInputTag(cms.InputTag("met")),
       barrelEcalRecHitCollection = cms.InputTag("ecalRecHit","EcalRecHitsEB"),
       endcapEcalRecHitCollection = cms.InputTag("ecalRecHit","EcalRecHitsEE"),
