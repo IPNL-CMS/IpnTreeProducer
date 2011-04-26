@@ -71,10 +71,14 @@ private:
    edm::InputTag  trackProducer_;
    edm::InputTag beamSpotProducer_;
    int verbosity_;
+   int basicClustersIsolation_BarrelSC_type_;
+   int basicClustersIsolation_EndcapSC_type_;
    int basicClustersIsolation_BarrelBC_type_;
    int basicClustersIsolation_EndcapBC_type_;
    double basicClustersIsolation_DRmax_;
    double basicClustersIsolation_ClusterEt_threshold_;
+   int basicClustersDoubleConeIsolation_BarrelSC_type_;
+   int basicClustersDoubleConeIsolation_EndcapSC_type_;
    int basicClustersDoubleConeIsolation_BarrelBC_type_;
    int basicClustersDoubleConeIsolation_EndcapBC_type_;
    double basicClustersDoubleConeIsolation_DRmin_;

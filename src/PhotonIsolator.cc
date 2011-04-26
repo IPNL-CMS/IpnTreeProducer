@@ -3,10 +3,14 @@
 PhotonIsolator::PhotonIsolator(edm::ParameterSet * config, edm::ParameterSet * producersNames):config_(config), producersNames_(producersNames)
 {
    verbosity_ = (*config_).getUntrackedParameter<int>("verbosity", 0);
+   basicClustersIsolation_BarrelSC_type_ = (*config_).getParameter<int>("basicClustersIsolation_BarrelSC_type");
+   basicClustersIsolation_EndcapSC_type_ = (*config_).getParameter<int>("basicClustersIsolation_EndcapSC_type");
    basicClustersIsolation_BarrelBC_type_ = (*config_).getParameter<int>("basicClustersIsolation_BarrelBC_type");
    basicClustersIsolation_EndcapBC_type_ = (*config_).getParameter<int>("basicClustersIsolation_EndcapBC_type");
    basicClustersIsolation_DRmax_ = (*config_).getParameter<double>("basicClustersIsolation_DRmax");
    basicClustersIsolation_ClusterEt_threshold_ = (*config_).getParameter<double>("basicClustersIsolation_ClusterEt_threshold");
+   basicClustersDoubleConeIsolation_BarrelSC_type_ = (*config_).getParameter<int>("basicClustersDoubleConeIsolation_BarrelSC_type");
+   basicClustersDoubleConeIsolation_EndcapSC_type_ = (*config_).getParameter<int>("basicClustersDoubleConeIsolation_EndcapSC_type");
    basicClustersDoubleConeIsolation_BarrelBC_type_ = (*config_).getParameter<int>("basicClustersDoubleConeIsolation_BarrelBC_type");
    basicClustersDoubleConeIsolation_EndcapBC_type_ = (*config_).getParameter<int>("basicClustersDoubleConeIsolation_EndcapBC_type");
    basicClustersDoubleConeIsolation_DRmin_ = (*config_).getParameter<double>("basicClustersDoubleConeIsolation_DRmin");
@@ -137,12 +141,13 @@ bool PhotonIsolator::loadHcalRecHits(const edm::Event& iEvent, const edm::EventS
 
 Double_t PhotonIsolator::basicClustersIsolation(TRootPhoton* photon, TClonesArray* superClusters, TClonesArray* basicClusters)
 {
+   
    Double_t sumEt = 0.;
-   Int_t isc_barrel = photon->scIndexOfType(basicClustersIsolation_BarrelBC_type_);
-   Int_t isc_endcap = photon->scIndexOfType(basicClustersIsolation_EndcapBC_type_);
+   Int_t isc_barrel = photon->scIndexOfType(basicClustersIsolation_BarrelSC_type_);
+   Int_t isc_endcap = photon->scIndexOfType(basicClustersIsolation_EndcapSC_type_);
    Int_t isc = max(isc_barrel,isc_endcap);
    
-	if(isc==-1)
+	if(isc<0)
 	{
 		if(verbosity_>1) cout << "  ##### ERROR IN  PhotonIsolator::BasicClustersIsolation => no supercluster associated to the photon #####" << endl;
 		return -1.;
@@ -173,7 +178,7 @@ Double_t PhotonIsolator::basicClustersIsolation(TRootPhoton* photon, TClonesArra
                   if ( ibc==photonSC->subBasicClusterIndexVector().at(isub) )
                   {
                      inSuperCluster = true;
-                     //break; //FIXME - Add break
+                     break;
                   }
                }
                //if (inSuperCluster) cout << "localBC in photonSC" << endl;
@@ -190,15 +195,20 @@ Double_t PhotonIsolator::basicClustersIsolation(TRootPhoton* photon, TClonesArra
 
 Double_t PhotonIsolator::basicClustersDoubleConeIsolation(TRootPhoton* photon, TClonesArray* superClusters, TClonesArray* basicClusters)
 {
-   Int_t isc_barrel = photon->scIndexOfType(basicClustersDoubleConeIsolation_BarrelBC_type_);
-   Int_t isc_endcap = photon->scIndexOfType(basicClustersDoubleConeIsolation_EndcapBC_type_);
+   Double_t sumEt = 0.;
+   Int_t isc_barrel = photon->scIndexOfType(basicClustersDoubleConeIsolation_BarrelSC_type_);
+   Int_t isc_endcap = photon->scIndexOfType(basicClustersDoubleConeIsolation_EndcapSC_type_);
    Int_t isc = max(isc_barrel,isc_endcap);
    
-   if(isc==-1) { cout << "  ##### ERROR IN  PhotonIsolator::BasicClustersDoubleConeIsolation => no supercluster associated to the photon #####" << endl; return -1.;}
+   if(isc<0)
+   {
+      cout << "  ##### ERROR IN  PhotonIsolator::BasicClustersDoubleConeIsolation => no supercluster associated to the photon #####" << endl;
+      return -1.;
+      
+   }
    
    TRootSuperCluster* photonSC =  (TRootSuperCluster*) superClusters->At(isc);
    
-   Double_t sumEt = 0.;
    TRootCluster* localBC;
    for (int ibc=0; ibc<basicClusters->GetEntriesFast(); ibc++)
    {
@@ -326,7 +336,7 @@ Int_t PhotonIsolator::nNiceTracks(const edm::Event& iEvent, const edm::EventSetu
          throw exception;
       }
       if(verbosity_>1) cout <<  "   ===> No Track collection, skip track info" << endl;
-      return false;
+      return -1;
    }
    
    reco::BeamSpot vertexBeamSpot;
