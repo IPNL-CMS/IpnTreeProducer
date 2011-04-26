@@ -17,7 +17,7 @@ class MuonAnalyzer : public LeptonAnalyzer
 {
 
    public:
-      MuonAnalyzer(const edm::InputTag& jetProducer, const edm::ParameterSet& producersNames, const edm::ParameterSet& myConfig, int verbosity);
+      MuonAnalyzer(const edm::InputTag& muonProducer, const edm::ParameterSet& producersNames, const edm::ParameterSet& myConfig, int verbosity);
       ~MuonAnalyzer();
       bool process(const edm::Event& iEvent, TRootBeamSpot* rootBeamSpot, TClonesArray* rootMuons);
 

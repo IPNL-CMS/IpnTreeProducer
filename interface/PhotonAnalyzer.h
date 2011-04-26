@@ -53,7 +53,7 @@ class PhotonAnalyzer
 {
    
    public:
-      PhotonAnalyzer(const edm::InputTag& jetProducer, const edm::ParameterSet& producersNames, const edm::ParameterSet& myConfig, int verbosity);
+      PhotonAnalyzer(const edm::InputTag& photonProducer, const edm::ParameterSet& producersNames, const edm::ParameterSet& myConfig, int verbosity);
       ~PhotonAnalyzer();
       void setVerbosity(int verbosity) {verbosity_ = verbosity; };
       bool process(const edm::Event& iEvent, TRootEvent* rootEvent, TClonesArray* rootPhotons, TClonesArray* conversionTracks, EcalClusterLazyTools* lazyTools);

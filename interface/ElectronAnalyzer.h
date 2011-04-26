@@ -22,7 +22,7 @@ class ElectronAnalyzer : public LeptonAnalyzer
 {
 
    public:
-      ElectronAnalyzer(const edm::InputTag& jetProducer, const edm::ParameterSet& producersNames, const edm::ParameterSet& myConfig, int verbosity);
+      ElectronAnalyzer(const edm::InputTag& electronProducer, const edm::ParameterSet& producersNames, const edm::ParameterSet& myConfig, int verbosity);
       ~ElectronAnalyzer();
       bool process(const edm::Event& iEvent, TRootBeamSpot* rootBeamSpot, TClonesArray* rootElectrons, EcalClusterLazyTools* lazyTools);
 
