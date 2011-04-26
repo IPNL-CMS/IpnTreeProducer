@@ -5,6 +5,7 @@ using namespace reco;
 using namespace edm;
 
 typedef std::vector<edm::InputTag> vtag;
+typedef std::vector<int> vint32;
 
 TotoAnalyzer::TotoAnalyzer(const edm::ParameterSet& iConfig)
 {
@@ -756,24 +757,27 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
    if(doCluster_)
    {
       if(verbosity_>1) std::cout << std::endl << "Analysing BasicClusters collection..." << std::endl;
+      vtag basicClusterProducers = producersNames_.getParameter<vtag>("basicClusterProducer");
+      vint32 basicClusterProducerIndices = producersNames_.getParameter<vint32>("basicClusterProducerIndex");
       ClusterAnalyzer* myClusterAnalyzer = new ClusterAnalyzer(myConfig_, producersNames_, verbosity_);
-      myClusterAnalyzer->process(iEvent, iSetup, rootEvent_, lazyTools, rootBasicClusters_, "hybridSuperClusters","hybridBarrelBasicClusters", 210);
-      myClusterAnalyzer->process(iEvent, iSetup, rootEvent_, lazyTools, rootBasicClusters_, "multi5x5BasicClusters", "multi5x5EndcapBasicClusters", 320);
-      myClusterAnalyzer->process(iEvent, iSetup, rootEvent_, lazyTools, rootBasicClusters_, "multi5x5BasicClusters", "multi5x5BarrelBasicClusters", 310);
-      // For Paolo M. skims:
-      //myClusterAnalyzer->process(iEvent, iSetup, rootEvent_, lazyTools, rootBasicClusters_, "islandBasicClusters", "islandBarrelBasicClusters", 110);
-      //myClusterAnalyzer->process(iEvent, iSetup, rootEvent_, lazyTools, rootBasicClusters_, "islandBasicClustersWeight", "islandBarrelBasicClusters", 410);
-      //myClusterAnalyzer->process(iEvent, iSetup, rootEvent_, lazyTools, rootBasicClusters_, "islandBasicClustersWeight", "islandEndcapBasicClusters", 420);
-      
+      for(unsigned int i=0; i<basicClusterProducers.size(); ++i)
+      {
+         const edm::InputTag basicClusterProducer = basicClusterProducers.at(i);
+         const int bcType = basicClusterProducerIndices.at(i);
+         myClusterAnalyzer->process(iEvent, iSetup, rootEvent_, lazyTools, rootBasicClusters_, basicClusterProducer, bcType);
+      }
       delete myClusterAnalyzer;
       
       if(verbosity_>1) std::cout << std::endl << "Analysing SuperClusters collection..." << std::endl;
+      vtag superClusterProducers = producersNames_.getParameter<vtag>("superClusterProducer");
+      vint32 superClusterProducerIndices = producersNames_.getParameter<vint32>("superClusterProducerIndex");
       SuperClusterAnalyzer* mySClusterAnalyzer = new SuperClusterAnalyzer(producersNames_, verbosity_);
-      mySClusterAnalyzer->process(iEvent, iSetup, rootEvent_, rootSuperClusters_, "hybridSuperClusters","",210);
-      mySClusterAnalyzer->process(iEvent, iSetup, rootEvent_, rootSuperClusters_, "correctedHybridSuperClusters","",211);
-      mySClusterAnalyzer->process(iEvent, iSetup, rootEvent_, rootSuperClusters_, "multi5x5SuperClusters","multi5x5EndcapSuperClusters",320);
-      mySClusterAnalyzer->process(iEvent, iSetup, rootEvent_, rootSuperClusters_, "multi5x5SuperClustersWithPreshower","",323);
-      mySClusterAnalyzer->process(iEvent, iSetup, rootEvent_, rootSuperClusters_, "correctedMulti5x5SuperClustersWithPreshower","",322);
+      for(unsigned int i=0; i<superClusterProducers.size(); ++i)
+      {
+         const edm::InputTag superClusterProducer = superClusterProducers.at(i);
+         const int scType = superClusterProducerIndices.at(i);
+         mySClusterAnalyzer->process(iEvent, iSetup, rootEvent_, rootSuperClusters_, superClusterProducer, scType);
+      }
       delete mySClusterAnalyzer;
    }
    
@@ -784,7 +788,7 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
       myClusterAssociator->setVerbosity(verbosity_);
       myClusterAssociator->process(rootSuperClusters_, rootBasicClusters_);
       if(verbosity_>4) myClusterAssociator->printSuperClusters(rootSuperClusters_, rootBasicClusters_,0);  // 0 to print all types SC
-         delete myClusterAssociator;
+      delete myClusterAssociator;
    }
    
    
@@ -846,7 +850,10 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
             if(doTrack_) isoTracks = myPhotonIsolator->trackerIsolation(localPhoton, rootTracks_, isoNTracks);
             
             localPhoton->setIsolationPerso(ecalIslandIsolation, ecalDoubleConeIsolation, hcalRecHitIsolation, isoTracks, isoNTracks);
-            isoNNiceTracks = myPhotonIsolator->nNiceTracks(iEvent, iSetup, producersNames_, localPhoton);
+            
+            isoNNiceTracks=-1;
+            bool doNiceTracksIsolation = myConfig_.getUntrackedParameter<bool>("doNiceTracksIsolation",false);
+            if(doNiceTracksIsolation) isoNNiceTracks = myPhotonIsolator->nNiceTracks(iEvent, iSetup, producersNames_, localPhoton);
             localPhoton->setDR04IsolationNNiceTracks(isoNNiceTracks);
             
             if(verbosity_>4) { std::cout << "   After isolation - ["<< setw(3) << iphoton << "] "; localPhoton->Print(); std::cout << std::endl; }
