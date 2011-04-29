@@ -1,0 +1,208 @@
+
+
+
+==================================================================================================
+
+RECO_4_1_4_patch2_v3 :
+AOD_4_1_4_patch2_v3 :
+
+interface/TRootEvent.h
+interface/TotoAnalyzer.h
+src/TotoAnalyzer.cc
+test/toto.py
+===> Add rho estimator of the pileup energy
+
+==================================================================================================
+
+RECO_4_1_4_patch2_v2 :
+AOD_4_1_4_patch2_v1 :
+
+
+interface/ClusterAnalyzer.h
+src/ClusterAnalyzer.cc
+interface/SuperClusterAnalyzer.h
+src/SuperClusterAnalyzer.cc
+===> Cluster and SuperCluster analyzers now called by passing VInputTag of Collections
+
+interface/PhotonIsolator.h
+src/PhotonIsolator.cc
+===> Type of superClusters used to define the center of the cone now defined in toto.py
+
+src/TotoAnalyzer.cc
+=== >Cluster and SuperCluster analyzers now called by passing VInputTag of Collections
+===> New flag to switch on/off nice tracks isolation
+
+test/toto.py
+===> New flag to switch on/off nice tracks isolation (doNiceTracksIsolation)
+===> New options to define the type of superClusters to be used to define the center of the cone in perso ecal iso
+===> Cluster and SuperCluster analyzers now called by passing VInputTag of Collections (basicClusterProducer & basicClusterProducerIndex / superClusterProducer & superClusterProducerIndex)
+
+interface/ElectronAnalyzer.h
+interface/METAnalyzer.h
+interface/MuonAnalyzer.h
+interface/PhotonAnalyzer.h
+===> Correct producer name (cosmetic...)
+
+
+==================================================================================================
+
+RECO_4_1_4_patch2_v1 :
+
+BuildFile.xml
+===> New BuildFile in xml format (migration to 41X)
+
+interface/TRootEvent.h
+===> Remove useless checks on unsigned int parameter
+
+interface/TotoAnalyzer.h
+src/TotoAnalyzer.cc
+interface/PhotonAnalyzer.h
+src/PhotonAnalyzer.cc
+===> Likelihood variable for conversions now included in reco::Conversion
+
+src/HLTAnalyzer.cc
+===> Comment printouts
+
+
+==================================================================================================
+
+RECO_3_9_7_v3 :
+
+interface/TRootMET.h
+src/METAnalyzer.cc
+===> add sumEt variable
+
+interface/TRootMuon.h
+src/MuonAnalyzer.cc
+===> Adding global track transverse impact parameter w.r.t the beam spot
+
+src/JetAnalyzer.cc
+===> modify JEC correction access
+
+src/VertexAnalyzer.cc
+===> add protection on TRootTrack pointer
+
+interface/TRootMCElectron.h
+src/TRootMCElectron.cc
+interface/MCAnalyzer.h
+src/MCAnalyzer.cc
+src/LinkDef.h
+interface/TotoAnalyzer.h
+===> add sim infos (at G4 level) for MC electrons
+
+interface/HLTAnalyzer.h
+src/HLTAnalyzer.cc
+===> keep HLT objects passing the filter defined by the "HLTfilterToSave" string in toto.py
+
+interface/PhotonIsolator.h
+src/PhotonIsolator.cc
+interface/TRootPhoton.h
+===> add Photon isolation based on "nice tracks" multiplicity in a DR04 cone
+
+src/TotoAnalyzer.cc
+===> add sim infos (at G4 level) for MC electrons
+===> keep HLT objects passing the filter defined by the "HLTfilterToSave" string in toto.py
+===> add Photon isolation based on "nice tracks" multiplicity in a DR04 cone
+
+BuildFile
+===> Add TrackingTools/MaterialEffects (needed for PropagatorWithMaterial)
+
+
+==================================================================================================
+
+RECO_3_9_7_v2 :
+
+interface/TRootMuon.h
+src/MuonAnalyzer.cc
+===> Adding et_emS25, et_emMax, numberOfValidGlobalHits, normalizedGlobalChi2 for mumugamma analysis
+
+src/ElectronAnalyzer.cc
+===> Add conversion rejection variables for VBTF e-id
+
+interface/TRootTau.h
+interface/TotoAnalyzer.h
+interface/TauAnalyzer.h
+src/TauAnalyzer.cc
+src/TotoAnalyzer.cc
+src/TRootTau.cc
+src/LinkDef.h
+test/toto.py
+===> new TRootTau object and its analyzers (PAT only)
+
+
+
+==================================================================================================
+
+RECO_3_9_7_v1 :
+
+interface/ClusterAnalyzer.h
+interface/ClusterAssociator.h
+src/PhotonAnalyzer.cc
+test/toto.py
+===> Minor technical changes to be compatible with 3_9_7
+
+interface/TRootJet.h
+src/JetAnalyzer.cc
+===> BTag SSVs Added --- compatible with JEC from DB (for 386 and above, not backward compatible)
+
+interface/TRootElectron.h
+src/ElectronAnalyzer.cc
+===> changes to read PATuples created from AOD (+swiss cross removed)
+
+
+==================================================================================================
+
+RECO_3_8_X_v7 :
+
+interface/TRootTrack.h
+interface/VertexAnalyzer.h
+src/TotoAnalyzer.cc
+src/TrackAnalyzer.cc
+src/VertexAnalyzer.cc
+===> Link TRootVertex to TRootTracks
+
+
+
+==================================================================================================
+
+RECO_3_8_X_v6 :
+
+interface/TRootBardak.h
+interface/TRootVertex.h
+interface/ZeeVertexAnalyzer.h
+src/TotoAnalyzer.cc
+src/ZeeVertexAnalyzer.cc
+===> Add link between Zee vertices and TRootTrack constituents; Identify 
+Zee vertex containing electrons
+
+src/HLTAnalyzer.cc
+===> Dump stream content only in debug mode
+
+==================================================================================================
+
+RECO_3_8_X_v5 :
+
+MCAnalyzer.cc: mu mu gamma MC info for POWHEG (Olivier B.)
+
+==================================================================================================
+
+RECO_3_8_X_v4 :
+
+ElectronAnalyzer.cc: Add sigmaEtaEta and sigmaIetaIeta; Add conversion 
+rejection variables, commented for the moment, available only in>= 3_9_X,
+
+PhotonAnalyzer.cc: Add shape variable (Moments)
+
+==================================================================================================
+
+RECO_3_8_X_v3 :
+
+ZeeVertexAnalyzer.cc: protection against missing CTF track associated to 
+electron
+
+JetAnalyzer.cc: viola: added variables for pf jid cleaning
+
+HLTAnalyzer.cc: Keep HLT objects in rootuple (N. Beaupere)
+
+
+
