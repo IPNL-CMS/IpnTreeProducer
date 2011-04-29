@@ -197,7 +197,7 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       trackerIsolation_DRmax = cms.double(0.3),                               # size of the DR cone around photon - pt of tracks in this cone are added
       trackerIsolation_pt_threshold = cms.double(0.0),                        # pt threshold for tracks added in DR cone
       trackerIsolation_pixelLayers_threshold = cms.int32(0),                  # minimum number of pixel layers with measurement required for tracks to be added in DR cone isolation
-      doNiceTracksIsolation = cms.untracked.bool(False),                      # Nice tracks need reco::TrackExtra (not available in AOD)   
+      doNiceTracksIsolation = cms.untracked.bool(True),                       # Nice tracks need reco::TrackExtra (not available in AOD)   
       trackerNiceTracksIsolationLIP = cms.double(0.2),                        # longitudianal impact parameter of the track (value in RECO = 0.2)
       trackerNiceTracksIsolationD0 = cms.double(0.1),                         # cut on the transverse impact of the track
       trackerNiceTracksIsolationTrackThreshold = cms.double(0.0),             # cut on the transverse energy of the track
@@ -264,20 +264,20 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
          cms.InputTag("multi5x5BasicClusters", "multi5x5EndcapBasicClusters")
       ),
       # RECO SC Collections
-      #superClusterProducerIndex = cms.vint32(210, 211, 320, 323, 322),
-      #superClusterProducer = cms.VInputTag(
-         #cms.InputTag("hybridSuperClusters",""),
-         #cms.InputTag("correctedHybridSuperClusters",""),
-         #cms.InputTag("multi5x5SuperClusters","multi5x5EndcapSuperClusters"),
-         #cms.InputTag("multi5x5SuperClustersWithPreshower",""),
-         #cms.InputTag("correctedMulti5x5SuperClustersWithPreshower","")
-      #),
-      # AOD SC Collections
-      superClusterProducerIndex = cms.vint32(211, 322),
+      superClusterProducerIndex = cms.vint32(210, 211, 320, 323, 322),
       superClusterProducer = cms.VInputTag(
+         cms.InputTag("hybridSuperClusters",""),
          cms.InputTag("correctedHybridSuperClusters",""),
+         cms.InputTag("multi5x5SuperClusters","multi5x5EndcapSuperClusters"),
+         cms.InputTag("multi5x5SuperClustersWithPreshower",""),
          cms.InputTag("correctedMulti5x5SuperClustersWithPreshower","")
       ),
+      # AOD SC Collections
+      #superClusterProducerIndex = cms.vint32(211, 322),
+      #superClusterProducer = cms.VInputTag(
+         #cms.InputTag("correctedHybridSuperClusters",""),
+         #cms.InputTag("correctedMulti5x5SuperClustersWithPreshower","")
+      #),
       metProducer = cms.VInputTag(cms.InputTag("met")),
       barrelEcalRecHitCollection = cms.InputTag("ecalRecHit","EcalRecHitsEB"),
       endcapEcalRecHitCollection = cms.InputTag("ecalRecHit","EcalRecHitsEE"),
