@@ -64,6 +64,7 @@ public:
    ,ptHat_(-1.)
    ,weight_(-1.)
    ,run_(0)
+   ,rho_(0)
    {;}
    
    ~TRootEvent() {;}
@@ -221,6 +222,9 @@ public:
    
    // Associated TRootRun stocked in runTree
    TRootRun* run() const { return (TRootRun*) run_.GetObject(); }
+
+   // rho of the event for Pile-Up energy estimation 
+   Float_t rho() const { return rho_; } 
    
    
    void setNb(UInt_t nb) { nb_ = nb; }
@@ -285,6 +289,7 @@ public:
    void setWeight(Float_t weight) { weight_=weight; }
    
    void setRun(TObject* run) { run_=run; }
+   void setRho(Float_t rho) { rho_=rho; }
    
    
    friend std::ostream& operator<< (std::ostream& stream, const TRootEvent& event) {
@@ -350,8 +355,9 @@ private:
    Float_t weight_;
    
    TRef run_;  // reference to the TRootRun
+   Float_t rho_; // rho of the event for Pile-Up energy estimation 
    
-   ClassDef (TRootEvent,10);
+   ClassDef (TRootEvent,11);
    
 };
 

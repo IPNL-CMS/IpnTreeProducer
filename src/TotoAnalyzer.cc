@@ -103,6 +103,7 @@ void TotoAnalyzer::beginJob()
    doPhotonIsolation_ = myConfig_.getUntrackedParameter<bool>("doPhotonIsolation",false);
    doMET_ = myConfig_.getUntrackedParameter<bool>("doMET",false);
    doBardak_ = myConfig_.getUntrackedParameter<bool>("doBardak",false);
+   doRho_ = myConfig_.getUntrackedParameter<bool>("doRho",false);
    
    nTotEvt_ = 0;
    
@@ -254,7 +255,7 @@ void TotoAnalyzer::beginJob()
          eventTree_->Branch (electronProducer.label().data(), "TClonesArray", &(rootElectronsArrays_[i]));
       }
    }
-
+   
    if(doTau_)
    {
       if(verbosity_>0) std::cout << "Taus info will be added to rootuple" << std::endl;
@@ -326,7 +327,6 @@ void TotoAnalyzer::beginJob()
       if(verbosity_>0) std::cout << "Bardak will be added to rootuple" << std::endl;
       eventTree_->Branch ("Bardak", "TRootBardak", &rootBardak_);
    }
-   
 }
 
 
@@ -528,6 +528,30 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
    rootEvent_->setOrbitNumber(iEvent.eventAuxiliary().orbitNumber());
    rootEvent_->setCollisionTime(iEvent.eventAuxiliary().time().value());
    
+   // Get corrections for pileup effect
+   if (doRho_) 
+   {
+      edm::InputTag srcRho_ = producersNames_.getParameter<edm::InputTag>("srcRho");
+      edm::Handle<double> rhoHandle;
+      try
+      {
+         iEvent.getByLabel(srcRho_,rhoHandle);
+         if ( (!rhoHandle.isValid()) && verbosity_>1) std::cout << "\n  ##### ERROR IN  TotoAnalyzer::analyze =>" << srcRho_ <<"  NOT FOUND #####\n";
+      }
+      catch (cms::Exception& exception)
+      {
+         if ( !allowMissingCollection_ )
+         {
+            cout << "\n  ##### ERROR IN  TotoAnalyzer::analyze => " << srcRho_ << " NOT FOUND #####\n"<<endl;
+            throw exception;
+         }
+         if(verbosity_>1) cout <<  "   ===> No " << srcRho_ << ", skip rho info" << endl;
+         return;
+      }
+      if (rhoHandle.isValid()) rootEvent_->setRho(*rhoHandle);
+   }
+   
+   
    // LHC Beam Status
    if(doLHCInfo_)
    {
@@ -560,411 +584,411 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
       std::cout << std::endl << std::endl << "####### TotoAnalyzer - " << *rootEvent_  << " #######" << std::endl;
    
    // L1 Trigger
-   if(doL1_)
-   {
-      if(nTotEvt_==1 && verbosity_>1) std::cout << std::endl << "L1TriggerAnalyzer initialization..." << std::endl;
-      if (nTotEvt_==1) l1TriggerAnalyzer_->init(iEvent, iSetup, rootEvent_);
-      if(verbosity_>1) std::cout << std::endl << "Get L1 Results..." << std::endl;
-      l1TriggerAnalyzer_->process(iEvent, rootEvent_);
-   }
-   
-   // HLT
-   if(doHLT_)
-   {
-      if(verbosity_>1) std::cout << std::endl << "Get HLT Results..." << std::endl;
-      hltAnalyzer_->process(iEvent, iSetup, rootEvent_);
-      if(doHLTObject_) hltAnalyzer_->keepTriggerObjects(iEvent, producersNames_, rootHLTObjects_);
-   }
-   
-   
-   // MC Info
-   if(doMC_)
-   {
-      if(verbosity_>1) std::cout << std::endl << "Analysing MC info..." << std::endl;
-      MCAnalyzer* myMCAnalyzer = new MCAnalyzer(myConfig_, producersNames_);
-      myMCAnalyzer->setVerbosity(verbosity_);
-      if (drawMCTree_) myMCAnalyzer->drawMCTree(iEvent, iSetup, myConfig_, producersNames_);
-      if ( doPDFInfo_ ) myMCAnalyzer->pdfInfo(iEvent, rootEvent_);
-      myMCAnalyzer->processMCParticle(iEvent, rootMCParticles_);
-      if(doJetMC_) myMCAnalyzer->processGenJets(iEvent, rootGenJets_);
-      if(doMETMC_) myMCAnalyzer->processGenMETs(iEvent, rootGenMETs_);
-      if (doSignalMuMuGamma_)
+      if(doL1_)
       {
-         rootMuMuGammaEvent_ = new TRootSignalEvent();
-         myMCAnalyzer->processMuMuGammaEvent(iEvent, rootMuMuGammaEvent_);
+         if(nTotEvt_==1 && verbosity_>1) std::cout << std::endl << "L1TriggerAnalyzer initialization..." << std::endl;
+         if (nTotEvt_==1) l1TriggerAnalyzer_->init(iEvent, iSetup, rootEvent_);
+         if(verbosity_>1) std::cout << std::endl << "Get L1 Results..." << std::endl;
+         l1TriggerAnalyzer_->process(iEvent, rootEvent_);
       }
-      if (doSignalTopTop_) myMCAnalyzer->processTopTopEvent(iEvent, rootMCTopTop_);
-      if (doPhotonConversionMC_) myMCAnalyzer->processConvertedPhoton(iEvent, rootMCPhotons_);
-      if (doElectronsMCTruth_) myMCAnalyzer->processMCElectron(iEvent, rootMCElectrons_);
-      delete myMCAnalyzer;
-   }
-   
-   
-   // Tracks (must be called before vertex reconstruction to perform tracks-vertex association)
-   if(doTrack_)
-   {
-      if(verbosity_>1) std::cout << std::endl << "Analysing tracks collection..." << std::endl;
-      TrackAnalyzer* myTrackAnalyzer = new TrackAnalyzer(producersNames_, verbosity_);
-      myTrackAnalyzer->process(iEvent, rootTracks_);
-      delete myTrackAnalyzer;
-   }
-   
-   
-   // Get Primary Vertices and Beam Spot
-   if(doPrimaryVertex_)
-   {
-      if(verbosity_>1) std::cout << std::endl << "Analysing beam spot and primary vertices collection..." << std::endl;
-      VertexAnalyzer* myVertexAnalyzer = new VertexAnalyzer(producersNames_, verbosity_);
-      if(doBeamSpot_) myVertexAnalyzer->getBeamSpot(iEvent, rootBeamSpot_);
-      myVertexAnalyzer->getVertices(iEvent, rootVertices_, rootTracks_);
-      myVertexAnalyzer->selectPrimary(rootEvent_, rootVertices_);
-      delete myVertexAnalyzer;
-   }
-   
-   
-   // Reconstruct Zee Primary Vertices with and without electron pair
-   if(doZeePrimaryVertex_)
-   {
-      if(verbosity_>1) std::cout << std::endl << "Reconstruct Zee Primary Vertices with and without electron pair..." << std::endl;
-      ZeeVertexAnalyzer* myZeeVertexAnalyzer = new ZeeVertexAnalyzer(myConfig_, producersNames_, verbosity_);
-      myZeeVertexAnalyzer->getVertices(iEvent, iSetup, rootZeeVertices_, rootTracks_, rootBardak_);
-      delete myZeeVertexAnalyzer;
-   }
-   
-   
-   // Print tracks (after vertex analyzer to display track-vertex association)
-   if(doTrack_ && verbosity_>2)
-   {
-      TRootTrack* tk;
-      for (int itk=0; itk<rootTracks_->GetEntriesFast(); itk++)
-      {
-         tk = (TRootTrack*) rootTracks_->At(itk);
-         std::cout << "   ["<< setw(3) << itk << "] ";
-         tk->Print();
-      }
-   }
-   
-   
-   // Calo Jet
-   if(doJet_)
-   {
-      if(verbosity_>1) std::cout << std::endl << "Analysing jets collection..." << std::endl;
-      vtag jetProducers = producersNames_.getParameter<vtag>("jetProducer");
-      for(unsigned int i=0; i<jetProducers.size(); ++i)
-      {
-         const edm::InputTag jetProducer = jetProducers.at(i);
-         JetAnalyzer* myJetAnalyzer = new JetAnalyzer(jetProducer, producersNames_, myConfig_, verbosity_);
-         myJetAnalyzer->process(iEvent, rootJetsArrays_[i]);
-         delete myJetAnalyzer;
-      }
-   }
-   
-   
-   // Muons
-   if(doMuon_)
-   {
-      if(verbosity_>1) std::cout << std::endl << "Analysing muons collection..." << std::endl;
-      vtag muonProducers = producersNames_.getParameter<vtag>("muonProducer");
-      for(unsigned int i=0; i<muonProducers.size(); ++i)
-      {
-         const edm::InputTag muonProducer = muonProducers.at(i);
-         MuonAnalyzer* myMuonAnalyzer = new MuonAnalyzer(muonProducer, producersNames_, myConfig_, verbosity_);
-         if(doPrimaryVertex_) myMuonAnalyzer->initIPCalculator(iEvent, iSetup, rootEvent_, rootBeamSpot_);
-         myMuonAnalyzer->process(iEvent,rootBeamSpot_, rootMuonsArrays_[i]);
-         delete myMuonAnalyzer;
-      }
-   }
-   
-   
-   // Lazy Tools to calculate Cluster shape variables
-   EcalClusterLazyTools* lazyTools = 0;
-   if( doElectron_ || doPhoton_ || doCluster_ )
-   {
-      if(verbosity_>1) std::cout << std::endl << "Loading egamma LazyTools..." << std::endl;
-      edm::InputTag reducedBarrelEcalRecHitCollection_ = producersNames_.getParameter<edm::InputTag>("reducedBarrelEcalRecHitCollection");
-      edm::InputTag reducedEndcapEcalRecHitCollection_ = producersNames_.getParameter<edm::InputTag>("reducedEndcapEcalRecHitCollection");
-      try
-      {
-         lazyTools = new EcalClusterLazyTools( iEvent, iSetup, reducedBarrelEcalRecHitCollection_, reducedEndcapEcalRecHitCollection_ );
-      }
-      catch (cms::Exception& exception)
-      {
-         if ( !allowMissingCollection_ )
-         {
-            std::cout << "  ##### ERROR IN  TotoAnalyzer::analyze => CaloGeometryRecord, CaloGeometryRecord or EcalRecHitCollection are missing #####"<<std::endl;
-            throw exception;
-         }
-         if(verbosity_>1) std::cout <<  "   ===> CaloGeometryRecord, CaloGeometryRecord or EcalRecHitCollection are missing, skip calculation of cluster shape variables" << std::endl;
-         lazyTools = 0; // FIXME - delete authorized after an exception ?
-      }
-   }
-   
-   // Ecal recHits
-   if(keepAllEcalRecHits_)
-   {
-      if(verbosity_>1) std::cout << std::endl << "Analysing Ecal recHits collection..." << std::endl;
-      EcalRecHitsAnalyzer* myEcalRecHitsAnalyzer = new EcalRecHitsAnalyzer(producersNames_, verbosity_);
-      myEcalRecHitsAnalyzer->process(iEvent, iSetup, rootEcalRecHits_);
-      delete myEcalRecHitsAnalyzer;
-   }
-   
-   // Electrons
-   if(doElectron_)
-   {
-      if(verbosity_>1) std::cout << std::endl << "Analysing electrons collection..." << std::endl;
-      vtag electronProducers = producersNames_.getParameter<vtag>("electronProducer");
-      for(unsigned int i=0; i<electronProducers.size(); ++i)
-      {
-         const edm::InputTag electronProducer = electronProducers.at(i);
-         ElectronAnalyzer* myElectronAnalyzer = new ElectronAnalyzer(electronProducer, producersNames_, myConfig_, verbosity_);
-         if(doPrimaryVertex_) myElectronAnalyzer->initIPCalculator(iEvent, iSetup, rootEvent_, rootBeamSpot_);
-         myElectronAnalyzer->process(iEvent, rootBeamSpot_, rootElectronsArrays_[i], lazyTools);
-         delete myElectronAnalyzer;
-      }
-   }
-   
-   // Taus
-   if(doTau_)
-   {
-      if(verbosity_>1) std::cout << std::endl << "Analysing taus collection..." << std::endl;
-      vtag tauProducers = producersNames_.getParameter<vtag>("tauProducer");
-      for(unsigned int i=0; i<tauProducers.size(); ++i)
-      {
-         const edm::InputTag tauProducer = tauProducers.at(i);
-         TauAnalyzer* myTauAnalyzer = new TauAnalyzer(tauProducer, producersNames_, myConfig_, verbosity_);
-         if(doPrimaryVertex_) myTauAnalyzer->initIPCalculator(iEvent, iSetup, rootEvent_, rootBeamSpot_);
-         myTauAnalyzer->process(iEvent,rootBeamSpot_, rootTausArrays_[i]);
-         delete myTauAnalyzer;
-      }
-   }
-   
-   // Photons
-   if(doPhoton_)
-   {
-      if(verbosity_>1) std::cout << std::endl << "Analysing photons collection..." << std::endl;
-      vtag photonProducers = producersNames_.getParameter<vtag>("photonProducer");
-      for(unsigned int i=0; i<photonProducers.size(); ++i)
-      {
-         const edm::InputTag photonProducer = photonProducers.at(i);
-         PhotonAnalyzer* myPhotonAnalyzer = new PhotonAnalyzer(photonProducer, producersNames_, myConfig_, verbosity_);
-         myPhotonAnalyzer->process(iEvent, rootEvent_, rootPhotonsArrays_[i], rootConversionTracks_, lazyTools);
-         delete myPhotonAnalyzer;
-      }
-   }
-   
-   
-   // Ecal Clusters
-   if(doCluster_)
-   {
-      if(verbosity_>1) std::cout << std::endl << "Analysing BasicClusters collection..." << std::endl;
-      vtag basicClusterProducers = producersNames_.getParameter<vtag>("basicClusterProducer");
-      vint32 basicClusterProducerIndices = producersNames_.getParameter<vint32>("basicClusterProducerIndex");
-      ClusterAnalyzer* myClusterAnalyzer = new ClusterAnalyzer(myConfig_, producersNames_, verbosity_);
-      for(unsigned int i=0; i<basicClusterProducers.size(); ++i)
-      {
-         const edm::InputTag basicClusterProducer = basicClusterProducers.at(i);
-         const int bcType = basicClusterProducerIndices.at(i);
-         myClusterAnalyzer->process(iEvent, iSetup, rootEvent_, lazyTools, rootBasicClusters_, basicClusterProducer, bcType);
-      }
-      delete myClusterAnalyzer;
       
-      if(verbosity_>1) std::cout << std::endl << "Analysing SuperClusters collection..." << std::endl;
-      vtag superClusterProducers = producersNames_.getParameter<vtag>("superClusterProducer");
-      vint32 superClusterProducerIndices = producersNames_.getParameter<vint32>("superClusterProducerIndex");
-      SuperClusterAnalyzer* mySClusterAnalyzer = new SuperClusterAnalyzer(producersNames_, verbosity_);
-      for(unsigned int i=0; i<superClusterProducers.size(); ++i)
+      // HLT
+      if(doHLT_)
       {
-         const edm::InputTag superClusterProducer = superClusterProducers.at(i);
-         const int scType = superClusterProducerIndices.at(i);
-         mySClusterAnalyzer->process(iEvent, iSetup, rootEvent_, rootSuperClusters_, superClusterProducer, scType);
+         if(verbosity_>1) std::cout << std::endl << "Get HLT Results..." << std::endl;
+         hltAnalyzer_->process(iEvent, iSetup, rootEvent_);
+         if(doHLTObject_) hltAnalyzer_->keepTriggerObjects(iEvent, producersNames_, rootHLTObjects_);
       }
-      delete mySClusterAnalyzer;
-   }
-   
-   
-   if(doCluster_)
-   {
-      ClusterAssociator* myClusterAssociator = new ClusterAssociator();
-      myClusterAssociator->setVerbosity(verbosity_);
-      myClusterAssociator->process(rootSuperClusters_, rootBasicClusters_);
-      if(verbosity_>4) myClusterAssociator->printSuperClusters(rootSuperClusters_, rootBasicClusters_,0);  // 0 to print all types SC
+      
+      
+      // MC Info
+      if(doMC_)
+      {
+         if(verbosity_>1) std::cout << std::endl << "Analysing MC info..." << std::endl;
+         MCAnalyzer* myMCAnalyzer = new MCAnalyzer(myConfig_, producersNames_);
+         myMCAnalyzer->setVerbosity(verbosity_);
+         if (drawMCTree_) myMCAnalyzer->drawMCTree(iEvent, iSetup, myConfig_, producersNames_);
+         if ( doPDFInfo_ ) myMCAnalyzer->pdfInfo(iEvent, rootEvent_);
+         myMCAnalyzer->processMCParticle(iEvent, rootMCParticles_);
+         if(doJetMC_) myMCAnalyzer->processGenJets(iEvent, rootGenJets_);
+         if(doMETMC_) myMCAnalyzer->processGenMETs(iEvent, rootGenMETs_);
+         if (doSignalMuMuGamma_)
+         {
+            rootMuMuGammaEvent_ = new TRootSignalEvent();
+            myMCAnalyzer->processMuMuGammaEvent(iEvent, rootMuMuGammaEvent_);
+         }
+         if (doSignalTopTop_) myMCAnalyzer->processTopTopEvent(iEvent, rootMCTopTop_);
+         if (doPhotonConversionMC_) myMCAnalyzer->processConvertedPhoton(iEvent, rootMCPhotons_);
+         if (doElectronsMCTruth_) myMCAnalyzer->processMCElectron(iEvent, rootMCElectrons_);
+         delete myMCAnalyzer;
+      }
+      
+      
+      // Tracks (must be called before vertex reconstruction to perform tracks-vertex association)
+      if(doTrack_)
+      {
+         if(verbosity_>1) std::cout << std::endl << "Analysing tracks collection..." << std::endl;
+         TrackAnalyzer* myTrackAnalyzer = new TrackAnalyzer(producersNames_, verbosity_);
+         myTrackAnalyzer->process(iEvent, rootTracks_);
+         delete myTrackAnalyzer;
+      }
+      
+      
+      // Get Primary Vertices and Beam Spot
+      if(doPrimaryVertex_)
+      {
+         if(verbosity_>1) std::cout << std::endl << "Analysing beam spot and primary vertices collection..." << std::endl;
+         VertexAnalyzer* myVertexAnalyzer = new VertexAnalyzer(producersNames_, verbosity_);
+         if(doBeamSpot_) myVertexAnalyzer->getBeamSpot(iEvent, rootBeamSpot_);
+         myVertexAnalyzer->getVertices(iEvent, rootVertices_, rootTracks_);
+         myVertexAnalyzer->selectPrimary(rootEvent_, rootVertices_);
+         delete myVertexAnalyzer;
+      }
+      
+      
+      // Reconstruct Zee Primary Vertices with and without electron pair
+      if(doZeePrimaryVertex_)
+      {
+         if(verbosity_>1) std::cout << std::endl << "Reconstruct Zee Primary Vertices with and without electron pair..." << std::endl;
+         ZeeVertexAnalyzer* myZeeVertexAnalyzer = new ZeeVertexAnalyzer(myConfig_, producersNames_, verbosity_);
+         myZeeVertexAnalyzer->getVertices(iEvent, iSetup, rootZeeVertices_, rootTracks_, rootBardak_);
+         delete myZeeVertexAnalyzer;
+      }
+      
+      
+      // Print tracks (after vertex analyzer to display track-vertex association)
+      if(doTrack_ && verbosity_>2)
+      {
+         TRootTrack* tk;
+         for (int itk=0; itk<rootTracks_->GetEntriesFast(); itk++)
+         {
+            tk = (TRootTrack*) rootTracks_->At(itk);
+            std::cout << "   ["<< setw(3) << itk << "] ";
+            tk->Print();
+         }
+      }
+      
+      
+      // Calo Jet
+      if(doJet_)
+      {
+         if(verbosity_>1) std::cout << std::endl << "Analysing jets collection..." << std::endl;
+         vtag jetProducers = producersNames_.getParameter<vtag>("jetProducer");
+         for(unsigned int i=0; i<jetProducers.size(); ++i)
+         {
+            const edm::InputTag jetProducer = jetProducers.at(i);
+            JetAnalyzer* myJetAnalyzer = new JetAnalyzer(jetProducer, producersNames_, myConfig_, verbosity_);
+            myJetAnalyzer->process(iEvent, rootJetsArrays_[i]);
+            delete myJetAnalyzer;
+         }
+      }
+      
+      
+      // Muons
+      if(doMuon_)
+      {
+         if(verbosity_>1) std::cout << std::endl << "Analysing muons collection..." << std::endl;
+         vtag muonProducers = producersNames_.getParameter<vtag>("muonProducer");
+         for(unsigned int i=0; i<muonProducers.size(); ++i)
+         {
+            const edm::InputTag muonProducer = muonProducers.at(i);
+            MuonAnalyzer* myMuonAnalyzer = new MuonAnalyzer(muonProducer, producersNames_, myConfig_, verbosity_);
+            if(doPrimaryVertex_) myMuonAnalyzer->initIPCalculator(iEvent, iSetup, rootEvent_, rootBeamSpot_);
+            myMuonAnalyzer->process(iEvent,rootBeamSpot_, rootMuonsArrays_[i]);
+            delete myMuonAnalyzer;
+         }
+      }
+      
+      
+      // Lazy Tools to calculate Cluster shape variables
+      EcalClusterLazyTools* lazyTools = 0;
+      if( doElectron_ || doPhoton_ || doCluster_ )
+      {
+         if(verbosity_>1) std::cout << std::endl << "Loading egamma LazyTools..." << std::endl;
+         edm::InputTag reducedBarrelEcalRecHitCollection_ = producersNames_.getParameter<edm::InputTag>("reducedBarrelEcalRecHitCollection");
+         edm::InputTag reducedEndcapEcalRecHitCollection_ = producersNames_.getParameter<edm::InputTag>("reducedEndcapEcalRecHitCollection");
+         try
+         {
+            lazyTools = new EcalClusterLazyTools( iEvent, iSetup, reducedBarrelEcalRecHitCollection_, reducedEndcapEcalRecHitCollection_ );
+         }
+         catch (cms::Exception& exception)
+         {
+            if ( !allowMissingCollection_ )
+            {
+               std::cout << "  ##### ERROR IN  TotoAnalyzer::analyze => CaloGeometryRecord, CaloGeometryRecord or EcalRecHitCollection are missing #####"<<std::endl;
+               throw exception;
+            }
+            if(verbosity_>1) std::cout <<  "   ===> CaloGeometryRecord, CaloGeometryRecord or EcalRecHitCollection are missing, skip calculation of cluster shape variables" << std::endl;
+            lazyTools = 0; // FIXME - delete authorized after an exception ?
+         }
+      }
+      
+      // Ecal recHits
+      if(keepAllEcalRecHits_)
+      {
+         if(verbosity_>1) std::cout << std::endl << "Analysing Ecal recHits collection..." << std::endl;
+         EcalRecHitsAnalyzer* myEcalRecHitsAnalyzer = new EcalRecHitsAnalyzer(producersNames_, verbosity_);
+         myEcalRecHitsAnalyzer->process(iEvent, iSetup, rootEcalRecHits_);
+         delete myEcalRecHitsAnalyzer;
+      }
+      
+      // Electrons
+      if(doElectron_)
+      {
+         if(verbosity_>1) std::cout << std::endl << "Analysing electrons collection..." << std::endl;
+         vtag electronProducers = producersNames_.getParameter<vtag>("electronProducer");
+         for(unsigned int i=0; i<electronProducers.size(); ++i)
+         {
+            const edm::InputTag electronProducer = electronProducers.at(i);
+            ElectronAnalyzer* myElectronAnalyzer = new ElectronAnalyzer(electronProducer, producersNames_, myConfig_, verbosity_);
+            if(doPrimaryVertex_) myElectronAnalyzer->initIPCalculator(iEvent, iSetup, rootEvent_, rootBeamSpot_);
+            myElectronAnalyzer->process(iEvent, rootBeamSpot_, rootElectronsArrays_[i], lazyTools);
+            delete myElectronAnalyzer;
+         }
+      }
+      
+      // Taus
+      if(doTau_)
+      {
+         if(verbosity_>1) std::cout << std::endl << "Analysing taus collection..." << std::endl;
+         vtag tauProducers = producersNames_.getParameter<vtag>("tauProducer");
+         for(unsigned int i=0; i<tauProducers.size(); ++i)
+         {
+            const edm::InputTag tauProducer = tauProducers.at(i);
+            TauAnalyzer* myTauAnalyzer = new TauAnalyzer(tauProducer, producersNames_, myConfig_, verbosity_);
+            if(doPrimaryVertex_) myTauAnalyzer->initIPCalculator(iEvent, iSetup, rootEvent_, rootBeamSpot_);
+            myTauAnalyzer->process(iEvent,rootBeamSpot_, rootTausArrays_[i]);
+            delete myTauAnalyzer;
+         }
+      }
+      
+      // Photons
+      if(doPhoton_)
+      {
+         if(verbosity_>1) std::cout << std::endl << "Analysing photons collection..." << std::endl;
+         vtag photonProducers = producersNames_.getParameter<vtag>("photonProducer");
+         for(unsigned int i=0; i<photonProducers.size(); ++i)
+         {
+            const edm::InputTag photonProducer = photonProducers.at(i);
+            PhotonAnalyzer* myPhotonAnalyzer = new PhotonAnalyzer(photonProducer, producersNames_, myConfig_, verbosity_);
+            myPhotonAnalyzer->process(iEvent, rootEvent_, rootPhotonsArrays_[i], rootConversionTracks_, lazyTools);
+            delete myPhotonAnalyzer;
+         }
+      }
+      
+      
+      // Ecal Clusters
+      if(doCluster_)
+      {
+         if(verbosity_>1) std::cout << std::endl << "Analysing BasicClusters collection..." << std::endl;
+         vtag basicClusterProducers = producersNames_.getParameter<vtag>("basicClusterProducer");
+         vint32 basicClusterProducerIndices = producersNames_.getParameter<vint32>("basicClusterProducerIndex");
+         ClusterAnalyzer* myClusterAnalyzer = new ClusterAnalyzer(myConfig_, producersNames_, verbosity_);
+         for(unsigned int i=0; i<basicClusterProducers.size(); ++i)
+         {
+            const edm::InputTag basicClusterProducer = basicClusterProducers.at(i);
+            const int bcType = basicClusterProducerIndices.at(i);
+            myClusterAnalyzer->process(iEvent, iSetup, rootEvent_, lazyTools, rootBasicClusters_, basicClusterProducer, bcType);
+         }
+         delete myClusterAnalyzer;
+         
+         if(verbosity_>1) std::cout << std::endl << "Analysing SuperClusters collection..." << std::endl;
+         vtag superClusterProducers = producersNames_.getParameter<vtag>("superClusterProducer");
+         vint32 superClusterProducerIndices = producersNames_.getParameter<vint32>("superClusterProducerIndex");
+         SuperClusterAnalyzer* mySClusterAnalyzer = new SuperClusterAnalyzer(producersNames_, verbosity_);
+         for(unsigned int i=0; i<superClusterProducers.size(); ++i)
+         {
+            const edm::InputTag superClusterProducer = superClusterProducers.at(i);
+            const int scType = superClusterProducerIndices.at(i);
+            mySClusterAnalyzer->process(iEvent, iSetup, rootEvent_, rootSuperClusters_, superClusterProducer, scType);
+         }
+         delete mySClusterAnalyzer;
+      }
+      
+      
+      if(doCluster_)
+      {
+         ClusterAssociator* myClusterAssociator = new ClusterAssociator();
+         myClusterAssociator->setVerbosity(verbosity_);
+         myClusterAssociator->process(rootSuperClusters_, rootBasicClusters_);
+         if(verbosity_>4) myClusterAssociator->printSuperClusters(rootSuperClusters_, rootBasicClusters_,0);  // 0 to print all types SC
       delete myClusterAssociator;
-   }
-   
-   
-   if(doElectron_ && doCluster_)
-   {
-      ElectronAssociator* myElectronAssociator = new ElectronAssociator();
-      myElectronAssociator->setVerbosity(verbosity_);
-      for(unsigned int i=0; i<nElectronsArrays_; ++i)
-      {
-         myElectronAssociator->associateSuperCluster(rootElectronsArrays_[i], rootSuperClusters_);
-         if(verbosity_>2) myElectronAssociator->fullPrintElectrons(rootElectronsArrays_[i],rootSuperClusters_,rootBasicClusters_,0);
       }
-      delete myElectronAssociator;
-   }
-   
-   
-   if(doPhoton_ && doCluster_)
-   {
-      PhotonAssociator* myPhotonAssociator = new PhotonAssociator();
-      myPhotonAssociator->setVerbosity(verbosity_);
-      for(unsigned int i=0; i<nPhotonsArrays_; ++i)
-      {
-         myPhotonAssociator->associateSuperCluster(rootPhotonsArrays_[i], rootSuperClusters_);
-      }
-      delete myPhotonAssociator;
-   }
-   
-   
-   if(doPhoton_ && doPhotonIsolation_)
-   {
-      if(verbosity_>1) std::cout << std::endl << "Calculating Photon isolation..." << std::endl;
       
-      Float_t ecalIslandIsolation;
-      Float_t ecalDoubleConeIsolation;
-      Float_t hcalRecHitIsolation;
-      Float_t isoTracks;
-      Int_t isoNTracks;
-      Int_t isoNNiceTracks;
-      TRootPhoton* localPhoton;
       
-      for(unsigned int i=0; i<nPhotonsArrays_; ++i)
+      if(doElectron_ && doCluster_)
       {
-         PhotonIsolator* myPhotonIsolator = new PhotonIsolator(&myConfig_, &producersNames_);
-         for (int iphoton=0; iphoton<rootPhotonsArrays_[i]->GetEntriesFast(); iphoton++)
+         ElectronAssociator* myElectronAssociator = new ElectronAssociator();
+         myElectronAssociator->setVerbosity(verbosity_);
+         for(unsigned int i=0; i<nElectronsArrays_; ++i)
          {
-            localPhoton = (TRootPhoton*)rootPhotonsArrays_[i]->At(iphoton);
-            
-            ecalIslandIsolation=-1.;
-            if (doCluster_) ecalIslandIsolation = myPhotonIsolator->basicClustersIsolation(localPhoton, rootSuperClusters_, rootBasicClusters_);
-            
-            ecalDoubleConeIsolation=-1.;
-            if (doCluster_) ecalDoubleConeIsolation = myPhotonIsolator->basicClustersDoubleConeIsolation(localPhoton, rootSuperClusters_, rootBasicClusters_);
-            
-            hcalRecHitIsolation=-1.;
-            if ( myPhotonIsolator->loadHcalRecHits(iEvent, iSetup) ) hcalRecHitIsolation = myPhotonIsolator->hcalRecHitIsolation(localPhoton);
-            
-            isoTracks=-1.;
-            isoNTracks=-1;
-            if(doTrack_) isoTracks = myPhotonIsolator->trackerIsolation(localPhoton, rootTracks_, isoNTracks);
-            
-            localPhoton->setIsolationPerso(ecalIslandIsolation, ecalDoubleConeIsolation, hcalRecHitIsolation, isoTracks, isoNTracks);
-            
-            isoNNiceTracks=-1;
-            bool doNiceTracksIsolation = myConfig_.getUntrackedParameter<bool>("doNiceTracksIsolation",false);
-            if(doNiceTracksIsolation) isoNNiceTracks = myPhotonIsolator->nNiceTracks(iEvent, iSetup, producersNames_, localPhoton);
-            localPhoton->setDR04IsolationNNiceTracks(isoNNiceTracks);
-            
-            if(verbosity_>4) { std::cout << "   After isolation - ["<< setw(3) << iphoton << "] "; localPhoton->Print(); std::cout << std::endl; }
+            myElectronAssociator->associateSuperCluster(rootElectronsArrays_[i], rootSuperClusters_);
+            if(verbosity_>2) myElectronAssociator->fullPrintElectrons(rootElectronsArrays_[i],rootSuperClusters_,rootBasicClusters_,0);
          }
-         delete myPhotonIsolator;
+         delete myElectronAssociator;
       }
-   }
-   
-   
-   if(doPhoton_ && doElectron_ && doCluster_)
-   {
-      if(verbosity_>1) std::cout << std::endl << "Runing Ambiguity Solver..." << std::endl;
-      AmbiguitySolver* myAmbiguitySolver = new AmbiguitySolver(myConfig_, verbosity_);
-      for(unsigned int i=0; i<nElectronsArrays_; ++i)
-         for(unsigned int j=0; j<nPhotonsArrays_; ++j)
-            myAmbiguitySolver->processElectronsPhotons(rootSuperClusters_, rootElectronsArrays_[i], rootPhotonsArrays_[j]);
-         delete myAmbiguitySolver;
-   }
-   
-   
-   // Print Photons / SuperClusters / BasicClusters arborescence
-   if(doPhoton_)
-   {
-      PhotonAssociator* myPhotonAssociator = new PhotonAssociator();
-      for(unsigned int i=0; i<nPhotonsArrays_; ++i)
-         if(verbosity_>2) myPhotonAssociator->fullPrintPhotons(rootPhotonsArrays_[i],rootSuperClusters_,rootBasicClusters_,0);
-         delete myPhotonAssociator;
-   }
-   
-   
-   // MET
-   if(doMET_)
-   {
-      if(verbosity_>1) std::cout << std::endl << "Analysing Missing Et..." << std::endl;
-      vtag metProducers = producersNames_.getParameter<vtag>("metProducer");
-      for(unsigned int i=0; i<metProducers.size(); ++i)
+      
+      
+      if(doPhoton_ && doCluster_)
       {
-         const edm::InputTag metProducer = metProducers.at(i);
-         METAnalyzer* myMETAnalyzer = new METAnalyzer(metProducer, producersNames_, myConfig_, verbosity_);
-         myMETAnalyzer->process(iEvent, rootMETsArrays_[i]);
-         delete myMETAnalyzer;
-      }
-   }
-   
-   
-   // Associate recoParticles to mcParticles
-   if(doMC_)
-   {
-      // TODO - For the moment, only for PAT format
-      if ( dataType_=="PAT")
-      {
-         MCAssociator* myMCAssociator = new MCAssociator(producersNames_, verbosity_);
-         myMCAssociator->init(iEvent, rootMCParticles_);
-         if(verbosity_>4) std::cout << std::endl << "Printing recoParticles / mcParticles associations... " << std::endl;
+         PhotonAssociator* myPhotonAssociator = new PhotonAssociator();
+         myPhotonAssociator->setVerbosity(verbosity_);
          for(unsigned int i=0; i<nPhotonsArrays_; ++i)
          {
-            if(doPhoton_) myMCAssociator->matchGenParticlesTo(rootPhotonsArrays_[i]);
-            if(verbosity_>4 && doPhoton_) myMCAssociator->printParticleAssociation(rootPhotonsArrays_[i]);
+            myPhotonAssociator->associateSuperCluster(rootPhotonsArrays_[i], rootSuperClusters_);
          }
-         for(unsigned int i=0; i<nElectronsArrays_; ++i) {
-            if(doElectron_) myMCAssociator->matchGenParticlesTo(rootElectronsArrays_[i]);
-            if(verbosity_>4 && doElectron_) myMCAssociator->printParticleAssociation(rootElectronsArrays_[i]);
-         }
-         for(unsigned int i=0; i<nMuonsArrays_; ++i) {
-            if(doMuon_) myMCAssociator->matchGenParticlesTo(rootMuonsArrays_[i]);
-            if(verbosity_>4 && doMuon_) myMCAssociator->printParticleAssociation(rootMuonsArrays_[i]);
-         }
-         for(unsigned int i=0; i<nMETsArrays_; ++i) {
-            if(doMET_) myMCAssociator->matchGenParticlesTo(rootMETsArrays_[i]);
-            if(verbosity_>4 && doMET_) myMCAssociator->printParticleAssociation(rootMETsArrays_[i]);
-         }
-         for(unsigned int i=0; i<nJetsArrays_; ++i)
-         {
-            if(doJet_) myMCAssociator->matchGenParticlesTo(rootJetsArrays_[i]);
-            if(doJet_ && doJetMC_) myMCAssociator->processGenJets(rootGenJets_, rootJetsArrays_[i]);
-            if(verbosity_>4 && doJet_) myMCAssociator->printJetAssociation(rootJetsArrays_[i]);
-         }
-         delete myMCAssociator;
+         delete myPhotonAssociator;
       }
-   }
-   
-   time_t endProcessingTime = time(0);
-   rootEvent_->setTotoAnaProcessingTime(endProcessingTime-startProcessingTime);
-   
-   if(verbosity_>1) std::cout << std::endl << "Filling rootuple..." << std::endl;
-   
-   eventTree_->Fill();
-   delete rootEvent_;
-   if(verbosity_>1) std::cout << std::endl << "Start deleting objects..." << std::endl;
-   if(doHLT_ && doHLTObject_) (*rootHLTObjects_).Delete();
-   if(doMC_) (*rootMCParticles_).Delete();
-   if(doJetMC_) (*rootGenJets_).Delete();
-   if(doMETMC_) (*rootGenMETs_).Delete();
-   if(doSignalMuMuGamma_) delete rootMuMuGammaEvent_;
-   if(doSignalTopTop_) (*rootMCTopTop_).Delete();
-   if(doPhotonConversionMC_) (*rootMCPhotons_).Delete();
-   if(doBeamSpot_) rootBeamSpot_->clear();
-   if(doPrimaryVertex_) (*rootVertices_).Delete();
-   if(doZeePrimaryVertex_) (*rootZeeVertices_).Delete();
-   if(doTrack_) (*rootTracks_).Delete();
-   for(unsigned int i=0; i<nJetsArrays_; ++i) (*(rootJetsArrays_[i])).Delete();
-   for(unsigned int i=0; i<nMuonsArrays_; ++i) (*(rootMuonsArrays_[i])).Delete();
-   for(unsigned int i=0; i<nElectronsArrays_; ++i) (*(rootElectronsArrays_[i])).Delete();
-   for(unsigned int i=0; i<nTausArrays_; ++i) (*(rootTausArrays_[i])).Delete();
-   for(unsigned int i=0; i<nPhotonsArrays_; ++i) (*(rootPhotonsArrays_[i])).Delete();
-   if(doCluster_) (*rootBasicClusters_).Delete();
-   if(doCluster_) (*rootSuperClusters_).Delete();
-   if(keepAllEcalRecHits_ || keepClusterizedEcalRecHits_) (*rootEcalRecHits_).Delete();
-   if(doPhotonConversion_) (*rootConversionTracks_).Delete();
-   for(unsigned int i=0; i<nMETsArrays_; ++i) (*(rootMETsArrays_[i])).Delete();
-   if(doBardak_) delete rootBardak_;
-   if(verbosity_>1) std::cout << std::endl << "Objects deleted" << std::endl;
-   if(verbosity_>0) std::cout << std::endl;
+      
+      
+      if(doPhoton_ && doPhotonIsolation_)
+      {
+         if(verbosity_>1) std::cout << std::endl << "Calculating Photon isolation..." << std::endl;
+         
+         Float_t ecalIslandIsolation;
+         Float_t ecalDoubleConeIsolation;
+         Float_t hcalRecHitIsolation;
+         Float_t isoTracks;
+         Int_t isoNTracks;
+         Int_t isoNNiceTracks;
+         TRootPhoton* localPhoton;
+         
+         for(unsigned int i=0; i<nPhotonsArrays_; ++i)
+         {
+            PhotonIsolator* myPhotonIsolator = new PhotonIsolator(&myConfig_, &producersNames_);
+            for (int iphoton=0; iphoton<rootPhotonsArrays_[i]->GetEntriesFast(); iphoton++)
+            {
+               localPhoton = (TRootPhoton*)rootPhotonsArrays_[i]->At(iphoton);
+               
+               ecalIslandIsolation=-1.;
+               if (doCluster_) ecalIslandIsolation = myPhotonIsolator->basicClustersIsolation(localPhoton, rootSuperClusters_, rootBasicClusters_);
+               
+               ecalDoubleConeIsolation=-1.;
+               if (doCluster_) ecalDoubleConeIsolation = myPhotonIsolator->basicClustersDoubleConeIsolation(localPhoton, rootSuperClusters_, rootBasicClusters_);
+               
+               hcalRecHitIsolation=-1.;
+               if ( myPhotonIsolator->loadHcalRecHits(iEvent, iSetup) ) hcalRecHitIsolation = myPhotonIsolator->hcalRecHitIsolation(localPhoton);
+               
+               isoTracks=-1.;
+               isoNTracks=-1;
+               if(doTrack_) isoTracks = myPhotonIsolator->trackerIsolation(localPhoton, rootTracks_, isoNTracks);
+               
+               localPhoton->setIsolationPerso(ecalIslandIsolation, ecalDoubleConeIsolation, hcalRecHitIsolation, isoTracks, isoNTracks);
+               
+               isoNNiceTracks=-1;
+               bool doNiceTracksIsolation = myConfig_.getUntrackedParameter<bool>("doNiceTracksIsolation",false);
+               if(doNiceTracksIsolation) isoNNiceTracks = myPhotonIsolator->nNiceTracks(iEvent, iSetup, producersNames_, localPhoton);
+               localPhoton->setDR04IsolationNNiceTracks(isoNNiceTracks);
+               
+               if(verbosity_>4) { std::cout << "   After isolation - ["<< setw(3) << iphoton << "] "; localPhoton->Print(); std::cout << std::endl; }
+            }
+            delete myPhotonIsolator;
+         }
+      }
+      
+      
+      if(doPhoton_ && doElectron_ && doCluster_)
+      {
+         if(verbosity_>1) std::cout << std::endl << "Runing Ambiguity Solver..." << std::endl;
+         AmbiguitySolver* myAmbiguitySolver = new AmbiguitySolver(myConfig_, verbosity_);
+         for(unsigned int i=0; i<nElectronsArrays_; ++i)
+            for(unsigned int j=0; j<nPhotonsArrays_; ++j)
+               myAmbiguitySolver->processElectronsPhotons(rootSuperClusters_, rootElectronsArrays_[i], rootPhotonsArrays_[j]);
+            delete myAmbiguitySolver;
+      }
+      
+      
+      // Print Photons / SuperClusters / BasicClusters arborescence
+      if(doPhoton_)
+      {
+         PhotonAssociator* myPhotonAssociator = new PhotonAssociator();
+         for(unsigned int i=0; i<nPhotonsArrays_; ++i)
+            if(verbosity_>2) myPhotonAssociator->fullPrintPhotons(rootPhotonsArrays_[i],rootSuperClusters_,rootBasicClusters_,0);
+            delete myPhotonAssociator;
+      }
+      
+      
+      // MET
+      if(doMET_)
+      {
+         if(verbosity_>1) std::cout << std::endl << "Analysing Missing Et..." << std::endl;
+         vtag metProducers = producersNames_.getParameter<vtag>("metProducer");
+         for(unsigned int i=0; i<metProducers.size(); ++i)
+         {
+            const edm::InputTag metProducer = metProducers.at(i);
+            METAnalyzer* myMETAnalyzer = new METAnalyzer(metProducer, producersNames_, myConfig_, verbosity_);
+            myMETAnalyzer->process(iEvent, rootMETsArrays_[i]);
+            delete myMETAnalyzer;
+         }
+      }
+      
+      
+      // Associate recoParticles to mcParticles
+      if(doMC_)
+      {
+         // TODO - For the moment, only for PAT format
+         if ( dataType_=="PAT")
+         {
+            MCAssociator* myMCAssociator = new MCAssociator(producersNames_, verbosity_);
+            myMCAssociator->init(iEvent, rootMCParticles_);
+            if(verbosity_>4) std::cout << std::endl << "Printing recoParticles / mcParticles associations... " << std::endl;
+            for(unsigned int i=0; i<nPhotonsArrays_; ++i)
+            {
+               if(doPhoton_) myMCAssociator->matchGenParticlesTo(rootPhotonsArrays_[i]);
+               if(verbosity_>4 && doPhoton_) myMCAssociator->printParticleAssociation(rootPhotonsArrays_[i]);
+            }
+            for(unsigned int i=0; i<nElectronsArrays_; ++i) {
+               if(doElectron_) myMCAssociator->matchGenParticlesTo(rootElectronsArrays_[i]);
+               if(verbosity_>4 && doElectron_) myMCAssociator->printParticleAssociation(rootElectronsArrays_[i]);
+            }
+            for(unsigned int i=0; i<nMuonsArrays_; ++i) {
+               if(doMuon_) myMCAssociator->matchGenParticlesTo(rootMuonsArrays_[i]);
+               if(verbosity_>4 && doMuon_) myMCAssociator->printParticleAssociation(rootMuonsArrays_[i]);
+            }
+            for(unsigned int i=0; i<nMETsArrays_; ++i) {
+               if(doMET_) myMCAssociator->matchGenParticlesTo(rootMETsArrays_[i]);
+               if(verbosity_>4 && doMET_) myMCAssociator->printParticleAssociation(rootMETsArrays_[i]);
+            }
+            for(unsigned int i=0; i<nJetsArrays_; ++i)
+            {
+               if(doJet_) myMCAssociator->matchGenParticlesTo(rootJetsArrays_[i]);
+               if(doJet_ && doJetMC_) myMCAssociator->processGenJets(rootGenJets_, rootJetsArrays_[i]);
+               if(verbosity_>4 && doJet_) myMCAssociator->printJetAssociation(rootJetsArrays_[i]);
+            }
+            delete myMCAssociator;
+         }
+      }
+      
+      time_t endProcessingTime = time(0);
+      rootEvent_->setTotoAnaProcessingTime(endProcessingTime-startProcessingTime);
+      
+      if(verbosity_>1) std::cout << std::endl << "Filling rootuple..." << std::endl;
+      
+      eventTree_->Fill();
+      delete rootEvent_;
+      if(verbosity_>1) std::cout << std::endl << "Start deleting objects..." << std::endl;
+      if(doHLT_ && doHLTObject_) (*rootHLTObjects_).Delete();
+      if(doMC_) (*rootMCParticles_).Delete();
+      if(doJetMC_) (*rootGenJets_).Delete();
+      if(doMETMC_) (*rootGenMETs_).Delete();
+      if(doSignalMuMuGamma_) delete rootMuMuGammaEvent_;
+      if(doSignalTopTop_) (*rootMCTopTop_).Delete();
+      if(doPhotonConversionMC_) (*rootMCPhotons_).Delete();
+      if(doBeamSpot_) rootBeamSpot_->clear();
+      if(doPrimaryVertex_) (*rootVertices_).Delete();
+      if(doZeePrimaryVertex_) (*rootZeeVertices_).Delete();
+      if(doTrack_) (*rootTracks_).Delete();
+      for(unsigned int i=0; i<nJetsArrays_; ++i) (*(rootJetsArrays_[i])).Delete();
+      for(unsigned int i=0; i<nMuonsArrays_; ++i) (*(rootMuonsArrays_[i])).Delete();
+      for(unsigned int i=0; i<nElectronsArrays_; ++i) (*(rootElectronsArrays_[i])).Delete();
+      for(unsigned int i=0; i<nTausArrays_; ++i) (*(rootTausArrays_[i])).Delete();
+      for(unsigned int i=0; i<nPhotonsArrays_; ++i) (*(rootPhotonsArrays_[i])).Delete();
+      if(doCluster_) (*rootBasicClusters_).Delete();
+      if(doCluster_) (*rootSuperClusters_).Delete();
+      if(keepAllEcalRecHits_ || keepClusterizedEcalRecHits_) (*rootEcalRecHits_).Delete();
+      if(doPhotonConversion_) (*rootConversionTracks_).Delete();
+      for(unsigned int i=0; i<nMETsArrays_; ++i) (*(rootMETsArrays_[i])).Delete();
+      if(doBardak_) delete rootBardak_;
+      if(verbosity_>1) std::cout << std::endl << "Objects deleted" << std::endl;
+      if(verbosity_>0) std::cout << std::endl;
 }

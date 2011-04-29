@@ -46,7 +46,7 @@ process.load("TrackingTools.TransientTrack.TransientTrackBuilder_cfi")
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(10)
+    input = cms.untracked.int32(-1)
 )
 
 #process.maxLuminosityBlocks = cms.untracked.PSet(
@@ -56,8 +56,7 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source("PoolSource",
 
 # AOD
-fileNames = cms.untracked.vstring('file:/tmp/lethuill/Spring11__GluGluToHToGG_M-120_7TeV-powheg-pythia6__AODSIM__PU_S1_START311_V1G1-v1__0007__B0D666AF-D550-E011-ACA1-003048D45FD2.root')
-#fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/user/l/lethuill/data/AOD/Spring11__GluGluToHToGG_M-120_7TeV-powheg-pythia6__AODSIM__PU_S1_START311_V1G1-v1__0007__B0D666AF-D550-E011-ACA1-003048D45FD2.root')
+fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/user/l/lethuill/data/AOD/Spring11__GluGluToHToGG_M-120_7TeV-powheg-pythia6__AODSIM__PU_S1_START311_V1G1-v1__0007__B0D666AF-D550-E011-ACA1-003048D45FD2.root')
 # RECO
 #fileNames = cms.untracked.vstring('file:/gridgroup/cms/lethuill/data/CMSSW_3_9_7__RelValH130GGgluonfusion__GEN-SIM-RECO__START39_V8-v1__0047__205E03D0-8C0D-E011-AB8E-001A92971B74.root')
 #fileNames = cms.untracked.vstring('file:/gridgroup/cms/lethuill/data/CMSSW_3_9_7__RelValZEE__GEN-SIM-RECO__START39_V8-v1__004__04901143-820D-E011-BEB9-001A92971BA0.root')
@@ -152,6 +151,7 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       keepAllEcalRecHits = cms.untracked.bool(False),
       doMET = cms.untracked.bool(True),
       doBardak = cms.untracked.bool(True),
+      doRho = cms.untracked.bool(True),
 
       doPhotonVertexCorrection = cms.untracked.bool(False),
       doPhotonIsolation = cms.untracked.bool(True),
@@ -253,6 +253,7 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
          cms.InputTag("ak5CaloJets"),
          cms.InputTag("kt4PFJets")
          ),
+      srcRho = cms.InputTag('kt6PFJets','rho'),
       muonProducer = cms.VInputTag(cms.InputTag("muons")),
       electronProducer = cms.VInputTag(cms.InputTag("gsfElectrons")),
       tauProducer = cms.VInputTag(),
@@ -305,6 +306,7 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       primaryVertexProducer = cms.InputTag("offlinePrimaryVertices"),
       trackProducer = cms.InputTag("generalTracks"),
       jetProducer = cms.VInputTag(cms.InputTag("cleanPatJets")),
+      srcRho = cms.InputTag('kt6PFJets','rho'),
       muonProducer = cms.VInputTag(cms.InputTag("cleanPatMuons")),
       electronProducer = cms.VInputTag(cms.InputTag("cleanPatElectrons")),
       tauProducer = cms.VInputTag(cms.InputTag("cleanPatTaus")),
@@ -344,9 +346,17 @@ process.noscraping = cms.EDFilter("FilterOutScraping",
 process.load('HLTrigger.special.hltPhysicsDeclared_cfi')
 process.hltPhysicsDeclared.L1GtReadoutRecordTag = 'gtDigis'
 
+#Jet producer for rho calculation 
+process.load('RecoJets.JetProducers.kt4PFJets_cfi')
+process.kt6PFJets = process.kt4PFJets.clone( rParam = 0.6, doRhoFastjet = True )
+process.kt6PFJets.Rho_EtaMax = cms.double(2.5)
+
 
 # TotoAna standalone
-process.p = cms.Path(process.totoana)
+#process.p = cms.Path(process.totoana)
+
+# rho Pileupm estimator + TotoAna
+process.p = cms.Path(process.kt6PFJets+process.totoana)
 
 # Photon reReco + TotoAna
 #process.load("photonReReco")

@@ -135,6 +135,7 @@ private:
    bool doPhotonIsolation_;
    bool doMET_;
    bool doBardak_;
+   bool doRho_;
    
    int nTotEvt_;
    TRootRun* rootRun_;
