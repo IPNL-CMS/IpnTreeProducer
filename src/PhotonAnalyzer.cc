@@ -310,7 +310,7 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, TRootEvent* rootEvent, TC
             localPhoton.setConvCotanTheta( conversions[best_iconv]->pairCotThetaSeparation() );
             localPhoton.setConvLikely( conversions[best_iconv]->MVAout() );
             localPhoton.setConvVertex( conversions[best_iconv]->conversionVertex().x(), conversions[best_iconv]->conversionVertex().y(), conversions[best_iconv]->conversionVertex().z() );
-            std::vector<math::XYZPoint>  impactVector = conversions[best_iconv]->ecalImpactPosition();
+            std::vector<math::XYZPointF>  impactVector = conversions[best_iconv]->ecalImpactPosition();
             if ( impactVector.size()>0 ) localPhoton.setConvEcalImpactPosition1( impactVector.at(0).x(), impactVector.at(0).y(), impactVector.at(0).z() );
             if ( impactVector.size()>1 ) localPhoton.setConvEcalImpactPosition2( impactVector.at(1).x(), impactVector.at(1).y(), impactVector.at(1).z() );
             
