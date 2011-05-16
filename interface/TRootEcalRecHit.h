@@ -1,6 +1,8 @@
 #ifndef TRootEcalRecHit_h
 #define TRootEcalRecHit_h
 
+#include <iostream>
+
 #include "Rtypes.h"
 #include "TObject.h"
 
@@ -139,7 +141,7 @@ class TRootEcalRecHit : public TObject
             << " time=" << this->time() << " position1=" << this->position1()<< " position2=" << this->position2();
       };
       
-      
+         
    protected:
       
       Int_t detector_;          // detector containing the rechit
