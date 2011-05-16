@@ -1,4 +1,19 @@
 
+
+RECO_4_2_2_patch1_v2 :
+
+src/TRootEcalRecHit.src
+renamed to 
+src/TRootEcalRecHit.cc
+
+src/EcalRecHitsAnalyzer.cc
+===> Dump ecal rechits only in debug verbosity
+
+interface/TRootEcalRecHit.h
+===> Missing iostream
+
+==================================================================================================
+
 RECO_4_2_2_patch1_v1 :
 
 interface/TRootEcalRecHit.h
