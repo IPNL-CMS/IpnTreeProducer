@@ -77,8 +77,8 @@ bool EcalRecHitsAnalyzer::process(const edm::Event& iEvent, const edm::EventSetu
          ,severityLevelAlgo->severityLevel(detId, *ebRecHits)
       );
       new( (*rootEcalRecHits)[iRecHit_] ) TRootEcalRecHit(localRecHit);
-      //if(verbosity_>3) cout << "   ["<< setw(3) << iRecHit_ << "] " << localRecHit << endl;
-      if(verbosity_>3) cout << "   ["<< iRecHit_ << "] " << localRecHit << endl;
+      //if(verbosity_>4) cout << "   ["<< setw(3) << iRecHit_ << "] " << localRecHit << endl;
+      //if(verbosity_>4) cout << "   ["<< iRecHit_ << "] " << localRecHit << endl;
       iRecHit_++;
    }
    
@@ -107,8 +107,8 @@ bool EcalRecHitsAnalyzer::process(const edm::Event& iEvent, const edm::EventSetu
          ,severityLevelAlgo->severityLevel(detId, *eeRecHits)
       );
       new( (*rootEcalRecHits)[iRecHit_] ) TRootEcalRecHit(localRecHit);
-      //if(verbosity_>3) cout << "   ["<< setw(3) << iRecHit_ << "] " << localRecHit << endl;
-      if(verbosity_>3) cout << "   ["<< iRecHit_ << "] " << localRecHit << endl;
+      //if(verbosity_>4) cout << "   ["<< setw(3) << iRecHit_ << "] " << localRecHit << endl;
+      //if(verbosity_>4) cout << "   ["<< iRecHit_ << "] " << localRecHit << endl;
       iRecHit_++;
    }
    
