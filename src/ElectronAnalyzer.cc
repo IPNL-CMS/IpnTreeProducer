@@ -131,7 +131,6 @@ bool ElectronAnalyzer::process(const edm::Event& iEvent, TRootBeamSpot* rootBeam
       localElectron.setDeltaPhiOut(electron->deltaPhiSeedClusterTrackAtCalo());
       localElectron.setEnergySeedClusterOverPout(electron->eSeedClusterOverPout());
       localElectron.setEnergyScaleCorrected(electron->isEnergyScaleCorrected());
-      localElectron.setMomentumCorrected(electron->isMomentumCorrected());
       
       localElectron.setDr03TkSumPt(electron->dr03TkSumPt());
       localElectron.setDr03EcalRecHitSumEt(electron->dr03EcalRecHitSumEt());

@@ -35,7 +35,6 @@ public:
    ,deltaPhiOut_(-9999.)
    ,energySeedClusterOverPout_(-9999.)
    ,energyScaleCorrected_(false)
-   ,momentumCorrected_(false)
    ,dr03TkSumPt_(-9999.)
    ,dr03EcalRecHitSumEt_(-9999.)
    ,dr03HcalDepth1TowerSumEt_(-9999.)
@@ -109,7 +108,6 @@ public:
    ,deltaPhiOut_(electron.deltaPhiOut_)
    ,energySeedClusterOverPout_(electron.energySeedClusterOverPout_)
    ,energyScaleCorrected_(electron.energyScaleCorrected_)
-   ,momentumCorrected_(electron.momentumCorrected_)
    ,dr03TkSumPt_(electron.dr03TkSumPt_)
    ,dr03EcalRecHitSumEt_(electron.dr03EcalRecHitSumEt_)
    ,dr03HcalDepth1TowerSumEt_(electron.dr03HcalDepth1TowerSumEt_)
@@ -183,7 +181,6 @@ public:
    ,deltaPhiOut_(-9999.)
    ,energySeedClusterOverPout_(-9999.)
    ,energyScaleCorrected_(false)
-   ,momentumCorrected_(false)
    ,dr03TkSumPt_(-9999.)
    ,dr03EcalRecHitSumEt_(-9999.)
    ,dr03HcalDepth1TowerSumEt_(-9999.)
@@ -257,7 +254,6 @@ public:
    ,deltaPhiOut_(-9999.)
    ,energySeedClusterOverPout_(-9999.)
    ,energyScaleCorrected_(false)
-   ,momentumCorrected_(false)
    ,dr03TkSumPt_(-9999.)
    ,dr03EcalRecHitSumEt_(-9999.)
    ,dr03HcalDepth1TowerSumEt_(-9999.)
@@ -327,7 +323,6 @@ public:
    ,deltaPhiOut_(-9999.)
    ,energySeedClusterOverPout_(-9999.)
    ,energyScaleCorrected_(false)
-   ,momentumCorrected_(false)
    ,dr03TkSumPt_(-9999.)
    ,dr03EcalRecHitSumEt_(-9999.)
    ,dr03HcalDepth1TowerSumEt_(-9999.)
@@ -401,7 +396,6 @@ public:
    ,deltaPhiOut_(-9999.)
    ,energySeedClusterOverPout_(-9999.)
    ,energyScaleCorrected_(false)
-   ,momentumCorrected_(false)
    ,dr03TkSumPt_(-9999.)
    ,dr03EcalRecHitSumEt_(-9999.)
    ,dr03HcalDepth1TowerSumEt_(-9999.)
@@ -475,7 +469,6 @@ public:
    ,deltaPhiOut_(-9999.)
    ,energySeedClusterOverPout_(-9999.)
    ,energyScaleCorrected_(false)
-   ,momentumCorrected_(false)
    ,dr03TkSumPt_(-9999.)
    ,dr03EcalRecHitSumEt_(-9999.)
    ,dr03HcalDepth1TowerSumEt_(-9999.)
@@ -550,7 +543,6 @@ public:
    Float_t deltaPhiOut() const { return deltaPhiOut_ ;}
    Float_t energySeedClusterOverPout() const { return energySeedClusterOverPout_ ;}
    Bool_t energyScaleCorrected() const { return energyScaleCorrected_ ;}
-   Bool_t momentumCorrected() const { return momentumCorrected_ ;}
    
    Float_t dr03TkSumPt() const { return dr03TkSumPt_ ;}
    Float_t dr03EcalRecHitSumEt() const { return dr03EcalRecHitSumEt_;}
@@ -716,7 +708,6 @@ public:
    void setDeltaPhiOut(Float_t deltaPhiOut) { deltaPhiOut_ = deltaPhiOut; }
    void setEnergySeedClusterOverPout(Float_t energySeedClusterOverPout) { energySeedClusterOverPout_ = energySeedClusterOverPout; }
    void setEnergyScaleCorrected(Bool_t energyScaleCorrected) { energyScaleCorrected_ = energyScaleCorrected; }
-   void setMomentumCorrected(Bool_t momentumCorrected) { momentumCorrected_ = momentumCorrected; }
    void setDr03TkSumPt(Float_t dr03TkSumPt) { dr03TkSumPt_ = dr03TkSumPt; }
    void setDr03EcalRecHitSumEt(Float_t dr03EcalRecHitSumEt) { dr03EcalRecHitSumEt_ =  dr03EcalRecHitSumEt; }
    void setDr03HcalDepth1TowerSumEt(Float_t dr03HcalDepth1TowerSumEt) { dr03HcalDepth1TowerSumEt_ = dr03HcalDepth1TowerSumEt; }
@@ -836,7 +827,6 @@ public:
       Float_t energySeedClusterOverPout_; // SeedCluster energy / track momentum at calo from outermost state
       
       Bool_t energyScaleCorrected_;       // Has Energy Scale been applied ?
-      Bool_t momentumCorrected_;          // Tell if class dependant E-p combination has been determined
       
       Float_t dr03TkSumPt_;               // track iso deposit with electron footprint removed
       Float_t dr03EcalRecHitSumEt_;       // ecal iso deposit with electron footprint removed
@@ -965,7 +955,7 @@ public:
       //Float_t sigmaPhiPhi_;
       
       
-      ClassDef (TRootElectron,10);
+      ClassDef (TRootElectron,11);
       
    };
    
