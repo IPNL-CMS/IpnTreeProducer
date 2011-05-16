@@ -70,6 +70,14 @@ bool ClusterAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& i
       return false;
    }
    
+   edm::ESHandle<EcalSeverityLevelAlgo> severityLevelAlgo;
+   if (doRecHits_) iSetup.get<EcalSeverityLevelAlgoRcd>().get(severityLevelAlgo);
+   
+   // get the channel status from the DB
+   //edm::ESHandle<EcalChannelStatus> chStatus;
+   //iSetup.get<EcalChannelStatusRcd>().get(chStatus);
+   //const EcalChannelStatus* channelStatus = 0;
+   //if( chStatus.isValid() ) channelStatus = chStatus.product();
    
    if(verbosity_>1) cout << endl << "   Producer: " << basicClusterProducer << " - Number of BasicClusters (type " << clusterType << ") = " << nBasicClusters << std::endl;
    
@@ -89,11 +97,6 @@ bool ClusterAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& i
       
       if (doRecHits_)
       {
-         // get the channel status from the DB
-         edm::ESHandle<EcalChannelStatus> chStatus;
-         iSetup.get<EcalChannelStatusRcd>().get(chStatus);
-         const EcalChannelStatus* channelStatus = 0;
-         if( chStatus.isValid() ) channelStatus = chStatus.product();
          
          std::vector<TRootEcalRecHit> hits;
          
@@ -111,17 +114,25 @@ bool ClusterAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& i
                EcalRecHitCollection::const_iterator hit = reducedEBRecHits->find(detId);
                if (hit == reducedEBRecHits->end()) continue;
                EBDetId ebDet = (EBDetId)(detId);
+               
+               int iflag;
+               for (iflag=EcalRecHit::kUnknown; ; --iflag)
+               {
+                  if ((*hit).checkFlag(iflag)) break;
+                  if (iflag==0) break;
+               }
+               
                TRootEcalRecHit localHit(
-               detId.subdetId()
-               ,(*hit).recoFlag()
-               ,(*hit).energy()
-               ,(*hit).time()
-               ,ebDet.ieta()
-               ,ebDet.iphi()
-               ,(*hit).chi2()
-               ,(*hit).outOfTimeEnergy()
-               ,(*hit).outOfTimeChi2()
-               ,EcalSeverityLevelAlgo::severityLevel(detId, *reducedEBRecHits, *channelStatus, float(5.), EcalSeverityLevelAlgo::kSwissCross, float(0.95))
+                  detId.subdetId()
+                  ,iflag
+                  ,(*hit).energy()
+                  ,(*hit).time()
+                  ,ebDet.ieta()
+                  ,ebDet.iphi()
+                  ,(*hit).chi2()
+                  ,(*hit).outOfTimeEnergy()
+                  ,(*hit).outOfTimeChi2()
+                  ,severityLevelAlgo->severityLevel(detId, *reducedEBRecHits)
                );
                hits.push_back(localHit);
             }
@@ -130,6 +141,14 @@ bool ClusterAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& i
                EcalRecHitCollection::const_iterator hit = reducedEERecHits->find(detId);
                if (hit == reducedEERecHits->end()) continue;
                EEDetId eeDet = (EEDetId)(detId);
+               
+               int iflag;
+               for (iflag=EcalRecHit::kUnknown; ; --iflag)
+               {
+                  if ((*hit).checkFlag(iflag)) break;
+                  if (iflag==0) break;
+               }
+               
                TRootEcalRecHit localHit(
                detId.subdetId()
                ,(*hit).recoFlag()
@@ -140,7 +159,7 @@ bool ClusterAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& i
                ,(*hit).chi2()
                ,(*hit).outOfTimeEnergy()
                ,(*hit).outOfTimeChi2()
-               ,EcalSeverityLevelAlgo::severityLevel(detId, *reducedEERecHits, *channelStatus, float(5.), EcalSeverityLevelAlgo::kSwissCross, float(0.95))
+               ,severityLevelAlgo->severityLevel(detId, *reducedEERecHits)
                );
                hits.push_back(localHit);
             }
