@@ -1,4 +1,22 @@
 
+RECO_4_2_2_patch1_v1 :
+
+interface/TRootEcalRecHit.h
+interface/ClusterAnalyzer.h
+interface/EcalRecHitsAnalyzer.h
+src/ClusterAnalyzer.cc
+src/EcalRecHitsAnalyzer.cc
+===> Changes in Ecal recoFlags and severityLevels 
+
+interface/TRootElectron.h
+src/ElectronAnalyzer.cc
+===> remove "isMomentumCorrected" variable
+
+src/PhotonAnalyzer.cc
+===> ecalImpactPosition double => float
+
+test/toto.py
+===> Migration to 4_2_X
 
 
 ==================================================================================================
