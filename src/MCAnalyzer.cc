@@ -106,6 +106,110 @@ bool MCAnalyzer::pdfInfo(const edm::Event& iEvent, TRootEvent* rootEvent)
 
 
 
+bool MCAnalyzer::pileupInfo(const edm::Event& iEvent, TRootEvent* rootEvent)
+{
+   int nOOTpuVertices(0), nITpuVertices(0);
+   edm::Handle<std::vector<PileupSummaryInfo> > pileup;
+   try {
+      iEvent.getByLabel("addPileupInfo",pileup);
+      if(! pileup.isValid() )
+      {
+         if(verbosity_>1) cout <<  "   ===> No Valid PileupInfo product, skip pileup infos" << endl;
+         return false;
+      }
+   }
+   catch (cms::Exception& exception)
+   {
+      if ( !allowMissingCollection_ )
+      {
+         cout << "  ##### ERROR IN  MCAnalyzer::pileupInfo => No PileupInfo #####"<<endl;
+         throw exception;
+      }
+      if(verbosity_>1) cout <<  "   ===> No PileupInfo product, skip pileup infos" << endl;
+      return false;
+   }
+   
+   std::vector<Float_t> intime_pu_z; 
+   std::vector<Int_t> intime_pu_bx;
+   std::vector<Float_t> intime_pu_sumPt_lowPt;
+   std::vector<Float_t> intime_pu_sumPt_highPt;
+   std::vector<Int_t> intime_pu_nTrk_lowPt;
+   std::vector<Int_t> intime_pu_nTrk_highPt;
+   
+   std::vector<Float_t> oot_pu_z; 
+   std::vector<Int_t> oot_pu_bx;
+   std::vector<Float_t> oot_pu_sumPt_lowPt;
+   std::vector<Float_t> oot_pu_sumPt_highPt;
+   std::vector<Int_t> oot_pu_nTrk_lowPt;
+   std::vector<Int_t> oot_pu_nTrk_highPt;
+   
+   for(std::vector<PileupSummaryInfo>::const_iterator it = pileup->begin(); it != pileup->end(); it++)
+   {
+      if(it->getBunchCrossing() ==0)
+      {
+         nITpuVertices += it->getPU_NumInteractions();
+         for(int ip=0; ip<(it->getPU_NumInteractions()); ++ip)
+         {
+            intime_pu_z.push_back( it->getPU_zpositions()[ip] );
+            intime_pu_bx.push_back( it->getBunchCrossing() );
+            intime_pu_sumPt_lowPt.push_back( it->getPU_sumpT_lowpT()[ip] );
+            intime_pu_sumPt_highPt.push_back( it->getPU_sumpT_highpT()[ip] );
+            intime_pu_nTrk_lowPt.push_back( it->getPU_ntrks_lowpT()[ip] );
+            intime_pu_nTrk_highPt.push_back( it->getPU_ntrks_highpT()[ip] );
+            if(verbosity_>4) cout << "In time PU"
+            << " BX=" << it->getBunchCrossing()
+            << " z=" << it->getPU_zpositions()[ip]
+            << " lowSumPt=" << it->getPU_sumpT_lowpT()[ip]
+            << " highSumPt=" << it->getPU_sumpT_highpT()[ip]
+            << " lowNtk=" << it->getPU_ntrks_lowpT()[ip]
+            << " highNtk=" <<  it->getPU_ntrks_highpT()[ip]
+            << endl;
+         }
+         
+      }
+      else
+      {
+         nOOTpuVertices += it->getPU_NumInteractions();
+         for(int ip=0; ip<(it->getPU_NumInteractions()); ++ip)
+         {
+            oot_pu_z.push_back( it->getPU_zpositions()[ip] );
+            oot_pu_bx.push_back( it->getBunchCrossing() );
+            oot_pu_sumPt_lowPt.push_back( it->getPU_sumpT_lowpT()[ip] );
+            oot_pu_sumPt_highPt.push_back( it->getPU_sumpT_highpT()[ip] );
+            oot_pu_nTrk_lowPt.push_back( it->getPU_ntrks_lowpT()[ip] );
+            oot_pu_nTrk_highPt.push_back( it->getPU_ntrks_highpT()[ip] );
+            if(verbosity_>4) cout << "OOT PU"
+            << " BX=" << it->getBunchCrossing()
+            << " z=" << it->getPU_zpositions()[ip]
+            << " lowSumPt=" << it->getPU_sumpT_lowpT()[ip]
+            << " highSumPt=" << it->getPU_sumpT_highpT()[ip]
+            << " lowNtk=" << it->getPU_ntrks_lowpT()[ip]
+            << " highNtk=" <<  it->getPU_ntrks_highpT()[ip]
+            << endl;
+         }
+         
+      }
+   }
+   
+   rootEvent->set_Intime_PU_z(intime_pu_z);
+   rootEvent->set_Intime_PU_bx(intime_pu_bx);
+   rootEvent->set_Intime_PU_sumPt_lowPt(intime_pu_sumPt_lowPt);
+   rootEvent->set_Intime_PU_sumPt_highPt(intime_pu_sumPt_highPt);
+   rootEvent->set_Intime_PU_nTrk_lowPt(intime_pu_nTrk_lowPt);
+   rootEvent->set_Intime_PU_nTrk_highPt(intime_pu_nTrk_highPt);
+   
+   rootEvent->set_OOT_PU_z(oot_pu_z);
+   rootEvent->set_OOT_PU_bx(oot_pu_bx);
+   rootEvent->set_OOT_PU_sumPt_lowPt(oot_pu_sumPt_lowPt);
+   rootEvent->set_OOT_PU_sumPt_highPt(oot_pu_sumPt_highPt);
+   rootEvent->set_OOT_PU_nTrk_lowPt(oot_pu_nTrk_lowPt);
+   rootEvent->set_OOT_PU_nTrk_highPt(oot_pu_nTrk_highPt);
+   
+   return true;
+}
+
+
+
 bool MCAnalyzer::processMCParticle(const edm::Event& iEvent, TClonesArray* rootMCParticles)
 {
    // Fill TCloneArrays with preselected MC Electrons, Muons and Photons, and with the primary decaying particles

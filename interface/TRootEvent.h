@@ -63,6 +63,18 @@ public:
    ,eventScale_(-1.)
    ,ptHat_(-1.)
    ,weight_(-1.)
+   ,intime_pu_z_(0)
+   ,intime_pu_bx_(0)
+   ,intime_pu_sumPt_lowPt_(0)
+   ,intime_pu_sumPt_highPt_(0)
+   ,intime_pu_nTrk_lowPt_(0)
+   ,intime_pu_nTrk_highPt_(0)
+   ,oot_pu_z_(0)
+   ,oot_pu_bx_(0)
+   ,oot_pu_sumPt_lowPt_(0)
+   ,oot_pu_sumPt_highPt_(0)
+   ,oot_pu_nTrk_lowPt_(0)
+   ,oot_pu_nTrk_highPt_(0)
    ,run_(0)
    ,rho_(0)
    {;}
@@ -220,6 +232,121 @@ public:
    // Event weight
    Float_t weight() const { return weight_; }
    
+   // Number of out of time pileup
+   unsigned int nInTimePUVertices() const { return intime_pu_z_.size(); }
+   
+   // z of the PU vertices
+   std::vector<Float_t> intime_pu_z() const { return intime_pu_z_; }
+   Float_t intime_pu_z(unsigned int i) const
+   {
+      if (i<intime_pu_z_.size()) return intime_pu_z_.at(i);
+      cout << "Pileup number " << i << " not found" << endl;
+      return -999999.;
+   }
+   
+   // BX of the PU vertices
+   std::vector<Int_t> intime_pu_bx() const { return intime_pu_bx_; }
+   Int_t intime_pu_bx(unsigned int i) const
+   {
+      if (i<intime_pu_bx_.size()) return intime_pu_bx_.at(i);
+      cout << "Pileup number " << i << " not found" << endl;
+      return -1;
+   }
+   
+   // Sum of the pt of the track attached to the PU vertex (low pt threshold)
+   std::vector<Float_t> intime_pu_sumPt_lowPt() const { return intime_pu_sumPt_lowPt_; }
+   Float_t intime_pu_sumPt_lowPtu_bx(unsigned int i) const
+   {
+      if (i<intime_pu_sumPt_lowPt_.size()) return intime_pu_sumPt_lowPt_.at(i);
+      cout << "Pileup number " << i << " not found" << endl;
+      return -1.;
+   }
+   
+   // Sum of the pt of the track attached to the PU vertex (high pt threshold)
+   std::vector<Float_t> intime_pu_sumPt_highPt() const { return intime_pu_sumPt_highPt_; }
+   Float_t intime_pu_sumPt_highPt(unsigned int i) const
+   {
+      if (i<intime_pu_sumPt_highPt_.size()) return intime_pu_sumPt_highPt_.at(i);
+      cout << "Pileup number " << i << " not found" << endl;
+      return -1.;
+   }
+   
+   // Track multiplicity of the PU vertex (low pt threshold)
+   std::vector<Int_t> intime_pu_nTrk_lowPt() const { return intime_pu_nTrk_lowPt_; }
+   Int_t intime_pu_nTrk_lowPt(unsigned int i) const
+   {
+      if (i<intime_pu_nTrk_lowPt_.size()) return intime_pu_nTrk_lowPt_.at(i);
+      cout << "Pileup number " << i << " not found" << endl;
+      return -1;
+   }
+   
+   // Track multiplicity of the PU vertex (high pt threshold)
+   std::vector<Int_t> intime_pu_nTrk_highPt() const { return intime_pu_nTrk_highPt_; }
+   Int_t intime_pu_nTrk_highPt(unsigned int i) const
+   {
+      if (i<intime_pu_nTrk_highPt_.size()) return intime_pu_nTrk_highPt_.at(i);
+      cout << "Pileup number " << i << " not found" << endl;
+      return -1;
+   }
+   
+   
+   // Number of out of time pileup
+   unsigned int nOOTPUVertices() const { return oot_pu_z_.size(); }
+   
+   // z of the OOT PU vertices
+   std::vector<Float_t> oot_pu_z() const { return oot_pu_z_; }
+   Float_t oot_pu_z(unsigned int i) const
+   {
+      if (i<oot_pu_z_.size()) return oot_pu_z_.at(i);
+      cout << "Pileup number " << i << " not found" << endl;
+      return -999999.;
+   }
+   
+   // BX of the OOT PU vertices
+   std::vector<Int_t> oot_pu_bx() const { return oot_pu_bx_; }
+   Int_t oot_pu_bx(unsigned int i) const
+   {
+      if (i<oot_pu_bx_.size()) return oot_pu_bx_.at(i);
+      cout << "Pileup number " << i << " not found" << endl;
+      return -1;
+   }
+   
+   // Sum of the pt of the track attached to the OOT PU vertex (low pt threshold)
+   std::vector<Float_t> oot_pu_sumPt_lowPt() const { return oot_pu_sumPt_lowPt_; }
+   Float_t oot_pu_sumPt_lowPtu_bx(unsigned int i) const
+   {
+      if (i<oot_pu_sumPt_lowPt_.size()) return oot_pu_sumPt_lowPt_.at(i);
+      cout << "Pileup number " << i << " not found" << endl;
+      return -1.;
+   }
+   
+   // Sum of the pt of the track attached to the OOT PU vertex (high pt threshold)
+   std::vector<Float_t> oot_pu_sumPt_highPt() const { return oot_pu_sumPt_highPt_; }
+   Float_t oot_pu_sumPt_highPt(unsigned int i) const
+   {
+      if (i<oot_pu_sumPt_highPt_.size()) return oot_pu_sumPt_highPt_.at(i);
+      cout << "Pileup number " << i << " not found" << endl;
+      return -1.;
+   }
+   
+   // Track multiplicity of the OOT PU vertex (low pt threshold)
+   std::vector<Int_t> oot_pu_nTrk_lowPt() const { return oot_pu_nTrk_lowPt_; }
+   Int_t oot_pu_nTrk_lowPt(unsigned int i) const
+   {
+      if (i<oot_pu_nTrk_lowPt_.size()) return oot_pu_nTrk_lowPt_.at(i);
+      cout << "Pileup number " << i << " not found" << endl;
+      return -1;
+   }
+   
+   // Track multiplicity of the OOT PU vertex (high pt threshold)
+   std::vector<Int_t> oot_pu_nTrk_highPt() const { return oot_pu_nTrk_highPt_; }
+   Int_t oot_pu_nTrk_highPt(unsigned int i) const
+   {
+      if (i<oot_pu_nTrk_highPt_.size()) return oot_pu_nTrk_highPt_.at(i);
+      cout << "Pileup number " << i << " not found" << endl;
+      return -1;
+   }
+   
    // Associated TRootRun stocked in runTree
    TRootRun* run() const { return (TRootRun*) run_.GetObject(); }
 
@@ -288,6 +415,20 @@ public:
    void setPtHat(Float_t ptHat) { ptHat_=ptHat; }
    void setWeight(Float_t weight) { weight_=weight; }
    
+   void set_Intime_PU_z(std::vector<Float_t> intime_pu_z) { intime_pu_z_=intime_pu_z; }
+   void set_Intime_PU_bx(std::vector<Int_t> intime_pu_bx) { intime_pu_bx_=intime_pu_bx; }
+   void set_Intime_PU_sumPt_lowPt(std::vector<Float_t> intime_pu_sumPt_lowPt) { intime_pu_sumPt_lowPt_=intime_pu_sumPt_lowPt; }
+   void set_Intime_PU_sumPt_highPt(std::vector<Float_t> intime_pu_sumPt_highPt) { intime_pu_sumPt_highPt_=intime_pu_sumPt_highPt; }
+   void set_Intime_PU_nTrk_lowPt(std::vector<Int_t> intime_pu_nTrk_lowPt) { intime_pu_nTrk_lowPt_=intime_pu_nTrk_lowPt; }
+   void set_Intime_PU_nTrk_highPt(std::vector<Int_t> intime_pu_nTrk_highPt) { intime_pu_nTrk_highPt_=intime_pu_nTrk_highPt; }
+   
+   void set_OOT_PU_z(std::vector<Float_t> oot_pu_z) { oot_pu_z_=oot_pu_z; }
+   void set_OOT_PU_bx(std::vector<Int_t> oot_pu_bx) { oot_pu_bx_=oot_pu_bx; }
+   void set_OOT_PU_sumPt_lowPt(std::vector<Float_t> oot_pu_sumPt_lowPt) { oot_pu_sumPt_lowPt_=oot_pu_sumPt_lowPt; }
+   void set_OOT_PU_sumPt_highPt(std::vector<Float_t> oot_pu_sumPt_highPt) { oot_pu_sumPt_highPt_=oot_pu_sumPt_highPt; }
+   void set_OOT_PU_nTrk_lowPt(std::vector<Int_t> oot_pu_nTrk_lowPt) { oot_pu_nTrk_lowPt_=oot_pu_nTrk_lowPt; }
+   void set_OOT_PU_nTrk_highPt(std::vector<Int_t> oot_pu_nTrk_highPt) { oot_pu_nTrk_highPt_=oot_pu_nTrk_highPt; }
+   
    void setRun(TObject* run) { run_=run; }
    void setRho(Float_t rho) { rho_=rho; }
    
@@ -354,10 +495,27 @@ private:
    Float_t ptHat_;
    Float_t weight_;
    
+   // Intime Pileup infos
+   std::vector<Float_t> intime_pu_z_;            // z of the PU vertex
+   std::vector<Int_t> intime_pu_bx_;             // Bunch Crossing Id of the PU vertex
+   std::vector<Float_t> intime_pu_sumPt_lowPt_;  // Sum of the pt of the track attached to the PU vertex (low pt threshold)
+   std::vector<Float_t> intime_pu_sumPt_highPt_; // Sum of the pt of the track attached to the PU vertex (high pt threshold)
+   std::vector<Int_t> intime_pu_nTrk_lowPt_;     // Track multiplicity of the PU vertex (low pt threshold)
+   std::vector<Int_t> intime_pu_nTrk_highPt_;    // Track multiplicity of the PU vertex (high pt threshold)
+   
+   // Out of Time Pileup infos
+   std::vector<Float_t> oot_pu_z_;            // z of the PU vertex
+   std::vector<Int_t> oot_pu_bx_;             // Bunch Crossing Id of the PU vertex
+   std::vector<Float_t> oot_pu_sumPt_lowPt_;  // Sum of the pt of the track attached to the PU vertex (low pt threshold)
+   std::vector<Float_t> oot_pu_sumPt_highPt_; // Sum of the pt of the track attached to the PU vertex (high pt threshold)
+   std::vector<Int_t> oot_pu_nTrk_lowPt_;     // Track multiplicity of the PU vertex (low pt threshold)
+   std::vector<Int_t> oot_pu_nTrk_highPt_;    // Track multiplicity of the PU vertex (high pt threshold)
+   
    TRef run_;  // reference to the TRootRun
+   
    Float_t rho_; // rho of the event for Pile-Up energy estimation 
    
-   ClassDef (TRootEvent,11);
+   ClassDef (TRootEvent,12);
    
 };
 

@@ -609,6 +609,7 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
          myMCAnalyzer->setVerbosity(verbosity_);
          if (drawMCTree_) myMCAnalyzer->drawMCTree(iEvent, iSetup, myConfig_, producersNames_);
          if ( doPDFInfo_ ) myMCAnalyzer->pdfInfo(iEvent, rootEvent_);
+         myMCAnalyzer->pileupInfo(iEvent, rootEvent_);
          myMCAnalyzer->processMCParticle(iEvent, rootMCParticles_);
          if(doJetMC_) myMCAnalyzer->processGenJets(iEvent, rootGenJets_);
          if(doMETMC_) myMCAnalyzer->processGenMETs(iEvent, rootGenMETs_);

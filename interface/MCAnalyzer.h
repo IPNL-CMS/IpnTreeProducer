@@ -16,6 +16,7 @@
 
 #include "SimDataFormats/GeneratorProducts/interface/HepMCProduct.h"
 #include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
+#include "SimDataFormats/PileupSummaryInfo/interface/PileupSummaryInfo.h"
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
 #include "DataFormats/HepMCCandidate/interface/GenParticleFwd.h"
 
@@ -51,6 +52,7 @@ public:
    void setVerbosity(int verbosity) {verbosity_ = verbosity; };
    void drawMCTree(const edm::Event& iEvent, const edm::EventSetup& iSetup, const edm::ParameterSet& config, const edm::ParameterSet& producersNames);
    bool pdfInfo(const edm::Event& iEvent, TRootEvent* rootEvent);
+   bool pileupInfo(const edm::Event& iEvent, TRootEvent* rootEvent);
    bool processMCParticle(const edm::Event& iEvent, TClonesArray* rootMCParticles);
    bool processGenJets(const edm::Event& iEvent, TClonesArray* rootGenJets);
    bool processGenMETs(const edm::Event& iEvent, TClonesArray* rootGenMETs);
