@@ -1,4 +1,15 @@
 
+==================================================================================================
+
+RECO_4_2_2_patch1_v3 :
+
+interface/MCAnalyzer.h 
+src/MCAnalyzer.cc 
+interface/TRootEvent.h 
+src/TotoAnalyzer.cc
+===> Add pileup generator info
+
+==================================================================================================
 
 RECO_4_2_2_patch1_v2 :
 
