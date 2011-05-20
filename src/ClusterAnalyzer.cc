@@ -151,7 +151,7 @@ bool ClusterAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& i
                
                TRootEcalRecHit localHit(
                detId.subdetId()
-               ,(*hit).recoFlag()
+               ,iflag
                ,(*hit).energy()
                ,(*hit).time()
                ,eeDet.ix()

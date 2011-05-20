@@ -66,7 +66,7 @@ bool EcalRecHitsAnalyzer::process(const edm::Event& iEvent, const edm::EventSetu
       
       TRootEcalRecHit localRecHit(
          detId.subdetId()
-         ,hit->recoFlag()
+         ,iflag
          ,hit->energy()
          ,hit->time()
          ,detId.ieta()
@@ -96,7 +96,7 @@ bool EcalRecHitsAnalyzer::process(const edm::Event& iEvent, const edm::EventSetu
       
       TRootEcalRecHit localRecHit(
          detId.subdetId()
-         ,hit->recoFlag()
+         ,iflag
          ,hit->energy()
          ,hit->time()
          ,detId.ix()
