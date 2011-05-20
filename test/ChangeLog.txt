@@ -1,6 +1,15 @@
 
 ==================================================================================================
 
+RECO_4_2_3_patch2_v1 :
+
+src/ClusterAnalyzer.cc
+src/EcalRecHitsAnalyzer.cc
+===> Correct bug in recoFlag (Hugues)
+
+
+==================================================================================================
+
 RECO_4_2_2_patch1_v3 :
 
 interface/MCAnalyzer.h 
