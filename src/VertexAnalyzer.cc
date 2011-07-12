@@ -202,5 +202,5 @@ void VertexAnalyzer::selectPrimary(TRootEvent* rootEvent, TClonesArray* rootVert
       rootEvent->setPrimaryVertex( localVertex );
    }
    
-   if(verbosity_>2) std::cout  << "   Selected primary vertex: TRootVertex[" << ibestVertex << "]" << std::endl;
+   if(verbosity_>2) std::cout  << std::endl << "   => Selected primary vertex: TRootVertex[" << ibestVertex << "]" << std::endl;
 }
