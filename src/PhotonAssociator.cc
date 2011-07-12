@@ -108,3 +108,44 @@ void PhotonAssociator::fullPrintPhotons(TClonesArray* photons, TClonesArray* sup
       }
    }
 }
+
+
+void PhotonAssociator::fullPrintPhotonsAndRecHits(TClonesArray* photons, TClonesArray* superClusters, TClonesArray* basicClusters, Int_t type)
+{
+   TRootPhoton* localPhoton;
+   TRootSuperCluster* localSC;
+   TRootCluster* localBC;
+   TRootEcalRecHit* localRecHit;
+   map<Int_t,Int_t>  idxMap;
+   map<Int_t,Int_t>::iterator iter;
+   Int_t subIdx;
+   
+   for (int iphot=0; iphot<photons->GetEntriesFast(); iphot++)
+   {
+      localPhoton = (TRootPhoton*)photons->At(iphot);
+      
+      cout << endl << "   [" << iphot << "] "; localPhoton->Print(); cout << endl;
+      
+      idxMap=localPhoton->scIndexMap();
+      for( iter = idxMap.begin(); iter != idxMap.end(); iter++ )
+      {
+         if ( (type==0) || (iter->first==type) )
+         {
+            localSC =  (TRootSuperCluster*) superClusters->At(iter->second);
+            cout << "       [" << iter->second << "] " << *localSC << endl;
+            
+            for (unsigned int isub=0; isub<localSC->subBasicClusterIndexVector().size(); isub++)
+            {
+               subIdx=localSC->subBasicClusterIndexVector().at(isub);
+               localBC = (TRootCluster*) basicClusters->At(subIdx);
+               cout << "           [" << subIdx << "] " << *localBC << endl;
+               for (unsigned int irec=0; irec<localBC->nRecHits(); irec++)
+               {
+                  localRecHit=localBC->hitAt(irec);
+                  cout << "               [" << irec << "] " << *localRecHit << endl;
+               }
+            }
+         }
+      }
+   }
+}

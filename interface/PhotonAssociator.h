@@ -22,7 +22,8 @@ class PhotonAssociator
       void associateSuperCluster(TClonesArray* photons, TClonesArray* superClusters);
       void printPhotons(TClonesArray* photons, TClonesArray* superClusters,  Int_t type);
       void fullPrintPhotons(TClonesArray* photons, TClonesArray* superClusters, TClonesArray* basicClusters,  Int_t type);
-
+      void fullPrintPhotonsAndRecHits(TClonesArray* photons, TClonesArray* superClusters, TClonesArray* basicClusters,  Int_t type);
+      
    private:
       int verbosity_;
 
