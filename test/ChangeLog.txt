@@ -1,3 +1,19 @@
+==================================================================================================
+
+RECO_4_2_5_v1 :
+
+interface/PhotonAssociator.h
+src/PhotonAssociator.cc
+src/TotoAnalyzer.cc
+===> Add rechits printouts
+
+interface/TRootEcalRecHit.h
+src/ClusterAnalyzer.cc
+src/EcalRecHitsAnalyzer.cc
+===> Add DetId variables to TRootEcalRecHit
+
+src/VertexAnalyzer.cc
+===> Cosmetic
 
 ==================================================================================================
 
