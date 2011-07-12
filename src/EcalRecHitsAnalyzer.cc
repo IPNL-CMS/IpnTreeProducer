@@ -71,6 +71,11 @@ bool EcalRecHitsAnalyzer::process(const edm::Event& iEvent, const edm::EventSetu
          ,hit->time()
          ,detId.ieta()
          ,detId.iphi()
+         ,0
+         ,detId.ism()
+         ,detId.ic()
+         ,0
+         ,detId.hashedIndex()
          ,hit->chi2()
          ,hit->outOfTimeEnergy()
          ,hit->outOfTimeChi2()
@@ -101,6 +106,11 @@ bool EcalRecHitsAnalyzer::process(const edm::Event& iEvent, const edm::EventSetu
          ,hit->time()
          ,detId.ix()
          ,detId.iy()
+         ,detId.zside()
+         ,detId.isc()
+         ,detId.ic()
+         ,detId.iquadrant()
+         ,detId.hashedIndex()
          ,hit->chi2()
          ,hit->outOfTimeEnergy()
          ,hit->outOfTimeChi2()

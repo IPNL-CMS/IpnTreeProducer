@@ -129,6 +129,11 @@ bool ClusterAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& i
                   ,(*hit).time()
                   ,ebDet.ieta()
                   ,ebDet.iphi()
+                  ,0
+                  ,ebDet.ism()
+                  ,ebDet.ic()
+                  ,0
+                  ,ebDet.hashedIndex()
                   ,(*hit).chi2()
                   ,(*hit).outOfTimeEnergy()
                   ,(*hit).outOfTimeChi2()
@@ -156,6 +161,11 @@ bool ClusterAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& i
                ,(*hit).time()
                ,eeDet.ix()
                ,eeDet.iy()
+               ,eeDet.zside()
+               ,eeDet.isc()
+               ,eeDet.ic()
+               ,eeDet.iquadrant()
+               ,eeDet.hashedIndex()
                ,(*hit).chi2()
                ,(*hit).outOfTimeEnergy()
                ,(*hit).outOfTimeChi2()
