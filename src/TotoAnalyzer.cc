@@ -905,9 +905,11 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
       {
          PhotonAssociator* myPhotonAssociator = new PhotonAssociator();
          for(unsigned int i=0; i<nPhotonsArrays_; ++i)
+         {
             if(verbosity_==3) myPhotonAssociator->fullPrintPhotons(rootPhotonsArrays_[i],rootSuperClusters_,rootBasicClusters_,0);
             if(verbosity_>3) myPhotonAssociator->fullPrintPhotonsAndRecHits(rootPhotonsArrays_[i],rootSuperClusters_,rootBasicClusters_,0);
-            delete myPhotonAssociator;
+         }
+         delete myPhotonAssociator;
       }
       
       
