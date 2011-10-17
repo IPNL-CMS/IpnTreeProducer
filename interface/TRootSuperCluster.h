@@ -293,8 +293,8 @@ class TRootSuperCluster : public TRootCluster
          std::cout << "TRootSuperCluster - Type=" << this->det_ << "  (E,Et,eta,phi)=(" << this->Mag() <<"," << this->Pt() <<"," << this->Eta() <<"," << this->Phi() << ")"
          << " Calo position (x,y,z)=(" << this->calX() << "," << this->calY() << "," << this->calZ() << ")" << endl
          << "            E_presh=" << this->preshowerEnergy() << " E_raw=" << this->rawEnergy()
-         << " E_raw_CorrectedCracksEta="<<this->crackCorrectionEta() * clus.Mag() << " E_raw_CorrectedCracksPhi="<<this->crackCorrectionPhi() * clus.Mag() 
-         << " E_raw_CorrectedCracksEtaPhi="<<this->crackCorrectionEtaPhi() * clus.Mag() 
+         << " E_raw_CorrectedCracksEta="<<this->crackCorrectionEta() * this->Mag() << " E_raw_CorrectedCracksPhi="<<this->crackCorrectionPhi() * this->Mag() 
+         << " E_raw_CorrectedCracksEtaPhi="<<this->crackCorrectionEtaPhi() * this->Mag() 
          << " nBC=" << this->nBasicClusters() << " nXtals=" << this->nXtals() << " e3x3=" << this->e3x3() << " e5x5=" << this->e5x5()
          << " eMax=" << this->eMax()<< " e2nd=" << this->e2nd() << " etaWidth=" << this->etaWidth() << " phiWidth=" << this->phiWidth()
          << " hoe1=" << this->hoe1() << " hoe2=" << this->hoe2() ;
