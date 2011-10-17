@@ -41,6 +41,9 @@ class TRootSuperCluster : public TRootCluster
       TRootSuperCluster() :
       TRootCluster()
       ,rawEnergy_(-1.)
+      ,crackCorrectionEta_(-1.)
+      ,crackCorrectionPhi_(-1.)
+      ,crackCorrectionEtaPhi_(-1.)
       ,preshowerEnergy_(-1.)
       ,etaWidth_(-1.)
       ,phiWidth_(-1.)
@@ -61,6 +64,9 @@ class TRootSuperCluster : public TRootCluster
       TRootSuperCluster(const TRootSuperCluster& cluster) :
       TRootCluster(cluster)
       ,rawEnergy_(cluster.rawEnergy_)
+      ,crackCorrectionEta_(cluster.crackCorrectionEta_)
+      ,crackCorrectionPhi_(cluster.crackCorrectionPhi_)
+      ,crackCorrectionEtaPhi_(cluster.crackCorrectionEtaPhi_)
       ,preshowerEnergy_(cluster.preshowerEnergy_)
       ,etaWidth_(cluster.etaWidth_)
       ,phiWidth_(cluster.phiWidth_)
@@ -81,6 +87,9 @@ class TRootSuperCluster : public TRootCluster
       TRootSuperCluster(Double_t energy, Double_t eta, Double_t phi) :
       TRootCluster(energy, eta, phi)
       ,rawEnergy_(-1.)
+      ,crackCorrectionEta_(-1.)
+      ,crackCorrectionPhi_(-1.)
+      ,crackCorrectionEtaPhi_(-1.)      
       ,preshowerEnergy_(-1.)
       ,etaWidth_(-1.)
       ,phiWidth_(-1.)
@@ -101,6 +110,9 @@ class TRootSuperCluster : public TRootCluster
       TRootSuperCluster(Double_t energy, Double_t eta, Double_t phi, Double_t x, Double_t y, Double_t z) :
       TRootCluster(energy, eta, phi, x, y, z)
       ,rawEnergy_(-1.)
+      ,crackCorrectionEta_(-1.)
+      ,crackCorrectionPhi_(-1.)
+      ,crackCorrectionEtaPhi_(-1.)
       ,preshowerEnergy_(-1.)
       ,etaWidth_(-1.)
       ,phiWidth_(-1.)
@@ -121,6 +133,9 @@ class TRootSuperCluster : public TRootCluster
       TRootSuperCluster(Double_t energy, Double_t eta, Double_t phi, Double_t x, Double_t y, Double_t z, Int_t det) :
       TRootCluster(energy, eta, phi, x, y, z, det)
       ,rawEnergy_(-1.)
+      ,crackCorrectionEta_(-1.)
+      ,crackCorrectionPhi_(-1.)
+      ,crackCorrectionEtaPhi_(-1.)
       ,preshowerEnergy_(-1.)
       ,etaWidth_(-1.)
       ,phiWidth_(-1.)
@@ -142,7 +157,12 @@ class TRootSuperCluster : public TRootCluster
       
       // ECAL Raw Energy
       Float_t rawEnergy() const   { return rawEnergy_; }
-      
+
+      // ECAL Raw Energy Corrected Cracks
+      Float_t crackCorrectionEta() const   { return crackCorrectionEta_; }
+      Float_t crackCorrectionPhi() const   { return crackCorrectionPhi_; }
+      Float_t crackCorrectionEtaPhi() const   { return crackCorrectionEtaPhi_; }
+
       // Preshower Energy
       Float_t preshowerEnergy() const   { return preshowerEnergy_; }
       
@@ -234,6 +254,9 @@ class TRootSuperCluster : public TRootCluster
       }
       
       void setRawEnergy(Float_t rawEnergy) { rawEnergy_ = rawEnergy; }
+      void setcrackCorrectionEta(Float_t crackCorrectionEta) { crackCorrectionEta_ = crackCorrectionEta; }
+      void setcrackCorrectionPhi(Float_t crackCorrectionPhi) { crackCorrectionPhi_ = crackCorrectionPhi; }
+      void setcrackCorrectionEtaPhi(Float_t crackCorrectionEtaPhi) { crackCorrectionEtaPhi_ = crackCorrectionEtaPhi; }
       void setPreshowerEnergy(Float_t preshowerEnergy) { preshowerEnergy_ = preshowerEnergy; }
       void setEtaWidth(Float_t etaWidth) { etaWidth_ = etaWidth; }
       void setPhiWidth(Float_t phiWidth) { phiWidth_ = phiWidth; }
@@ -259,7 +282,9 @@ class TRootSuperCluster : public TRootCluster
          stream << "TRootSuperCluster - Type=" << clus.det_ << "  (E,Et,eta,phi)=(" << clus.Mag() <<"," << clus.Pt() <<"," << clus.Eta() <<"," << clus.Phi() << ")"
          << " Calo position (x,y,z)=(" << clus.calX() << "," << clus.calY() << "," << clus.calZ() << ")"
          << " nBC=" << clus.nBasicClusters() << " e3x3=" << clus.e3x3() << " e5x5=" << clus.e5x5() << " eMax=" << clus.eMax()<< " e2nd=" << clus.e2nd()
-         << " hoe1=" << clus.hoe1() << " hoe2=" << clus.hoe2() << " nXtals=" << clus.nXtals() << " E_presh=" << clus.preshowerEnergy() << " E_raw=" << clus.rawEnergy();
+         << " hoe1=" << clus.hoe1() << " hoe2=" << clus.hoe2() << " nXtals=" << clus.nXtals() << " E_presh=" << clus.preshowerEnergy() << " E_raw=" << clus.rawEnergy()
+	 << " E_raw_CorrectedCracksEta=" << clus.crackCorrectionEta() * clus.Mag() << " E_raw_CorrectedCracksPhi=" << clus.crackCorrectionPhi() * clus.Mag()
+         << " E_raw_CorrectedCracksEtaPhi=" << clus.crackCorrectionEtaPhi() * clus.Mag();
          return stream;
       };
       
@@ -268,6 +293,8 @@ class TRootSuperCluster : public TRootCluster
          std::cout << "TRootSuperCluster - Type=" << this->det_ << "  (E,Et,eta,phi)=(" << this->Mag() <<"," << this->Pt() <<"," << this->Eta() <<"," << this->Phi() << ")"
          << " Calo position (x,y,z)=(" << this->calX() << "," << this->calY() << "," << this->calZ() << ")" << endl
          << "            E_presh=" << this->preshowerEnergy() << " E_raw=" << this->rawEnergy()
+         << " E_raw_CorrectedCracksEta="<<this->crackCorrectionEta() * clus.Mag() << " E_raw_CorrectedCracksPhi="<<this->crackCorrectionPhi() * clus.Mag() 
+         << " E_raw_CorrectedCracksEtaPhi="<<this->crackCorrectionEtaPhi() * clus.Mag() 
          << " nBC=" << this->nBasicClusters() << " nXtals=" << this->nXtals() << " e3x3=" << this->e3x3() << " e5x5=" << this->e5x5()
          << " eMax=" << this->eMax()<< " e2nd=" << this->e2nd() << " etaWidth=" << this->etaWidth() << " phiWidth=" << this->phiWidth()
          << " hoe1=" << this->hoe1() << " hoe2=" << this->hoe2() ;
@@ -277,6 +304,9 @@ class TRootSuperCluster : public TRootCluster
    protected:
       
       Float_t rawEnergy_;
+      Float_t crackCorrectionEta_;
+      Float_t crackCorrectionPhi_;
+      Float_t crackCorrectionEtaPhi_;
       Float_t preshowerEnergy_;
       Float_t etaWidth_;
       Float_t phiWidth_;

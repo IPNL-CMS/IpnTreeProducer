@@ -133,6 +133,7 @@ private:
    bool keepClusterizedEcalRecHits_;
    bool doPhotonConversion_;
    bool doPhotonIsolation_;
+   bool doCracksCorrection_;
    bool doMET_;
    bool doBardak_;
    bool doRho_;

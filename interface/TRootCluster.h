@@ -59,6 +59,9 @@ class TRootCluster : public TVector3
 		,e2nd_(-1.)
 		,s4_(-1.)
 		,esRatio_(-1.)
+		,crackCorrectionEta_(-1.)
+		,crackCorrectionPhi_(-1.)
+		,crackCorrectionEtaPhi_(-1.)
 		,nXtals_(-1)
 		,uid_(0)
 		,hits_()
@@ -75,6 +78,9 @@ class TRootCluster : public TVector3
 		,e2nd_(cluster.e2nd_)
 		,s4_(cluster.s4_)
 		,esRatio_(cluster.esRatio_)
+		,crackCorrectionEta_(cluster.crackCorrectionEta_)
+		,crackCorrectionPhi_(cluster.crackCorrectionPhi_)
+		,crackCorrectionEtaPhi_(cluster.crackCorrectionEtaPhi_)
 		,nXtals_(cluster.nXtals_)
 		,uid_(cluster.uid_)
 		,hits_(cluster.hits_)
@@ -90,6 +96,9 @@ class TRootCluster : public TVector3
 		,e2nd_(-1.)
 		,s4_(-1.)
 		,esRatio_(-1.)
+		,crackCorrectionEta_(-1.)
+		,crackCorrectionPhi_(-1.)
+		,crackCorrectionEtaPhi_(-1.)
 		,nXtals_(-1)
 		,uid_(0)
 		,hits_()
@@ -107,6 +116,9 @@ class TRootCluster : public TVector3
 		,e2nd_(-1.)
 		,s4_(-1.)
 		,esRatio_(-1.)
+		,crackCorrectionEta_(-1.)
+		,crackCorrectionPhi_(-1.)
+		,crackCorrectionEtaPhi_(-1.)
 		,nXtals_(-1)
 		,uid_(0)
 		,hits_()
@@ -124,6 +136,9 @@ class TRootCluster : public TVector3
 		,e2nd_(-1.)
 		,s4_(-1.)
 		,esRatio_(-1.)
+		,crackCorrectionEta_(-1.)
+		,crackCorrectionPhi_(-1.)
+		,crackCorrectionEtaPhi_(-1.)
 		,nXtals_(-1)
 		,uid_(0)
 		,hits_()
@@ -142,6 +157,9 @@ class TRootCluster : public TVector3
 		,e2nd_(-1.)
 		,s4_(-1.)
 		,esRatio_(-1.)
+		,crackCorrectionEta_(-1.)
+		,crackCorrectionPhi_(-1.)
+		,crackCorrectionEtaPhi_(-1.)
 		,nXtals_(-1)
 		,uid_(0)
 		,hits_()
@@ -159,6 +177,9 @@ class TRootCluster : public TVector3
 		,e2nd_(-1.)
 		,s4_(-1.)
 		,esRatio_(-1.)
+		,crackCorrectionEta_(-1.)
+		,crackCorrectionPhi_(-1.)
+		,crackCorrectionEtaPhi_(-1.)
 		,nXtals_(-1)
 		,uid_(0)
 		,hits_()
@@ -179,6 +200,9 @@ class TRootCluster : public TVector3
 		Double_t e2nd() const { return e2nd_; }
 		Double_t s4() const { return s4_; }
 		Float_t esRatio() const { return esRatio_; }
+		Double_t crackCorrectionEta() const { return crackCorrectionEta_; }
+		Double_t crackCorrectionPhi() const { return crackCorrectionPhi_; }
+		Double_t crackCorrectionEtaPhi() const { return crackCorrectionEtaPhi_; }
 		Int_t nXtals() const { return nXtals_; }
 		UInt_t uid() const { return uid_; }
 		UInt_t nRecHits() const { return hits_.size(); }
@@ -217,6 +241,9 @@ class TRootCluster : public TVector3
 		void setE2nd(Double_t e2nd) { e2nd_ = e2nd; }
 		void setS4(Double_t s4) { s4_ = s4; }
 		void setESratio(Float_t esRatio) { esRatio_ = esRatio; }
+		void setcrackCorrectionEta(Double_t crackCorrectionEta) { crackCorrectionEta_ = crackCorrectionEta; }
+		void setcrackCorrectionPhi(Double_t crackCorrectionPhi) { crackCorrectionPhi_ = crackCorrectionPhi; }
+		void setcrackCorrectionEtaPhi(Double_t crackCorrectionEtaPhi) { crackCorrectionEtaPhi_ = crackCorrectionEtaPhi; }
 		void setNxtals(Int_t nXtals) { nXtals_ = nXtals; }
 		void setUid(UInt_t uid) { uid_ = uid; }
 		void setHits(std::vector<TRootEcalRecHit> hits) { hits_ = hits; }
@@ -249,6 +276,9 @@ class TRootCluster : public TVector3
 		Double_t e2nd_;     // Energy of the 2nd highest energy xtal
 		Double_t s4_;       // Energy in swiss cross
 		Float_t esRatio_;   // Ratio E3/E21 of energy in ES planes
+		Double_t crackCorrectionEta_; //Corrected cracks eta energy 
+		Double_t crackCorrectionPhi_; //Corrected cracks phi energy
+		Double_t crackCorrectionEtaPhi_; //Corrected cracks eta phi energy
 		Int_t nXtals_;      // Number of xtals in the Basic Cluster
 		UInt_t uid_;        // Unique Identifier
 		

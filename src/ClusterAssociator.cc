@@ -1,14 +1,22 @@
 #include "../interface/ClusterAssociator.h"
 
-ClusterAssociator::ClusterAssociator():verbosity_(0)
+ClusterAssociator::ClusterAssociator()
 {
+	verbosity_ = 0;
+	doCracksCorrection_ = false;
+}
+
+ClusterAssociator::ClusterAssociator(const edm::ParameterSet& config)
+{
+	verbosity_ = 0;
+	doCracksCorrection_ = config.getUntrackedParameter<bool>("doCracksCorrection", false);
 }
 
 ClusterAssociator::~ClusterAssociator()
 {
 }
 
-void ClusterAssociator::process(TClonesArray* superClusters, TClonesArray* basicClusters)
+void ClusterAssociator::process(TClonesArray* superClusters, TClonesArray* basicClusters )
 {
    if(verbosity_>1) cout << endl << "Associating BasicClusters with SuperClusters... " << endl;
    
@@ -38,6 +46,33 @@ void ClusterAssociator::process(TClonesArray* superClusters, TClonesArray* basic
          aSC->addSubBasicCluster( (TRootCluster*)basicClusters->At(iBasicCluster) );
          // TODO - Add ref to SC in BC
       }
+
+////// SuperCluster Cracks Correction //////
+      if(doCracksCorrection_)
+      {  
+         Double_t EnergyTempEta = 1.0;
+          Double_t EnergyTempPhi = 1.0;
+          Double_t EnergyTempEtaPhi = 1.0;
+
+          for(unsigned int idx=0; idx<aSC->subBasicClusterUIDVector().size(); idx++)//a trouver!!!!
+          {
+            TRootCluster* mybasiccluster; 
+                  mybasiccluster = (TRootCluster*) (basicClusters->At(aSC->subBasicClusterIndexVector()[idx])   );        
+
+            EnergyTempEta *= ((aSC->rawEnergy() + (mybasiccluster->Mag()) * (mybasiccluster->crackCorrectionEta() - 1.)) / (aSC->rawEnergy()));
+            EnergyTempPhi *= ((aSC->rawEnergy() + (mybasiccluster->Mag()) * (mybasiccluster->crackCorrectionPhi() - 1.)) / (aSC->rawEnergy()));
+            EnergyTempEtaPhi *= ((aSC->rawEnergy() + (mybasiccluster->Mag()) * (mybasiccluster->crackCorrectionEtaPhi() - 1.)) / (aSC->rawEnergy()));
+ 
+          }
+
+          aSC->setcrackCorrectionEta(EnergyTempEta);
+          aSC->setcrackCorrectionPhi(EnergyTempPhi);
+          aSC->setcrackCorrectionEtaPhi(EnergyTempEtaPhi);
+   
+     }	
+
+
+//////
       
       if ( aSC->seedBasicClusterIndex() >= 0 )
       {

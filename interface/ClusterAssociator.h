@@ -8,6 +8,7 @@
 #include <cassert>
 
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
+#include "FWCore/ParameterSet/interface/ParameterSet.h"
 
 #include "../interface/TRootCluster.h"
 #include "../interface/TRootSuperCluster.h"
@@ -20,6 +21,7 @@ class ClusterAssociator
 
    public:
       ClusterAssociator();
+      ClusterAssociator(const edm::ParameterSet& config);
       ~ClusterAssociator();
       void setVerbosity(int verbosity) {verbosity_ = verbosity; };
       void process(TClonesArray* superClusters, TClonesArray* basicClusters);
@@ -27,6 +29,7 @@ class ClusterAssociator
 
    private:
       int verbosity_;
+      bool doCracksCorrection_;
 
 };
 

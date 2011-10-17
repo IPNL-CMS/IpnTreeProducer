@@ -1,5 +1,29 @@
 ==================================================================================================
 
+RECO_4_2_8_v1 (Olivier) :
+
+interface/TRootCluster.h
+interface/TRootSuperCluster.h
+===> Add crackCorrection factors in the SC and BC objects
+
+interface/SuperClusterAnalyzer.h
+interface/ClusterAnalyzer.h
+interface/TotoAnalyzer.h
+interface/ClusterAssociator.h
+src/SuperClusterAnalyzer.cc
+src/TotoAnalyzer.cc
+src/ClusterAssociator.cc
+src/ClusterAnalyzer.cc
+===> Add doCracksCorrection_ switch + filling information
+
+test/toto.py
+===> Adding the doCracksCorrection switch
+
+BuildFile.xml
+===> Adding ECAL geometry packages necessary to compute the crack corrections
+
+==================================================================================================
+
 RECO_4_2_5_v1 :
 
 interface/PhotonAssociator.h

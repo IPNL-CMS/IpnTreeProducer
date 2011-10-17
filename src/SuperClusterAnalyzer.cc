@@ -5,11 +5,12 @@ using namespace reco;
 using namespace edm;
 
 
-SuperClusterAnalyzer::SuperClusterAnalyzer(const edm::ParameterSet& producersNames, int verbosity):verbosity_(verbosity), iClus_(0), doHcal_(true)
+SuperClusterAnalyzer::SuperClusterAnalyzer(const edm::ParameterSet& config, const edm::ParameterSet& producersNames, int verbosity):verbosity_(verbosity), iClus_(0), doHcal_(true)
 {
    dataType_ = producersNames.getUntrackedParameter<string>("dataType","unknown");
    caloTowerCollection_ = producersNames.getParameter<edm::InputTag>("caloTowerCollection");
    allowMissingCollection_ = producersNames.getUntrackedParameter<bool>("allowMissingCollection", false);
+   doCracksCorrection_ = config.getUntrackedParameter<bool>("doCracksCorrection", false);
    patEncapsulation_ = false;
    if( dataType_=="PAT" )
    {
@@ -23,7 +24,7 @@ SuperClusterAnalyzer::~SuperClusterAnalyzer()
 }
 
 
-bool SuperClusterAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iSetup, TRootEvent* rootEvent, TClonesArray* rootSuperClusters, const edm::InputTag& superClusterProducer, const int clusterType)
+bool SuperClusterAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iSetup, TRootEvent* rootEvent, TClonesArray* rootSuperClusters, const edm::InputTag& superClusterProducer, const int clusterType, TClonesArray* rootBasicClusters)
 {
    
    // TODO - Use supercluster encapsulated in pat::Photon if patEncapsulation_ = true

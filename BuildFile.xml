@@ -38,6 +38,9 @@
 <use   name="Geometry/CaloTopology"/>
 <use   name="RecoCaloTools/MetaCollections"/>
 <use   name="TrackingTools/MaterialEffects"/>
+<use   name="DataFormats/EcalDetId"/>
+<use   name="Geometry/Records"/>
+<use   name="FWCore/Utilities"/>
 <use   name="root"/>
 <flags   LDFLAGS="-lTMVA"/>
 <flags   EDM_PLUGIN="1"/>

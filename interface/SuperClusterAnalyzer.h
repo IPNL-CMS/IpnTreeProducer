@@ -41,10 +41,10 @@ class SuperClusterAnalyzer
 {
    
    public:
-      SuperClusterAnalyzer(const edm::ParameterSet& producersNames, int verbosity);
+      SuperClusterAnalyzer(const edm::ParameterSet& config, const edm::ParameterSet& producersNames, int verbosity);
       ~SuperClusterAnalyzer();
       void setVerbosity(int verbosity) {verbosity_ = verbosity; };
-      bool process(const edm::Event& iEvent, const edm::EventSetup& iSetup, TRootEvent* rootEvent, TClonesArray* rootSuperClusters, const edm::InputTag& superClusterProducer, const int clusterType);
+      bool process(const edm::Event& iEvent, const edm::EventSetup& iSetup, TRootEvent* rootEvent, TClonesArray* rootSuperClusters, const edm::InputTag& superClusterProducer, const int clusterType, TClonesArray* rootBasicClusters);
       float getESRatio(reco::CaloClusterPtr& seed, const edm::Event& iEvent, const edm::EventSetup& iSetup);
       
    private:
@@ -55,7 +55,8 @@ class SuperClusterAnalyzer
       edm::InputTag caloTowerCollection_;
       bool allowMissingCollection_;
       bool patEncapsulation_;
-      
+      bool doCracksCorrection_;     
+ 
 };
 
 #endif

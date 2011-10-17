@@ -155,6 +155,7 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       doTau = cms.untracked.bool(True),
       doPhoton = cms.untracked.bool(True),
       doCluster = cms.untracked.bool(True),
+      doCracksCorrection = cms.untracked.bool(True),
       keepClusterizedEcalRecHits = cms.untracked.bool(True),
       keepAllEcalRecHits = cms.untracked.bool(False),
       doMET = cms.untracked.bool(True),
@@ -340,7 +341,7 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
 
 process.primaryVertexFilter = cms.EDFilter("VertexSelector",
    src = cms.InputTag("offlinePrimaryVertices"),
-   cut = cms.string("!isFake && ndof > 4 && abs(z) <= 15 && position.Rho <= 2"), # tracksSize() > 3 for the older cut
+   cut = cms.string("!isFake && ndof > 4 && abs(z) <= 24 && position.Rho <= 2"), # tracksSize() > 3 for the older cut
    filter = cms.bool(True),   # otherwise it won't filter the events, just produce an empty vertex collection.
 )
 

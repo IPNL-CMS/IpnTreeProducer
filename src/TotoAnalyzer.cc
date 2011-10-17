@@ -292,6 +292,11 @@ void TotoAnalyzer::beginJob()
       rootSuperClusters_ = new TClonesArray("TRootSuperCluster", 1000);
       eventTree_->Branch ("SuperClusters", "TClonesArray", &rootSuperClusters_);
    }
+
+   if(doCracksCorrection_)
+   {
+      if(verbosity_>0) std::cout << "Cracks Correction will be added to rootuple" << std::endl;
+   }
    
    if(keepAllEcalRecHits_ || keepClusterizedEcalRecHits_)
    {
@@ -797,12 +802,12 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
          if(verbosity_>1) std::cout << std::endl << "Analysing SuperClusters collection..." << std::endl;
          vtag superClusterProducers = producersNames_.getParameter<vtag>("superClusterProducer");
          vint32 superClusterProducerIndices = producersNames_.getParameter<vint32>("superClusterProducerIndex");
-         SuperClusterAnalyzer* mySClusterAnalyzer = new SuperClusterAnalyzer(producersNames_, verbosity_);
+         SuperClusterAnalyzer* mySClusterAnalyzer = new SuperClusterAnalyzer(myConfig_, producersNames_, verbosity_);
          for(unsigned int i=0; i<superClusterProducers.size(); ++i)
          {
             const edm::InputTag superClusterProducer = superClusterProducers.at(i);
             const int scType = superClusterProducerIndices.at(i);
-            mySClusterAnalyzer->process(iEvent, iSetup, rootEvent_, rootSuperClusters_, superClusterProducer, scType);
+            mySClusterAnalyzer->process(iEvent, iSetup, rootEvent_, rootSuperClusters_, superClusterProducer, scType, rootBasicClusters_);
          }
          delete mySClusterAnalyzer;
       }
@@ -810,7 +815,7 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
       
       if(doCluster_)
       {
-         ClusterAssociator* myClusterAssociator = new ClusterAssociator();
+         ClusterAssociator* myClusterAssociator = new ClusterAssociator(myConfig_);
          myClusterAssociator->setVerbosity(verbosity_);
          myClusterAssociator->process(rootSuperClusters_, rootBasicClusters_);
          if(verbosity_>4) myClusterAssociator->printSuperClusters(rootSuperClusters_, rootBasicClusters_,0);  // 0 to print all types SC
