@@ -1,6 +1,14 @@
 ==================================================================================================
 
+RECO_4_2_8_v3 (Olivier) :
+
+src/MCAnalyzer.cc
+===> Protecting MC analyzer against ill-filled pileup information
+
+==================================================================================================
+
 RECO_4_2_8_v2 (Olivier) :
+
 interface/TRootSuperCluster.h
 ===> Fixing a bug in the Print() function
 

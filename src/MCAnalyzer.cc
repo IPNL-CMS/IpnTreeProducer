@@ -148,6 +148,7 @@ bool MCAnalyzer::pileupInfo(const edm::Event& iEvent, TRootEvent* rootEvent)
       if(it->getBunchCrossing() ==0)
       {
          nITpuVertices += it->getPU_NumInteractions();
+         if( it->getPU_zpositions().size() == 0 ) continue;
          for(int ip=0; ip<(it->getPU_NumInteractions()); ++ip)
          {
             intime_pu_z.push_back( it->getPU_zpositions()[ip] );
@@ -170,6 +171,7 @@ bool MCAnalyzer::pileupInfo(const edm::Event& iEvent, TRootEvent* rootEvent)
       else
       {
          nOOTpuVertices += it->getPU_NumInteractions();
+         if( it->getPU_zpositions().size() == 0 ) continue;
          for(int ip=0; ip<(it->getPU_NumInteractions()); ++ip)
          {
             oot_pu_z.push_back( it->getPU_zpositions()[ip] );
