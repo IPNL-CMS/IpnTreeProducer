@@ -22,7 +22,8 @@ process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 
 # Needed for GlobalPositionRcd
 process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_cff')
-process.GlobalTag.globaltag = cms.string('START42_V11::All')
+#process.GlobalTag.globaltag = cms.string('START42_V11::All')
+process.GlobalTag.globaltag = cms.string('START50_V12::All')
 #process.GlobalTag.globaltag = cms.string('GR_R_42_V11A::All')
 #process.GlobalTag.globaltag = cms.string('GR_P_V18::All')
 
@@ -53,7 +54,7 @@ process.load('Configuration.EventContent.EventContent_cff')
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(1000)
+    input = cms.untracked.int32(-10)
 )
 
 #process.maxLuminosityBlocks = cms.untracked.PSet(
@@ -65,7 +66,8 @@ process.source = cms.Source("PoolSource",
 # AOD
 #fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/user/l/lethuill/data/AOD/Spring11__GluGluToHToGG_M-120_7TeV-powheg-pythia6__AODSIM__PU_S1_START311_V1G1-v1__0007__B0D666AF-D550-E011-ACA1-003048D45FD2.root')
 # RECO
-fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/relval/CMSSW_4_2_2/RelValH130GGgluonfusion/GEN-SIM-RECO/START42_V11-v1/0014/3603E96A-966D-E011-B380-003048678FFA.root')
+fileNames = cms.untracked.vstring('/store/relval/CMSSW_5_0_0_g4emtest/RelValH130GGgluonfusion/GEN-SIM-RECO/START50_V8_special_120110-v1/0009/4829680A-993B-E111-9BF4-0018F3D095EC.root')
+#fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/relval/CMSSW_4_2_2/RelValH130GGgluonfusion/GEN-SIM-RECO/START42_V11-v1/0014/3603E96A-966D-E011-B380-0030 48678FFA.root')
 #fileNames = cms.untracked.vstring('file:/gridgroup/cms/lethuill/data/CMSSW_3_9_7__RelValH130GGgluonfusion__GEN-SIM-RECO__START39_V8-v1__0047__205E03D0-8C0D-E011-AB8E-001A92971B74.root')
 #fileNames = cms.untracked.vstring('file:/gridgroup/cms/lethuill/data/CMSSW_3_9_7__RelValZEE__GEN-SIM-RECO__START39_V8-v1__004__04901143-820D-E011-BEB9-001A92971BA0.root')
 #fileNames = cms.untracked.vstring('file:/gridgroup/cms/lethuill/data/CMSSW_3_9_7__RelValZMM__GEN-SIM-RECO__START39_V8-v1__0047__3A2794B2-770D-E011-8DD1-002618943864.root')
@@ -270,7 +272,7 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       basicClusterProducerIndex = cms.vint32(210, 320),
       basicClusterProducer = cms.VInputTag(
          cms.InputTag("hybridSuperClusters","hybridBarrelBasicClusters"),
-         cms.InputTag("multi5x5BasicClusters", "multi5x5EndcapBasicClusters")
+         cms.InputTag("multi5x5SuperClusters", "multi5x5EndcapBasicClusters")
       ),
       # RECO SC Collections
       superClusterProducerIndex = cms.vint32(210, 211, 320, 323, 322),
