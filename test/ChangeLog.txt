@@ -1,5 +1,29 @@
 ==================================================================================================
 
+RECO_5_0_0_v1 (Morgan) :
+
+test/toto.py
+===> change in multi5x5SuperClusters producer name
+
+==================================================================================================
+
+RECO_4_2_8_v4 (Morgan) :
+
+interface/PhotonAnalyzer.h
+interface/TRootPhoton.h
+interface/TotoAnalyzer.h
+src/PhotonAnalyzer.cc
+src/TotoAnalyzer.cc
+test/toto.py
+==> Add MIT energy regression - New doPhotonEnergyRegression and photonEnergyRegressionFile options
+
+interface/TRootEvent.h
+src/MCAnalyzer.cc
+===> new variable TrueNumInteractions and better protection for events with number of PU in acceptance lower
+than total number of generated PU
+
+==================================================================================================
+
 RECO_4_2_8_v3 (Olivier) :
 
 src/MCAnalyzer.cc
