@@ -9,8 +9,10 @@ PhotonAnalyzer::PhotonAnalyzer(const edm::InputTag& photonProducer, const edm::P
 {
    dataType_ = producersNames.getUntrackedParameter<string>("dataType","unknown");
    photonProducer_ = photonProducer;
+   primaryVertexProducer_ = producersNames.getParameter<edm::InputTag>("primaryVertexProducer");
    reducedBarrelEcalRecHitCollection_ = producersNames.getParameter<edm::InputTag>("reducedBarrelEcalRecHitCollection");
    reducedEndcapEcalRecHitCollection_ = producersNames.getParameter<edm::InputTag>("reducedEndcapEcalRecHitCollection");
+   doPhotonEnergyRegression_ = myConfig.getUntrackedParameter<bool>("doPhotonEnergyRegression",false);
    doPhotonConversion_ = myConfig.getUntrackedParameter<bool>("doPhotonConversion", false);
    doVertexCorrection_ = myConfig.getUntrackedParameter<bool>("doPhotonVertexCorrection", false);
    useMC_ = myConfig.getUntrackedParameter<bool>("doMuonMC", false);
@@ -23,7 +25,7 @@ PhotonAnalyzer::~PhotonAnalyzer()
 }
 
 
-bool PhotonAnalyzer::process(const edm::Event& iEvent, TRootEvent* rootEvent, TClonesArray* rootPhotons, TClonesArray* conversionTracks, EcalClusterLazyTools* lazyTools)
+bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iSetup, TRootEvent* rootEvent, TClonesArray* rootPhotons, TClonesArray* conversionTracks, EcalClusterLazyTools* lazyTools, EGEnergyCorrector* egEnergyRegression)
 {
    
    unsigned int nPhotons=0;
@@ -368,6 +370,24 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, TRootEvent* rootEvent, TC
          ,photon->nTrkHollowConeDR04()
       );
       
+      
+      // Josh's Photon Energy Regression - https://twiki.cern.ch/twiki/bin/view/CMS/RegressionSCCorrections
+      if(doPhotonEnergyRegression_)
+      {
+         if ( superCluster.isNonnull() && lazyTools != 0 )
+         {
+            //if ( ! egEnergyRegression->IsInitialized() ) egEnergyRegression->Initialize(iSetup,"/afs/cern.ch/user/b/bendavid/cmspublic/regweightsV2/gbrv2ph.root");
+            edm::Handle< reco::VertexCollection > recoVertices;
+            iEvent.getByLabel(primaryVertexProducer_, recoVertices);
+            
+            std::pair<double,double> cor = egEnergyRegression->CorrectedEnergyWithErrorV2(*photon, *recoVertices, *lazyTools, iSetup);
+            double energy = cor.first;
+            double energyerr = cor.second;
+            localPhoton.setEnergyRegression(energy);
+            localPhoton.setEnergyRegressionError(energyerr);
+            cout << "Energy regression: energy=" << energy << " error=" << energyerr << endl;
+         }
+      }         
       
       if( dataType_=="RECO" )
       {

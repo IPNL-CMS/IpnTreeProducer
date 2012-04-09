@@ -24,6 +24,7 @@
 #include "DataFormats/Common/interface/TriggerResults.h"
 
 #include "RecoEcal/EgammaCoreTools/interface/EcalClusterLazyTools.h"
+#include "RecoEgamma/EgammaTools/interface/EGEnergyCorrector.h"
 
 #include "../interface/L1TriggerAnalyzer.h"
 #include "../interface/HLTAnalyzer.h"
@@ -128,6 +129,8 @@ private:
    bool doElectron_;
    bool doTau_;
    bool doPhoton_;
+   bool doPhotonEnergyRegression_;
+   std::string photonEnergyRegressionFile_;
    bool doCluster_;
    bool keepAllEcalRecHits_;
    bool keepClusterizedEcalRecHits_;

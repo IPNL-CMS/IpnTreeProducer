@@ -22,10 +22,8 @@ process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 
 # Needed for GlobalPositionRcd
 process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_cff')
-#process.GlobalTag.globaltag = cms.string('START42_V11::All')
-process.GlobalTag.globaltag = cms.string('START50_V12::All')
-#process.GlobalTag.globaltag = cms.string('GR_R_42_V11A::All')
-#process.GlobalTag.globaltag = cms.string('GR_P_V18::All')
+#process.GlobalTag.globaltag = cms.string('GR_R_42_V25::All')
+process.GlobalTag.globaltag = cms.string('START42_V14B::All')
 
 
 # Global geometry
@@ -54,7 +52,7 @@ process.load('Configuration.EventContent.EventContent_cff')
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-10)
+    input = cms.untracked.int32(10)
 )
 
 #process.maxLuminosityBlocks = cms.untracked.PSet(
@@ -66,8 +64,10 @@ process.source = cms.Source("PoolSource",
 # AOD
 #fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/user/l/lethuill/data/AOD/Spring11__GluGluToHToGG_M-120_7TeV-powheg-pythia6__AODSIM__PU_S1_START311_V1G1-v1__0007__B0D666AF-D550-E011-ACA1-003048D45FD2.root')
 # RECO
-fileNames = cms.untracked.vstring('/store/relval/CMSSW_5_0_0_g4emtest/RelValH130GGgluonfusion/GEN-SIM-RECO/START50_V8_special_120110-v1/0009/4829680A-993B-E111-9BF4-0018F3D095EC.root')
+#fileNames = cms.untracked.vstring('/store/relval/CMSSW_5_0_0_g4emtest/RelValH130GGgluonfusion/GEN-SIM-RECO/START50_V8_special_120110-v1/0009/4829680A-993B-E111-9BF4-0018F3D095EC.root')
 #fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/relval/CMSSW_4_2_2/RelValH130GGgluonfusion/GEN-SIM-RECO/START42_V11-v1/0014/3603E96A-966D-E011-B380-0030 48678FFA.root')
+# lxplus255
+fileNames = cms.untracked.vstring('file:/tmp/lethuill/DY_PUS6_CMSSW428.root')
 #fileNames = cms.untracked.vstring('file:/gridgroup/cms/lethuill/data/CMSSW_3_9_7__RelValH130GGgluonfusion__GEN-SIM-RECO__START39_V8-v1__0047__205E03D0-8C0D-E011-AB8E-001A92971B74.root')
 #fileNames = cms.untracked.vstring('file:/gridgroup/cms/lethuill/data/CMSSW_3_9_7__RelValZEE__GEN-SIM-RECO__START39_V8-v1__004__04901143-820D-E011-BEB9-001A92971BA0.root')
 #fileNames = cms.untracked.vstring('file:/gridgroup/cms/lethuill/data/CMSSW_3_9_7__RelValZMM__GEN-SIM-RECO__START39_V8-v1__0047__3A2794B2-770D-E011-8DD1-002618943864.root')
@@ -113,7 +113,7 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       #     3 = Liste objets de haut niveau (electrons, muons, photons...)
       #     4 = Liste tous les objets (haut niveau, clusters....)
       #     5 = Debug
-      verbosity = cms.untracked.int32(1),
+      verbosity = cms.untracked.int32(5),
 
       # name of output root file
       RootFileName = cms.untracked.string('Test.root'),
@@ -156,6 +156,8 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       doElectron = cms.untracked.bool(True),
       doTau = cms.untracked.bool(True),
       doPhoton = cms.untracked.bool(True),
+      doPhotonEnergyRegression = cms.untracked.bool(True),
+      photonEnergyRegressionFile = cms.untracked.string('/afs/cern.ch/user/b/bendavid/cmspublic/regweightsV2/gbrv2ph.root'),
       doCluster = cms.untracked.bool(True),
       doCracksCorrection = cms.untracked.bool(True),
       keepClusterizedEcalRecHits = cms.untracked.bool(True),
@@ -208,7 +210,7 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       trackerIsolation_DRmax = cms.double(0.3),                               # size of the DR cone around photon - pt of tracks in this cone are added
       trackerIsolation_pt_threshold = cms.double(0.0),                        # pt threshold for tracks added in DR cone
       trackerIsolation_pixelLayers_threshold = cms.int32(0),                  # minimum number of pixel layers with measurement required for tracks to be added in DR cone isolation
-      doNiceTracksIsolation = cms.untracked.bool(True),                       # Nice tracks need reco::TrackExtra (not available in AOD)   
+      doNiceTracksIsolation = cms.untracked.bool(False),                       # Nice tracks need reco::TrackExtra (not available in AOD)   
       trackerNiceTracksIsolationLIP = cms.double(0.2),                        # longitudianal impact parameter of the track (value in RECO = 0.2)
       trackerNiceTracksIsolationD0 = cms.double(0.1),                         # cut on the transverse impact of the track
       trackerNiceTracksIsolationTrackThreshold = cms.double(0.0),             # cut on the transverse energy of the track
@@ -272,8 +274,11 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       basicClusterProducerIndex = cms.vint32(210, 320),
       basicClusterProducer = cms.VInputTag(
          cms.InputTag("hybridSuperClusters","hybridBarrelBasicClusters"),
-         cms.InputTag("multi5x5SuperClusters", "multi5x5EndcapBasicClusters")
-      ),
+         # in 5.X.X
+         #cms.InputTag("multi5x5SuperClusters", "multi5x5EndcapBasicClusters")
+         # in 4.X.X
+         cms.InputTag("multi5x5BasicClusters", "multi5x5EndcapBasicClusters")
+         ),
       # RECO SC Collections
       superClusterProducerIndex = cms.vint32(210, 211, 320, 323, 322),
       superClusterProducer = cms.VInputTag(

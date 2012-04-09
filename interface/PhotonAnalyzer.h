@@ -8,6 +8,7 @@
 
 // user include files
 #include "FWCore/Framework/interface/Event.h"
+#include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "FWCore/Framework/interface/ESHandle.h"
 
@@ -29,8 +30,13 @@
 
 #include "RecoEcal/EgammaCoreTools/interface/EcalClusterTools.h"
 #include "RecoEcal/EgammaCoreTools/interface/EcalClusterLazyTools.h"
+#include "RecoEgamma/EgammaTools/interface/EGEnergyCorrector.h"
+
 #include "DataFormats/EgammaCandidates/interface/ConversionFwd.h"
 #include "DataFormats/EgammaCandidates/interface/Conversion.h"
+
+#include "DataFormats/VertexReco/interface/Vertex.h"
+#include "DataFormats/VertexReco/interface/VertexFwd.h"
 
 //#include "DataFormats/EgammaCandidates/interface/PhotonID.h"
 //#include "DataFormats/EgammaCandidates/interface/PhotonIDFwd.h"
@@ -56,15 +62,17 @@ class PhotonAnalyzer
       PhotonAnalyzer(const edm::InputTag& photonProducer, const edm::ParameterSet& producersNames, const edm::ParameterSet& myConfig, int verbosity);
       ~PhotonAnalyzer();
       void setVerbosity(int verbosity) {verbosity_ = verbosity; };
-      bool process(const edm::Event& iEvent, TRootEvent* rootEvent, TClonesArray* rootPhotons, TClonesArray* conversionTracks, EcalClusterLazyTools* lazyTools);
+      bool process(const edm::Event& iEvent, const edm::EventSetup& iSetup, TRootEvent* rootEvent, TClonesArray* rootPhotons, TClonesArray* conversionTracks, EcalClusterLazyTools* lazyTools, EGEnergyCorrector* egEnergyRegression);
       
    private:
       int verbosity_;
       int iconvtrack_;
       std::string dataType_ ;
       edm::InputTag photonProducer_;
+      edm::InputTag primaryVertexProducer_;
       edm::InputTag reducedBarrelEcalRecHitCollection_;
       edm::InputTag reducedEndcapEcalRecHitCollection_;
+      bool doPhotonEnergyRegression_;
       bool doPhotonConversion_;
       bool doVertexCorrection_;
       bool useMC_;

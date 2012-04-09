@@ -85,6 +85,8 @@ public:
    ,isEEGap_(false)
    ,isEBEEGap_(false)
    ,isAlsoElectron_(false)
+   ,energyRegression_(-1.)
+   ,energyRegressionError_(-1.)
    ,pi0nn_(-1.)
    {;}
    
@@ -157,6 +159,8 @@ public:
    ,isEEGap_(photon.isEEGap_)
    ,isEBEEGap_(photon.isEBEEGap_)
    ,isAlsoElectron_(photon.isAlsoElectron_)
+   ,energyRegression_(photon.energyRegression_)
+   ,energyRegressionError_(photon.energyRegressionError_)
    ,pi0nn_(photon.pi0nn_)
    {;}
    
@@ -229,6 +233,8 @@ public:
    ,isEEGap_(false)
    ,isEBEEGap_(false)
    ,isAlsoElectron_(false)
+   ,energyRegression_(-1.)
+   ,energyRegressionError_(-1.)
    ,pi0nn_(-1.)
    {;}
    
@@ -301,6 +307,8 @@ public:
    ,isEEGap_(false)
    ,isEBEEGap_(false)
    ,isAlsoElectron_(false)
+   ,energyRegression_(-1.)
+   ,energyRegressionError_(-1.)
    ,pi0nn_(-1.)
    {;}
    
@@ -373,6 +381,8 @@ public:
    ,isEEGap_(false)
    ,isEBEEGap_(false)
    ,isAlsoElectron_(false)
+   ,energyRegression_(-1.)
+   ,energyRegressionError_(-1.)
    ,pi0nn_(-1.)
    {;}
    
@@ -445,6 +455,8 @@ public:
    ,isEEGap_(false)
    ,isEBEEGap_(false)
    ,isAlsoElectron_(false)
+   ,energyRegression_(-1.)
+   ,energyRegressionError_(-1.)
    ,pi0nn_(-1.)
    {;}
    
@@ -517,6 +529,8 @@ public:
    ,isEEGap_(false)
    ,isEBEEGap_(false)
    ,isAlsoElectron_(false)
+   ,energyRegression_(-1.)
+   ,energyRegressionError_(-1.)
    ,pi0nn_(-1.)
    {;}
    
@@ -679,6 +693,10 @@ public:
    Bool_t isEBEEGap() const { return isEBEEGap_; }
    Bool_t isAlsoElectron() const { return isAlsoElectron_; }
    
+   // Get Photon Energy Regression
+   Float_t energyRegression() const { return energyRegression_; }
+   Float_t energyRegressionError() const { return energyRegressionError_; } 
+   
    // Get Pi0 rejection global variable
    Float_t pi0nn() const { return pi0nn_; }
    
@@ -811,6 +829,10 @@ public:
       isEBEEGap_ = isEBEEGap;
    }
    
+   // Set Photon Energy Regression
+   void setEnergyRegression(Float_t energyRegression) { energyRegression_ = energyRegression; }
+   void setEnergyRegressionError(Float_t energyRegressionError) { energyRegressionError_ = energyRegressionError; }
+   
    // Set Pi0 rejection global variable
    void setPi0nn(Float_t pi0nn) { pi0nn_ = pi0nn; }
    
@@ -840,7 +862,7 @@ public:
          << "  vertex=("<< this->vx() <<","<< this->vy() <<","<< this->vz() << ")"
          << "  caloPosition=(" << this->caloPosition().X() << "," << this->caloPosition().Y() << "," << this->caloPosition().Z() << ")" << endl
          << "            algo=" << this->clusterAlgo() << " hasPxlSeed=" << this-> hasPixelSeed() <<"  H/E=" << this->hoe() <<"  Pi0=" << this->pi0nn()
-         << "  nBC=" << this->nbClusters() << " scRawEnergy=" << this->scRawEnergy() << " preshEnergy=" << this->preshowerEnergy() << endl
+         << "  nBC=" << this->nbClusters() << " scRawEnergy=" << this->scRawEnergy() << " preshEnergy=" << this->preshowerEnergy() << " energyRegression=" << this->energyRegression() << " +/- " << this->energyRegressionError() << endl
          << "            E2x2=" << this->e2x2() <<" E3x3=" << this->e3x3() <<" E5x5=" << this->e5x5() <<" Emax=" << this->eMax()
          << " E2nd=" << this->e2nd() <<" R19=" << this->r19() <<" R9=" << this->r9() << endl
          << "            sigmaEtaEta=" << this->sigmaEtaEta() <<" sigmaIetaIeta=" << this->sigmaIetaIeta()
@@ -957,11 +979,16 @@ private:
    Bool_t isEBEEGap_;       // is photon in boundary between EB and EE ?
    Bool_t isAlsoElectron_;  // is photon also a GsfElectron ?
    
+   // Photon Energy Regression
+   // https://twiki.cern.ch/twiki/bin/view/CMS/RegressionSCCorrections
+   Float_t energyRegression_;
+   Float_t energyRegressionError_;
+   
    // Pi0 rejection
    // not working in 2.2.X
    Float_t pi0nn_;          // neural network output of gamma/pi0 discriminator  (0=pi0-like  1=photon-like)
    
-   ClassDef (TRootPhoton,11);
+   ClassDef (TRootPhoton,12);
    
 };
 
