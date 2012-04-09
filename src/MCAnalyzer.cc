@@ -108,7 +108,6 @@ bool MCAnalyzer::pdfInfo(const edm::Event& iEvent, TRootEvent* rootEvent)
 
 bool MCAnalyzer::pileupInfo(const edm::Event& iEvent, TRootEvent* rootEvent)
 {
-   int nOOTpuVertices(0), nITpuVertices(0);
    edm::Handle<std::vector<PileupSummaryInfo> > pileup;
    try {
       iEvent.getByLabel("addPileupInfo",pileup);
@@ -129,83 +128,80 @@ bool MCAnalyzer::pileupInfo(const edm::Event& iEvent, TRootEvent* rootEvent)
       return false;
    }
    
-   std::vector<Float_t> intime_pu_z; 
-   std::vector<Int_t> intime_pu_bx;
-   std::vector<Float_t> intime_pu_sumPt_lowPt;
-   std::vector<Float_t> intime_pu_sumPt_highPt;
-   std::vector<Int_t> intime_pu_nTrk_lowPt;
-   std::vector<Int_t> intime_pu_nTrk_highPt;
+   Float_t pu_TrueNumInteractions=-1;
+   Int_t inTimePU_NumInteractions=-1;
+   Int_t latePU_NumInteractions=-1;
+   Int_t earlyPU_NumInteractions=-1;
    
-   std::vector<Float_t> oot_pu_z; 
-   std::vector<Int_t> oot_pu_bx;
-   std::vector<Float_t> oot_pu_sumPt_lowPt;
-   std::vector<Float_t> oot_pu_sumPt_highPt;
-   std::vector<Int_t> oot_pu_nTrk_lowPt;
-   std::vector<Int_t> oot_pu_nTrk_highPt;
-   
+   std::vector<Float_t> pu_z; 
+   std::vector<Int_t> pu_bx;
+   std::vector<Float_t> pu_sumPt_lowPt;
+   std::vector<Float_t> pu_sumPt_highPt;
+   std::vector<Int_t> pu_nTrk_lowPt;
+   std::vector<Int_t> pu_nTrk_highPt;
+      
    for(std::vector<PileupSummaryInfo>::const_iterator it = pileup->begin(); it != pileup->end(); it++)
    {
-      if(it->getBunchCrossing() ==0)
+      if(pu_TrueNumInteractions==-1) pu_TrueNumInteractions=it->getTrueNumInteractions();
+      if(pu_TrueNumInteractions!=it->getTrueNumInteractions()) cout << "  ##### ERROR IN  MCAnalyzer::pileupInfo => Multiple values of pu_TrueNumInteractions #####" << endl;
+      
+      if(it->getBunchCrossing()==0)
       {
-         nITpuVertices += it->getPU_NumInteractions();
-         if( it->getPU_zpositions().size() == 0 ) continue;
-         for(int ip=0; ip<(it->getPU_NumInteractions()); ++ip)
-         {
-            intime_pu_z.push_back( it->getPU_zpositions()[ip] );
-            intime_pu_bx.push_back( it->getBunchCrossing() );
-            intime_pu_sumPt_lowPt.push_back( it->getPU_sumpT_lowpT()[ip] );
-            intime_pu_sumPt_highPt.push_back( it->getPU_sumpT_highpT()[ip] );
-            intime_pu_nTrk_lowPt.push_back( it->getPU_ntrks_lowpT()[ip] );
-            intime_pu_nTrk_highPt.push_back( it->getPU_ntrks_highpT()[ip] );
-            if(verbosity_>4) cout << "In time PU"
-            << " BX=" << it->getBunchCrossing()
-            << " z=" << it->getPU_zpositions()[ip]
-            << " lowSumPt=" << it->getPU_sumpT_lowpT()[ip]
-            << " highSumPt=" << it->getPU_sumpT_highpT()[ip]
-            << " lowNtk=" << it->getPU_ntrks_lowpT()[ip]
-            << " highNtk=" <<  it->getPU_ntrks_highpT()[ip]
-            << endl;
-         }
-         
+         if(inTimePU_NumInteractions==-1) inTimePU_NumInteractions=it->getPU_NumInteractions();
+         if(inTimePU_NumInteractions!=it->getPU_NumInteractions()) cout << "  ##### ERROR IN  MCAnalyzer::pileupInfo => Multiple values of inTimePU_NumInteractions #####" << endl;
       }
-      else
+      
+      if(it->getBunchCrossing()<0)
       {
-         nOOTpuVertices += it->getPU_NumInteractions();
-         if( it->getPU_zpositions().size() == 0 ) continue;
-         for(int ip=0; ip<(it->getPU_NumInteractions()); ++ip)
-         {
-            oot_pu_z.push_back( it->getPU_zpositions()[ip] );
-            oot_pu_bx.push_back( it->getBunchCrossing() );
-            oot_pu_sumPt_lowPt.push_back( it->getPU_sumpT_lowpT()[ip] );
-            oot_pu_sumPt_highPt.push_back( it->getPU_sumpT_highpT()[ip] );
-            oot_pu_nTrk_lowPt.push_back( it->getPU_ntrks_lowpT()[ip] );
-            oot_pu_nTrk_highPt.push_back( it->getPU_ntrks_highpT()[ip] );
-            if(verbosity_>4) cout << "OOT PU"
+         if(earlyPU_NumInteractions==-1) earlyPU_NumInteractions=it->getPU_NumInteractions();
+         if(earlyPU_NumInteractions!=it->getPU_NumInteractions()) cout << "  ##### ERROR IN  MCAnalyzer::pileupInfo => Multiple values of earlyPU_NumInteractions #####" << endl;
+      }
+      
+      if(it->getBunchCrossing()>0)
+      {
+         if(latePU_NumInteractions==-1) latePU_NumInteractions=it->getPU_NumInteractions();
+         if(latePU_NumInteractions!=it->getPU_NumInteractions()) cout << "  ##### ERROR IN  MCAnalyzer::pileupInfo => Multiple values of latePU_NumInteractions #####" << endl;
+      }
+         
+      if(verbosity_>4) cout << "new PileupSummaryInfo:"
+         << " BX=" << it->getBunchCrossing()
+         << " getPU_NumInteractions=" <<  it->getPU_NumInteractions()
+         << "  getTrueNumInteractions=" <<  it->getTrueNumInteractions()
+         << "  getPU_zpositions().size()=" <<  it->getPU_zpositions().size()
+         << endl;
+      
+      for(unsigned int ip=0; ip<(it->getPU_zpositions().size()); ++ip)
+      {
+         pu_z.push_back( it->getPU_zpositions()[ip] );
+         pu_bx.push_back( it->getBunchCrossing() );
+         pu_sumPt_lowPt.push_back( it->getPU_sumpT_lowpT()[ip] );
+         pu_sumPt_highPt.push_back( it->getPU_sumpT_highpT()[ip] );
+         pu_nTrk_lowPt.push_back( it->getPU_ntrks_lowpT()[ip] );
+         pu_nTrk_highPt.push_back( it->getPU_ntrks_highpT()[ip] );
+         if(verbosity_>4) cout << " new PU"
             << " BX=" << it->getBunchCrossing()
             << " z=" << it->getPU_zpositions()[ip]
             << " lowSumPt=" << it->getPU_sumpT_lowpT()[ip]
             << " highSumPt=" << it->getPU_sumpT_highpT()[ip]
             << " lowNtk=" << it->getPU_ntrks_lowpT()[ip]
             << " highNtk=" <<  it->getPU_ntrks_highpT()[ip]
+            << " getPU_NumInteractions=" <<  it->getPU_NumInteractions()
+            << "  getTrueNumInteractions=" <<  it->getTrueNumInteractions()
             << endl;
-         }
-         
       }
    }
    
-   rootEvent->set_Intime_PU_z(intime_pu_z);
-   rootEvent->set_Intime_PU_bx(intime_pu_bx);
-   rootEvent->set_Intime_PU_sumPt_lowPt(intime_pu_sumPt_lowPt);
-   rootEvent->set_Intime_PU_sumPt_highPt(intime_pu_sumPt_highPt);
-   rootEvent->set_Intime_PU_nTrk_lowPt(intime_pu_nTrk_lowPt);
-   rootEvent->set_Intime_PU_nTrk_highPt(intime_pu_nTrk_highPt);
+   rootEvent->set_PU_TrueNumInteractions(pu_TrueNumInteractions);
+   rootEvent->set_InTimePU_NumInteractions(inTimePU_NumInteractions);
+   rootEvent->set_LatePU_NumInteractions(latePU_NumInteractions);
+   rootEvent->set_EarlyPU_NumInteractions(earlyPU_NumInteractions);
    
-   rootEvent->set_OOT_PU_z(oot_pu_z);
-   rootEvent->set_OOT_PU_bx(oot_pu_bx);
-   rootEvent->set_OOT_PU_sumPt_lowPt(oot_pu_sumPt_lowPt);
-   rootEvent->set_OOT_PU_sumPt_highPt(oot_pu_sumPt_highPt);
-   rootEvent->set_OOT_PU_nTrk_lowPt(oot_pu_nTrk_lowPt);
-   rootEvent->set_OOT_PU_nTrk_highPt(oot_pu_nTrk_highPt);
+   rootEvent->set_PU_z(pu_z);
+   rootEvent->set_PU_bx(pu_bx);
+   rootEvent->set_PU_sumPt_lowPt(pu_sumPt_lowPt);
+   rootEvent->set_PU_sumPt_highPt(pu_sumPt_highPt);
+   rootEvent->set_PU_nTrk_lowPt(pu_nTrk_lowPt);
+   rootEvent->set_PU_nTrk_highPt(pu_nTrk_highPt);
    
    return true;
 }
