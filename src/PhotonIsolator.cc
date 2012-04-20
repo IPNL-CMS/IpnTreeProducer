@@ -386,7 +386,6 @@ Int_t PhotonIsolator::nNiceTracks(const edm::Event& iEvent, const edm::EventSetu
 bool PhotonIsolator::getTrackImpactPosition(const reco::Track* tk_ref, const TrackerGeometry* trackerGeom, const MagneticField* magField, math::XYZPoint& ew) const
 {
   PropagatorWithMaterial propag( alongMomentum, 0.000511, magField );
-  TrajectoryStateTransform transformer;
   ReferenceCountingPointer<Surface> ecalWall( new  BoundCylinder( GlobalPoint(0.,0.,0.), TkRotation<float>(), SimpleCylinderBounds( 129, 129, -320.5, 320.5 ) ) );
   const float epsilon = 0.001;
   Surface::RotationType rot; // unit rotation matrix
@@ -398,7 +397,7 @@ bool PhotonIsolator::getTrackImpactPosition(const reco::Track* tk_ref, const Tra
   ReferenceCountingPointer<BoundDisk> theNegativeEtaEndcap_( new BoundDisk( Surface::PositionType( 0, 0, -endcapZ), rot, SimpleDiskBounds( 0, endcapRadius, -epsilon, epsilon)));
   ReferenceCountingPointer<BoundDisk> thePositiveEtaEndcap_( new BoundDisk( Surface::PositionType( 0, 0, endcapZ), rot, SimpleDiskBounds( 0, endcapRadius, -epsilon, epsilon)));
 
-  const TrajectoryStateOnSurface myTSOS = transformer.outerStateOnSurface(*tk_ref, *trackerGeom, magField);
+  const TrajectoryStateOnSurface myTSOS = trajectoryStateTransform::outerStateOnSurface(*tk_ref, *trackerGeom, magField);
   TrajectoryStateOnSurface  stateAtECAL;
   stateAtECAL = propag.propagate(myTSOS, *theBarrel_);
   if (!stateAtECAL.isValid() || ( stateAtECAL.isValid() && fabs(stateAtECAL.globalPosition().eta() ) >1.479 )  )
