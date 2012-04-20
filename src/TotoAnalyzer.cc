@@ -96,8 +96,6 @@ void TotoAnalyzer::beginJob()
    doElectron_ = myConfig_.getUntrackedParameter<bool>("doElectron",false);
    doTau_ = myConfig_.getUntrackedParameter<bool>("doTau",false);
    doPhoton_ = myConfig_.getUntrackedParameter<bool>("doPhoton",false);
-   doPhotonEnergyRegression_ = myConfig_.getUntrackedParameter<bool>("doPhotonEnergyRegression",false);
-   photonEnergyRegressionFile_ = myConfig_.getUntrackedParameter<string>("photonEnergyRegressionFile","");
    doCluster_ = myConfig_.getUntrackedParameter<bool>("doCluster",false);
    keepAllEcalRecHits_ = myConfig_.getUntrackedParameter<bool>("keepAllEcalRecHits",false);
    keepClusterizedEcalRecHits_ = myConfig_.getUntrackedParameter<bool>("keepClusterizedEcalRecHits",false);
@@ -732,17 +730,6 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
          }
       }
       
-      // Josh's Photon Energy Regression - https://twiki.cern.ch/twiki/bin/view/CMS/RegressionSCCorrections
-      EGEnergyCorrector* egEnergyRegression = 0;
-      if(doPhotonEnergyRegression_)
-      {
-         if(verbosity_>1) std::cout << std::endl << "Loading photon energy regression file..." << std::endl;
-         egEnergyRegression = new EGEnergyCorrector();
-         cout << "photonEnergyRegressionFile_=" << photonEnergyRegressionFile_.data() << endl;
-         if ( ! egEnergyRegression->IsInitialized() ) egEnergyRegression->Initialize(iSetup, photonEnergyRegressionFile_.data());
-         //if ( ! egEnergyRegression->IsInitialized() ) egEnergyRegression->Initialize(iSetup,"/afs/cern.ch/user/b/bendavid/cmspublic/regweightsV2/gbrv2ph.root");
-      }         
-      
       // Ecal recHits
       if(keepAllEcalRecHits_)
       {
@@ -791,7 +778,7 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
          {
             const edm::InputTag photonProducer = photonProducers.at(i);
             PhotonAnalyzer* myPhotonAnalyzer = new PhotonAnalyzer(photonProducer, producersNames_, myConfig_, verbosity_);
-            myPhotonAnalyzer->process(iEvent, iSetup, rootEvent_, rootPhotonsArrays_[i], rootConversionTracks_, lazyTools, egEnergyRegression);
+            myPhotonAnalyzer->process(iEvent, rootEvent_, rootPhotonsArrays_[i], rootConversionTracks_, lazyTools);
             delete myPhotonAnalyzer;
          }
       }
