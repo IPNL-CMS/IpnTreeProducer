@@ -22,8 +22,8 @@ process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 
 # Needed for GlobalPositionRcd
 process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_cff')
-#process.GlobalTag.globaltag = cms.string('GR_R_42_V25::All')
-process.GlobalTag.globaltag = cms.string('START42_V14B::All')
+#process.GlobalTag.globaltag = cms.string('START52_V9::All')
+process.GlobalTag.globaltag = cms.string('GR_R_52_V7::All')
 
 
 # Global geometry
@@ -62,36 +62,15 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source("PoolSource",
 
 # AOD
-#fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/user/l/lethuill/data/AOD/Spring11__GluGluToHToGG_M-120_7TeV-powheg-pythia6__AODSIM__PU_S1_START311_V1G1-v1__0007__B0D666AF-D550-E011-ACA1-003048D45FD2.root')
+fileNames = cms.untracked.vstring('file:/tmp/lethuill/CMSSW_5_1_2_patch1__RECO_5_0_0_v1_DYToMuMu.root')
+#fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/user/l/lethuill/data/AOD/CMSSW_5_1_2_patch1__RECO_5_0_0_v1_DYToMuMu.root')
 # RECO
-#fileNames = cms.untracked.vstring('/store/relval/CMSSW_5_0_0_g4emtest/RelValH130GGgluonfusion/GEN-SIM-RECO/START50_V8_special_120110-v1/0009/4829680A-993B-E111-9BF4-0018F3D095EC.root')
-#fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/relval/CMSSW_4_2_2/RelValH130GGgluonfusion/GEN-SIM-RECO/START42_V11-v1/0014/3603E96A-966D-E011-B380-0030 48678FFA.root')
-# lxplus255
-fileNames = cms.untracked.vstring('file:/tmp/lethuill/DY_PUS6_CMSSW428.root')
-#fileNames = cms.untracked.vstring('file:/gridgroup/cms/lethuill/data/CMSSW_3_9_7__RelValH130GGgluonfusion__GEN-SIM-RECO__START39_V8-v1__0047__205E03D0-8C0D-E011-AB8E-001A92971B74.root')
-#fileNames = cms.untracked.vstring('file:/gridgroup/cms/lethuill/data/CMSSW_3_9_7__RelValZEE__GEN-SIM-RECO__START39_V8-v1__004__04901143-820D-E011-BEB9-001A92971BA0.root')
-#fileNames = cms.untracked.vstring('file:/gridgroup/cms/lethuill/data/CMSSW_3_9_7__RelValZMM__GEN-SIM-RECO__START39_V8-v1__0047__3A2794B2-770D-E011-8DD1-002618943864.root')
-#fileNames = cms.untracked.vstring('file:/gridgroup/cms/lethuill/data/CMSSW_3_8_5__RelValZEE__GEN-SIM-RECO__START38_V12-v1__0040__42805A98-E6D2-DF11-9FDE-001A92971B82.root')
+#fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/relval/CMSSW_4_2_2/RelValH130GGgluonfusion/GEN-SIM-RECO/START42_V11-v1/0014/3603E96A-966D-E011-B380-003048678FFA.root')
 #fileNames = cms.untracked.vstring('/store/data/Run2010B/Electron/RAW-RECO/v2/000/147/114/AAB9337B-0ED0-DF11-9B73-0030486790B0.root')
-#fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/relval/CMSSW_3_8_4/RelValH130GGgluonfusion/GEN-SIM-RECO/START38_V12-v1/0023/323AE381-76C2-DF11-B165-003048678AE4.root')
-#fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/relval/CMSSW_3_6_2/RelValQCD_Pt_80_120/GEN-SIM-RECO/START36_V10-v1/0002/046737B5-0571-DF11-843E-00261894391D.root')
-#fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/relval/CMSSW_3_6_2/RelValZMM/GEN-SIM-RECO/START36_V10-v1/0002/16F4C9D1-1B71-DF11-B488-0018F3D095FE.root')
-#fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/data/Run2010B/Photon/RECO/PromptReco-v2/000/146/510/3AA4C3C4-86C7-DF11-8073-001D09F231C9.root')
-#fileNames = cms.untracked.vstring('file:/tmp/lethuill/3AA4C3C4-86C7-DF11-8073-001D09F231C9.root')
-#fileNames = cms.untracked.vstring('file:/afs/cern.ch/user/l/lethuill/scratch0/CMSSW_3_8_4/src/Morgan/IpnTreeProducer/test/r142971_e305903194_RECO.root')
-#fileNames = cms.untracked.vstring('file:142971_329_305903194__144011_343_501712664__144112_788_923626104__RECO.root')
-#fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/data/Run2010A/EG/RECO/v4/000/144/114/C2497931-2CB4-DF11-A92C-003048F1183E.root')
-#fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/data/Run2010A/EG/RECO/v4/000/143/192/40927555-35AB-DF11-B264-0030487C7E18.root')
 #fileNames = cms.untracked.vstring(
 #'rfio:/castor/cern.ch/cms/store/data/Run2010A/EG/RECO/v4/000/144/114/C2497931-2CB4-DF11-A92C-003048F1183E.root'
 #,'rfio:/castor/cern.ch/cms/store/data/Run2010A/EG/RECO/v4/000/143/192/40927555-35AB-DF11-B264-0030487C7E18.root'
 #)
-#fileNames = cms.untracked.vstring('file:/scratch/perries/TTBAR_RECO_Spring10.root')
-#fileNames = cms.untracked.vstring('/store/user/sperries/TTbarJets-madgraph/TTbarJets-madgraph_Spring10_PAT361p4/70e9499e8ed44653b27a37e9de88fd85/PATLyon_9_1.root')
-#  fileNames = cms.untracked.vstring(
-#   'file:/sps/cms/morgan/data/CMSSW_3_1_2__RelValH130GGgluonfusion__GEN-SIM-RECO__STARTUP31X_V2-v1__0007__104E25AC-CC78-DE11-AE55-001D09F2447F.root'
-#   ,'file:/sps/cms/morgan/data/CMSSW_3_1_2__RelValH130GGgluonfusion__GEN-SIM-RECO__STARTUP31X_V2-v1__0007__748489A8-CC78-DE11-991C-000423D99896.root'
-#   )
 #,skipEvents=cms.untracked.uint32(26015)
 #,firstRun = cms.untracked.uint32(144114),
 #,firstLumi   = cms.untracked.uintt32(5),
@@ -156,8 +135,6 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       doElectron = cms.untracked.bool(True),
       doTau = cms.untracked.bool(True),
       doPhoton = cms.untracked.bool(True),
-      doPhotonEnergyRegression = cms.untracked.bool(True),
-      photonEnergyRegressionFile = cms.untracked.string('/afs/cern.ch/user/b/bendavid/cmspublic/regweightsV2/gbrv2ph.root'),
       doCluster = cms.untracked.bool(True),
       doCracksCorrection = cms.untracked.bool(True),
       keepClusterizedEcalRecHits = cms.untracked.bool(True),
@@ -210,7 +187,7 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       trackerIsolation_DRmax = cms.double(0.3),                               # size of the DR cone around photon - pt of tracks in this cone are added
       trackerIsolation_pt_threshold = cms.double(0.0),                        # pt threshold for tracks added in DR cone
       trackerIsolation_pixelLayers_threshold = cms.int32(0),                  # minimum number of pixel layers with measurement required for tracks to be added in DR cone isolation
-      doNiceTracksIsolation = cms.untracked.bool(False),                       # Nice tracks need reco::TrackExtra (not available in AOD)   
+      doNiceTracksIsolation = cms.untracked.bool(False),                      # Nice tracks need reco::TrackExtra (not available in AOD)   
       trackerNiceTracksIsolationLIP = cms.double(0.2),                        # longitudianal impact parameter of the track (value in RECO = 0.2)
       trackerNiceTracksIsolationD0 = cms.double(0.1),                         # cut on the transverse impact of the track
       trackerNiceTracksIsolationTrackThreshold = cms.double(0.0),             # cut on the transverse energy of the track
@@ -275,9 +252,9 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       basicClusterProducer = cms.VInputTag(
          cms.InputTag("hybridSuperClusters","hybridBarrelBasicClusters"),
          # in 5.X.X
-         #cms.InputTag("multi5x5SuperClusters", "multi5x5EndcapBasicClusters")
+         cms.InputTag("multi5x5SuperClusters", "multi5x5EndcapBasicClusters")
          # in 4.X.X
-         cms.InputTag("multi5x5BasicClusters", "multi5x5EndcapBasicClusters")
+         #cms.InputTag("multi5x5BasicClusters", "multi5x5EndcapBasicClusters")
          ),
       # RECO SC Collections
       superClusterProducerIndex = cms.vint32(210, 211, 320, 323, 322),
@@ -363,16 +340,16 @@ process.load('HLTrigger.special.hltPhysicsDeclared_cfi')
 process.hltPhysicsDeclared.L1GtReadoutRecordTag = 'gtDigis'
 
 #Jet producer for rho calculation 
-process.load('RecoJets.JetProducers.kt4PFJets_cfi')
-process.kt6PFJets = process.kt4PFJets.clone( rParam = 0.6, doRhoFastjet = True )
-process.kt6PFJets.Rho_EtaMax = cms.double(2.5)
+#process.load('RecoJets.JetProducers.kt4PFJets_cfi')
+#process.kt6PFJets = process.kt4PFJets.clone( rParam = 0.6, doRhoFastjet = True )
+#process.kt6PFJets.Rho_EtaMax = cms.double(2.5)
 
 
 # TotoAna standalone
-#process.p = cms.Path(process.totoana)
+process.p = cms.Path(process.totoana)
 
-# rho Pileupm estimator + TotoAna
-process.p = cms.Path(process.kt6PFJets+process.totoana)
+# rho Pileup estimator + TotoAna
+#process.p = cms.Path(process.kt6PFJets+process.totoana)
 
 # Photon reReco + TotoAna
 #process.load("photonReReco")
