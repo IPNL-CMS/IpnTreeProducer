@@ -45,5 +45,3 @@
 <flags   LDFLAGS="-lTMVA"/>
 <flags   EDM_PLUGIN="1"/>
 <flags   CXXFLAGS="-O1 -g"/>
-<export>
-</export>
