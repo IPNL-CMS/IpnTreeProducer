@@ -2,6 +2,17 @@
 
 ==================================================================================================
 
+RECO_5_2_4_v2 (Morgan) :
+
+interface/TRootCluster.h
+interface/TRootSuperCluster.h
+src/ClusterAnalyzer.cc
+src/ClusterAssociator.cc
+==> add error-weighted average of time from rechits constituents of basic cluster 
+
+
+==================================================================================================
+
 RECO_5_2_4_v1 (Morgan) :
 
 interface/PhotonAnalyzer.h
@@ -12,11 +23,10 @@ src/TotoAnalyzer.cc
 test/toto.py
 ==> MIT energy regression will be embedded in reco::Photon
 
-
 test/toto.py
 ==> change in multi5x5SuperClusters producer name
 ==> MIT energy regression will be embedded in reco::Photon
-
+==> process kt6PFJets not needed anymore for rho calculation
 
 src/PhotonIsolator.cc
 ==> adapt to new TrajectoryStateOnSurface syntax

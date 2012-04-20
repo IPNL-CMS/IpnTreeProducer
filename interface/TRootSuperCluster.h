@@ -280,7 +280,7 @@ class TRootSuperCluster : public TRootCluster
       friend std::ostream& operator<< (std::ostream& stream, const TRootSuperCluster& clus)
       {
          stream << "TRootSuperCluster - Type=" << clus.det_ << "  (E,Et,eta,phi)=(" << clus.Mag() <<"," << clus.Pt() <<"," << clus.Eta() <<"," << clus.Phi() << ")"
-         << " Calo position (x,y,z)=(" << clus.calX() << "," << clus.calY() << "," << clus.calZ() << ")"
+         << " Calo position (x,y,z)=(" << clus.calX() << "," << clus.calY() << "," << clus.calZ() << ")" << " time=" << clus.time()
          << " nBC=" << clus.nBasicClusters() << " e3x3=" << clus.e3x3() << " e5x5=" << clus.e5x5() << " eMax=" << clus.eMax()<< " e2nd=" << clus.e2nd()
          << " hoe1=" << clus.hoe1() << " hoe2=" << clus.hoe2() << " nXtals=" << clus.nXtals() << " E_presh=" << clus.preshowerEnergy() << " E_raw=" << clus.rawEnergy()
 	 << " E_raw_CorrectedCracksEta=" << clus.crackCorrectionEta() * clus.Mag() << " E_raw_CorrectedCracksPhi=" << clus.crackCorrectionPhi() * clus.Mag()
@@ -291,7 +291,7 @@ class TRootSuperCluster : public TRootCluster
       void Print()
       {
          std::cout << "TRootSuperCluster - Type=" << this->det_ << "  (E,Et,eta,phi)=(" << this->Mag() <<"," << this->Pt() <<"," << this->Eta() <<"," << this->Phi() << ")"
-         << " Calo position (x,y,z)=(" << this->calX() << "," << this->calY() << "," << this->calZ() << ")" << endl
+         << " Calo position (x,y,z)=(" << this->calX() << "," << this->calY() << "," << this->calZ() << ")" << " time=" << this->time() << endl
          << "            E_presh=" << this->preshowerEnergy() << " E_raw=" << this->rawEnergy()
          << " E_raw_CorrectedCracksEta="<<this->crackCorrectionEta() * this->Mag() << " E_raw_CorrectedCracksPhi="<<this->crackCorrectionPhi() * this->Mag() 
          << " E_raw_CorrectedCracksEtaPhi="<<this->crackCorrectionEtaPhi() * this->Mag() 
@@ -323,7 +323,7 @@ class TRootSuperCluster : public TRootCluster
       Int_t electronIndex_;
       TRef electron_;
       
-      ClassDef (TRootSuperCluster,8);
+      ClassDef (TRootSuperCluster,9);
       
 };
 
