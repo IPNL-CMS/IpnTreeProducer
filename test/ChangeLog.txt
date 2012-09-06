@@ -1,4 +1,27 @@
 
+==================================================================================================
+
+RECO_5_2_4_v3 (Morgan) :
+
+interface/TRootPhoton.h
+src/PhotonAnalyzer.cc
+==> add new variables in TRootPhoton
+new HoE variables
+new corrected energies
+new PFlow variables (not yet filled in standard reco)
+
+
+interface/TRootSuperCluster.h
+interface/TRootCluster.h
+interface/ClusterAnalyzer.h
+src/ClusterAnalyzer.cc
+src/ClusterAssociator.cc
+==> add new shape variables needed for energy regression
+==> correct seed xtal (before it was first rechit in the hitsAndFractions() after energy reordering)
+
+
+src/PhotonAssociator.cc
+==> Add detailed printouts for SC and BC
 
 ==================================================================================================
 
