@@ -176,18 +176,17 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, TRootEvent* rootEvent, TC
          ,photon->charge()
       );
       
-      // TODO - Nicolas
-      //- HCAL energy autour des traces converties dans un cone de dR<0.1... utile ?
       
-      // Variables from reco::Photon
+      //=======================================================
+      // Cluster position
+      //=======================================================
       localPhoton.setCaloPosition( photon->caloPosition().X(), photon->caloPosition().Y(), photon->caloPosition().Z() );
-      localPhoton.setHoE(photon->hadronicOverEm());
-      localPhoton.setHasPixelSeed( photon->hasPixelSeed() );
-      localPhoton.setSigmaEtaEta(photon->sigmaEtaEta());
-      localPhoton.setSigmaIetaIeta(photon->sigmaIetaIeta());
       
       
-      // Variables from reco::SuperCluster
+      
+      //=======================================================
+      // Supercluster infos
+      //=======================================================
       reco::SuperClusterRef superCluster = photon->superCluster();
       if ( superCluster.isNonnull() )
       {
@@ -197,26 +196,24 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, TRootEvent* rootEvent, TC
       }
       
       
-      // Cluster Shape variables
+      //=======================================================
+      // Shower Shape Variables
+      //=======================================================
+      
       // need reco::SuperCluster and reco::CaloCluster
+      localPhoton.setHcalDepth1OverEcal(photon->hadronicDepth1OverEm());
+      localPhoton.setHcalDepth2OverEcal(photon->hadronicDepth2OverEm());
+      localPhoton.setHcalDepth1OverEcalBC(photon->hadTowDepth1OverEm());
+      localPhoton.setHcalDepth2OverEcalBC(photon->hadTowDepth2OverEm());
+      
+      localPhoton.setSigmaEtaEta(photon->sigmaEtaEta());
+      localPhoton.setSigmaIetaIeta(photon->sigmaIetaIeta());
+      
       if ( superCluster.isNonnull() )
       {
          reco::CaloClusterPtr seedCaloCluster = superCluster->seed();
          if ( seedCaloCluster.isNonnull() ) localPhoton.setClusterAlgo(seedCaloCluster->algo());
          
-         // dR of the cone centered on the reco::Photon and containing all its basic clusters constituents
-         bool atLeastOneBC = false;
-         Float_t caloConeSize = 0.;
-         for (reco::CaloCluster_iterator caloCluster = (*superCluster).clustersBegin(); caloCluster != (*superCluster).clustersEnd(); ++caloCluster )
-         {
-            atLeastOneBC = true;
-            // Take SC position which is not vertex corrected
-            TVector3 scPosition( superCluster->position().x(), superCluster->position().y(), superCluster->position().z() );
-            Float_t dR = scPosition.DeltaR( TVector3( (*caloCluster)->position().x(), (*caloCluster)->position().y(), (*caloCluster)->position().z() ) );
-            if (dR > caloConeSize) caloConeSize = dR;
-         }
-         if (! atLeastOneBC) caloConeSize = -999.;
-         localPhoton.setCaloConeSize(caloConeSize);
          
          // need reduced Ecal RecHits Collections for EcalClusterLazyTools
          if ( seedCaloCluster.isNonnull() && lazyTools != 0 )
@@ -247,7 +244,114 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, TRootEvent* rootEvent, TC
       }
       
       
-      // Photon conversions
+      //=======================================================
+      // Energy Determinations  (stored in reco::Photon)
+      //=======================================================
+      
+      localPhoton.set_energy_ecalStandard(
+         photon->getCorrectedEnergy(Photon::P4type::ecal_standard)
+         ,photon->getCorrectedEnergyError(Photon::P4type::ecal_standard)
+         ,(photon->p4(Photon::P4type::ecal_standard)).Px()
+         ,(photon->p4(Photon::P4type::ecal_standard)).Py()
+         ,(photon->p4(Photon::P4type::ecal_standard)).Pz()
+         ,(photon->p4(Photon::P4type::ecal_standard)).E()
+      );
+      
+      localPhoton.set_energy_ecalPhoton(
+         photon->getCorrectedEnergy(Photon::P4type::ecal_photons)
+         ,photon->getCorrectedEnergyError(Photon::P4type::ecal_photons)
+         ,(photon->p4(Photon::P4type::ecal_photons)).Px()
+         ,(photon->p4(Photon::P4type::ecal_photons)).Py()
+         ,(photon->p4(Photon::P4type::ecal_photons)).Pz()
+         ,(photon->p4(Photon::P4type::ecal_photons)).E()
+      );
+      
+      localPhoton.set_energy_regression1(
+         photon->getCorrectedEnergy(Photon::P4type::regression1)
+         ,photon->getCorrectedEnergyError(Photon::P4type::regression1)
+         ,(photon->p4(Photon::P4type::regression1)).Px()
+         ,(photon->p4(Photon::P4type::regression1)).Py()
+         ,(photon->p4(Photon::P4type::regression1)).Pz()
+         ,(photon->p4(Photon::P4type::regression1)).E()
+      );
+      
+      localPhoton.set_energy_regression2(
+         photon->getCorrectedEnergy(Photon::P4type::regression2)
+         ,photon->getCorrectedEnergyError(Photon::P4type::regression2)
+         ,(photon->p4(Photon::P4type::regression2)).Px()
+         ,(photon->p4(Photon::P4type::regression2)).Py()
+         ,(photon->p4(Photon::P4type::regression2)).Pz()
+         ,(photon->p4(Photon::P4type::regression2)).E()
+      );
+      
+      
+
+      //=======================================================
+      // Fiducial flags  (stored in reco::Photon)
+      //=======================================================
+      
+      localPhoton.setFiducialFlags(
+         photon->isEB()
+         ,photon->isEE()
+         ,photon->isEBEtaGap()
+         ,photon->isEBPhiGap()
+         ,photon->isEERingGap()
+         ,photon->isEEDeeGap()
+         ,photon->isEBEEGap()
+      );
+      
+
+      //=======================================================
+      // Isolation Variables
+      //=======================================================
+      
+      // Set standard reco isolation
+      
+      localPhoton.setDR03Isolation(
+         photon->ecalRecHitSumEtConeDR03()
+         ,photon->hcalTowerSumEtConeDR03()
+         ,photon->hcalDepth1TowerSumEtConeDR03()
+         ,photon->hcalDepth2TowerSumEtConeDR03()
+         ,photon->trkSumPtSolidConeDR03()
+         ,photon->trkSumPtHollowConeDR03()
+         ,photon->nTrkSolidConeDR03()
+         ,photon->nTrkHollowConeDR03()
+      );
+      
+      localPhoton.setDR04Isolation(
+         photon->ecalRecHitSumEtConeDR04()
+         ,photon->hcalTowerSumEtConeDR04()
+         ,photon->hcalDepth1TowerSumEtConeDR04()
+         ,photon->hcalDepth2TowerSumEtConeDR04()
+         ,photon->trkSumPtSolidConeDR04()
+         ,photon->trkSumPtHollowConeDR04()
+         ,photon->nTrkSolidConeDR04()
+         ,photon->nTrkHollowConeDR04()
+      );
+      
+      
+      //=======================================================
+      // PFlow Variables
+      //=======================================================
+      
+      localPhoton.setPFiso(
+         photon->chargedHadronIso()
+         ,photon->neutralHadronIso()
+         ,photon->photonIso()
+         ,0.  // FIXME - no accessor for photon->pfModFrixione() ???
+      );
+      
+      localPhoton.setPFid(
+         photon->nClusterOutsideMustache()
+         ,photon->etOutsideMustache()
+         ,photon->pfMVA()
+      );
+      
+      
+      
+      //=======================================================
+      // Conversions - to be updated
+      //=======================================================
       // Variables from reco::Conversion
       if( doPhotonConversion_ )
       {
@@ -348,25 +452,15 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, TRootEvent* rootEvent, TC
       }
       
       
-      // Photon isolation calculated by PhotonID
-      // now embeded in reco::Photon
-      localPhoton.setDR03Isolation(
-         photon->ecalRecHitSumEtConeDR03()
-         ,photon->hcalTowerSumEtConeDR03()
-         ,photon->trkSumPtSolidConeDR03()
-         ,photon->trkSumPtHollowConeDR03()
-         ,photon->nTrkSolidConeDR03()
-         ,photon->nTrkHollowConeDR03()
-      );
+      //=======================================================
+      // Type
+      //=======================================================
       
-      localPhoton.setDR04Isolation(
-         photon->ecalRecHitSumEtConeDR04()
-         ,photon->hcalTowerSumEtConeDR04()
-         ,photon->trkSumPtSolidConeDR04()
-         ,photon->trkSumPtHollowConeDR04()
-         ,photon->nTrkSolidConeDR04()
-         ,photon->nTrkHollowConeDR04()
-      );
+      localPhoton.setHasPixelSeed( photon->hasPixelSeed() );
+      localPhoton.setIsPFlowPhoton( photon->isPFlowPhoton() );
+      localPhoton.sertIsStandardPhoton( photon->isStandardPhoton() );
+      
+      
       
       
       if( dataType_=="RECO" )
@@ -382,16 +476,6 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, TRootEvent* rootEvent, TC
             Bool_t looseEMID = (*looseEMPhotonIdMap)[photonRef];
             Bool_t looseID = (*loosePhotonIdMap)[photonRef];
             Bool_t tightID = (*tightPhotonIdMap)[photonRef];
-            localPhoton.setBitsID(
-               looseEMID
-               ,looseID
-               ,tightID
-               ,photon->isEB()
-               ,photon->isEE()
-               ,photon->isEBGap()
-               ,photon->isEEGap()
-               ,photon->isEBEEGap()
-            );
          }
          
          /*
@@ -420,16 +504,6 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, TRootEvent* rootEvent, TC
          if (patPhoton->isPhotonIDAvailable("PhotonCutBasedIDLooseEM")) looseEMID = patPhoton->photonID("PhotonCutBasedIDLooseEM");
          if (patPhoton->isPhotonIDAvailable("PhotonCutBasedIDLoose")) looseID = patPhoton->photonID("PhotonCutBasedIDLoose");
          if (patPhoton->isPhotonIDAvailable("PhotonCutBasedIDTight")) tightID = patPhoton->photonID("PhotonCutBasedIDTight");
-         localPhoton.setBitsID(
-            looseEMID
-            ,looseID
-            ,tightID
-            ,patPhoton->isEB()
-            ,patPhoton->isEE()
-            ,patPhoton->isEBGap()
-            ,patPhoton->isEEGap()
-            ,patPhoton->isEBEEGap()
-         );
          
          if(useMC_)
          {
@@ -442,11 +516,6 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, TRootEvent* rootEvent, TC
          }
       }
       
-      
-      // FIXME - Add pi0nn
-      //pi0mapIter = pi0map->find(edm::Ref<reco::PhotonCollection>(recoPhotons,iPhoton));
-      //pi0nn = ( pi0mapIter == pi0map->end() ? -1 : pi0mapIter->val );
-      //localPhoton.setPi0nn( pi0nn );
       
       
       // Vertex correction to photon - Assume photon is coming from primary vertex
