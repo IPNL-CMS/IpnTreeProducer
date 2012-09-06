@@ -81,6 +81,7 @@ void PhotonAssociator::fullPrintPhotons(TClonesArray* photons, TClonesArray* sup
 {
    TRootPhoton* localPhoton;
    TRootSuperCluster* localSC;
+   TRootCluster* localBC;
    map<Int_t,Int_t>  idxMap;
    map<Int_t,Int_t>::iterator iter;
    Int_t subIdx;
@@ -97,12 +98,13 @@ void PhotonAssociator::fullPrintPhotons(TClonesArray* photons, TClonesArray* sup
          if ( (type==0) || (iter->first==type) )
          {
             localSC =  (TRootSuperCluster*) superClusters->At(iter->second);
-            cout << "       [" << iter->second << "] " << *localSC << endl;
+            cout << "       [" << iter->second << "] "; localSC->Print() ; cout << endl;
             
             for (unsigned int isub=0; isub<localSC->subBasicClusterIndexVector().size(); isub++)
             {
                subIdx=localSC->subBasicClusterIndexVector().at(isub);
-               cout << "           [" << subIdx << "] " << *( (TRootCluster*) basicClusters->At(subIdx) ) << endl;
+               localBC = (TRootCluster*) basicClusters->At(subIdx);
+               cout << "           [" << subIdx << "] "; localBC->Print() ; cout << endl;
             }
          }
       }
@@ -132,13 +134,13 @@ void PhotonAssociator::fullPrintPhotonsAndRecHits(TClonesArray* photons, TClones
          if ( (type==0) || (iter->first==type) )
          {
             localSC =  (TRootSuperCluster*) superClusters->At(iter->second);
-            cout << "       [" << iter->second << "] " << *localSC << endl;
+            cout << "       [" << iter->second << "] "; localSC->Print() ; cout << endl;
             
             for (unsigned int isub=0; isub<localSC->subBasicClusterIndexVector().size(); isub++)
             {
                subIdx=localSC->subBasicClusterIndexVector().at(isub);
                localBC = (TRootCluster*) basicClusters->At(subIdx);
-               cout << "           [" << subIdx << "] " << *localBC << endl;
+               cout << "           [" << subIdx << "] "; localBC->Print() ; cout << endl;
                for (unsigned int irec=0; irec<localBC->nRecHits(); irec++)
                {
                   localRecHit=localBC->hitAt(irec);

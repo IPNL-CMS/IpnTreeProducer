@@ -97,7 +97,26 @@ bool ClusterAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& i
       localClus.setE5x5( lazyTools->e5x5(*aClus) );
       localClus.setEmax( lazyTools->eMax(*aClus) );
       localClus.setE2nd( lazyTools->e2nd(*aClus) );
+      localClus.setEtop( lazyTools->eTop(*aClus) );
+      localClus.setEbottom( lazyTools->eBottom(*aClus) );
+      localClus.setEleft( lazyTools->eLeft(*aClus) );
+      localClus.setEright( lazyTools->eRight(*aClus) );
       localClus.setS4( lazyTools->eLeft(*aClus) + lazyTools->eRight(*aClus) + lazyTools->eTop(*aClus) + lazyTools->eBottom(*aClus) );
+      localClus.setSigmaIetaIeta( lazyTools->localCovariances(*aClus)[0] );
+      localClus.setSigmaIphiIphi( lazyTools->localCovariances(*aClus)[2] );
+      localClus.setSigmaIetaIphi( lazyTools->localCovariances(*aClus)[1] );
+      
+      if ( ((aClus->hitsAndFractions()).at(0)).first.subdetId()==EcalBarrel )
+      {
+         Float_t etacry, phicry, thetatilt, phitilt;
+         Int_t ieta, iphi;
+         ecalLocal_.localCoordsEB(*aClus,iSetup,etacry,phicry,ieta,iphi,thetatilt,phitilt);
+         localClus.setSeedXtalIeta( ieta );
+         localClus.setSeedXtalIphi( iphi );
+         localClus.setDeltaEtaFromXtalCenter( etacry );
+         localClus.setDeltaPhiFromXtalCenter( phicry );
+      }
+      
       localClus.setNxtals( (aClus->hitsAndFractions()).size() );
       if ( (aClus->hitsAndFractions()).size()>0 ) localClus.setUid( (aClus->hitsAndFractions()).at(0).first() );
       
@@ -225,9 +244,9 @@ bool ClusterAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& i
          
          correction_factor = 1./(fetacor*fphicor);
          }
-         localClus.setcrackCorrectionEta(1./fetacor);
-         localClus.setcrackCorrectionPhi(1./fphicor);
-         localClus.setcrackCorrectionEtaPhi(correction_factor);
+         localClus.setCrackCorrectionEta(1./fetacor);
+         localClus.setCrackCorrectionPhi(1./fphicor);
+         localClus.setCrackCorrectionEtaPhi(correction_factor);
          
       }
       
@@ -251,7 +270,6 @@ bool ClusterAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& i
                EcalRecHitCollection::const_iterator hit = reducedEBRecHits->find(detId);
                if (hit == reducedEBRecHits->end()) continue;
                EBDetId ebDet = (EBDetId)(detId);
-               
                int iflag;
                for (iflag=EcalRecHit::kUnknown; ; --iflag)
                {
@@ -323,10 +341,30 @@ bool ClusterAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& i
          // if keepClusterizedEcalRecHits_=false, then keep only rechit associated to seed crystal
          if (! keepClusterizedEcalRecHits_ ) hits.resize(1);
          localClus.setHits(hits);
+         
+         // Find seed xtal in rechits vector
+         DetId seedDetId = aClus->seed();
+         Int_t seedHash = -1;
+         if (seedDetId.subdetId() == EcalBarrel)
+         {
+            EBDetId det = (EBDetId)(seedDetId);
+            seedHash = det.hashedIndex();
+         }
+         if (seedDetId.subdetId() == EcalEndcap)
+         {
+            EEDetId det = (EEDetId)(seedDetId);
+            seedHash = det.hashedIndex();
+         }
+         for (unsigned int i=0; i<hits.size(); i++)
+         {
+            if (seedHash==hits.at(i).hashedIndex()) localClus.setSeedIndex(i);
+         }
+         
       }
       
       new( (*rootClusters)[iClus_] ) TRootCluster(localClus);
-      if(verbosity_>3) cout << "   ["<< setw(3) << iClus_ << "] " << localClus << endl;
+      if(verbosity_==4) cout << "   ["<< setw(3) << iClus_ << "] " << localClus << endl;
+      if(verbosity_>4) cout << "   ["<< setw(3) << iClus_ << "] "; localClus.Print(); cout << endl;
       
       iClus_++;
       iClusType++;

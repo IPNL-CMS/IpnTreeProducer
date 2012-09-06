@@ -283,21 +283,20 @@ class TRootSuperCluster : public TRootCluster
          << " Calo position (x,y,z)=(" << clus.calX() << "," << clus.calY() << "," << clus.calZ() << ")" << " time=" << clus.time()
          << " nBC=" << clus.nBasicClusters() << " e3x3=" << clus.e3x3() << " e5x5=" << clus.e5x5() << " eMax=" << clus.eMax()<< " e2nd=" << clus.e2nd()
          << " hoe1=" << clus.hoe1() << " hoe2=" << clus.hoe2() << " nXtals=" << clus.nXtals() << " E_presh=" << clus.preshowerEnergy() << " E_raw=" << clus.rawEnergy()
-	 << " E_raw_CorrectedCracksEta=" << clus.crackCorrectionEta() * clus.Mag() << " E_raw_CorrectedCracksPhi=" << clus.crackCorrectionPhi() * clus.Mag()
+         << " E_raw_CorrectedCracksEta=" << clus.crackCorrectionEta() * clus.Mag() << " E_raw_CorrectedCracksPhi=" << clus.crackCorrectionPhi() * clus.Mag()
          << " E_raw_CorrectedCracksEtaPhi=" << clus.crackCorrectionEtaPhi() * clus.Mag();
          return stream;
       };
       
       void Print()
       {
-         std::cout << "TRootSuperCluster - Type=" << this->det_ << "  (E,Et,eta,phi)=(" << this->Mag() <<"," << this->Pt() <<"," << this->Eta() <<"," << this->Phi() << ")"
-         << " Calo position (x,y,z)=(" << this->calX() << "," << this->calY() << "," << this->calZ() << ")" << " time=" << this->time() << endl
-         << "            E_presh=" << this->preshowerEnergy() << " E_raw=" << this->rawEnergy()
-         << " E_raw_CorrectedCracksEta="<<this->crackCorrectionEta() * this->Mag() << " E_raw_CorrectedCracksPhi="<<this->crackCorrectionPhi() * this->Mag() 
-         << " E_raw_CorrectedCracksEtaPhi="<<this->crackCorrectionEtaPhi() * this->Mag() 
-         << " nBC=" << this->nBasicClusters() << " nXtals=" << this->nXtals() << " e3x3=" << this->e3x3() << " e5x5=" << this->e5x5()
-         << " eMax=" << this->eMax()<< " e2nd=" << this->e2nd() << " etaWidth=" << this->etaWidth() << " phiWidth=" << this->phiWidth()
-         << " hoe1=" << this->hoe1() << " hoe2=" << this->hoe2() ;
+         std::cout << "TRootSuperCluster - Type=" << this->det() << "  (E,Et,eta,phi)=(" << this->Mag() <<"," << this->Pt() <<"," << this->Eta() <<"," << this->Phi() << ")" << " Calo position (x,y,z)=(" << this->calX() << "," << this->calY() << "," << this->calZ() << ")" << endl
+         << "            E_presh=" << this->preshowerEnergy() << " E_raw=" << this->rawEnergy() << " E_raw_CorrectedCracksEta="<<this->crackCorrectionEta() * this->Mag() << " E_raw_CorrectedCracksPhi="<<this->crackCorrectionPhi() * this->Mag() << " E_raw_CorrectedCracksEtaPhi="<<this->crackCorrectionEtaPhi() * this->Mag() << endl
+         << "            time=" << this->time() << " e2x2=" << this->e2x2() << " e3x3=" << this->e3x3() << " e5x5=" << this->e5x5() << " eMax=" << this->eMax() << " e2nd=" << this->e2nd() << " eTop=" << this->eTop() << " eBottom=" << this->eBottom() << " eLeft=" << this->eLeft() << " eRight=" << this->eRight() << endl
+         << "            s4=" << this->s4() << " esRatio=" << this->esRatio() << " etaWidth=" << this->etaWidth() << " phiWidth=" << this->phiWidth() << " sigmaIetaIeta=" << this->sigmaIetaIeta() << " sigmaIphiIphi=" << this->sigmaIphiIphi() << " sigmaIetaIphi=" << this->sigmaIetaIphi() << endl
+         << "            seedXtalIeta=" << this->seedXtalIeta() << " seedXtalIphi=" << this->seedXtalIphi() << " deltaEtaFromXtalCenter=" << this->deltaEtaFromXtalCenter() << " deltaPhiFromXtalCenter=" << this->deltaPhiFromXtalCenter() << endl
+         << "            crackCorrectionEta=" << this->crackCorrectionEta()<< " crackCorrectionPhi=" << this->crackCorrectionPhi()<< " crackCorrectionEtaPhi=" << this->crackCorrectionEtaPhi()<< " nXtals=" << this->nXtals() << " nBC=" << this->nBasicClusters();
+         
       };
       
       
@@ -323,7 +322,7 @@ class TRootSuperCluster : public TRootCluster
       Int_t electronIndex_;
       TRef electron_;
       
-      ClassDef (TRootSuperCluster,9);
+      ClassDef (TRootSuperCluster,10);
       
 };
 

@@ -65,9 +65,9 @@ void ClusterAssociator::process(TClonesArray* superClusters, TClonesArray* basic
              
           }
           
-          aSC->setcrackCorrectionEta(EnergyTempEta);
-          aSC->setcrackCorrectionPhi(EnergyTempPhi);
-          aSC->setcrackCorrectionEtaPhi(EnergyTempEtaPhi);
+          aSC->setCrackCorrectionEta(EnergyTempEta);
+          aSC->setCrackCorrectionPhi(EnergyTempPhi);
+          aSC->setCrackCorrectionEtaPhi(EnergyTempEtaPhi);
           
       }   
       
@@ -78,11 +78,23 @@ void ClusterAssociator::process(TClonesArray* superClusters, TClonesArray* basic
       {
          aBC = (TRootCluster*)basicClusters->At(aSC->seedBasicClusterIndex());
          aSC->setTime( aBC->time() );
+         aSC->setE2x2( aBC->e2x2() );
          aSC->setE3x3( aBC->e3x3() );
          aSC->setE5x5( aBC->e5x5() );
          aSC->setEmax( aBC->eMax() );
          aSC->setE2nd( aBC->e2nd() );
+         aSC->setEtop( aBC->eTop() );
+         aSC->setEbottom( aBC->eBottom() );
+         aSC->setEleft( aBC->eLeft() );
+         aSC->setEright( aBC->eRight() );
          aSC->setS4( aBC->s4() );
+         aSC->setSigmaIetaIeta( aBC->sigmaIetaIeta() );
+         aSC->setSigmaIphiIphi( aBC->sigmaIphiIphi() );
+         aSC->setSigmaIetaIphi( aBC->sigmaIetaIphi() );
+         aSC->setSeedXtalIeta( aBC->seedXtalIeta() );
+         aSC->setSeedXtalIphi( aBC->seedXtalIphi() );
+         aSC->setDeltaEtaFromXtalCenter( aBC->deltaEtaFromXtalCenter() );
+         aSC->setDeltaPhiFromXtalCenter( aBC->deltaPhiFromXtalCenter() );
          aSC->setSeedBasicCluster( aBC );
          aSC->setHits( aBC->hits() );
          // TODO - Add ref to SC in seedBC

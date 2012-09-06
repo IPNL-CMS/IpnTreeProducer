@@ -24,6 +24,9 @@
 #include "RecoEcal/EgammaCoreTools/interface/PositionCalc.h"
 #include "RecoLocalCalo/EcalRecAlgos/interface/EcalSeverityLevelAlgo.h"
 #include "RecoLocalCalo/EcalRecAlgos/interface/EcalSeverityLevelAlgoRcd.h"
+
+#include "RecoEgamma/EgammaTools/interface/EcalClusterLocal.h"
+
 //#include "CondFormats/DataRecord/interface/EcalChannelStatusRcd.h"
 #include "CalibCalorimetry/EcalTrivialCondModules/interface/EcalTrivialConditionRetriever.h"
 #include "DataFormats/EcalDetId/interface/EBDetId.h"
@@ -64,7 +67,7 @@ class ClusterAnalyzer
       bool keepClusterizedEcalRecHits_;
       bool allowMissingCollection_;
       bool doCracksCorrection_;     
- 
+      EcalClusterLocal ecalLocal_;
 };
 
 #endif
