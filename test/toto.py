@@ -22,12 +22,13 @@ process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 
 # Needed for GlobalPositionRcd
 process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_cff')
-#process.GlobalTag.globaltag = cms.string('START52_V9::All')
-process.GlobalTag.globaltag = cms.string('GR_R_52_V7::All')
+#process.GlobalTag.globaltag = cms.string('GR_P_V41_AN1::All')
+process.GlobalTag.globaltag = cms.string('START53_V11::All')
 
 
 # Global geometry
-process.load('Configuration/StandardSequences/GeometryExtended_cff')
+#process.load("Configuration.Geometry.GeometryAll_cff")
+process.load("Configuration.Geometry.GeometryDB_cff")
 process.load('Configuration/StandardSequences/MagneticField_AutoFromDBCurrent_cff')
 
 # Transient Track Builder
@@ -49,7 +50,7 @@ process.load('Configuration.EventContent.EventContent_cff')
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(100)
+    input = cms.untracked.int32(10)
 )
 
 #process.maxLuminosityBlocks = cms.untracked.PSet(
@@ -62,7 +63,7 @@ process.source = cms.Source("PoolSource",
 #fileNames = cms.untracked.vstring('file:/tmp/lethuill/CMSSW_5_1_2_patch1__RECO_5_0_0_v1_DYToMuMu.root')
 #fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/user/l/lethuill/data/AOD/CMSSW_5_1_2_patch1__RECO_5_0_0_v1_DYToMuMu.root')
 # RECO
-fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/data/Run2012A/Photon/RECO/PromptReco-v1/000/191/721/8E2AAAD9-EF8B-E111-BEB8-5404A63886B1.root')
+fileNames = cms.untracked.vstring('/store/relval/CMSSW_5_3_4_cand1/RelValH130GGgluonfusion/GEN-SIM-RECO/PU_START53_V10-v1/0003/0C17628B-41F7-E111-BFAB-003048D2BE12.root')
 #fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/relval/CMSSW_4_2_2/RelValH130GGgluonfusion/GEN-SIM-RECO/START42_V11-v1/0014/3603E96A-966D-E011-B380-003048678FFA.root')
 #fileNames = cms.untracked.vstring('/store/data/Run2010B/Electron/RAW-RECO/v2/000/147/114/AAB9337B-0ED0-DF11-9B73-0030486790B0.root')
 #fileNames = cms.untracked.vstring(
