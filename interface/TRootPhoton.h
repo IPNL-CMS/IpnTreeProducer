@@ -59,6 +59,8 @@ public:
    ,regression2Energy_(-1.)
    ,regression2EnergyError_(-1.)
    ,regression2P4_(0.,0.,0.,0.)
+   ,joshEnergyRegression_(-1.)
+   ,joshEnergyRegressionError_(-1.)
    ,isEB_(false)
    ,isEE_(false)
    ,isEBEtaGap_(false)
@@ -156,6 +158,8 @@ public:
    ,regression2Energy_(photon.regression2Energy_)
    ,regression2EnergyError_(photon.regression2EnergyError_)
    ,regression2P4_(photon.regression2P4_)
+   ,joshEnergyRegression_(photon.joshEnergyRegression_)
+   ,joshEnergyRegressionError_(photon.joshEnergyRegressionError_)
    ,isEB_(photon.isEB_)
    ,isEE_(photon.isEE_)
    ,isEBEtaGap_(photon.isEBEtaGap_)
@@ -253,6 +257,8 @@ public:
    ,regression2Energy_(-1.)
    ,regression2EnergyError_(-1.)
    ,regression2P4_(0.,0.,0.,0.)
+   ,joshEnergyRegression_(-1.)
+   ,joshEnergyRegressionError_(-1.)
    ,isEB_(false)
    ,isEE_(false)
    ,isEBEtaGap_(false)
@@ -350,6 +356,8 @@ public:
    ,regression2Energy_(-1.)
    ,regression2EnergyError_(-1.)
    ,regression2P4_(0.,0.,0.,0.)
+   ,joshEnergyRegression_(-1.)
+   ,joshEnergyRegressionError_(-1.)
    ,isEB_(false)
    ,isEE_(false)
    ,isEBEtaGap_(false)
@@ -447,6 +455,8 @@ public:
    ,regression2Energy_(-1.)
    ,regression2EnergyError_(-1.)
    ,regression2P4_(0.,0.,0.,0.)
+   ,joshEnergyRegression_(-1.)
+   ,joshEnergyRegressionError_(-1.)
    ,isEB_(false)
    ,isEE_(false)
    ,isEBEtaGap_(false)
@@ -544,6 +554,8 @@ public:
    ,regression2Energy_(-1.)
    ,regression2EnergyError_(-1.)
    ,regression2P4_(0.,0.,0.,0.)
+   ,joshEnergyRegression_(-1.)
+   ,joshEnergyRegressionError_(-1.)
    ,isEB_(false)
    ,isEE_(false)
    ,isEBEtaGap_(false)
@@ -641,6 +653,8 @@ public:
    ,regression2Energy_(-1.)
    ,regression2EnergyError_(-1.)
    ,regression2P4_(0.,0.,0.,0.)
+   ,joshEnergyRegression_(-1.)
+   ,joshEnergyRegressionError_(-1.)
    ,isEB_(false)
    ,isEE_(false)
    ,isEBEtaGap_(false)
@@ -842,6 +856,14 @@ public:
    
    
    //=======================================================
+   // Energy Regression  (calculated on the fly)
+   //=======================================================
+   
+   Float_t joshEnergyRegression() const { return joshEnergyRegression_; }
+   Float_t joshEnergyRegressionError() const { return joshEnergyRegressionError_; } 
+   
+   
+   //=======================================================
    // Fiducial flags  (stored in reco::Photon)
    //=======================================================
    
@@ -1016,6 +1038,14 @@ public:
    
    
    //=======================================================
+   // Energy Regression  (calculated on the fly)
+   //=======================================================
+   
+   void setJoshEnergyRegression(Float_t joshEnergyRegression) { joshEnergyRegression_= joshEnergyRegression;}
+   void setJoshEnergyRegressionError(Float_t joshEnergyRegressionError) { joshEnergyRegressionError_= joshEnergyRegressionError;}
+   
+   
+   //=======================================================
    // Fiducial flags  (stored in reco::Photon)
    //=======================================================
    void setFiducialFlags(Bool_t isEB, Bool_t isEE, Bool_t isEBEtaGap, Bool_t isEBPhiGap, Bool_t isEERingGap, Bool_t isEEDeeGap, Bool_t isEBEEGap)
@@ -1173,6 +1203,7 @@ public:
       << "            'ecal_photons'  energy=" << this->energy_ecalPhoton() << " +- " << this->energyError_ecalPhoton() <<" (E,Et,eta,phi)=("<< this->p4_ecalPhoton().Energy() <<","<< this->p4_ecalPhoton().Et() <<","<< this->p4_ecalPhoton().Eta() <<","<< this->p4_ecalPhoton().Phi() << ")" << endl
       << "            'regression1'   energy=" << this->energy_regression1() << " +- " << this->energyError_regression1() <<" (E,Et,eta,phi)=("<< this->p4_regression1().Energy() <<","<< this->p4_regression1().Et() <<","<< this->p4_regression1().Eta() <<","<< this->p4_regression1().Phi() << ")" << endl
       << "            'regression2'   energy=" << this->energy_regression2() << " +- " << this->energyError_regression2() <<" (E,Et,eta,phi)=("<< this->p4_regression2().Energy() <<","<< this->p4_regression2().Et() <<","<< this->p4_regression2().Eta() <<","<< this->p4_regression2().Phi() << ")" << endl
+      << "        'Josh regression'   energy=" << this->joshEnergyRegression() << " +- " << this->joshEnergyRegressionError() << endl
       << "            algo=" << this->clusterAlgo() << "  nBC=" << this->nbClusters() << " scRawEnergy=" << this->scRawEnergy() << " preshEnergy=" << this->preshowerEnergy() << endl
       << "            hadronicOverEm=" << this->hadronicOverEm() << " hadTowOverEm=" << this->hadTowOverEm()  << " E2x2=" << this->e2x2() <<" E3x3=" << this->e3x3() <<" E5x5=" << this->e5x5() <<" Emax=" << this->eMax()
       << " E2nd=" << this->e2nd() <<" R19=" << this->r19() <<" R9=" << this->r9() << endl
@@ -1276,6 +1307,15 @@ private:
    
    
    //=======================================================
+   // Energy Regression  (calculated on the fly)
+   // https://twiki.cern.ch/twiki/bin/view/CMS/RegressionSCCorrections
+   //=======================================================
+   
+   Float_t joshEnergyRegression_;
+   Float_t joshEnergyRegressionError_;
+   
+   
+   //=======================================================
    // Fiducial flags  (stored in reco::Photon)
    //=======================================================
 
@@ -1366,7 +1406,7 @@ private:
    Bool_t isStandardPhoton_;  // is it a standard reco photon ?
    Bool_t isAlsoElectron_;    // is photon also a GsfElectron ?
    
-   ClassDef (TRootPhoton,14);
+   ClassDef (TRootPhoton,15);
    
 };
 

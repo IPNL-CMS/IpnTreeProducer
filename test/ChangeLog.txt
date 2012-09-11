@@ -1,6 +1,20 @@
 
 ==================================================================================================
 
+RECO_5_3_3_v2 (Morgan) :
+
+interface/PhotonAnalyzer.h
+interface/TRootPhoton.h
+interface/TotoAnalyzer.h
+src/PhotonAnalyzer.cc
+src/TotoAnalyzer.cc
+test/toto.py
+
+==> Add Josh energy regression
+
+
+==================================================================================================
+
 RECO_5_3_3_v1 (Morgan) :
 
 test/toto.py
