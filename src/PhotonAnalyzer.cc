@@ -303,7 +303,7 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
             edm::Handle<double> rho;
             iEvent.getByLabel(edm::InputTag("kt6PFJets","rho"), rho);
             
-            bool applyRescale = false;
+            bool applyRescale = true;
             std::pair<double,double> cor = egEnergyRegression->CorrectedEnergyWithErrorV3(*photon, *recoVertices, *rho, *lazyTools, iSetup, applyRescale);
             double energy = cor.first;
             double energyerr = cor.second;
