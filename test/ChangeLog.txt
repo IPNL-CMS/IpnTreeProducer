@@ -1,6 +1,22 @@
 
 ==================================================================================================
 
+RECO_5_3_3_v3 (Morgan) :
+
+interface/TotoAnalyzer.h
+src/TotoAnalyzer.cc
+==> correct energy leak in energy regression
+
+src/PhotonAnalyzer.cc
+==> apply MC rescaling by default in energy regression
+
+src/ClusterAnalyzer.cc
+==> remove spurious printouts
+
+
+
+==================================================================================================
+
 RECO_5_3_3_v2 (Morgan) :
 
 interface/PhotonAnalyzer.h
