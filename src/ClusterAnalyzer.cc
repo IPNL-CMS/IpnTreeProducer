@@ -364,7 +364,12 @@ bool ClusterAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& i
       
       new( (*rootClusters)[iClus_] ) TRootCluster(localClus);
       if(verbosity_==4) cout << "   ["<< setw(3) << iClus_ << "] " << localClus << endl;
-      if(verbosity_>4) cout << "   ["<< setw(3) << iClus_ << "] "; localClus.Print(); cout << endl;
+      if(verbosity_>4)
+      { 
+         cout << "   ["<< setw(3) << iClus_ << "] ";
+         localClus.Print();
+         cout << endl;
+      }
       
       iClus_++;
       iClusType++;
