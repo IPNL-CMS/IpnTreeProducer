@@ -25,6 +25,7 @@
 
 #include "RecoEcal/EgammaCoreTools/interface/EcalClusterLazyTools.h"
 #include "RecoEgamma/EgammaTools/interface/EGEnergyCorrector.h"
+
 #include "../interface/L1TriggerAnalyzer.h"
 #include "../interface/HLTAnalyzer.h"
 #include "../interface/MCAnalyzer.h"
@@ -128,7 +129,7 @@ private:
    bool doElectron_;
    bool doTau_;
    bool doPhoton_;
-   bool doPhotonEnergyRegression_; 	 
+   bool doPhotonEnergyRegression_;
    std::string photonEnergyRegressionFile_;
    bool doCluster_;
    bool keepAllEcalRecHits_;
@@ -175,6 +176,7 @@ private:
    unsigned int nMETsArrays_;
    TClonesArray** rootMETsArrays_;
    TRootBardak* rootBardak_;
+   EGEnergyCorrector* egEnergyRegression_;
    
 };
 
