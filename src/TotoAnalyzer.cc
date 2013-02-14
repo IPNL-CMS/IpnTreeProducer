@@ -729,7 +729,7 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
                throw exception;
             }
             if(verbosity_>1) std::cout <<  "   ===> CaloGeometryRecord, CaloGeometryRecord or EcalRecHitCollection are missing, skip calculation of cluster shape variables" << std::endl;
-            lazyTools = 0; // FIXME - delete authorized after an exception ?
+            delete lazyTools;
          }
       }
 
@@ -739,6 +739,7 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
          if(verbosity_>1) std::cout << std::endl << "Loading photon energy regression file..." << std::endl;
          if ( ! egEnergyRegression_->IsInitialized() )
          {
+            // cout << "DEBUG - egEnergyRegression_->Initialize" << endl;
             if(verbosity_>1) std::cout << "photonEnergyRegressionFile_=" << photonEnergyRegressionFile_.data() << std::endl;
             egEnergyRegression_->Initialize(iSetup, photonEnergyRegressionFile_.data());
          }
@@ -1014,6 +1015,7 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
       if(doPhotonConversion_) (*rootConversionTracks_).Delete();
       for(unsigned int i=0; i<nMETsArrays_; ++i) (*(rootMETsArrays_[i])).Delete();
       if(doBardak_) delete rootBardak_;
+      if(lazyTools != 0) delete lazyTools;
       if(verbosity_>1) std::cout << std::endl << "Objects deleted" << std::endl;
       if(verbosity_>0) std::cout << std::endl;
 }
