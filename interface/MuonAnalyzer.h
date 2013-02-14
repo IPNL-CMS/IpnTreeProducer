@@ -6,6 +6,8 @@
 #include "DataFormats/MuonReco/interface/MuonSelectors.h"
 #include "DataFormats/PatCandidates/interface/Muon.h"
 #include "DataFormats/Math/interface/Point3D.h"
+#include "DataFormats/VertexReco/interface/Vertex.h"
+#include "DataFormats/VertexReco/interface/VertexFwd.h"
 
 #include "../interface/LeptonAnalyzer.h"
 #include "../interface/TRootMuon.h"
@@ -24,7 +26,8 @@ class MuonAnalyzer : public LeptonAnalyzer
    private:
       bool useMC_;
       edm::InputTag muonProducer_;
-
+      edm::InputTag primaryVertexProducer_;
+      
 };
 
 #endif
