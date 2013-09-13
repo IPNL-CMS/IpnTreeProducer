@@ -22,8 +22,8 @@ process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 
 # Needed for GlobalPositionRcd
 process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_cff')
-process.GlobalTag.globaltag = cms.string('FT_R_53_V6::All')
-#process.GlobalTag.globaltag = cms.string('START53_V11::All')
+#process.GlobalTag.globaltag = cms.string('FT_R_53_V6::All')
+process.GlobalTag.globaltag = cms.string('START53_V14::All')
 
 
 # Global geometry
@@ -63,7 +63,9 @@ process.source = cms.Source("PoolSource",
 #fileNames = cms.untracked.vstring('file:/tmp/lethuill/CMSSW_5_1_2_patch1__RECO_5_0_0_v1_DYToMuMu.root')
 #fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/user/l/lethuill/data/AOD/CMSSW_5_1_2_patch1__RECO_5_0_0_v1_DYToMuMu.root')
 # RECO
-fileNames = cms.untracked.vstring('/store/relval/CMSSW_5_3_4_cand1/RelValH130GGgluonfusion/GEN-SIM-RECO/PU_START53_V10-v1/0003/0C17628B-41F7-E111-BFAB-003048D2BE12.root')
+#fileNames = cms.untracked.vstring('/store/relval/CMSSW_5_3_4_cand1/RelValH130GGgluonfusion/GEN-SIM-RECO/PU_START53_V10-v1/0003/0C17628B-41F7-E111-BFAB-003048D2BE12.root')
+fileNames = cms.untracked.vstring('/store/relval/CMSSW_5_3_6-START53_V14/RelValH130GGgluonfusion/GEN-SIM-RECO/v2/00000/202DD4DB-F929-E211-8F53-001A92810AF2.root'),
+#fileNames = cms.untracked.vstring('/store/relval/CMSSW_5_3_11_patch6/Photon/RECO/FT_R_53_LV3_leg2011ABref_RelVal_photon2011B-v1/00000/000EE6CE-0A0C-E311-8249-003048FFCB84.root')
 #fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/relval/CMSSW_4_2_2/RelValH130GGgluonfusion/GEN-SIM-RECO/START42_V11-v1/0014/3603E96A-966D-E011-B380-003048678FFA.root')
 #fileNames = cms.untracked.vstring('/store/data/Run2010B/Electron/RAW-RECO/v2/000/147/114/AAB9337B-0ED0-DF11-9B73-0030486790B0.root')
 #fileNames = cms.untracked.vstring(
@@ -135,7 +137,9 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       doTau = cms.untracked.bool(True),
       doPhoton = cms.untracked.bool(True),
       doPhotonEnergyRegression = cms.untracked.bool(True),
-      photonEnergyRegressionFile = cms.untracked.string('/afs/cern.ch/user/b/bendavid/cmspublic/regweights52xV3/gbrv3ph_52x.root'),
+      photonEnergyRegressionFileV3 = cms.untracked.string('/afs/cern.ch/user/b/bendavid/cmspublic/regweights52xV3/gbrv3ph_52x.root'),
+      photonEnergyRegressionFileV4 = cms.untracked.string('../../../HiggsAnalysis/GBRLikelihoodEGTools/data/regweights_v4_forest_ph.root'),
+      photonEnergyRegressionFileV5 = cms.untracked.string('../../../HiggsAnalysis/GBRLikelihoodEGTools/data/regweights_v5_forest_ph.root'),
       doCluster = cms.untracked.bool(True),
       doCracksCorrection = cms.untracked.bool(True),
       keepClusterizedEcalRecHits = cms.untracked.bool(True),

@@ -59,8 +59,12 @@ public:
    ,regression2Energy_(-1.)
    ,regression2EnergyError_(-1.)
    ,regression2P4_(0.,0.,0.,0.)
-   ,joshEnergyRegression_(-1.)
-   ,joshEnergyRegressionError_(-1.)
+   ,joshEnergyRegressionV3_(-1.)
+   ,joshEnergyRegressionV3Error_(-1.)
+   ,joshEnergyRegressionV4_(-1.)
+   ,joshEnergyRegressionV4Error_(-1.)
+   ,joshEnergyRegressionV5_(-1.)
+   ,joshEnergyRegressionV5Error_(-1.)
    ,isEB_(false)
    ,isEE_(false)
    ,isEBEtaGap_(false)
@@ -158,8 +162,12 @@ public:
    ,regression2Energy_(photon.regression2Energy_)
    ,regression2EnergyError_(photon.regression2EnergyError_)
    ,regression2P4_(photon.regression2P4_)
-   ,joshEnergyRegression_(photon.joshEnergyRegression_)
-   ,joshEnergyRegressionError_(photon.joshEnergyRegressionError_)
+   ,joshEnergyRegressionV3_(photon.joshEnergyRegressionV3_)
+   ,joshEnergyRegressionV3Error_(photon.joshEnergyRegressionV3Error_)
+   ,joshEnergyRegressionV4_(photon.joshEnergyRegressionV4_)
+   ,joshEnergyRegressionV4Error_(photon.joshEnergyRegressionV4Error_)
+   ,joshEnergyRegressionV5_(photon.joshEnergyRegressionV5_)
+   ,joshEnergyRegressionV5Error_(photon.joshEnergyRegressionV5Error_)
    ,isEB_(photon.isEB_)
    ,isEE_(photon.isEE_)
    ,isEBEtaGap_(photon.isEBEtaGap_)
@@ -257,8 +265,12 @@ public:
    ,regression2Energy_(-1.)
    ,regression2EnergyError_(-1.)
    ,regression2P4_(0.,0.,0.,0.)
-   ,joshEnergyRegression_(-1.)
-   ,joshEnergyRegressionError_(-1.)
+   ,joshEnergyRegressionV3_(-1.)
+   ,joshEnergyRegressionV3Error_(-1.)
+   ,joshEnergyRegressionV4_(-1.)
+   ,joshEnergyRegressionV4Error_(-1.)
+   ,joshEnergyRegressionV5_(-1.)
+   ,joshEnergyRegressionV5Error_(-1.)
    ,isEB_(false)
    ,isEE_(false)
    ,isEBEtaGap_(false)
@@ -356,8 +368,12 @@ public:
    ,regression2Energy_(-1.)
    ,regression2EnergyError_(-1.)
    ,regression2P4_(0.,0.,0.,0.)
-   ,joshEnergyRegression_(-1.)
-   ,joshEnergyRegressionError_(-1.)
+   ,joshEnergyRegressionV3_(-1.)
+   ,joshEnergyRegressionV3Error_(-1.)
+   ,joshEnergyRegressionV4_(-1.)
+   ,joshEnergyRegressionV4Error_(-1.)
+   ,joshEnergyRegressionV5_(-1.)
+   ,joshEnergyRegressionV5Error_(-1.)
    ,isEB_(false)
    ,isEE_(false)
    ,isEBEtaGap_(false)
@@ -455,8 +471,12 @@ public:
    ,regression2Energy_(-1.)
    ,regression2EnergyError_(-1.)
    ,regression2P4_(0.,0.,0.,0.)
-   ,joshEnergyRegression_(-1.)
-   ,joshEnergyRegressionError_(-1.)
+   ,joshEnergyRegressionV3_(-1.)
+   ,joshEnergyRegressionV3Error_(-1.)
+   ,joshEnergyRegressionV4_(-1.)
+   ,joshEnergyRegressionV4Error_(-1.)
+   ,joshEnergyRegressionV5_(-1.)
+   ,joshEnergyRegressionV5Error_(-1.)
    ,isEB_(false)
    ,isEE_(false)
    ,isEBEtaGap_(false)
@@ -554,8 +574,12 @@ public:
    ,regression2Energy_(-1.)
    ,regression2EnergyError_(-1.)
    ,regression2P4_(0.,0.,0.,0.)
-   ,joshEnergyRegression_(-1.)
-   ,joshEnergyRegressionError_(-1.)
+   ,joshEnergyRegressionV3_(-1.)
+   ,joshEnergyRegressionV3Error_(-1.)
+   ,joshEnergyRegressionV4_(-1.)
+   ,joshEnergyRegressionV4Error_(-1.)
+   ,joshEnergyRegressionV5_(-1.)
+   ,joshEnergyRegressionV5Error_(-1.)
    ,isEB_(false)
    ,isEE_(false)
    ,isEBEtaGap_(false)
@@ -653,8 +677,12 @@ public:
    ,regression2Energy_(-1.)
    ,regression2EnergyError_(-1.)
    ,regression2P4_(0.,0.,0.,0.)
-   ,joshEnergyRegression_(-1.)
-   ,joshEnergyRegressionError_(-1.)
+   ,joshEnergyRegressionV3_(-1.)
+   ,joshEnergyRegressionV3Error_(-1.)
+   ,joshEnergyRegressionV4_(-1.)
+   ,joshEnergyRegressionV4Error_(-1.)
+   ,joshEnergyRegressionV5_(-1.)
+   ,joshEnergyRegressionV5Error_(-1.)
    ,isEB_(false)
    ,isEE_(false)
    ,isEBEtaGap_(false)
@@ -859,8 +887,12 @@ public:
    // Energy Regression  (calculated on the fly)
    //=======================================================
    
-   Float_t joshEnergyRegression() const { return joshEnergyRegression_; }
-   Float_t joshEnergyRegressionError() const { return joshEnergyRegressionError_; } 
+   Float_t joshEnergyRegressionV3() const { return joshEnergyRegressionV3_; }
+   Float_t joshEnergyRegressionV3Error() const { return joshEnergyRegressionV3Error_; } 
+   Float_t joshEnergyRegressionV4() const { return joshEnergyRegressionV4_; }
+   Float_t joshEnergyRegressionV4Error() const { return joshEnergyRegressionV4Error_; } 
+   Float_t joshEnergyRegressionV5() const { return joshEnergyRegressionV5_; }
+   Float_t joshEnergyRegressionV5Error() const { return joshEnergyRegressionV5Error_; } 
    
    
    //=======================================================
@@ -1041,8 +1073,12 @@ public:
    // Energy Regression  (calculated on the fly)
    //=======================================================
    
-   void setJoshEnergyRegression(Float_t joshEnergyRegression) { joshEnergyRegression_= joshEnergyRegression;}
-   void setJoshEnergyRegressionError(Float_t joshEnergyRegressionError) { joshEnergyRegressionError_= joshEnergyRegressionError;}
+   void setJoshEnergyRegressionV3(Float_t joshEnergyRegressionV3) { joshEnergyRegressionV3_= joshEnergyRegressionV3;}
+   void setJoshEnergyRegressionV3Error(Float_t joshEnergyRegressionV3Error) { joshEnergyRegressionV3Error_= joshEnergyRegressionV3Error;}
+   void setJoshEnergyRegressionV4(Float_t joshEnergyRegressionV4) { joshEnergyRegressionV4_= joshEnergyRegressionV4;}
+   void setJoshEnergyRegressionV4Error(Float_t joshEnergyRegressionV4Error) { joshEnergyRegressionV4Error_= joshEnergyRegressionV4Error;}
+   void setJoshEnergyRegressionV5(Float_t joshEnergyRegressionV5) { joshEnergyRegressionV5_= joshEnergyRegressionV5;}
+   void setJoshEnergyRegressionV5Error(Float_t joshEnergyRegressionV5Error) { joshEnergyRegressionV5Error_= joshEnergyRegressionV5Error;}
    
    
    //=======================================================
@@ -1203,9 +1239,11 @@ public:
       << "            'ecal_photons'  energy=" << this->energy_ecalPhoton() << " +- " << this->energyError_ecalPhoton() <<" (E,Et,eta,phi)=("<< this->p4_ecalPhoton().Energy() <<","<< this->p4_ecalPhoton().Et() <<","<< this->p4_ecalPhoton().Eta() <<","<< this->p4_ecalPhoton().Phi() << ")" << endl
       << "            'regression1'   energy=" << this->energy_regression1() << " +- " << this->energyError_regression1() <<" (E,Et,eta,phi)=("<< this->p4_regression1().Energy() <<","<< this->p4_regression1().Et() <<","<< this->p4_regression1().Eta() <<","<< this->p4_regression1().Phi() << ")" << endl
       << "            'regression2'   energy=" << this->energy_regression2() << " +- " << this->energyError_regression2() <<" (E,Et,eta,phi)=("<< this->p4_regression2().Energy() <<","<< this->p4_regression2().Et() <<","<< this->p4_regression2().Eta() <<","<< this->p4_regression2().Phi() << ")" << endl
-      << "        'Josh regression'   energy=" << this->joshEnergyRegression() << " +- " << this->joshEnergyRegressionError() << endl
+      << "            'Josh reg V3'   energy=" << this->joshEnergyRegressionV3() << " +- " << this->joshEnergyRegressionV3Error() << endl
+      << "            'Josh reg V4'   energy=" << this->joshEnergyRegressionV4() << " +- " << this->joshEnergyRegressionV4Error() << endl
+      << "            'Josh reg V5'   energy=" << this->joshEnergyRegressionV5() << " +- " << this->joshEnergyRegressionV5Error() << endl
       << "            algo=" << this->clusterAlgo() << "  nBC=" << this->nbClusters() << " scRawEnergy=" << this->scRawEnergy() << " preshEnergy=" << this->preshowerEnergy() << endl
-      << "            hadronicOverEm=" << this->hadronicOverEm() << " hadTowOverEm=" << this->hadTowOverEm()  << " E2x2=" << this->e2x2() <<" E3x3=" << this->e3x3() <<" E5x5=" << this->e5x5() <<" Emax=" << this->eMax()
+      << "            hadronicOverEm=" << this->hadronicOverEm() << " hadTowOverm=" << this->hadTowOverEm()  << " E2x2=" << this->e2x2() <<" E3x3=" << this->e3x3() <<" E5x5=" << this->e5x5() <<" Emax=" << this->eMax()
       << " E2nd=" << this->e2nd() <<" R19=" << this->r19() <<" R9=" << this->r9() << endl
       << "            sigmaEtaEta=" << this->sigmaEtaEta() <<" sigmaIetaIeta=" << this->sigmaIetaIeta()
       << " cEtaEta=" << this->covEtaEta() <<" cEtaPhi=" << this->covEtaPhi() <<" cPhiPhi=" << this->covPhiPhi() << endl
@@ -1311,8 +1349,12 @@ private:
    // https://twiki.cern.ch/twiki/bin/view/CMS/RegressionSCCorrections
    //=======================================================
    
-   Float_t joshEnergyRegression_;
-   Float_t joshEnergyRegressionError_;
+   Float_t joshEnergyRegressionV3_;
+   Float_t joshEnergyRegressionV3Error_;
+   Float_t joshEnergyRegressionV4_;
+   Float_t joshEnergyRegressionV4Error_;
+   Float_t joshEnergyRegressionV5_;
+   Float_t joshEnergyRegressionV5Error_;
    
    
    //=======================================================
@@ -1406,7 +1448,7 @@ private:
    Bool_t isStandardPhoton_;  // is it a standard reco photon ?
    Bool_t isAlsoElectron_;    // is photon also a GsfElectron ?
    
-   ClassDef (TRootPhoton,15);
+   ClassDef (TRootPhoton,16);
    
 };
 

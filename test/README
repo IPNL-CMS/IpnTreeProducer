@@ -1,2 +1,11 @@
-cvs co -d ./UserCode/IpnTreeProducer UserCode/Morgan/IpnTreeProducer
- 
+git clone https://github.com/IPNL-CMS/IpnTreeProducer.git Toto/IpnTreeProducer
+
+# Regression v3
+cvs co -r regressionMay18b RecoEgamma/EgammaTools
+cvs co -r V05-08-20 RecoEcal/EgammaCoreTools
+checkdeps -a
+
+# Regression v4/v5
+git clone -b hggpaperV5 https://github.com/bendavid/GBRLikelihood.git HiggsAnalysis/GBRLikelihood
+git clone -b hggpaperV5 https://github.com/bendavid/GBRLikelihoodEGTools.git HiggsAnalysis/GBRLikelihoodEGTools
+

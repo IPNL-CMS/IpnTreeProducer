@@ -25,7 +25,7 @@ PhotonAnalyzer::~PhotonAnalyzer()
 }
 
 
-bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iSetup, TRootEvent* rootEvent, TClonesArray* rootPhotons, TClonesArray* conversionTracks, EcalClusterLazyTools* lazyTools, EGEnergyCorrector* egEnergyRegression)
+bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iSetup, TRootEvent* rootEvent, TClonesArray* rootPhotons, TClonesArray* conversionTracks, EcalClusterLazyTools* lazyTools, EGEnergyCorrector* egEnergyRegressionV3, EGEnergyCorrectorSemiParm* egEnergyRegressionV4, EGEnergyCorrectorSemiParm* egEnergyRegressionV5)
 {
    
    unsigned int nPhotons=0;
@@ -304,12 +304,26 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
             iEvent.getByLabel(edm::InputTag("kt6PFJets","rho"), rho);
             
             bool applyRescale = true;
-            std::pair<double,double> cor = egEnergyRegression->CorrectedEnergyWithErrorV3(*photon, *recoVertices, *rho, *lazyTools, iSetup, applyRescale);
+            std::pair<double,double> cor = egEnergyRegressionV3->CorrectedEnergyWithErrorV3(*photon, *recoVertices, *rho, *lazyTools, iSetup, applyRescale);
             double energy = cor.first;
             double energyerr = cor.second;
-            localPhoton.setJoshEnergyRegression(energy);
-            localPhoton.setJoshEnergyRegressionError(energyerr);
+            localPhoton.setJoshEnergyRegressionV3(energy);
+            localPhoton.setJoshEnergyRegressionV3Error(energyerr);
             //cout << "Energy regression: energy=" << energy << " error=" << energyerr << endl;
+         
+            double ecor, sigma, alpha1, n1, alpha2, n2, pdfval;
+            
+            egEnergyRegressionV4->CorrectedEnergyWithErrorV4(*photon, *recoVertices, *rho, *lazyTools, iSetup, ecor, sigma, alpha1, n1, alpha2, n2, pdfval);
+            //printf("V4: sceta = %5f, default = %5f, corrected = %5f, sigma = %5f, alpha1 = %5f, n1 = %5f, alpha2 = %5f, n2 = %5f, pdfval = %5f\n", superCluster->eta(), photon->energy(),ecor,sigma,alpha1,n1,alpha2,n2,pdfval);
+            localPhoton.setJoshEnergyRegressionV4(ecor);
+            localPhoton.setJoshEnergyRegressionV4Error(ecor*sigma);
+            
+            egEnergyRegressionV5->CorrectedEnergyWithErrorV5(*photon, *recoVertices, *rho, *lazyTools, iSetup, ecor, sigma, alpha1, n1, alpha2, n2, pdfval);
+            //printf("V5: sceta = %5f, default = %5f, corrected = %5f, sigma = %5f, alpha1 = %5f, n1 = %5f, alpha2 = %5f, n2 = %5f, pdfval = %5f\n", superCluster->eta(), photon->energy(),ecor,sigma,alpha1,n1,alpha2,n2,pdfval);
+            localPhoton.setJoshEnergyRegressionV5(ecor);
+            localPhoton.setJoshEnergyRegressionV5Error(ecor*sigma);
+            
+            
          }
       }         
       

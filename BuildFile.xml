@@ -41,7 +41,11 @@
 <use   name="DataFormats/EcalDetId"/>
 <use   name="Geometry/Records"/>
 <use   name="FWCore/Utilities"/>
+<use   name="PhysicsTools/MVAComputer"/>
+<use   name="PhysicsTools/MVATrainer"/>
+<use   name="HiggsAnalysis/GBRLikelihoodEGTools"/>
 <use   name="root"/>
+<use   name="roofit"/>
 <flags   LDFLAGS="-lTMVA"/>
 <flags   EDM_PLUGIN="1"/>
 <flags   CXXFLAGS="-O1 -g"/>

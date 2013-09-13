@@ -22,6 +22,11 @@
 #include "../interface/TRootTopTop.h"
 #include "../interface/TRootEcalRecHit.h"
 #include "../interface/TRootBardak.h"
+#include "../../../HiggsAnalysis/GBRLikelihood/interface/HybridGBRTree.h"
+#include "../../../HiggsAnalysis/GBRLikelihood/interface/HybridGBRForest.h"
+#include "../../../HiggsAnalysis/GBRLikelihood/interface/RooHybridBDTAutoPdf.h"
+#include "../../../HiggsAnalysis/GBRLikelihood/interface/RooDoubleCBFast.h"
+#include "../../../HiggsAnalysis/GBRLikelihood/interface/RooCBExp.h"
 #else
 #include "../interface/TRootRun.h"
 #include "../interface/TRootBeamStatus.h"
@@ -46,6 +51,11 @@
 #include "../interface/TRootTopTop.h"
 #include "../interface/TRootEcalRecHit.h"
 #include "../interface/TRootBardak.h"
+#include "../../../HiggsAnalysis/GBRLikelihood/interface/HybridGBRTree.h"
+#include "../../../HiggsAnalysis/GBRLikelihood/interface/HybridGBRForest.h"
+#include "../../../HiggsAnalysis/GBRLikelihood/interface/RooHybridBDTAutoPdf.h"
+#include "../../../HiggsAnalysis/GBRLikelihood/interface/RooDoubleCBFast.h"
+#include "../../../HiggsAnalysis/GBRLikelihood/interface/RooCBExp.h"
 #endif
 
 #ifdef __CINT__
@@ -77,5 +87,16 @@
 #pragma link C++ class TRootTopTop;
 #pragma link C++ class TRootEcalRecHit;
 #pragma link C++ class TRootBardak;
+#pragma link C++ class HybridGBRForest+;
+#pragma link C++ class HybridGBRTree+;
+#pragma link C++ class RooGBRFunction+;
+#pragma link C++ class RooGBRTarget+;
+#pragma link C++ class RooCondAddPdf+;
+#pragma link C++ class RooPdfAddReal+;
+#pragma link C++ class RooTreeConvert+;
+#pragma link C++ class RooRealConstraint+;
+#pragma link C++ class RooPowerLaw+;
+#pragma link C++ class RooDoubleCBFast+;
+#pragma link C++ class RooCBExp+;
 
 #endif
