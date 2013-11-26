@@ -134,6 +134,7 @@ private:
    std::string photonEnergyRegressionFileV3_;
    std::string photonEnergyRegressionFileV4_;
    std::string photonEnergyRegressionFileV5_;
+   std::string photonEnergyRegressionFileV8_;
    bool doCluster_;
    bool keepAllEcalRecHits_;
    bool keepClusterizedEcalRecHits_;
@@ -182,6 +183,7 @@ private:
    EGEnergyCorrector* egEnergyRegressionV3_;
    EGEnergyCorrectorSemiParm* egEnergyRegressionV4_;
    EGEnergyCorrectorSemiParm* egEnergyRegressionV5_;
+   EGEnergyCorrectorSemiParm* egEnergyRegressionV8_;
 };
 
 #endif

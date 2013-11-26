@@ -25,7 +25,7 @@ PhotonAnalyzer::~PhotonAnalyzer()
 }
 
 
-bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iSetup, TRootEvent* rootEvent, TClonesArray* rootPhotons, TClonesArray* conversionTracks, EcalClusterLazyTools* lazyTools, EGEnergyCorrector* egEnergyRegressionV3, EGEnergyCorrectorSemiParm* egEnergyRegressionV4, EGEnergyCorrectorSemiParm* egEnergyRegressionV5)
+bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iSetup, TRootEvent* rootEvent, TClonesArray* rootPhotons, TClonesArray* conversionTracks, EcalClusterLazyTools* lazyTools, EGEnergyCorrector* egEnergyRegressionV3, EGEnergyCorrectorSemiParm* egEnergyRegressionV4, EGEnergyCorrectorSemiParm* egEnergyRegressionV5, EGEnergyCorrectorSemiParm* egEnergyRegressionV8)
 {
    
    unsigned int nPhotons=0;
@@ -149,9 +149,8 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
          return false;
       }
    }
-   
+  
    if(verbosity_>1) std::cout << "   Number of photons = " << nPhotons << "   Label: " << photonProducer_.label() << "   Instance: " << photonProducer_.instance() << std::endl;
-   
    
    // TODO - add Pi0Disc... not implemented in 2.X.X
    //edm::Handle<reco::PhotonPi0DiscriminatorAssociationMap>  pi0map;
@@ -162,6 +161,7 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
    
    for (unsigned int j=0; j<nPhotons; j++)
    {
+
       const reco::Photon* photon = 0;
       if( dataType_=="RECO" ) photon =  &((*recoPhotons)[j]);
       if( dataType_=="PAT" ) photon = (const reco::Photon*) ( & ((*patPhotons)[j]) );
@@ -184,8 +184,6 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
       //=======================================================
       localPhoton.setCaloPosition( photon->caloPosition().X(), photon->caloPosition().Y(), photon->caloPosition().Z() );
       
-      
-      
       //=======================================================
       // Supercluster infos
       //=======================================================
@@ -196,7 +194,6 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
          localPhoton.setSuperClusterRawEnergy( superCluster->rawEnergy() );
          localPhoton.setPreshowerEnergy(superCluster->preshowerEnergy());
       }
-      
       
       //=======================================================
       // Shower Shape Variables
@@ -245,7 +242,6 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
          }
       }
       
-      
       //=======================================================
       // Energy Determinations  (stored in reco::Photon)
       //=======================================================
@@ -286,7 +282,6 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
          ,(photon->p4(Photon::P4type::regression2)).E()
       );
       
-      
       //=======================================================
       // Energy Regression  (calculated on the fly)
       //=======================================================
@@ -299,7 +294,8 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
             //if ( ! egEnergyRegression->IsInitialized() ) egEnergyRegression->Initialize(iSetup,"/afs/cern.ch/user/b/bendavid/cmspublic/regweightsV2/gbrv2ph.root");
             edm::Handle< reco::VertexCollection > recoVertices;
             iEvent.getByLabel(primaryVertexProducer_, recoVertices);
-            
+        
+    
             edm::Handle<double> rho;
             iEvent.getByLabel(edm::InputTag("kt6PFJets","rho"), rho);
             
@@ -310,23 +306,36 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
             localPhoton.setJoshEnergyRegressionV3(energy);
             localPhoton.setJoshEnergyRegressionV3Error(energyerr);
             //cout << "Energy regression: energy=" << energy << " error=" << energyerr << endl;
-         
             double ecor, sigma, alpha1, n1, alpha2, n2, pdfval;
+            double sigEoverE, cbmean;
             
+            ecor=-999.; sigma=-999.; alpha1=-999.; n1=-999.; alpha2=-999.; n2=-999.; pdfval=-999.;
             egEnergyRegressionV4->CorrectedEnergyWithErrorV4(*photon, *recoVertices, *rho, *lazyTools, iSetup, ecor, sigma, alpha1, n1, alpha2, n2, pdfval);
-            //printf("V4: sceta = %5f, default = %5f, corrected = %5f, sigma = %5f, alpha1 = %5f, n1 = %5f, alpha2 = %5f, n2 = %5f, pdfval = %5f\n", superCluster->eta(), photon->energy(),ecor,sigma,alpha1,n1,alpha2,n2,pdfval);
+            printf("V4: sceta = %5f, default = %5f, corrected = %5f, sigma = %5f, alpha1 = %5f, n1 = %5f, alpha2 = %5f, n2 = %5f, pdfval = %5f\n", superCluster->eta(), photon->energy(),ecor,sigma,alpha1,n1,alpha2,n2,pdfval);
             localPhoton.setJoshEnergyRegressionV4(ecor);
             localPhoton.setJoshEnergyRegressionV4Error(ecor*sigma);
             
+            ecor=-999.; sigma=-999.; alpha1=-999.; n1=-999.; alpha2=-999.; n2=-999.; pdfval=-999.;
             egEnergyRegressionV5->CorrectedEnergyWithErrorV5(*photon, *recoVertices, *rho, *lazyTools, iSetup, ecor, sigma, alpha1, n1, alpha2, n2, pdfval);
-            //printf("V5: sceta = %5f, default = %5f, corrected = %5f, sigma = %5f, alpha1 = %5f, n1 = %5f, alpha2 = %5f, n2 = %5f, pdfval = %5f\n", superCluster->eta(), photon->energy(),ecor,sigma,alpha1,n1,alpha2,n2,pdfval);
+            printf("V5: sceta = %5f, default = %5f, corrected = %5f, sigma = %5f, alpha1 = %5f, n1 = %5f, alpha2 = %5f, n2 = %5f, pdfval = %5f\n", superCluster->eta(), photon->energy(),ecor,sigma,alpha1,n1,alpha2,n2,pdfval);
             localPhoton.setJoshEnergyRegressionV5(ecor);
             localPhoton.setJoshEnergyRegressionV5Error(ecor*sigma);
+           
+            std::cout << std::endl << "Call CorrectedEnergyWithErrorV8" << std::endl;
+            ecor=-999.; sigma=-999.; alpha1=-999.; n1=-999.; alpha2=-999.; n2=-999.; pdfval=-999.;
+            sigEoverE=-999.; cbmean=-999.;
+            //egEnergyRegressionV8->CorrectedEnergyWithErrorV5(*photon, *recoVertices, *rho, *lazyTools, iSetup, ecor, sigma, alpha1, n1, alpha2, n2, pdfval);
+            egEnergyRegressionV8->CorrectedEnergyWithErrorV6(*photon, *recoVertices, *rho, *lazyTools, iSetup, ecor, sigEoverE, cbmean, sigma, alpha1, n1, alpha2, n2, pdfval);
+            printf("V8: sceta = %5f, default = %5f, corrected = %5f,  sigEoverE = %5f,  cbmean = %5f, sigma = %5f, alpha1 = %5f, n1 = %5f, alpha2 = %5f, n2 = %5f, pdfval = %5f\n", superCluster->eta(), photon->energy(),ecor,sigEoverE,cbmean,sigma,alpha1,n1,alpha2,n2,pdfval);
+            localPhoton.setJoshEnergyRegressionV8(ecor);
+            localPhoton.setJoshEnergyRegressionV8Error(ecor*sigma); 	 
+           
+            std::cout << std::endl << "Call CorrectedEnergyWithErrorV8" << std::endl;
             
-            
+	    //void CorrectedEnergyWithErrorV8(const reco::Photon &p, const reco::VertexCollection& vtxcol, double rho, EcalClusterLazyTools &clustertools, const edm::EventSetup &es, double &ecor, double &sigEoverE, double &cbmean, double &cbsigma, double &cbalpha1, double &cbn1, double &cbalpha2, double &cbn2, double &pdfpeakval);
+    
          }
       }         
-      
       
       
       //=======================================================
@@ -343,7 +352,6 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
          ,photon->isEBEEGap()
       );
       
-
       //=======================================================
       // Isolation Variables
       //=======================================================

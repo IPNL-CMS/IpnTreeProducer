@@ -108,6 +108,7 @@ bool MCAnalyzer::pdfInfo(const edm::Event& iEvent, TRootEvent* rootEvent)
 
 bool MCAnalyzer::pileupInfo(const edm::Event& iEvent, TRootEvent* rootEvent)
 {
+   // Get PU infos from SimDataFormats/PileupSummaryInfo/interface/PileupSummaryInfo.h
    edm::Handle<std::vector<PileupSummaryInfo> > pileup;
    try {
       iEvent.getByLabel("addPileupInfo",pileup);

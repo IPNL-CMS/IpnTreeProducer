@@ -65,6 +65,8 @@ public:
    ,joshEnergyRegressionV4Error_(-1.)
    ,joshEnergyRegressionV5_(-1.)
    ,joshEnergyRegressionV5Error_(-1.)
+   ,joshEnergyRegressionV8_(-1.)
+   ,joshEnergyRegressionV8Error_(-1.) 
    ,isEB_(false)
    ,isEE_(false)
    ,isEBEtaGap_(false)
@@ -168,6 +170,8 @@ public:
    ,joshEnergyRegressionV4Error_(photon.joshEnergyRegressionV4Error_)
    ,joshEnergyRegressionV5_(photon.joshEnergyRegressionV5_)
    ,joshEnergyRegressionV5Error_(photon.joshEnergyRegressionV5Error_)
+   ,joshEnergyRegressionV8_(photon.joshEnergyRegressionV8_)
+   ,joshEnergyRegressionV8Error_(photon.joshEnergyRegressionV8Error_)
    ,isEB_(photon.isEB_)
    ,isEE_(photon.isEE_)
    ,isEBEtaGap_(photon.isEBEtaGap_)
@@ -271,6 +275,8 @@ public:
    ,joshEnergyRegressionV4Error_(-1.)
    ,joshEnergyRegressionV5_(-1.)
    ,joshEnergyRegressionV5Error_(-1.)
+   ,joshEnergyRegressionV8_(-1.)
+   ,joshEnergyRegressionV8Error_(-1.)
    ,isEB_(false)
    ,isEE_(false)
    ,isEBEtaGap_(false)
@@ -374,6 +380,8 @@ public:
    ,joshEnergyRegressionV4Error_(-1.)
    ,joshEnergyRegressionV5_(-1.)
    ,joshEnergyRegressionV5Error_(-1.)
+   ,joshEnergyRegressionV8_(-1.)
+   ,joshEnergyRegressionV8Error_(-1.)
    ,isEB_(false)
    ,isEE_(false)
    ,isEBEtaGap_(false)
@@ -477,6 +485,8 @@ public:
    ,joshEnergyRegressionV4Error_(-1.)
    ,joshEnergyRegressionV5_(-1.)
    ,joshEnergyRegressionV5Error_(-1.)
+   ,joshEnergyRegressionV8_(-1.)
+   ,joshEnergyRegressionV8Error_(-1.)
    ,isEB_(false)
    ,isEE_(false)
    ,isEBEtaGap_(false)
@@ -580,6 +590,8 @@ public:
    ,joshEnergyRegressionV4Error_(-1.)
    ,joshEnergyRegressionV5_(-1.)
    ,joshEnergyRegressionV5Error_(-1.)
+   ,joshEnergyRegressionV8_(-1.)
+   ,joshEnergyRegressionV8Error_(-1.)
    ,isEB_(false)
    ,isEE_(false)
    ,isEBEtaGap_(false)
@@ -683,6 +695,8 @@ public:
    ,joshEnergyRegressionV4Error_(-1.)
    ,joshEnergyRegressionV5_(-1.)
    ,joshEnergyRegressionV5Error_(-1.)
+   ,joshEnergyRegressionV8_(-1.)
+   ,joshEnergyRegressionV8Error_(-1.)
    ,isEB_(false)
    ,isEE_(false)
    ,isEBEtaGap_(false)
@@ -893,7 +907,8 @@ public:
    Float_t joshEnergyRegressionV4Error() const { return joshEnergyRegressionV4Error_; } 
    Float_t joshEnergyRegressionV5() const { return joshEnergyRegressionV5_; }
    Float_t joshEnergyRegressionV5Error() const { return joshEnergyRegressionV5Error_; } 
-   
+   Float_t joshEnergyRegressionV8() const { return joshEnergyRegressionV8_; }
+   Float_t joshEnergyRegressionV8Error() const { return joshEnergyRegressionV8Error_; } 
    
    //=======================================================
    // Fiducial flags  (stored in reco::Photon)
@@ -1079,7 +1094,9 @@ public:
    void setJoshEnergyRegressionV4Error(Float_t joshEnergyRegressionV4Error) { joshEnergyRegressionV4Error_= joshEnergyRegressionV4Error;}
    void setJoshEnergyRegressionV5(Float_t joshEnergyRegressionV5) { joshEnergyRegressionV5_= joshEnergyRegressionV5;}
    void setJoshEnergyRegressionV5Error(Float_t joshEnergyRegressionV5Error) { joshEnergyRegressionV5Error_= joshEnergyRegressionV5Error;}
-   
+   void setJoshEnergyRegressionV8(Float_t joshEnergyRegressionV8) { joshEnergyRegressionV8_= joshEnergyRegressionV8;}
+   void setJoshEnergyRegressionV8Error(Float_t joshEnergyRegressionV8Error) { joshEnergyRegressionV8Error_= joshEnergyRegressionV8Error;}
+ 
    
    //=======================================================
    // Fiducial flags  (stored in reco::Photon)
@@ -1242,6 +1259,7 @@ public:
       << "            'Josh reg V3'   energy=" << this->joshEnergyRegressionV3() << " +- " << this->joshEnergyRegressionV3Error() << endl
       << "            'Josh reg V4'   energy=" << this->joshEnergyRegressionV4() << " +- " << this->joshEnergyRegressionV4Error() << endl
       << "            'Josh reg V5'   energy=" << this->joshEnergyRegressionV5() << " +- " << this->joshEnergyRegressionV5Error() << endl
+      << "            'Josh reg V8'   energy=" << this->joshEnergyRegressionV8() << " +- " << this->joshEnergyRegressionV8Error() << endl
       << "            algo=" << this->clusterAlgo() << "  nBC=" << this->nbClusters() << " scRawEnergy=" << this->scRawEnergy() << " preshEnergy=" << this->preshowerEnergy() << endl
       << "            hadronicOverEm=" << this->hadronicOverEm() << " hadTowOverm=" << this->hadTowOverEm()  << " E2x2=" << this->e2x2() <<" E3x3=" << this->e3x3() <<" E5x5=" << this->e5x5() <<" Emax=" << this->eMax()
       << " E2nd=" << this->e2nd() <<" R19=" << this->r19() <<" R9=" << this->r9() << endl
@@ -1355,7 +1373,8 @@ private:
    Float_t joshEnergyRegressionV4Error_;
    Float_t joshEnergyRegressionV5_;
    Float_t joshEnergyRegressionV5Error_;
-   
+   Float_t joshEnergyRegressionV8_;
+   Float_t joshEnergyRegressionV8Error_; 
    
    //=======================================================
    // Fiducial flags  (stored in reco::Photon)

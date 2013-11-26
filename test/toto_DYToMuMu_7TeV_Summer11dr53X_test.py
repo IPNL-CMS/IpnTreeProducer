@@ -22,14 +22,18 @@ process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 
 # Needed for GlobalPositionRcd
 process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_cff')
-#process.GlobalTag.globaltag = cms.string('FT_R_53_V6::All')
-process.GlobalTag.globaltag = cms.string('START53_V14::All')
+process.GlobalTag.globaltag = cms.string('START53_LV3::All')
+#process.GlobalTag.globaltag = cms.string('GR_R_42_V11A::All')
+#process.GlobalTag.globaltag = cms.string('GR_P_V18::All')
 
 
 # Global geometry
-#process.load("Configuration.Geometry.GeometryAll_cff")
+#process.load("Configuration.StandardSequences.Geometry_cff")
+#process.load('Configuration/StandardSequences/MagneticField_38T_cff')
+#process.load('Configuration/StandardSequences/GeometryExtended_cff')
 process.load("Configuration.Geometry.GeometryDB_cff")
 process.load('Configuration/StandardSequences/MagneticField_AutoFromDBCurrent_cff')
+#process.load('Configuration.StandardSequences.GeometryDB_cff')
 
 # Transient Track Builder
 process.load("TrackingTools.TransientTrack.TransientTrackBuilder_cfi")
@@ -50,7 +54,7 @@ process.load('Configuration.EventContent.EventContent_cff')
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(10)
+    input = cms.untracked.int32(5)
 )
 
 #process.maxLuminosityBlocks = cms.untracked.PSet(
@@ -60,18 +64,33 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source("PoolSource",
 
 # AOD
-#fileNames = cms.untracked.vstring('file:/tmp/lethuill/CMSSW_5_1_2_patch1__RECO_5_0_0_v1_DYToMuMu.root')
-#fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/user/l/lethuill/data/AOD/CMSSW_5_1_2_patch1__RECO_5_0_0_v1_DYToMuMu.root')
+#fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/user/l/lethuill/data/AOD/Spring11__GluGluToHToGG_M-120_7TeV-powheg-pythia6__AODSIM__PU_S1_START311_V1G1-v1__0007__B0D666AF-D550-E011-ACA1-003048D45FD2.root')
 # RECO
-#fileNames = cms.untracked.vstring('/store/relval/CMSSW_5_3_4_cand1/RelValH130GGgluonfusion/GEN-SIM-RECO/PU_START53_V10-v1/0003/0C17628B-41F7-E111-BFAB-003048D2BE12.root')
-fileNames = cms.untracked.vstring('/store/relval/CMSSW_5_3_6-START53_V14/RelValH130GGgluonfusion/GEN-SIM-RECO/v2/00000/202DD4DB-F929-E211-8F53-001A92810AF2.root'),
-#fileNames = cms.untracked.vstring('/store/relval/CMSSW_5_3_11_patch6/Photon/RECO/FT_R_53_LV3_leg2011ABref_RelVal_photon2011B-v1/00000/000EE6CE-0A0C-E311-8249-003048FFCB84.root')
-#fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/relval/CMSSW_4_2_2/RelValH130GGgluonfusion/GEN-SIM-RECO/START42_V11-v1/0014/3603E96A-966D-E011-B380-003048678FFA.root')
+fileNames = cms.untracked.vstring('file:/afs/cern.ch/user/l/lethuill/work/00128617-03EB-E211-811A-003048D437CA.root')
+#fileNames = cms.untracked.vstring('file:/gridgroup/cms/lethuill/data/CMSSW_3_9_7__RelValH130GGgluonfusion__GEN-SIM-RECO__START39_V8-v1__0047__205E03D0-8C0D-E011-AB8E-001A92971B74.root')
+#fileNames = cms.untracked.vstring('file:/gridgroup/cms/lethuill/data/CMSSW_3_9_7__RelValZEE__GEN-SIM-RECO__START39_V8-v1__004__04901143-820D-E011-BEB9-001A92971BA0.root')
+#fileNames = cms.untracked.vstring('file:/gridgroup/cms/lethuill/data/CMSSW_3_9_7__RelValZMM__GEN-SIM-RECO__START39_V8-v1__0047__3A2794B2-770D-E011-8DD1-002618943864.root')
+#fileNames = cms.untracked.vstring('file:/gridgroup/cms/lethuill/data/CMSSW_3_8_5__RelValZEE__GEN-SIM-RECO__START38_V12-v1__0040__42805A98-E6D2-DF11-9FDE-001A92971B82.root')
 #fileNames = cms.untracked.vstring('/store/data/Run2010B/Electron/RAW-RECO/v2/000/147/114/AAB9337B-0ED0-DF11-9B73-0030486790B0.root')
+#fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/relval/CMSSW_3_8_4/RelValH130GGgluonfusion/GEN-SIM-RECO/START38_V12-v1/0023/323AE381-76C2-DF11-B165-003048678AE4.root')
+#fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/relval/CMSSW_3_6_2/RelValQCD_Pt_80_120/GEN-SIM-RECO/START36_V10-v1/0002/046737B5-0571-DF11-843E-00261894391D.root')
+#fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/relval/CMSSW_3_6_2/RelValZMM/GEN-SIM-RECO/START36_V10-v1/0002/16F4C9D1-1B71-DF11-B488-0018F3D095FE.root')
+#fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/data/Run2010B/Photon/RECO/PromptReco-v2/000/146/510/3AA4C3C4-86C7-DF11-8073-001D09F231C9.root')
+#fileNames = cms.untracked.vstring('file:/tmp/lethuill/3AA4C3C4-86C7-DF11-8073-001D09F231C9.root')
+#fileNames = cms.untracked.vstring('file:/afs/cern.ch/user/l/lethuill/scratch0/CMSSW_3_8_4/src/Morgan/IpnTreeProducer/test/r142971_e305903194_RECO.root')
+#fileNames = cms.untracked.vstring('file:142971_329_305903194__144011_343_501712664__144112_788_923626104__RECO.root')
+#fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/data/Run2010A/EG/RECO/v4/000/144/114/C2497931-2CB4-DF11-A92C-003048F1183E.root')
+#fileNames = cms.untracked.vstring('rfio:/castor/cern.ch/cms/store/data/Run2010A/EG/RECO/v4/000/143/192/40927555-35AB-DF11-B264-0030487C7E18.root')
 #fileNames = cms.untracked.vstring(
 #'rfio:/castor/cern.ch/cms/store/data/Run2010A/EG/RECO/v4/000/144/114/C2497931-2CB4-DF11-A92C-003048F1183E.root'
 #,'rfio:/castor/cern.ch/cms/store/data/Run2010A/EG/RECO/v4/000/143/192/40927555-35AB-DF11-B264-0030487C7E18.root'
 #)
+#fileNames = cms.untracked.vstring('file:/scratch/perries/TTBAR_RECO_Spring10.root')
+#fileNames = cms.untracked.vstring('/store/user/sperries/TTbarJets-madgraph/TTbarJets-madgraph_Spring10_PAT361p4/70e9499e8ed44653b27a37e9de88fd85/PATLyon_9_1.root')
+#  fileNames = cms.untracked.vstring(
+#   'file:/sps/cms/morgan/data/CMSSW_3_1_2__RelValH130GGgluonfusion__GEN-SIM-RECO__STARTUP31X_V2-v1__0007__104E25AC-CC78-DE11-AE55-001D09F2447F.root'
+#   ,'file:/sps/cms/morgan/data/CMSSW_3_1_2__RelValH130GGgluonfusion__GEN-SIM-RECO__STARTUP31X_V2-v1__0007__748489A8-CC78-DE11-991C-000423D99896.root'
+#   )
 #,skipEvents=cms.untracked.uint32(26015)
 #,firstRun = cms.untracked.uint32(144114),
 #,firstLumi   = cms.untracked.uintt32(5),
@@ -93,36 +112,36 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       #     3 = Liste objets de haut niveau (electrons, muons, photons...)
       #     4 = Liste tous les objets (haut niveau, clusters....)
       #     5 = Debug
-      verbosity = cms.untracked.int32(3),
+      verbosity = cms.untracked.int32(5),
 
       # name of output root file
-      RootFileName = cms.untracked.string('Test.root'),
+      RootFileName = cms.untracked.string('totouple.root'),
 
       # DATASET Infos  (will be written in runTree for bookeeping)
       xsection = cms.untracked.double(0.674770994),
-      description = cms.untracked.string('Le dataset pourri a Roberto'),
+      description = cms.untracked.string('Le dataset pourri de Roberto'),
 
       # What is written to rootuple
-      doLHCInfo = cms.untracked.bool(True),
-      doL1 = cms.untracked.bool(True),
-      doHLT = cms.untracked.bool(True),
+      doLHCInfo = cms.untracked.bool(False),
+      doL1 = cms.untracked.bool(False),
+      doHLT = cms.untracked.bool(False),
       doHLTObject = cms.untracked.bool(False),
-      doMC = cms.untracked.bool(True),
-      doPDFInfo = cms.untracked.bool(True),
+      doMC = cms.untracked.bool(False),
+      doPDFInfo = cms.untracked.bool(False),
       doSignalMuMuGamma = cms.untracked.bool(False),  # not tested in 2.X.X or 3.X.X
       doSignalTopTop = cms.untracked.bool(False),
-#     signalGenerator = cms.untracked.string('PYTHIA'),
+      signalGenerator = cms.untracked.string('POWHEG'),
 #     signalGenerator = cms.untracked.string('COMPHEP'),
 #     signalGenerator = cms.untracked.string('ALPGEN'),
-      signalGenerator = cms.untracked.string('MADGRAPH'),
+#      signalGenerator = cms.untracked.string('MADGRAPH'),
       doPhotonConversionMC = cms.untracked.bool(True),
-      doElectronMCTruth = cms.untracked.bool(False),
+      doElectronMCTruth = cms.untracked.bool(True),
 
       doPhotonMC = cms.untracked.bool(True),
       doElectronMC = cms.untracked.bool(True),
       doMuonMC = cms.untracked.bool(True),
       doTauMC = cms.untracked.bool(False),
-      doOtherStablePartsMC = cms.untracked.bool(False),
+      doOtherStablePartsMC = cms.untracked.bool(True),
       doJetMC = cms.untracked.bool(True),
       doMETMC = cms.untracked.bool(True),
       doUnstablePartsMC = cms.untracked.bool(True),
@@ -130,17 +149,23 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       doBeamSpot = cms.untracked.bool(True),
       doPrimaryVertex = cms.untracked.bool(True),
       doZeePrimaryVertex = cms.untracked.bool(False),
-      doTrack = cms.untracked.bool(True),
-      doJet = cms.untracked.bool(True),
-      doMuon = cms.untracked.bool(True),
-      doElectron = cms.untracked.bool(True),
-      doTau = cms.untracked.bool(True),
+      doTrack = cms.untracked.bool(False),
+      doJet = cms.untracked.bool(False),
+      doMuon = cms.untracked.bool(False),
+      doElectron = cms.untracked.bool(False),
+      doTau = cms.untracked.bool(False),
       doPhoton = cms.untracked.bool(True),
       doPhotonEnergyRegression = cms.untracked.bool(True),
+      #photonEnergyRegressionFileV3 = cms.untracked.string('gbrv3ph_52x.root'),
+      #photonEnergyRegressionFileV4 = cms.untracked.string('regweights_v4_forest_ph.root'),
+      #photonEnergyRegressionFileV5 = cms.untracked.string('regweights_v5_forest_ph.root'),    
+      #photonEnergyRegressionFileV8 = cms.untracked.string('regweights_v8_7TeV_forest_ph.root'),
       photonEnergyRegressionFileV3 = cms.untracked.string('/afs/cern.ch/user/b/bendavid/cmspublic/regweights52xV3/gbrv3ph_52x.root'),
       photonEnergyRegressionFileV4 = cms.untracked.string('../../../HiggsAnalysis/GBRLikelihoodEGTools/data/regweights_v4_forest_ph.root'),
       photonEnergyRegressionFileV5 = cms.untracked.string('../../../HiggsAnalysis/GBRLikelihoodEGTools/data/regweights_v5_forest_ph.root'),
-      photonEnergyRegressionFileV8 = cms.untracked.string('../../../HiggsAnalysis/GBRLikelihoodEGTools/data/regweights_v8_7TeV_forest_ph.root'),
+      #photonEnergyRegressionFileV8 = cms.untracked.string('../../../HiggsAnalysis/GBRLikelihoodEGTools/data/regweights_v8_7TeV_forest_ph.root'),
+      photonEnergyRegressionFileV8 = cms.untracked.string('../../../HiggsAnalysis/GBRLikelihoodEGTools/data/regweights_v6_8TeV_forest_ph.root'),
+                                                                           
       doCluster = cms.untracked.bool(True),
       doCracksCorrection = cms.untracked.bool(True),
       keepClusterizedEcalRecHits = cms.untracked.bool(True),
@@ -193,7 +218,7 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       trackerIsolation_DRmax = cms.double(0.3),                               # size of the DR cone around photon - pt of tracks in this cone are added
       trackerIsolation_pt_threshold = cms.double(0.0),                        # pt threshold for tracks added in DR cone
       trackerIsolation_pixelLayers_threshold = cms.int32(0),                  # minimum number of pixel layers with measurement required for tracks to be added in DR cone isolation
-      doNiceTracksIsolation = cms.untracked.bool(False),                      # Nice tracks need reco::TrackExtra (not available in AOD)   
+      doNiceTracksIsolation = cms.untracked.bool(False),                       # Nice tracks need reco::TrackExtra (not available in AOD)   
       trackerNiceTracksIsolationLIP = cms.double(0.2),                        # longitudianal impact parameter of the track (value in RECO = 0.2)
       trackerNiceTracksIsolationD0 = cms.double(0.1),                         # cut on the transverse impact of the track
       trackerNiceTracksIsolationTrackThreshold = cms.double(0.0),             # cut on the transverse energy of the track
@@ -247,6 +272,7 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
       trackProducer = cms.InputTag("generalTracks"),
       jetProducer = cms.VInputTag(
          cms.InputTag("ak5CaloJets"),
+         cms.InputTag("ak5PFJets"),
          cms.InputTag("kt4PFJets")
          ),
       srcRho = cms.InputTag('kt6PFJets','rho'),
@@ -260,8 +286,8 @@ process.totoana = cms.EDAnalyzer("TotoAnalyzer",
          # in 5.X.X
          cms.InputTag("multi5x5SuperClusters", "multi5x5EndcapBasicClusters")
          # in 4.X.X
-         #cms.InputTag("multi5x5BasicClusters", "multi5x5EndcapBasicClusters")
-         ),
+         ##cms.InputTag("multi5x5BasicClusters", "multi5x5EndcapBasicClusters")
+      ),
       # RECO SC Collections
       superClusterProducerIndex = cms.vint32(210, 211, 320, 323, 322),
       superClusterProducer = cms.VInputTag(
@@ -346,16 +372,33 @@ process.load('HLTrigger.special.hltPhysicsDeclared_cfi')
 process.hltPhysicsDeclared.L1GtReadoutRecordTag = 'gtDigis'
 
 #Jet producer for rho calculation 
-#process.load('RecoJets.JetProducers.kt4PFJets_cfi')
-#process.kt6PFJets = process.kt4PFJets.clone( rParam = 0.6, doRhoFastjet = True )
-#process.kt6PFJets.Rho_EtaMax = cms.double(2.5)
+process.load('RecoJets.JetProducers.kt4PFJets_cfi')
+process.kt6PFJets = process.kt4PFJets.clone( rParam = 0.6, doRhoFastjet = True )
+process.kt6PFJets.Rho_EtaMax = cms.double(2.5)
 
+process.load('ZToMMGHLT_MC_cff')
+process.load('ZToMMGMuons_cff')
+##process.load('DPGAnalysis/Skims/ZmmgSkim_cff')
+##process.load('ZmmgSkim_cff')
 
+#process.load('RecoEcal/Configuration/RecoEcal_cff')
+#process.load('RecoEgamma/Configuration/RecoEgamma_cff')
+#process.load('Configuration/StandardSequences/Reconstruction_cff')
+#process.load('RecoEgamma/EgammaPhotonProducers/photonSequence_cff')
+#process.load('RecoEgamma/PhotonIdentification/photonId_cff')
 # TotoAna standalone
-process.p = cms.Path(process.totoana)
+#process.p = cms.Path(process.totoana)
 
-# rho Pileup estimator + TotoAna
+# rho Pileupm estimator + TotoAna
 #process.p = cms.Path(process.kt6PFJets+process.totoana)
+process.p = cms.Path(
+process.ZToMMGHLTFilterSequence
++process.kt6PFJets
++process.noscraping
++process.primaryVertexFilter
++process.ZToMMGMuonsFilterSequence
++process.totoana
+)
 
 # Photon reReco + TotoAna
 #process.load("photonReReco")

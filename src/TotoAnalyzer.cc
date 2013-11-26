@@ -100,6 +100,7 @@ void TotoAnalyzer::beginJob()
    photonEnergyRegressionFileV3_ = myConfig_.getUntrackedParameter<string>("photonEnergyRegressionFileV3","");
    photonEnergyRegressionFileV4_ = myConfig_.getUntrackedParameter<string>("photonEnergyRegressionFileV4","");
    photonEnergyRegressionFileV5_ = myConfig_.getUntrackedParameter<string>("photonEnergyRegressionFileV5","");
+   photonEnergyRegressionFileV8_ = myConfig_.getUntrackedParameter<string>("photonEnergyRegressionFileV8","");
    doCluster_ = myConfig_.getUntrackedParameter<bool>("doCluster",false);
    keepAllEcalRecHits_ = myConfig_.getUntrackedParameter<bool>("keepAllEcalRecHits",false);
    keepClusterizedEcalRecHits_ = myConfig_.getUntrackedParameter<bool>("keepClusterizedEcalRecHits",false);
@@ -291,6 +292,7 @@ void TotoAnalyzer::beginJob()
          egEnergyRegressionV3_ = new EGEnergyCorrector();
          egEnergyRegressionV4_ = new EGEnergyCorrectorSemiParm();
          egEnergyRegressionV5_ = new EGEnergyCorrectorSemiParm();
+         egEnergyRegressionV8_ = new EGEnergyCorrectorSemiParm();
       }
    }
    
@@ -743,7 +745,8 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
 
       // Josh's Photon Energy Regression - https://twiki.cern.ch/twiki/bin/view/CMS/RegressionSCCorrections    
       if(doPhotonEnergyRegression_)    
-      {     
+      {    
+         int version = 0;  
          //if(verbosity_>1) std::cout << std::endl << "Loading photon energy regression file..." << std::endl;
          if ( ! egEnergyRegressionV3_->IsInitialized() )
          {
@@ -752,13 +755,21 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
          }         
          if ( ! egEnergyRegressionV4_->IsInitialized() )
          {
+            version = 4;
             if(verbosity_>1) std::cout << "photonEnergyRegressionFileV4_=" << photonEnergyRegressionFileV4_.data() << std::endl;
-            egEnergyRegressionV4_->Initialize(photonEnergyRegressionFileV4_.data());
+            egEnergyRegressionV4_->Initialize(photonEnergyRegressionFileV4_.data(),version);
          }
          if ( ! egEnergyRegressionV5_->IsInitialized() )
          {
+            version = 5;
             if(verbosity_>1) std::cout << "photonEnergyRegressionFileV5_=" << photonEnergyRegressionFileV5_.data() << std::endl;
-            egEnergyRegressionV5_->Initialize(photonEnergyRegressionFileV5_.data());
+            egEnergyRegressionV5_->Initialize(photonEnergyRegressionFileV5_.data(),version);
+         }
+         if ( ! egEnergyRegressionV8_->IsInitialized() )
+         {
+            version = 6; 
+            if(verbosity_>1) std::cout << "photonEnergyRegressionFileV8_=" << photonEnergyRegressionFileV8_.data() << std::endl;
+            egEnergyRegressionV8_->Initialize(photonEnergyRegressionFileV8_.data(),version);
          }
       }
       
@@ -811,7 +822,7 @@ void TotoAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
          {
             const edm::InputTag photonProducer = photonProducers.at(i);
             PhotonAnalyzer* myPhotonAnalyzer = new PhotonAnalyzer(photonProducer, producersNames_, myConfig_, verbosity_);
-            myPhotonAnalyzer->process(iEvent, iSetup, rootEvent_, rootPhotonsArrays_[i], rootConversionTracks_, lazyTools, egEnergyRegressionV3_, egEnergyRegressionV4_, egEnergyRegressionV5_);
+            myPhotonAnalyzer->process(iEvent, iSetup, rootEvent_, rootPhotonsArrays_[i], rootConversionTracks_, lazyTools, egEnergyRegressionV3_, egEnergyRegressionV4_, egEnergyRegressionV5_, egEnergyRegressionV8_);
             delete myPhotonAnalyzer;
          }
       }

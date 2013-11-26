@@ -43,6 +43,7 @@
 <use   name="FWCore/Utilities"/>
 <use   name="PhysicsTools/MVAComputer"/>
 <use   name="PhysicsTools/MVATrainer"/>
+<use   name="HiggsAnalysis/GBRLikelihood"/>
 <use   name="HiggsAnalysis/GBRLikelihoodEGTools"/>
 <use   name="root"/>
 <use   name="roofit"/>

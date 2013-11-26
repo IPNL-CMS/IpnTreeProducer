@@ -1,3 +1,21 @@
+RECO_5_3_11_v2 (Morgan) :
+
+NOT WORKING DUE TO CONFLICT WITH REGRESSION (v8) PACKAGE
+
+BuildFile.xml
+interface/PhotonAnalyzer.h
+interface/TRootPhoton.h
+interface/TotoAnalyzer.h
+src/PhotonAnalyzer.cc
+src/TotoAnalyzer.cc
+src/MCAnalyzer.cc
+test/README
+test/toto.py
+
+==> Add photon energy regression V5/V6/V8
+
+==================================================================================================
+
 RECO_5_3_11_v1 (Morgan) :
 
 BuildFile.xml

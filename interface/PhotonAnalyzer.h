@@ -63,7 +63,7 @@ class PhotonAnalyzer
       PhotonAnalyzer(const edm::InputTag& photonProducer, const edm::ParameterSet& producersNames, const edm::ParameterSet& myConfig, int verbosity);
       ~PhotonAnalyzer();
       void setVerbosity(int verbosity) {verbosity_ = verbosity; };
-      bool process(const edm::Event& iEvent, const edm::EventSetup& iSetup, TRootEvent* rootEvent, TClonesArray* rootPhotons, TClonesArray* conversionTracks, EcalClusterLazyTools* lazyTools, EGEnergyCorrector* egEnergyRegressionV3, EGEnergyCorrectorSemiParm* egEnergyRegressionV4, EGEnergyCorrectorSemiParm* egEnergyRegressionV5);
+      bool process(const edm::Event& iEvent, const edm::EventSetup& iSetup, TRootEvent* rootEvent, TClonesArray* rootPhotons, TClonesArray* conversionTracks, EcalClusterLazyTools* lazyTools, EGEnergyCorrector* egEnergyRegressionV3, EGEnergyCorrectorSemiParm* egEnergyRegressionV4, EGEnergyCorrectorSemiParm* egEnergyRegressionV5, EGEnergyCorrectorSemiParm* egEnergyRegressionV8);
       //bool process(const edm::Event& iEvent, TRootEvent* rootEvent, TClonesArray* rootPhotons, TClonesArray* conversionTracks, EcalClusterLazyTools* lazyTools);
       
    private:

@@ -19,8 +19,8 @@ SOFLAGS		= -shared
 
 LDDIR = $(shell echo "-L" $$LD_LIBRARY_PATH |sed -e 's/:/ -L/g')
 
-CXXFLAGS	+= $(ROOTCFLAGS)
-LIBS		= $(LDDIR) $(ROOTLIBS) -lRFIO -lEG
+CXXFLAGS	+= $(ROOTCFLAGS) -L $(ROOTSYS)/lib -lRooFit -lRooFitCore  -L$(CMSSW_BASE)/lib/$(SCRAM_ARCH)/ -lHiggsAnalysisGBRLikelihood
+LIBS		= $(LDDIR) $(ROOTLIBS) -lRFIO -lEG -L $(ROOTSYS)/lib -lRooFit –lRooFitCore -L$(CMSSW_BASE)/lib/$(SCRAM_ARCH)/ -lHiggsAnalysisGBRLikelihood
 GLIBS		= $(ROOTGLIBS)
 #------------------------------------------------------------------------------
 SOURCES		= $(wildcard TRoot*.cc)
