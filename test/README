@@ -9,5 +9,7 @@ checkdeps -a
 git clone -b hggpaperV6 https://github.com/bendavid/GBRLikelihood.git HiggsAnalysis/GBRLikelihood
 git clone -b hggpaperV6 https://github.com/bendavid/GBRLikelihoodEGTools.git HiggsAnalysis/GBRLikelihoodEGTools
 
-To avoid many warnings from boost library in SL6 during compilation, use
-scram b USER_CXXFLAGS="-Wno-delete-non-virtual-dtor"
+To avoid many warnings from boost library in SL6 during compilation, 
+and to disable the promotion of warnings to errors by gcc, use:
+
+scram b USER_CXXFLAGS="-Wno-delete-non-virtual-dtor -Wno-error" 

@@ -30,15 +30,11 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
    
    unsigned int nPhotons=0;
 
-   bool doRecHits = true;
+   //bool doRecHits = true;
    const EcalRecHitCollection *reducedEBRecHits = 0;
-   const EcalRecHitCollection *reducedEERecHits = 0;
+   //const EcalRecHitCollection *reducedEERecHits = 0;
    
-   bool doPhotonID = true;
    edm::Handle< reco::PhotonCollection > recoPhotons;
-   const edm::ValueMap<Bool_t> *looseEMPhotonIdMap = 0;
-   const edm::ValueMap<Bool_t> *loosePhotonIdMap = 0;
-   const edm::ValueMap<Bool_t> *tightPhotonIdMap = 0;
    
    if( dataType_=="RECO" )
    {
@@ -61,11 +57,11 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
       try
       {
          edm::Handle < EcalRecHitCollection > redEBRecHits;
-         edm::Handle < EcalRecHitCollection > redEERecHits;
+         //edm::Handle < EcalRecHitCollection > redEERecHits;
          iEvent.getByLabel(reducedBarrelEcalRecHitCollection_, redEBRecHits );
          reducedEBRecHits = redEBRecHits.product();
-         iEvent.getByLabel(reducedEndcapEcalRecHitCollection_, redEERecHits ) ;
-         reducedEERecHits = redEERecHits.product();
+         //iEvent.getByLabel(reducedEndcapEcalRecHitCollection_, redEERecHits ) ;
+         //reducedEERecHits = redEERecHits.product();
       }
       catch (cms::Exception& exception)
       {
@@ -75,59 +71,9 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
             throw exception;
          }
          if(verbosity_>1) cout << endl << "   ===> No reduced EcalRecHitCollections, skip photon rechits infos" << endl;
-         doRecHits = false;
+         //doRecHits = false;
       }
       
-      try
-      {
-         edm::Handle< edm::ValueMap<Bool_t> > looseEMPhotonId;
-         iEvent.getByLabel("PhotonIDProd", "PhotonCutBasedIDLooseEM", looseEMPhotonId);
-         looseEMPhotonIdMap = looseEMPhotonId.product();
-      }
-      catch (cms::Exception& exception)
-      {
-         if ( !allowMissingCollection_ )
-         {
-            cout << "  ##### ERROR IN  PhotonAnalyzer::process => PhotonCutBasedIDLooseEM is missing #####"<<endl;
-            throw exception;
-         }
-         if(verbosity_>1) cout <<  "   ===> No PhotonCutBasedIDLooseEM collection, skip photonID info" << endl;
-         doPhotonID = false;
-      }
-      
-      try
-      {
-         edm::Handle< edm::ValueMap<Bool_t> > loosePhotonId;
-         iEvent.getByLabel("PhotonIDProd", "PhotonCutBasedIDLoose", loosePhotonId);
-         loosePhotonIdMap = loosePhotonId.product();
-      }
-      catch (cms::Exception& exception)
-      {
-         if ( !allowMissingCollection_ )
-         {
-            cout << "  ##### ERROR IN  PhotonAnalyzer::process => PhotonCutBasedIDLoose is missing #####"<<endl;
-            throw exception;
-         }
-         if(verbosity_>1) cout <<  "   ===> No PhotonCutBasedIDLoose collection, skip photonID info" << endl;
-         doPhotonID = false;
-      }
-      
-      try
-      {
-         edm::Handle< edm::ValueMap<Bool_t> > tightPhotonId;
-         iEvent.getByLabel("PhotonIDProd", "PhotonCutBasedIDTight", tightPhotonId);
-         tightPhotonIdMap = tightPhotonId.product();
-      }
-      catch (cms::Exception& exception)
-      {
-         if ( !allowMissingCollection_ )
-         {
-            cout << "  ##### ERROR IN  PhotonAnalyzer::process => PhotonCutBasedIDTight is missing #####"<<endl;
-            throw exception;
-         }
-         if(verbosity_>1) cout <<  "   ===> No PhotonCutBasedIDTight collection, skip photonID info" << endl;
-         doPhotonID = false;
-      }
    }
    
    edm::Handle < std::vector <pat::Photon> > patPhotons;
@@ -324,16 +270,13 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
             std::cout << std::endl << "Call CorrectedEnergyWithErrorV8" << std::endl;
             ecor=-999.; sigma=-999.; alpha1=-999.; n1=-999.; alpha2=-999.; n2=-999.; pdfval=-999.;
             sigEoverE=-999.; cbmean=-999.;
-            //egEnergyRegressionV8->CorrectedEnergyWithErrorV5(*photon, *recoVertices, *rho, *lazyTools, iSetup, ecor, sigma, alpha1, n1, alpha2, n2, pdfval);
-            egEnergyRegressionV8->CorrectedEnergyWithErrorV6(*photon, *recoVertices, *rho, *lazyTools, iSetup, ecor, sigEoverE, cbmean, sigma, alpha1, n1, alpha2, n2, pdfval);
+            egEnergyRegressionV8->CorrectedEnergyWithErrorV8(*photon, *recoVertices, *rho, *lazyTools, iSetup, ecor, sigEoverE, cbmean, sigma, alpha1, n1, alpha2, n2, pdfval);
             printf("V8: sceta = %5f, default = %5f, corrected = %5f,  sigEoverE = %5f,  cbmean = %5f, sigma = %5f, alpha1 = %5f, n1 = %5f, alpha2 = %5f, n2 = %5f, pdfval = %5f\n", superCluster->eta(), photon->energy(),ecor,sigEoverE,cbmean,sigma,alpha1,n1,alpha2,n2,pdfval);
             localPhoton.setJoshEnergyRegressionV8(ecor);
             localPhoton.setJoshEnergyRegressionV8Error(ecor*sigma); 	 
            
             std::cout << std::endl << "Call CorrectedEnergyWithErrorV8" << std::endl;
             
-	    //void CorrectedEnergyWithErrorV8(const reco::Photon &p, const reco::VertexCollection& vtxcol, double rho, EcalClusterLazyTools &clustertools, const edm::EventSetup &es, double &ecor, double &sigEoverE, double &cbmean, double &cbsigma, double &cbalpha1, double &cbn1, double &cbalpha2, double &cbn2, double &pdfpeakval);
-    
          }
       }         
       
@@ -519,26 +462,6 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
          // Some specific methods requiring  RECO / AOD format
          // Do association to genParticle ?
          
-         if (doPhotonID)
-         {
-            // Photon ID
-            // need corresponding PhotonID ValueMap
-            edm::Ref<reco::PhotonCollection> photonRef(recoPhotons,j);
-            Bool_t looseEMID = (*looseEMPhotonIdMap)[photonRef];
-            Bool_t looseID = (*loosePhotonIdMap)[photonRef];
-            Bool_t tightID = (*tightPhotonIdMap)[photonRef];
-         }
-         
-         /*
-          *         if(verbosity_>4) std::cout << "seed E5x5=" << lazyTools->e5x5( *seedCaloCluster )
-          *         //<< " pi0NN=" << pi0nn
-          *         << " photonID->isolationEcalRecHit()=" << photonID->isolationEcalRecHit()
-          *         << " photonID->r9()=" << photonID->r9()
-          *         << " e3x3 / SC->energy()=" << ( lazyTools->e3x3( *seedCaloCluster ) / photon->superCluster()->energy() )
-          *         << " e3x3 / SC->rawEnergy()=" << ( lazyTools->e3x3( *seedCaloCluster ) / photon->superCluster()->rawEnergy() )
-          *         << " sc->pos=" << photon->superCluster()->position().X() << " , " <<  photon->superCluster()->position().Y() << " , " << photon->superCluster()->position().Z()
-          *         << " photon->caloPos=" << photon->caloPosition().X() << " , " <<  photon->caloPosition().Y() << " , " << photon->caloPosition().Z()             << std::endl;
-          */
       }
       
       
@@ -546,15 +469,6 @@ bool PhotonAnalyzer::process(const edm::Event& iEvent, const edm::EventSetup& iS
       {
          // Some specific methods to pat::Photon
          const pat::Photon *patPhoton = dynamic_cast<const pat::Photon*>(&*photon);
-         
-         // Photon ID
-         // Use the PhotonID pairs embeded in pat::Photon
-         Bool_t looseEMID = false;
-         Bool_t looseID = false;
-         Bool_t tightID = false;
-         if (patPhoton->isPhotonIDAvailable("PhotonCutBasedIDLooseEM")) looseEMID = patPhoton->photonID("PhotonCutBasedIDLooseEM");
-         if (patPhoton->isPhotonIDAvailable("PhotonCutBasedIDLoose")) looseID = patPhoton->photonID("PhotonCutBasedIDLoose");
-         if (patPhoton->isPhotonIDAvailable("PhotonCutBasedIDTight")) tightID = patPhoton->photonID("PhotonCutBasedIDTight");
          
          if(useMC_)
          {

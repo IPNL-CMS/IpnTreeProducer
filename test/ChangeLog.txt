@@ -1,3 +1,14 @@
+RECO_5_3_11_v3 (Morgan) :
+
+NOT WORKING DUE TO CONFLICT WITH REGRESSION (v8) PACKAGE
+
+src/PhotonAnalyzer.cc
+test/README
+
+==> Remove unused variables to be compatible with new gcc compilation options in SLC6
+
+==================================================================================================
+
 RECO_5_3_11_v2 (Morgan) :
 
 NOT WORKING DUE TO CONFLICT WITH REGRESSION (v8) PACKAGE
